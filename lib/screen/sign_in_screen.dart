@@ -7,7 +7,6 @@ class SignIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 카카오 로그인 로직을 수행하는 함수
     Future<void> performKakaoLogin() async {
       try {
         if (await isKakaoTalkInstalled()) {
