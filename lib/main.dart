@@ -10,7 +10,7 @@ void main() {
   );
   runApp(
     MaterialApp(
-      home: SignIn(),
+      home: HomeScreen(),
     ),
   );
 }
