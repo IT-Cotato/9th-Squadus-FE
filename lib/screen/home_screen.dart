@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:squadus/component/event_component.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,6 +12,31 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  DateTime selectedDay = DateTime(
+    DateTime.now().year,
+    DateTime.now().month,
+    DateTime.now().day,
+  );
+  DateTime focusedDay = DateTime.now();
+  List<Event> currentEvents = [];
+
+  Map<DateTime, List<Event>> events = {
+    DateTime.utc(2024, 5, 15): [
+      Event('title', "16:00", "18:00"),
+      Event('title2', "18:00", "20:00"),
+    ],
+    DateTime.utc(2024, 5, 16): [
+      Event('title3', "16:00", "18:00"),
+    ],
+  };
+  List<Event> _getEventsForDay(DateTime day) {
+    setState(() {
+      currentEvents = events[day] ?? [];
+    });
+    print(currentEvents);
+    return events[day] ?? [];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +68,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: 150,
-                    child: Calendar(),
+                    child: Calendar(
+                      onDaySelected: (selectedDay, focusedDay) {
+                        setState(() {
+                          this.selectedDay = selectedDay;
+                          this.focusedDay = focusedDay;
+                        });
+                        _getEventsForDay(this.selectedDay);
+                      },
+                      selectedDayPredicate: (DateTime day) {
+                        return isSameDay(selectedDay, day);
+                      },
+                    ),
                   ),
                   Container(
                       width: MediaQuery.of(context).size.width,
@@ -62,14 +100,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Column(
                           children: [
                             Text("오늘의 일정"),
-                            Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 120,
-                                decoration: BoxDecoration(
-                                    color: Colors.lightBlueAccent,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20))),
-                                child: Center(child: Text("event1"))),
+                            Column(
+                              children: currentEvents
+                                  .map((e) => MainEvent(
+                                        startTime: e.start,
+                                        endTime: e.end,
+                                        title: e.title,
+                                      ))
+                                  .toList(),
+                            ),
                           ],
                         ),
                       )),
@@ -132,49 +171,6 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.people), label: "MyPage"),
         ],
       ),
-    );
-  }
-}
-
-class Calendar extends StatefulWidget {
-  const Calendar({super.key});
-
-  @override
-  State<Calendar> createState() => _CalendarState();
-}
-
-class _CalendarState extends State<Calendar> {
-  DateTime selectedDay = DateTime(
-    DateTime.now().year,
-    DateTime.now().month,
-    DateTime.now().day,
-  );
-  DateTime focusedDay = DateTime.now();
-
-  Map<DateTime, List<Event>> events = {
-    DateTime.utc(2024, 5, 15): [
-      Event('title', "16:00", "18:00"),
-      Event('title2', "18:00", "20:00"),
-    ],
-    DateTime.utc(2024, 5, 16): [
-      Event('title3', "16:00", "18:00"),
-    ],
-  };
-  List<Event> _getEventsForDay(DateTime day) {
-    print(events[day] ?? []);
-    return events[day] ?? [];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return TableCalendar(
-      firstDay: DateTime.utc(2010, 10, 16),
-      lastDay: DateTime.utc(2030, 3, 14),
-      focusedDay: DateTime.now(),
-      headerStyle: HeaderStyle(
-        formatButtonVisible: false,
-        titleCentered: true,
-      ),
       calendarFormat: CalendarFormat.week,
       onDaySelected: (selectedDay, focusedDay) {
         setState(() {
@@ -187,6 +183,32 @@ class _CalendarState extends State<Calendar> {
         return isSameDay(selectedDay, day);
       },
     );
+  }
+}
+
+class Calendar extends StatelessWidget {
+  final void Function(DateTime selectedDay, DateTime focusedDay) onDaySelected;
+  final bool Function(DateTime day) selectedDayPredicate;
+
+  const Calendar({
+    required this.onDaySelected,
+    required this.selectedDayPredicate,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TableCalendar(
+        firstDay: DateTime.utc(2010, 10, 16),
+        lastDay: DateTime.utc(2030, 3, 14),
+        focusedDay: DateTime.now(),
+        headerStyle: HeaderStyle(
+          formatButtonVisible: false,
+          titleCentered: true,
+        ),
+        calendarFormat: CalendarFormat.week,
+        onDaySelected: onDaySelected,
+        selectedDayPredicate: selectedDayPredicate);
   }
 }
 
