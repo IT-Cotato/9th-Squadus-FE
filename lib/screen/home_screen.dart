@@ -171,17 +171,6 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.people), label: "MyPage"),
         ],
       ),
-      calendarFormat: CalendarFormat.week,
-      onDaySelected: (selectedDay, focusedDay) {
-        setState(() {
-          this.selectedDay = selectedDay;
-          this.focusedDay = focusedDay;
-        });
-        _getEventsForDay(this.selectedDay);
-      },
-      selectedDayPredicate: (DateTime day) {
-        return isSameDay(selectedDay, day);
-      },
     );
   }
 }
