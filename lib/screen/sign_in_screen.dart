@@ -3,7 +3,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
-
 class SignIn extends StatelessWidget {
   final GoogleSignIn googleSignIn;
   const SignIn({required this.googleSignIn, Key? key}) : super(key: key);
@@ -38,7 +37,7 @@ class SignIn extends StatelessWidget {
       print(error);
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     Future<void> performKakaoLogin() async {
