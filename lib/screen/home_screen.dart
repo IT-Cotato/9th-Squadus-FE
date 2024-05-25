@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:squadus/component/event_component.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:squadus/component/recruitment_card_component.dart';
+import 'package:squadus/component/notice_card_component.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -39,13 +40,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   String selectedLocation = '서울 강남'; // 초기화 할 지역
-
   List<Recruitment> recruitments = [
     Recruitment('교류전 멤버 구합니다1', '서울 강남', 3, 7, 8),
     Recruitment('교류전 멤버 구합니다2', '서울 강남', 2, 7, 9),
     Recruitment('교류전 멤버 구합니다3', '서울 강북', 1, 2, 12),
     Recruitment('교류전 멤버 구합니다4', '서울 성북', 3, 7, 20),
     Recruitment('교류전 멤버 구합니다5', '서울 강남', 2, 5, 10),
+  ];
+
+  List<Notice> notices = [
+    Notice('총무 모집', '총무 모집합니다', true),
+    Notice('임원 모집', '임원 모집합니다', false),
+    Notice('팀원 모집', '팀원 모집합니다!!!', false),
+    Notice('팀원 모집', '팀원 모집합니다ㅎㅎㅎ', false),
   ];
 
 
@@ -124,30 +131,31 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                       )),
+                  SizedBox(height: 32.0),
                   Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 200,
-                    decoration: BoxDecoration(
-                        color: const Color(0xB3E8FFFF),
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: Padding(
-                      padding: EdgeInsets.all(12),
+                      width: MediaQuery.of(context).size.width,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("주요 공지"),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 120,
-                            decoration: BoxDecoration(
-                                color: Colors.blueGrey,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20))),
-                            child: Center(child: Text("공지사항")),
+                          Text(
+                            "중요 공지",
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF010E57)),
                           ),
+                          SizedBox(height: 16.0),
+                          Column(
+                            children: notices
+                                .take(3)
+                                .map((data) => MainNoticeCard(
+                                noticeTitle: data.noticeTitle,
+                                noticeContent: data.noticeContent,
+                                isNew: data.isNew
+                            ))
+                                .toList(),
+                          )
                         ],
-                      ),
-                    ),
+                      )
                   ),
+                  SizedBox(height: 32.0),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     child: Column(
@@ -239,4 +247,12 @@ class Recruitment {
   final int totalMemberCount;
 
   Recruitment(this.recruitmentTitle, this.location, this.tier, this.currentMemberCount, this.totalMemberCount);
+}
+
+class Notice {
+  final String noticeTitle;
+  final String noticeContent;
+  final bool isNew;
+
+  Notice(this.noticeTitle, this.noticeContent, this.isNew);
 }
