@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:squadus/component/event_component.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:squadus/component/recruitment_card_component.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -37,6 +38,17 @@ class _HomeScreenState extends State<HomeScreen> {
     return events[day] ?? [];
   }
 
+  String selectedLocation = '서울 강남'; // 초기화 할 지역
+
+  List<Recruitment> recruitments = [
+    Recruitment('교류전 멤버 구합니다1', '서울 강남', 3, 7, 8),
+    Recruitment('교류전 멤버 구합니다2', '서울 강남', 2, 7, 9),
+    Recruitment('교류전 멤버 구합니다3', '서울 강북', 1, 2, 12),
+    Recruitment('교류전 멤버 구합니다4', '서울 성북', 3, 7, 20),
+    Recruitment('교류전 멤버 구합니다5', '서울 강남', 2, 5, 10),
+  ];
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,10 +62,10 @@ class _HomeScreenState extends State<HomeScreen> {
             width: MediaQuery.of(context).size.width,
             height: 2000,
             child: Padding(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.all(20),  // 디자인 변경에 따른 수정
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center, // 테스트
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width,
@@ -138,19 +150,29 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("용병 구인글 목록"),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 150,
-                          decoration: BoxDecoration(
-                            color: Colors.lightBlue,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                          ),
+                        Text(
+                          "지금 $selectedLocation은",
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "총 ${recruitments.where((recruitment) => recruitment.location == selectedLocation).length}건의 구인 공고글이 있어요.",
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 8.0),
+                        Column(
+                          children: recruitments
+                              .where((recruitment) => recruitment.location == selectedLocation)
+                              .map((data) => RecruitmentCard(
+                            recruitmentTitle: data.recruitmentTitle,
+                            location: data.location,
+                            tier: data.tier,
+                            currentMemberCount: data.currentMemberCount,
+                            totalMemberCount: data.totalMemberCount,
+                          ))
+                              .toList(),
                         ),
                       ],
                     ),
@@ -207,4 +229,14 @@ class Event {
   final String end;
 
   Event(this.title, this.start, this.end);
+}
+
+class Recruitment {
+  final String recruitmentTitle;
+  final String location;
+  final int tier;
+  final int currentMemberCount;
+  final int totalMemberCount;
+
+  Recruitment(this.recruitmentTitle, this.location, this.tier, this.currentMemberCount, this.totalMemberCount);
 }

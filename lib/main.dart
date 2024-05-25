@@ -10,7 +10,7 @@ void main() {
   KakaoSdk.init(
     nativeAppKey: "9a80e6ad2553c99dd8d0dbe467a9bf0c",
   );
-  
+
   // runApp() 호출 전 google 세팅
     const List<String> scopes = <String>[
     'email',
@@ -20,11 +20,14 @@ void main() {
   GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: scopes,
   );
-  
+
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
       home: SignIn(googleSignIn: _googleSignIn),
     ),
   );
+
+  runApp(MyApp());
 }
+
