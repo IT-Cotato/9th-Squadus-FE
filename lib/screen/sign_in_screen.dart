@@ -24,14 +24,14 @@ class SignIn extends StatelessWidget {
         print("------");
         print('\n');
 
-        // 받은 토큰을 사용하여 Firebase에 로그인
-        OAuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleSignInAuthentication.accessToken,
-          idToken: googleSignInAuthentication.idToken,
-        );
-        UserCredential userCredential =
-            await FirebaseAuth.instance.signInWithCredential(credential);
-        User user = userCredential.user!;
+        // // 받은 토큰을 사용하여 Firebase에 로그인
+        // OAuthCredential credential = GoogleAuthProvider.credential(
+        //   accessToken: googleSignInAuthentication.accessToken,
+        //   idToken: googleSignInAuthentication.idToken,
+        // );
+        // UserCredential userCredential =
+        //     await FirebaseAuth.instance.signInWithCredential(credential);
+        // User user = userCredential.user!;
       }
     } catch (error) {
       print(error);
@@ -103,4 +103,3 @@ class SignIn extends StatelessWidget {
     );
   }
 }
-
