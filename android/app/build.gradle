@@ -50,6 +50,11 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
+    android {
+        defaultConfig {
+            minSdkVersion 21
+        }
+    }
 
     buildTypes {
         release {
