@@ -4,7 +4,6 @@ import 'package:squadus/screen/sign_in_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 
-
 void main() {
   // runApp() 호출 전 Flutter SDK 초기화
   KakaoSdk.init(
@@ -12,7 +11,7 @@ void main() {
   );
 
   // runApp() 호출 전 google 세팅
-    const List<String> scopes = <String>[
+  const List<String> scopes = <String>[
     'email',
     'https://www.googleapis.com/auth/contacts.readonly',
   ];
@@ -28,5 +27,11 @@ void main() {
     ),
   );
 
-  runApp(MyApp());
+  // runApp(
+  //   MaterialApp(
+  //     debugShowCheckedModeBanner: false,
+  //     home: HomeScreen(),
+  //   ),
+  // );
 }
+// MyApp()
