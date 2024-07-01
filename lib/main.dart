@@ -19,19 +19,19 @@ void main() {
   GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: scopes,
   );
+  //
+  // runApp(
+  //   MaterialApp(
+  //     debugShowCheckedModeBanner: false,
+  //     home: SignIn(googleSignIn: _googleSignIn),
+  //   ),
+  // );
 
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SignIn(googleSignIn: _googleSignIn),
+      home: HomeScreen(),
     ),
   );
-
-  // runApp(
-  //   MaterialApp(
-  //     debugShowCheckedModeBanner: false,
-  //     home: HomeScreen(),
-  //   ),
-  // );
 }
 // MyApp()
