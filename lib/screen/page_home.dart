@@ -4,7 +4,6 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:squadus/component/recruitment_card_component.dart';
 import 'package:squadus/component/notice_card_component.dart';
 
-
 class Calendar extends StatelessWidget {
   final void Function(DateTime selectedDay, DateTime focusedDay) onDaySelected;
   final bool Function(DateTime day) selectedDayPredicate;
@@ -113,7 +112,7 @@ class _PageHomeState extends State<PageHome> {
         width: MediaQuery.of(context).size.width,
         height: 2000,
         child: Padding(
-          padding: EdgeInsets.all(20), // 디자인 변경에 따른 수정
+          padding: EdgeInsets.all(20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center, // 테스트
@@ -166,10 +165,10 @@ class _PageHomeState extends State<PageHome> {
                         Column(
                           children: currentEvents
                               .map((e) => MainEvent(
-                            startTime: e.start,
-                            endTime: e.end,
-                            title: e.title,
-                          ))
+                                    startTime: e.start,
+                                    endTime: e.end,
+                                    title: e.title,
+                                  ))
                               .toList(),
                         ),
                       ],
@@ -193,9 +192,9 @@ class _PageHomeState extends State<PageHome> {
                         children: notices
                             .take(3)
                             .map((data) => MainNoticeCard(
-                            noticeTitle: data.noticeTitle,
-                            noticeContent: data.noticeContent,
-                            isNew: data.isNew))
+                                noticeTitle: data.noticeTitle,
+                                noticeContent: data.noticeContent,
+                                isNew: data.isNew))
                             .toList(),
                       )
                     ],
@@ -209,25 +208,25 @@ class _PageHomeState extends State<PageHome> {
                     Text(
                       "지금 $selectedLocation은",
                       style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       "총 ${recruitments.where((recruitment) => recruitment.location == selectedLocation).length}건의 구인 공고글이 있어요.",
                       style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 8.0),
                     Column(
                       children: recruitments
                           .where((recruitment) =>
-                      recruitment.location == selectedLocation)
+                              recruitment.location == selectedLocation)
                           .map((data) => RecruitmentCard(
-                        recruitmentTitle: data.recruitmentTitle,
-                        location: data.location,
-                        tier: data.tier,
-                        currentMemberCount: data.currentMemberCount,
-                        totalMemberCount: data.totalMemberCount,
-                      ))
+                                recruitmentTitle: data.recruitmentTitle,
+                                location: data.location,
+                                tier: data.tier,
+                                currentMemberCount: data.currentMemberCount,
+                                totalMemberCount: data.totalMemberCount,
+                              ))
                           .toList(),
                     ),
                   ],
@@ -240,4 +239,3 @@ class _PageHomeState extends State<PageHome> {
     );
   }
 }
-
