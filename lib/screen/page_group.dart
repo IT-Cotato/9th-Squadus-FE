@@ -418,11 +418,12 @@ class _Page3State extends State<Page3> {
   ];
 
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: notices
                 .map((data) => NoticeList(
                 id: data.id,
@@ -430,13 +431,16 @@ class _Page3State extends State<Page3> {
                 date: data.date,
                 isNew: data.isNew))
                 .toList(),
-
+          ),
         ),
-
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.edit),
+        backgroundColor: Colors.white,
       ),
     );
   }
-
 }
 
 

@@ -20,6 +20,14 @@ class NoticeList extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Color(0xFF000000).withOpacity(0.05),
+            width: 1.0,
+          )
+        )
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -33,7 +41,23 @@ class NoticeList extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-              )
+              ),
+              if (isNew)
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF6A56FE),
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  child: Text(
+                    'N',
+                    style: TextStyle(
+                      color: Color(0xFFFFFFFF),
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
             ],
           ),
           SizedBox(height: 4),
@@ -45,7 +69,6 @@ class NoticeList extends StatelessWidget {
             ),
           )
         ],
-
       )
     );
   }
