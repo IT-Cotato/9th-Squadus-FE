@@ -10,6 +10,8 @@ import '../component/notice_list_component.dart';
 import '../model/scedule.dart';
 import '../model/notice.dart';
 
+import './create_notice_screen.dart';
+
 class PageGroup extends StatefulWidget {
   const PageGroup({Key? key}) : super(key: key);
 
@@ -435,7 +437,12 @@ class _Page3State extends State<Page3> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CreateNoticeScreen()),
+          );
+        },
         child: Icon(Icons.edit),
         backgroundColor: Colors.white,
       ),
