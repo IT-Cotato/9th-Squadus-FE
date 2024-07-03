@@ -8,20 +8,20 @@ import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
   initializeDateFormatting('ko_KR', null); // 'ko_KR' 로케일 데이터 초기화
-  // runApp() 호출 전 Flutter SDK 초기화
-  KakaoSdk.init(
-    nativeAppKey: "9a80e6ad2553c99dd8d0dbe467a9bf0c",
-  );
-
-  // runApp() 호출 전 google 세팅
-  const List<String> scopes = <String>[
-    'email',
-    'https://www.googleapis.com/auth/contacts.readonly',
-  ];
-
-  GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: scopes,
-  );
+  // // runApp() 호출 전 Flutter SDK 초기화
+  // KakaoSdk.init(
+  //   nativeAppKey: "9a80e6ad2553c99dd8d0dbe467a9bf0c",
+  // );
+  //
+  // // runApp() 호출 전 google 세팅
+  // const List<String> scopes = <String>[
+  //   'email',
+  //   'https://www.googleapis.com/auth/contacts.readonly',
+  // ];
+  //
+  // GoogleSignIn _googleSignIn = GoogleSignIn(
+  //   scopes: scopes,
+  // );
   //
   // runApp(
   //   MaterialApp(

@@ -6,7 +6,9 @@ import 'package:flutter/widgets.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../component/schedule_component.dart';
+import '../component/notice_list_component.dart';
 import '../model/scedule.dart';
+import '../model/notice.dart';
 
 class PageGroup extends StatefulWidget {
   const PageGroup({Key? key}) : super(key: key);
@@ -378,13 +380,69 @@ class _Page2State extends State<Page2> {
   }
 }
 
-class Page3 extends StatelessWidget {
+class Page3 extends StatefulWidget {
   const Page3({Key? key}) : super(key: key);
   @override
+
+  _Page3State createState() => _Page3State();
+}
+
+class _Page3State extends State<Page3> {
+  @override
+
+  List<Notice> notices = [
+    Notice(
+        id: 1,
+        noticeTitle: '7월 1일 회식 위치',
+        date: '2024.06.26',
+        isNew: true
+    ),
+    Notice(
+        id: 2,
+        noticeTitle: '이번주 시간표 안내',
+        date: '2024.07.01',
+        isNew: true
+    ),
+    Notice(
+        id: 3,
+        noticeTitle: '7월 1주차 시간표 안내',
+        date: '2024.07.02',
+        isNew: false
+    ),
+    Notice(
+        id: 3,
+        noticeTitle: '6월 결산',
+        date: '2024.07.02',
+        isNew: false
+    ),
+  ];
+
   Widget build(BuildContext context) {
-    return Center(child: Text('This is Page 3'));
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: notices
+                .map((data) => NoticeList(
+                id: data.id,
+                noticeTitle: data.noticeTitle,
+                date: data.date,
+                isNew: data.isNew))
+                .toList(),
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.edit),
+        backgroundColor: Colors.white,
+      ),
+    );
   }
 }
+
 
 class Page4 extends StatelessWidget {
   const Page4({Key? key}) : super(key: key);
