@@ -397,25 +397,25 @@ class _Page3State extends State<Page3> {
         id: 1,
         noticeTitle: '7월 1일 회식 위치',
         date: '2024.06.26',
-        isNew: true
+        isRead: true
     ),
     Notice(
         id: 2,
         noticeTitle: '이번주 시간표 안내',
         date: '2024.07.01',
-        isNew: true
+        isRead: true
     ),
     Notice(
         id: 3,
         noticeTitle: '7월 1주차 시간표 안내',
         date: '2024.07.02',
-        isNew: false
+        isRead: false
     ),
     Notice(
         id: 3,
         noticeTitle: '6월 결산',
         date: '2024.07.02',
-        isNew: false
+        isRead: false
     ),
   ];
 
@@ -431,7 +431,7 @@ class _Page3State extends State<Page3> {
                 id: data.id,
                 noticeTitle: data.noticeTitle,
                 date: data.date,
-                isNew: data.isNew))
+                isRead: data.isRead))
                 .toList(),
           ),
         ),
