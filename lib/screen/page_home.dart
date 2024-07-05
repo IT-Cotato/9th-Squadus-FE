@@ -52,9 +52,9 @@ class Recruitment {
 class Notice {
   final String noticeTitle;
   final String noticeContent;
-  final bool isNew;
+  final bool isRead;
 
-  Notice(this.noticeTitle, this.noticeContent, this.isNew);
+  Notice(this.noticeTitle, this.noticeContent, this.isRead);
 }
 
 class PageHome extends StatefulWidget {
@@ -194,7 +194,7 @@ class _PageHomeState extends State<PageHome> {
                             .map((data) => MainNoticeCard(
                                 noticeTitle: data.noticeTitle,
                                 noticeContent: data.noticeContent,
-                                isNew: data.isNew))
+                                isRead: data.isRead))
                             .toList(),
                       )
                     ],

@@ -5,14 +5,14 @@ class NoticeList extends StatelessWidget {
   final int id;
   final String noticeTitle;
   final String date;
-  final bool isNew;
+  final bool isRead;
 
   const NoticeList({
     Key? key,
     required this.id,
     required this.noticeTitle,
     required this.date,
-    required this.isNew,
+    required this.isRead,
   }) : super(key: key);
 
   @override
@@ -42,7 +42,7 @@ class NoticeList extends StatelessWidget {
                   ),
                 ),
               ),
-              if (isNew)
+              if (isRead)
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
                   decoration: BoxDecoration(

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class MainNoticeCard extends StatelessWidget {
   final String noticeTitle;
   final String noticeContent;
-  final bool isNew;
+  final bool isRead;
 
   const MainNoticeCard({
     required this.noticeTitle,
     required this.noticeContent,
-    required this.isNew,
+    required this.isRead,
     super.key
   });
 
@@ -45,7 +45,7 @@ class MainNoticeCard extends StatelessWidget {
                 ),
               ),
               Spacer(),
-              if (isNew)
+              if (isRead)
                 Container(
                   width: 12.0,
                   height: 12.0,
