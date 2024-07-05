@@ -450,12 +450,253 @@ class _Page3State extends State<Page3> {
   }
 }
 
+class FeeInfoCard extends StatelessWidget {
+  final String label;
+  final String amount;
+  final String dueDate;
+  final VoidCallback onPressed;
 
-class Page4 extends StatelessWidget {
-  const Page4({Key? key}) : super(key: key);
+  const FeeInfoCard({
+    Key? key,
+    required this.label,
+    required this.amount,
+    required this.dueDate,
+    required this.onPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('This is Page 4'));
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              spreadRadius: 2,
+              blurRadius: 6,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              label,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Spacer(),
+            Text(
+              amount,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+              ),
+            ),
+            SizedBox(width: 12),
+            Text(
+              dueDate,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+              ),
+            ),
+            SizedBox(width: 8),
+            Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.black,
+              size: 16,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ExpenseItem extends StatelessWidget {
+  final String date;
+  final String description;
+  final String amount;
+
+  const ExpenseItem({
+    Key? key,
+    required this.date,
+    required this.description,
+    required this.amount,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            date,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+            ),
+          ),
+          Text(description,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+            ),
+          ),
+          Text(
+            amount,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF6A56FE),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+class Page4 extends StatefulWidget {
+  const Page4({Key? key}) : super(key: key);
+
+  @override
+  _Page4State createState() => _Page4State();
+}
+
+class _Page4State extends State<Page4> {
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            // 전체를 감싸는 컨테이너
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 2,
+                    blurRadius: 6,
+                    offset: Offset(0, 3), // 그림자 위치 조정
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.only(top: 72, bottom: 40, left: 28, right: 20),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF6A56FE),
+                      borderRadius:  BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20)
+                      ),
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          '1,023,130원',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 32.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 20.0),
+                        FeeInfoCard(
+                          label: '1학기 회비',
+                          amount: '3만원',
+                          dueDate: '~06.30',
+                          onPressed: () {},
+                        ),
+                        FeeInfoCard(
+                          label: '1학기 회비',
+                          amount: '3만원',
+                          dueDate: '~06.30',
+                          onPressed: () {},
+                        ),
+                        SizedBox(height: 12.0),
+                        TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            '회비 등록하기 +',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // 회비 사용 내역
+                  Container(
+                    padding: EdgeInsets.all(20.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          '회비 사용 내역',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                        SizedBox(height: 10.0),
+                        ExpenseItem(date: '06.30', description: '체육관 사용료', amount: '120,000원'),
+                        ExpenseItem(date: '06.28', description: '대회 뒷풀이', amount: '310,000원'),
+                        ExpenseItem(date: '06.28', description: '대회 뒷풀이', amount: '310,000원'),
+                        ExpenseItem(date: '06.27', description: '대회 뒷풀이', amount: '310,000원'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildExpenseItem(String date, String description, String amount) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(date),
+          Text(description),
+          Text(
+            amount,
+            style: TextStyle(color: Colors.blue),
+          ),
+        ],
+      ),
+    );
   }
 }
