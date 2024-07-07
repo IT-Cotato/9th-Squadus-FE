@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:squadus/screen/fee_status_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../component/schedule_component.dart';
@@ -625,17 +626,32 @@ class _Page4State extends State<Page4> {
                           label: '1학기 회비',
                           amount: '3만원',
                           dueDate: '~06.30',
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => FeeStatusScreen(),
+                              ),
+                            );
+                          },
                         ),
                         FeeInfoCard(
                           label: '1학기 회비',
-                          amount: '3만원',
+                          amount: '33만원',
                           dueDate: '~06.30',
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => FeeStatusScreen(),
+                              ),
+                            );
+                          },
                         ),
                         SizedBox(height: 12.0),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                          },
                           child: Text(
                             '회비 등록하기 +',
                             style: TextStyle(color: Colors.white),
