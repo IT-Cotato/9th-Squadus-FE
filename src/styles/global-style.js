@@ -4,8 +4,6 @@ import reset from 'styled-reset';
 export const GlobalStyle = createGlobalStyle`
   ${reset}
 
-  @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css");
-
   @font-face {
     font-family: "Pretendard";
     font-weight: 700;
@@ -27,10 +25,6 @@ export const GlobalStyle = createGlobalStyle`
     src: url(assets/fonts/Pretendard-Regular.woff) format('woff');
   }
 
-  * {
-    font-family: 'Pretendard';
-  }
-
   html {
     width: 100%;
     height: 100%;
@@ -42,6 +36,10 @@ export const GlobalStyle = createGlobalStyle`
     background-color: #F2F4F7;
   }
 
+  body {
+    font-family: 'Pretendard';
+  }
+
   #root {
     width: 100%;
     max-width: 649px;
@@ -49,7 +47,6 @@ export const GlobalStyle = createGlobalStyle`
     background-color: white;
     flex-grow: 1;
     display: flex;
-    flex-direction: pink;
   }
 
   a {

@@ -11,6 +11,7 @@ const LayoutContainer = styled.div`
   flex-direction: column;
   min-height: 100vh;
   flex-grow: 1;
+  background-color: pink;
 `;
 
 const Layout = ({ children, showBottomNav }) => {
