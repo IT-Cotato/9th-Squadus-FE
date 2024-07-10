@@ -10,7 +10,10 @@ const GroupContainer = styled.div`
 const FixedContainer = styled.div`
   position: fixed;
   top: 0;
-  width: 100%;
+  width: 100%;       // 너비를 100%로 설정
+  max-width: 649px;  // 최대 너비 제한
+  // box-sizing: border-box;
+  // overflow: hidden;  // 넘치는 내용 숨김
 `;
 
 function GroupLayout() {

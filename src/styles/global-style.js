@@ -11,11 +11,12 @@ html, body {
   margin: 0;
   padding: 0;
   display: flex;
-  flex-direction: row;
+  // flex-direction: row;
   background-color: #F2F4F7;
   justify-content: center;
   font-family: 'Pretendard';
 }
+  
 
 #root {
   width: 100%;
