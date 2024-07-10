@@ -4,27 +4,43 @@ import styled from 'styled-components';
 
 const TabNav = styled.nav`
   display: flex;
-  justify-content: space-around;
-  background-color: #f0f0f0;
+  align-items: center;
+  padding: 12px 20px;
+  gap: 16px;
+  background-color: white;
+  width: 100%;
+  box-sizing: border-box;
 `;
 
-const TabLink = styled(NavLink)`
-  padding: 10px;
-  text-decoration: none;
-  color: black;
+const TabItem = styled(NavLink)`
+  color: ${({ theme }) => theme.colors.neutral[600]};
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 8px; // 패딩 추가로 클릭 영역 확장
+  text-decoration: none; // 밑줄 제거
+
   &.active {
-    color: blue;
-    font-weight: bold;
+    &:after {
+      content: '';
+      display: block;
+      position: absolute; // 절대 위치를 사용하여 위치 조정
+      bottom: 0; // 하단에 위치
+      left: 0; // 왼쪽 정렬
+      height: 2px;
+      background-color: #00A3FF; // 파란색 바
+      width: 100%; // 너비를 부모 요소와 동일하게
+    }
   }
 `;
+
 
 function GroupTabBar() {
   return (
     <TabNav>
-      <TabLink to="/group/basic-info">기본 정보</TabLink>
-      <TabLink to="/group/schedule">일정</TabLink>
-      <TabLink to="/group/notice">공지</TabLink>
-      <TabLink to="/group/fee">회비</TabLink>
+      <TabItem to="/group/basic-info">기본 정보</TabItem>
+      <TabItem to="/group/schedule">일정</TabItem>
+      <TabItem to="/group/notice">공지</TabItem>
+      <TabItem to="/group/fee">회비</TabItem>
     </TabNav>
   );
 }

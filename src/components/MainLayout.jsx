@@ -13,7 +13,6 @@ const LayoutContainer = styled.div`
   min-height: 100vh;
   flex-grow: 1;
   background-color: white;
-  // background-color: ${({ theme }) => theme.colors.secondary[100]};
 `;
 
 const MainLayout = ({ children, showMainNav }) => {
