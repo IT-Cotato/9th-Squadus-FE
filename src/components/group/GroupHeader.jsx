@@ -6,8 +6,7 @@ const HeaderContainer = styled.div`
   align-items: center;
   padding: 10px 20px;
   background-color: white;
-  color: #000; // 텍스트 색상
-  font-size: 16px; // 폰트 크기
+  font-size: 16px;
   border-bottom: 1px solid #dcdcdc;  // 임시
 `;
 
@@ -18,8 +17,8 @@ const Logo = styled.img`
 `;
 
 const Title = styled.h1`
-  font-size: 20px; // 타이틀 폰트 크기
-  font-weight: bold; // 글자 두께
+  font-size: 20px;
+  font-weight: bold;
   color: ${({ theme }) => theme.colors.neutral[600]};
 `;
 

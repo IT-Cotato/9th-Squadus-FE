@@ -16,7 +16,7 @@ const TabItem = styled(NavLink)`
   color: ${({ theme }) => theme.colors.neutral[600]};
   font-weight: 600;
   position: relative;
-  padding-bottom: 8px; // 패딩 추가로 클릭 영역 확장
+  padding-bottom: 8px;
   text-decoration: none; // 밑줄 제거
 
   &.active {
