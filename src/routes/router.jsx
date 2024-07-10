@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import MainLayout from '../components/MainLayout';
 
 import Home from '../pages/Home';
@@ -23,11 +23,11 @@ export const router = createBrowserRouter([
     path: '/group',
     element: <MainLayout showMainNav={true}><Group /></MainLayout>,
     children: [
+      { path: '', element: <Navigate to="/group/basic-info" replace /> }, // 기본 리다이렉트 설정
       { path: 'basic-info', element: <BasicInfo /> },
       { path: 'schedule', element: <Schedule /> },
       { path: 'notice', element: <Notice /> },
       { path: 'fee', element: <Fee /> },
-      { index: true, element: <BasicInfo /> },
     ],
   },
   {

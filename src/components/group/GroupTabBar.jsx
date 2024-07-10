@@ -27,8 +27,8 @@ const TabItem = styled(NavLink)`
       bottom: 0; // 하단에 위치
       left: 0; // 왼쪽 정렬
       height: 2px;
-      background-color: #00A3FF; // 파란색 바
-      width: 100%; // 너비를 부모 요소와 동일하게
+      background-color: ${({ theme }) => theme.colors.main[500]};
+      width: 100%;
     }
   }
 `;
