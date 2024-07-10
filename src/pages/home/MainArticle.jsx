@@ -1,12 +1,16 @@
 import styled from "styled-components";
+import MainArticleItem from "./home_components/MainArticleItem";
 
 const Container = styled.div`
   width: 100%;
   min-height: 20%;
-  height: auto;
-  background-color: green;
+  border: 1px solid;
 `;
 
-const MainArtical = () => <Container></Container>;
+const MainArticle = () => (
+  <Container>
+    <MainArticleItem></MainArticleItem>
+  </Container>
+);
 
-export default MainArtical;
+export default MainArticle;
