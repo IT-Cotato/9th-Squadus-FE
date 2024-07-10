@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
 import { ReactComponent as HomeIcon } from '../assets/icons/home.svg';
@@ -36,33 +35,30 @@ const NavItem = styled(Link)`
   }
 `;
 
-function BottomNavigationBar() {
+function MainNavigationBar() {
   const location = useLocation();
-  const [activeTab, setActiveTab] = useState(location.pathname);
 
-  useEffect(() => {
-    setActiveTab(location.pathname);
-  }, [location]);
+  const checkActive = (path) => location.pathname.includes(path);
 
   return (
     <NavBar>
-      <NavItem to="/" isActive={activeTab === '/'}>
+      <NavItem to="/" isActive={checkActive('/') && location.pathname === '/'}>
         <HomeIcon />
         홈
       </NavItem>
-      <NavItem to="/report" isActive={activeTab === '/report'}>
+      <NavItem to="/report" isActive={checkActive('/report')}>
         <ReportIcon />
         분석
       </NavItem>
-      <NavItem to="/group" isActive={activeTab === '/group'}>
+      <NavItem to="/group" isActive={checkActive('/group')}>
         <GroupIcon />
         그룹
       </NavItem>
-      <NavItem to="/match" isActive={activeTab === '/match'}>
+      <NavItem to="/match" isActive={checkActive('/match')}>
         <MatchIcon />
         매치
       </NavItem>
-      <NavItem to="/mypage" isActive={activeTab === '/mypage'}>
+      <NavItem to="/mypage" isActive={checkActive('/mypage')}>
         <MyPageIcon />
         마이페이지
       </NavItem>
@@ -70,4 +66,5 @@ function BottomNavigationBar() {
   );
 }
 
-export default BottomNavigationBar;
+
+export default MainNavigationBar;

@@ -1,5 +1,5 @@
 import React from 'react';
-import BottomNavigationBar from './BottomNavigationBar';
+import MainNavigationBar from './MainNavigationBar';
 import styled from 'styled-components';
 
 const Content = styled.div`
@@ -16,15 +16,15 @@ const LayoutContainer = styled.div`
   // background-color: ${({ theme }) => theme.colors.secondary[100]};
 `;
 
-const Layout = ({ children, showBottomNav }) => {
+const MainLayout = ({ children, showMainNav }) => {
   return (
     <LayoutContainer>
       <Content>
         {children}
       </Content>
-      {showBottomNav && <BottomNavigationBar />}
+      {showMainNav && <MainNavigationBar />}
     </LayoutContainer>
   );
 };
 
-export default Layout;
+export default MainLayout;
