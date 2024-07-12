@@ -3,8 +3,8 @@ import styled from "styled-components";
 const Container = styled.div`
   width: 220px;
   height: 230px;
-  border: 1px solid gray;
   border-radius: 20px;
+  box-shadow: 0px 0px 7px gray;
 `;
 
 const ArticleImg = styled.div`
