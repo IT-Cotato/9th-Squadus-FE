@@ -10,10 +10,19 @@ const Container = styled.div`
   gap: 16px;
 `;
 
+const ArticleContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+`;
+
 const MainArticle = () => (
   <Container>
     <SectionHeader></SectionHeader>
-    <MainArticleItem></MainArticleItem>
+    <ArticleContainer>
+      <MainArticleItem></MainArticleItem>
+      <MainArticleItem></MainArticleItem>
+    </ArticleContainer>
   </Container>
 );
 
