@@ -14,13 +14,15 @@ const Container = styled.div`
 
 const Home = () => {
   return (
-    <Container>
+    <>
       <MainBanner></MainBanner>
-      <MainCalendar></MainCalendar>
-      <MainSchedule></MainSchedule>
-      <MainNotice></MainNotice>
-      <MainArticle></MainArticle>
-    </Container>
+      <Container>
+        <MainCalendar></MainCalendar>
+        <MainSchedule></MainSchedule>
+        <MainNotice></MainNotice>
+        <MainArticle></MainArticle>
+      </Container>
+    </>
   );
 };
 
