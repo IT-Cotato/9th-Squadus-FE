@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import MainScheduleItem from "./home_components/MainScheduleItem";
+import SectionHeader from "./home_components/SectionHeader";
 
 const Container = styled.div`
   width: 100%;
@@ -10,6 +11,7 @@ const Container = styled.div`
 
 const MainSchedule = () => (
   <Container>
+    <SectionHeader></SectionHeader>
     <MainScheduleItem></MainScheduleItem>
   </Container>
 );

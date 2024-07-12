@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import MainNoticeItem from "./home_components/MainNoticeItem";
+import SectionHeader from "./home_components/SectionHeader";
 
 const Container = styled.div`
   width: 100%;
@@ -10,6 +11,7 @@ const Container = styled.div`
 
 const MainNotice = () => (
   <Container>
+    <SectionHeader></SectionHeader>
     <MainNoticeItem></MainNoticeItem>
   </Container>
 );
