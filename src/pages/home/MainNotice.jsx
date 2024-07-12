@@ -6,13 +6,25 @@ const Container = styled.div`
   width: 100%;
   min-height: 20%;
   height: auto;
-  border: 1px solid;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+const NoticeContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 `;
 
 const MainNotice = () => (
   <Container>
     <SectionHeader></SectionHeader>
-    <MainNoticeItem></MainNoticeItem>
+    <NoticeContainer>
+      <MainNoticeItem></MainNoticeItem>
+      <MainNoticeItem></MainNoticeItem>
+    </NoticeContainer>
   </Container>
 );
 
