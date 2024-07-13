@@ -2,9 +2,10 @@ import styled from 'styled-components';
 import NoticeItem from './group_components/NoticeItem';
 
 const Container = styled.div`
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.neutral[100]};
   width: 100%;
-  margin: 0 auto;
+  margin; 0 auto;
+  height: 100vh;
   position: relative;
 `;
 

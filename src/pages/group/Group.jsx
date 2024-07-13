@@ -13,10 +13,10 @@ const FixedContainer = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  padding: 0 20px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 100vh;
 `;
 
 const Group = () => {

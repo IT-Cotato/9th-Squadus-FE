@@ -2,7 +2,8 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   border-bottom: 1px solid rgba(221, 221, 221, 0.5); /* 50% 투명도 */
-  padding: 16px 0;
+  background-color: white;
+  padding: 16px 20px;
 `;
 
 const NoticeTitle = styled.div`
