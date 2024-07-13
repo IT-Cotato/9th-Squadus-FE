@@ -1,16 +1,29 @@
 import styled from "styled-components";
 import MainScheduleItem from "./home_components/MainScheduleItem";
+import SectionHeader from "./home_components/SectionHeader";
 
 const Container = styled.div`
-  width: 100%;
   min-height: 20%;
   height: auto;
-  border: 1px solid;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+const ScheduleContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 `;
 
 const MainSchedule = () => (
   <Container>
-    <MainScheduleItem></MainScheduleItem>
+    <SectionHeader></SectionHeader>
+    <ScheduleContainer>
+      <MainScheduleItem></MainScheduleItem>
+      <MainScheduleItem></MainScheduleItem>
+    </ScheduleContainer>
   </Container>
 );
 

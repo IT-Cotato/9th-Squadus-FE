@@ -2,11 +2,11 @@ import styled from "styled-components";
 import MainBannerItem from "./home_components/MainBannerItem";
 
 const Container = styled.div`
+  min-height: 20%;
+  height: auto;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: row;
-  width: 100%;
-  height: 20%;
-  border: 1px solid;
 `;
 
 const MainBanner = () => (
