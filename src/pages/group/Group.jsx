@@ -1,30 +1,36 @@
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
-import GroupHeader from '../../components/group/GroupHeader';
-import GroupTabBar from '../../components/group/GroupTabBar';
-
-const GroupContainer = styled.div`
-  padding-top: 92px;  // 헤더와 탭바의 높이를 고려한 여백
-`;
+import GroupHeader from './group_components/GroupHeader';
+import GroupTabBar from './group_components/GroupTabBar';
 
 const FixedContainer = styled.div`
-  position: fixed;
+  position: sticky;
   top: 0;
+  left: 0;
   width: 100%;
+  background-color: white;
+  z-index: 1000;
 `;
 
-function GroupLayout() {
+const ContentContainer = styled.div`
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+`;
+
+const Group = () => {
   return (
     <>
       <FixedContainer>
         <GroupHeader />
         <GroupTabBar />
       </FixedContainer>
-      <GroupContainer>
+      <ContentContainer>
         <Outlet />
-      </GroupContainer>
+      </ContentContainer>
     </>
   );
 }
 
-export default GroupLayout;
+export default Group;

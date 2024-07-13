@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-const TabNav = styled.nav`
+const Container = styled.nav`
   display: flex;
   align-items: center;
   padding: 12px 20px;
@@ -36,12 +36,12 @@ const TabItem = styled(NavLink)`
 
 function GroupTabBar() {
   return (
-    <TabNav>
+    <Container>
       <TabItem to="/group/basic-info">기본 정보</TabItem>
       <TabItem to="/group/schedule">일정</TabItem>
       <TabItem to="/group/notice">공지</TabItem>
       <TabItem to="/group/fee">회비</TabItem>
-    </TabNav>
+    </Container>
   );
 }
 

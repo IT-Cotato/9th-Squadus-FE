@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const HeaderContainer = styled.div`
+const Container = styled.div`
   display: flex;
   align-items: center;
   padding: 10px 20px;
@@ -25,10 +25,10 @@ const Title = styled.h1`
 
 function GroupHeader() {
   return (
-    <HeaderContainer>
+    <Container>
         <Logo />
         <Title>중앙가르드</Title>
-    </HeaderContainer>
+    </Container>
   );
 }
 
