@@ -1,6 +1,4 @@
-import React from 'react';
-
-function Fee() {
+const Fee = () => {
   return (
     <div>
       <h1>회비</h1>

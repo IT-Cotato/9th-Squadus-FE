@@ -1,6 +1,4 @@
-import React from 'react';
-
-function Schedule() {
+const Schedule = () => {
   return (
     <div>
       <h1>일정</h1>

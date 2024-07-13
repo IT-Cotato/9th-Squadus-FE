@@ -1,9 +1,7 @@
-import React from 'react';
-
-function BasicInfo() {
+const BasicInfo = () => {
   return (
     <div>
-      <h1>기본 정보</h1>
+      <h1>기본정보</h1>
     </div>
   );
 }
