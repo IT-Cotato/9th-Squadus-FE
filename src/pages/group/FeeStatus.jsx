@@ -56,7 +56,6 @@ const FeeStatus = () => {
   const [filter, setFilter] = useState('전체');
 
   const handleFilterChange = (newFilter) => {
-    console.log(`Filter 변경: ${newFilter}`);
     setFilter(newFilter);
   };
 
@@ -65,9 +64,6 @@ const FeeStatus = () => {
     if (filter === '미납부') return !member.isPaid;
     return true;
   });
-
-  console.log("현재 필터: ", filter);
-  console.log("필터된 멤버들: ", filteredMembers);
 
   return (
     <Container>

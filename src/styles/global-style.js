@@ -16,6 +16,10 @@ html, body {
   justify-content: center;
   font-family: 'Pretendard';
 }
+
+body {
+  height: 100vh;
+}
   
 
 #root {

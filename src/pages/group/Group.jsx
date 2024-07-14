@@ -4,7 +4,6 @@ import GroupHeader from './group_components/GroupHeader';
 import GroupTabBar from './group_components/GroupTabBar';
 
 const FixedContainer = styled.div`
-  position: sticky;
   top: 0;
   left: 0;
   width: 100%;
@@ -16,7 +15,8 @@ const ContentContainer = styled.div`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  // height: 100%;
+  flex-grow: 1;
 `;
 
 const Group = () => {
