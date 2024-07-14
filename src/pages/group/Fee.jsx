@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import FeeInfoCard from './group_components/FeeInfoCard';
 import ExpenseItem from './group_components/ExpenseItem';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   padding: 20px;
@@ -54,6 +55,8 @@ const ExpenseContainerTitle = styled.h3`
 `;
 
 const Fee = () => {
+  const navigate = useNavigate();  // useNavigate 훅을 사용하여 navigate 함수 정의
+
   return (
     <Container>
       <CardContainer>
@@ -62,13 +65,19 @@ const Fee = () => {
           label="1학기 회비"
           amount="3만원"
           dueDate="~06.30"
-          onClick={() => {}}
+          onClick={() => navigate('/group/fee-status')}
         />
         <FeeInfoCard
           label="대회참여비용"
           amount="2만원"
           dueDate="~07.10"
-          onClick={() => {}}
+          onClick={() => navigate('/group/fee-status')}
+        />
+        <FeeInfoCard
+          label="대회참여비용"
+          amount="2만원"
+          dueDate="~07.10"
+          onClick={() => navigate('/group/fee-status')}
         />
         <RegisterButton>회비 등록하기 +</RegisterButton>
       </CardContainer>

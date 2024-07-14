@@ -12,6 +12,7 @@ import BasicInfo from "../pages/group/BasicInfo";
 import Schedule from "../pages/group/Schedule";
 import Notice from "../pages/group/Notice";
 import Fee from "../pages/group/Fee";
+import FeeStatus from "../pages/group/FeeStatus";
 
 export const router = createBrowserRouter([
   {
@@ -61,4 +62,14 @@ export const router = createBrowserRouter([
       </MainLayout>
     ),
   },
+  {
+    path: "/group/fee-status", 
+    element: (
+      <MainLayout showMainNav={false}>
+        <FeeStatus />
+      </MainLayout>
+      // TODO: MainLayout이나 global-style.js 바꿔주는게 좋을지 고민해보기
+    ),
+  },
+
 ]);
