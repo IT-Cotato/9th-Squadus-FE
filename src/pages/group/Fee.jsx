@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import FeeInfoCard from './group_components/FeeInfoCard';
 import ExpenseItem from './group_components/ExpenseItem';
@@ -29,7 +28,6 @@ const FeeText = styled.div`
 const RegisterButton = styled.button`
   width: 100%;
   padding: 12px;
-  color: white;
   border: none;
   border-radius: 20px;
   font-size: 16px;
@@ -48,7 +46,6 @@ const ExpenseContainer = styled.div`
 `;
 
 const ExpenseContainerTitle = styled.h3`
-  color: ${({ theme }) => theme.colors.neutral[400]};;
   font-size: 16px;
   font-weight: 500;
   margin-bottom: 16px;

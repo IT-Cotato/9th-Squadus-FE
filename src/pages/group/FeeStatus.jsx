@@ -51,7 +51,6 @@ const FeeStatus = () => {
     { name: '이름', isPaid: false },
     { name: '이름', isPaid: false },
     { name: '이름', isPaid: true },
-
   ];
 
   const [filter, setFilter] = useState('전체');
