@@ -28,14 +28,14 @@ const Name = styled.div`
 const Status = styled.div`
   font-size: 20px;
   font-weight: 500;
-  color: ${props => (props.isPaid ? '#04CD6D' : '#FF735E')};
+  color: ${({ $isPaid }) => ($isPaid ? '#04CD6D' : '#FF735E')};
 `;
 
 const FeeMemberItem = ({ name, isPaid }) => (
   <MemberContainer>
     <ProfileImage />
     <Name>{name}</Name>
-    <Status isPaid={isPaid}>{isPaid ? '납부' : '미납부'}</Status>
+    <Status $isPaid={isPaid}>{isPaid ? '납부' : '미납부'}</Status>
   </MemberContainer>
 );
 
