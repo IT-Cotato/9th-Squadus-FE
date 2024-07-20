@@ -1,4 +1,3 @@
-import React from 'react';
 import MainNavigationBar from './MainNavigationBar';
 import styled from 'styled-components';
 
@@ -17,15 +16,19 @@ const Content = styled.div`
   flex-direction: column;
 `;
 
-const MainLayout = ({ children, showMainNav }) => {
+
+function MainLayout({ children }) {
+
+  console.log("MainLayout 렌더링");
+
   return (
     <LayoutContainer>
       <Content>
         {children}
       </Content>
-      {showMainNav && <MainNavigationBar />}
+      <MainNavigationBar />
     </LayoutContainer>
   );
-};
+}
 
 export default MainLayout;
