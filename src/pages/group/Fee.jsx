@@ -7,6 +7,7 @@ const Container = styled.div`
   padding: 20px;
   background-color: ${({ theme }) => theme.colors.neutral[100]};
   height: 100vh;
+  overflow: auto;
 `;
 
 const CardContainer = styled.div`
@@ -84,6 +85,14 @@ const Fee = () => {
         <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
         <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
         <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
+        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
+        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
+        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
+        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
+        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
+        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
+        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
+
       </ExpenseContainer>
     </Container>
   );
