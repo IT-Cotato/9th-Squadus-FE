@@ -23,7 +23,7 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "group",
+        path: "/group",
         element: <Group />,
         children: [
           { path: "", element: <Navigate to="/group/basic-info" replace /> }, // 기본 리다이렉트 설정
