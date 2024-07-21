@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter, Outlet, Navigate } from "react-router-dom";
 import MainLayout from "../components/MainLayout";
 
 import Home from "../pages/home/Home";
@@ -16,49 +16,35 @@ import Fee from "../pages/group/Fee";
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <MainLayout showMainNav={true}>
-        <Home />
-      </MainLayout>
-    ),
-  },
-  {
-    path: "/group",
-    element: (
-      <MainLayout showMainNav={true}>
-        <Group />
-      </MainLayout>
-    ),
+    element: <MainLayout><Outlet /></MainLayout>,
     children: [
-      { path: "", element: <Navigate to="/group/basic-info" replace /> }, // 기본 리다이렉트 설정
-      { path: "basic-info", element: <BasicInfo /> },
-      { path: "schedule", element: <Schedule /> },
-      { path: "notice", element: <Notice /> },
-      { path: "fee", element: <Fee /> },
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "group",
+        element: <Group />,
+        children: [
+          { path: "", element: <Navigate to="/group/basic-info" replace /> }, // 기본 리다이렉트 설정
+          { path: "basic-info", element: <BasicInfo /> },
+          { path: "schedule", element: <Schedule /> },
+          { path: "notice", element: <Notice /> },
+          { path: "fee", element: <Fee /> },
+        ],
+      },
+      {
+        path: "/match",
+        element: <Match />,
+      },
+      {
+        path: "/mypage",
+        element: <Mypage />,
+      },
+      {
+        path: "/report",
+        element: <Report />,
+      },
     ],
-  },
-  {
-    path: "/match",
-    element: (
-      <MainLayout showMainNav={true}>
-        <Match />
-      </MainLayout>
-    ),
-  },
-  {
-    path: "/mypage",
-    element: (
-      <MainLayout showMainNav={true}>
-        <Mypage />
-      </MainLayout>
-    ),
-  },
-  {
-    path: "/report",
-    element: (
-      <MainLayout showMainNav={true}>
-        <Report />
-      </MainLayout>
-    ),
   },
 ]);

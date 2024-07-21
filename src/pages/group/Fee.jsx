@@ -1,12 +1,13 @@
-import React from 'react';
 import styled from 'styled-components';
 import FeeInfoCard from './group_components/FeeInfoCard';
 import ExpenseItem from './group_components/ExpenseItem';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   padding: 20px;
   background-color: ${({ theme }) => theme.colors.neutral[100]};
   height: 100vh;
+  overflow: auto;
 `;
 
 const CardContainer = styled.div`
@@ -28,7 +29,6 @@ const FeeText = styled.div`
 const RegisterButton = styled.button`
   width: 100%;
   padding: 12px;
-  color: white;
   border: none;
   border-radius: 20px;
   font-size: 16px;
@@ -47,13 +47,14 @@ const ExpenseContainer = styled.div`
 `;
 
 const ExpenseContainerTitle = styled.h3`
-  color: ${({ theme }) => theme.colors.neutral[400]};;
   font-size: 16px;
   font-weight: 500;
   margin-bottom: 16px;
 `;
 
 const Fee = () => {
+  const navigate = useNavigate();  // useNavigate 훅을 사용하여 navigate 함수 정의
+
   return (
     <Container>
       <CardContainer>
@@ -62,13 +63,19 @@ const Fee = () => {
           label="1학기 회비"
           amount="3만원"
           dueDate="~06.30"
-          onClick={() => {}}
+          onClick={() => navigate('/group/fee-status')}
         />
         <FeeInfoCard
           label="대회참여비용"
           amount="2만원"
           dueDate="~07.10"
-          onClick={() => {}}
+          onClick={() => navigate('/group/fee-status')}
+        />
+        <FeeInfoCard
+          label="대회참여비용"
+          amount="2만원"
+          dueDate="~07.10"
+          onClick={() => navigate('/group/fee-status')}
         />
         <RegisterButton>회비 등록하기 +</RegisterButton>
       </CardContainer>
@@ -78,6 +85,14 @@ const Fee = () => {
         <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
         <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
         <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
+        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
+        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
+        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
+        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
+        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
+        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
+        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
+
       </ExpenseContainer>
     </Container>
   );

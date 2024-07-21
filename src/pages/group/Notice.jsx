@@ -5,14 +5,16 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.neutral[100]};
   width: 100%;
   margin; 0 auto;
-  height: 100vh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   position: relative;
 `;
 
 // TODO: 플로팅버튼 위치 조정해줘야 함
 const FloatingButton = styled.button`
-  position: fixed;
-  bottom: 84px;
+  position: absolute;
+  bottom: 20px;
   right: 20px;
   width: 70px;
   height: 70px;
@@ -29,20 +31,36 @@ const FloatingButton = styled.button`
   z-index: 1000;
 `;
 
+const NoticeList = styled.div`
+  height: 100%;
+  overflow: auto;
+`;
+
 const Notice = () => {
   return (
     <Container>
-      <NoticeItem title="6월 정기 모임 관련 공지1" date="2024.05.30" isNew={true} /> {/* TODO: API 연결 필요 */}
-      <NoticeItem title="6월 정기 모임 관련 공지2" date="2024.05.30" isNew={true} />
-      <NoticeItem title="6월 정기 모임 관련 공지3" date="2024.05.30" isNew={false} />
-      <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-      <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-      <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-      <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-      <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-      <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-      <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-      <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
+      <NoticeList >
+        <NoticeItem title="6월 정기 모임 관련 공지1" date="2024.05.30" isNew={true} /> {/* TODO: API 연결 필요 */}
+        <NoticeItem title="6월 정기 모임 관련 공지2" date="2024.05.30" isNew={true} />
+        <NoticeItem title="6월 정기 모임 관련 공지3" date="2024.05.30" isNew={false} />
+        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
+        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
+        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
+        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
+        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
+        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
+        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
+        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
+        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
+        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
+        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
+        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
+        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
+        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
+        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
+        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
+      </NoticeList>
+
       <FloatingButton>+</FloatingButton>
     </Container>
   );
