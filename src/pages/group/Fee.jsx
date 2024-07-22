@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import FeeInfoCard from './group_components/FeeInfoCard';
 import ExpenseItem from './group_components/ExpenseItem';
-import { useNavigate } from 'react-router-dom';
+import FeeStatus from './FeeStatus';
+import { useState } from 'react';
 
 const Container = styled.div`
   padding: 20px;
@@ -53,7 +54,7 @@ const ExpenseContainerTitle = styled.h3`
 `;
 
 const Fee = () => {
-  const navigate = useNavigate();  // useNavigate 훅을 사용하여 navigate 함수 정의
+  const [showFeeStatus, setShowFeeStatus] = useState(false);
 
   return (
     <Container>
@@ -63,19 +64,28 @@ const Fee = () => {
           label="1학기 회비"
           amount="3만원"
           dueDate="~06.30"
-          onClick={() => navigate('/group/fee-status')}
+          onClick={() => {
+            setShowFeeStatus(true);
+          }}
+
         />
         <FeeInfoCard
           label="대회참여비용"
           amount="2만원"
           dueDate="~07.10"
-          onClick={() => navigate('/group/fee-status')}
+          onClick={() => {
+            setShowFeeStatus(true);
+          }}
+
         />
         <FeeInfoCard
           label="대회참여비용"
           amount="2만원"
           dueDate="~07.10"
-          onClick={() => navigate('/group/fee-status')}
+          onClick={() => {
+            setShowFeeStatus(true);
+          }}
+
         />
         <RegisterButton>회비 등록하기 +</RegisterButton>
       </CardContainer>
@@ -94,6 +104,31 @@ const Fee = () => {
         <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
 
       </ExpenseContainer>
+      {
+        showFeeStatus &&
+        <div
+          style={{
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+            zIndex: 10000,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '649px',
+              height: '100%',
+              backgroundColor: 'white',
+            }}>
+            <FeeStatus closeFeeStatus={() => setShowFeeStatus(false)} />
+          </div>
+        </div>
+      }
     </Container>
   );
 }

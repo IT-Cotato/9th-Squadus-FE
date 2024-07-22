@@ -4,14 +4,13 @@ import NoticeItem from './group_components/NoticeItem';
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.neutral[100]};
   width: 100%;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   height: 100%;
   display: flex;
   flex-direction: column;
   position: relative;
 `;
 
-// TODO: 플로팅버튼 위치 조정해줘야 함
 const FloatingButton = styled.button`
   position: absolute;
   bottom: 20px;

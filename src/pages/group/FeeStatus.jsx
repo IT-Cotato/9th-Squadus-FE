@@ -3,6 +3,45 @@ import styled from 'styled-components';
 import FeeMemberItem from './group_components/FeeMemberItem';
 
 const Container = styled.div`
+  width: 100%;
+  box-sizing: border-box;
+`;
+
+// 헤더 스타일 컴포넌트
+const HeaderContainer = styled.div`
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000; // 다른 요소 위에 위치하도록
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between; // 왼쪽과 오른쪽 컨텐츠 사이의 공간을 균등하게 분배
+  align-items: center; // 세로 중앙 정렬
+  padding: 20px; // 헤더 패딩
+  border-bottom: 1px solid #dcdcdc;  // 임시
+`;
+
+const CloseButton = styled.button`
+  width: 24px;
+  height: 24px;
+  background-color: blue;
+  border: none;
+  cursor: pointer;
+`;
+
+const HeaderTitle = styled.div`
+  flex-grow: 1;
+  text-align: center;
+  color: ${({ theme }) => theme.colors.neutral[600]};
+  font-size: 20px;
+  font-weight: bold;
+`;
+
+const ContentContainer = styled.div`
+  height: 100vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
   padding: 0 20px;
 `;
 
@@ -31,7 +70,7 @@ const Description = styled.div`
 
 const FilterContainer = styled.div`
   display: flex;
-  margin: 12px 0;
+  padding: 12px 0;
 `;
 
 const FilterButton = styled.button`
@@ -44,13 +83,18 @@ const FilterButton = styled.button`
   font-weight: 500;
 `;
 
-const FeeStatus = () => {
+const FeeStatus = ({ closeFeeStatus }) => {
   const members = [
     { name: '이름(본인)', isPaid: true },
     { name: '이름', isPaid: false },
     { name: '이름', isPaid: false },
     { name: '이름', isPaid: false },
     { name: '이름', isPaid: true },
+    { name: '이름', isPaid: true },
+    { name: '이름', isPaid: true },
+    { name: '이름', isPaid: true },
+    { name: '이름', isPaid: true },
+    { name: '다인', isPaid: true }
   ];
 
   const [filter, setFilter] = useState('전체');
@@ -65,21 +109,28 @@ const FeeStatus = () => {
     return true;
   });
 
+
   return (
     <Container>
-      <PreviewContainer>
-        <Title>정기대회</Title>
-        <Amount>140,000원</Amount>
-        <Description>6.30일까지, 3만원씩</Description>
-      </PreviewContainer>
-      <FilterContainer>
-        <FilterButton $active={filter === '전체'} onClick={() => handleFilterChange('전체')}>전체</FilterButton>
-        <FilterButton $active={filter === '납부'} onClick={() => handleFilterChange('납부')}>납부</FilterButton>
-        <FilterButton $active={filter === '미납부'} onClick={() => handleFilterChange('미납부')}>미납부</FilterButton>
-      </FilterContainer>
-      {filteredMembers.map((member, index) => (
+      <HeaderContainer>
+        <CloseButton onClick={closeFeeStatus} />
+        <HeaderTitle>회비 입금 현황</HeaderTitle>
+      </HeaderContainer>
+      <ContentContainer>
+        <PreviewContainer>
+          <Title>정기대회</Title>
+          <Amount>140,000원</Amount>
+          <Description>6.30일까지, 3만원씩</Description>
+        </PreviewContainer>
+        <FilterContainer>
+          <FilterButton $active={filter === '전체'} onClick={() => handleFilterChange('전체')}>전체</FilterButton>
+          <FilterButton $active={filter === '납부'} onClick={() => handleFilterChange('납부')}>납부</FilterButton>
+          <FilterButton $active={filter === '미납부'} onClick={() => handleFilterChange('미납부')}>미납부</FilterButton>
+        </FilterContainer>
+        {filteredMembers.map((member, index) => (
         <FeeMemberItem key={index} name={member.name} isPaid={member.isPaid} />
       ))}
+      </ContentContainer>
     </Container>
   );
 };
