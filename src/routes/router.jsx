@@ -8,10 +8,10 @@ import Mypage from "../pages/Mypage";
 import Report from "../pages/Report";
 
 // GNB3: Group
-import BasicInfo from "../pages/group/BasicInfo";
-import Schedule from "../pages/group/Schedule";
-import Notice from "../pages/group/Notice";
-import Fee from "../pages/group/Fee";
+import BasicInfo from "../pages/group/basicinfo/BasicInfo";
+import Schedule from "../pages/group/schedule/Schedule";
+import Notice from "../pages/group/notice/Notice";
+import Fee from "../pages/group/fee/Fee";
 
 export const router = createBrowserRouter([
   {

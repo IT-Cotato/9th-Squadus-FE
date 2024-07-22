@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import FeeMemberItem from './group_components/FeeMemberItem';
+import FeeMemberItem from './fee_components/FeeMemberItem';
 
 const Container = styled.div`
   width: 100%;
   box-sizing: border-box;
 `;
 
-// 헤더 스타일 컴포넌트
 const HeaderContainer = styled.div`
   width: 100%;
   top: 0;

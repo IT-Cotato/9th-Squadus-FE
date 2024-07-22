@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import FeeInfoCard from './group_components/FeeInfoCard';
-import ExpenseItem from './group_components/ExpenseItem';
+import FeeInfoCard from './fee_components/FeeInfoCard';
+import ExpenseItem from './fee_components/ExpenseItem';
 import FeeStatus from './FeeStatus';
 import { useState } from 'react';
 

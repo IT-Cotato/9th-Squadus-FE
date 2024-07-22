@@ -1,5 +1,7 @@
 import styled from 'styled-components';
-import NoticeItem from './group_components/NoticeItem';
+import NoticeItem from './notice_components/NoticeItem';
+import CreateNotice from './CreateNotice';
+import { useState } from 'react';
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.neutral[100]};
@@ -36,6 +38,8 @@ const NoticeList = styled.div`
 `;
 
 const Notice = () => {
+  const [showCreateNotice, setShowCreateNotice] = useState(false);
+
   return (
     <Container>
       <NoticeList >
@@ -60,7 +64,35 @@ const Notice = () => {
         <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
       </NoticeList>
 
-      <FloatingButton>+</FloatingButton>
+      <FloatingButton onClick={() => {
+        setShowCreateNotice(true);
+      }} />
+
+      {
+        showCreateNotice &&
+        <div
+          style={{
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+            zIndex: 10000,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '649px',
+              height: '100%',
+              backgroundColor: 'white',
+            }}>
+            <CreateNotice closeCreateNotice={() => setShowCreateNotice(false)} />
+          </div>
+        </div>
+      }
     </Container>
   );
 }
