@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import NoticeItem from './notice_components/NoticeItem';
-import CreateNotice from './CreateNotice';
+import NoticeCreate from './NoticeCreate';
 import { useState } from 'react';
 
 const Container = styled.div`
@@ -38,7 +38,7 @@ const NoticeList = styled.div`
 `;
 
 const Notice = () => {
-  const [showCreateNotice, setShowCreateNotice] = useState(false);
+  const [showNoticeCreate, setShowNoticeCreate] = useState(false);
 
   return (
     <Container>
@@ -65,11 +65,11 @@ const Notice = () => {
       </NoticeList>
 
       <FloatingButton onClick={() => {
-        setShowCreateNotice(true);
+        setShowNoticeCreate(true);
       }} />
 
       {
-        showCreateNotice &&
+        showNoticeCreate &&
         <div
           style={{
             position: 'fixed',
@@ -89,7 +89,7 @@ const Notice = () => {
               height: '100%',
               backgroundColor: 'white',
             }}>
-            <CreateNotice closeCreateNotice={() => setShowCreateNotice(false)} />
+            <NoticeCreate closeNoticeCreate={() => setShowNoticeCreate(false)} />
           </div>
         </div>
       }

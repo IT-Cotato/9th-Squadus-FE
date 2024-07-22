@@ -98,11 +98,11 @@ const CameraButton = styled.button`
     cursor: pointer;
 `;
 
-const PostNotice = ({ closeCreateNotice }) => {
+const NoticeCreate = ({ closeNoticeCreate }) => {
   return (
     <Container>
       <HeaderContainer>
-        <CloseButton onClick={closeCreateNotice} />
+        <CloseButton onClick={closeNoticeCreate} />
         <Title>공지 작성하기</Title>
         <CreateButton>등록</CreateButton>
       </HeaderContainer>
@@ -117,4 +117,4 @@ const PostNotice = ({ closeCreateNotice }) => {
   );
 };
 
-export default PostNotice;
+export default NoticeCreate;
