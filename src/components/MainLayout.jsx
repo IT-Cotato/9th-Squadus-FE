@@ -1,5 +1,5 @@
-import MainNavigationBar from './MainNavigationBar';
-import styled from 'styled-components';
+import MainNavigationBar from "./MainNavigationBar";
+import styled from "styled-components";
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -16,16 +16,12 @@ const Content = styled.div`
   flex-direction: column;
 `;
 
-
 function MainLayout({ children }) {
-
   console.log("MainLayout 렌더링");
 
   return (
     <LayoutContainer>
-      <Content>
-        {children}
-      </Content>
+      <Content>{children}</Content>
       <MainNavigationBar />
     </LayoutContainer>
   );

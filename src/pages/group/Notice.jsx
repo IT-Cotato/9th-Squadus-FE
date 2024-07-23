@@ -1,10 +1,10 @@
-import styled from 'styled-components';
-import NoticeItem from './group_components/NoticeItem';
+import styled from "styled-components";
+import NoticeItem from "./group_components/NoticeItem";
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.neutral[100]};
   width: 100%;
-  margin; 0 auto;
+  margin: 0 auto;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -39,31 +39,108 @@ const NoticeList = styled.div`
 const Notice = () => {
   return (
     <Container>
-      <NoticeList >
-        <NoticeItem title="6월 정기 모임 관련 공지1" date="2024.05.30" isNew={true} /> {/* TODO: API 연결 필요 */}
-        <NoticeItem title="6월 정기 모임 관련 공지2" date="2024.05.30" isNew={true} />
-        <NoticeItem title="6월 정기 모임 관련 공지3" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
+      <NoticeList>
+        <NoticeItem
+          title="6월 정기 모임 관련 공지1"
+          date="2024.05.30"
+          isNew={true}
+        />{" "}
+        {/* TODO: API 연결 필요 */}
+        <NoticeItem
+          title="6월 정기 모임 관련 공지2"
+          date="2024.05.30"
+          isNew={true}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지3"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
       </NoticeList>
 
       <FloatingButton>+</FloatingButton>
     </Container>
   );
-}
+};
 
 export default Notice;

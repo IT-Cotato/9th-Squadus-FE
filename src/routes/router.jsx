@@ -16,7 +16,11 @@ import Fee from "../pages/group/Fee";
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout><Outlet /></MainLayout>,
+    element: (
+      <MainLayout>
+        <Outlet />
+      </MainLayout>
+    ),
     children: [
       {
         index: true,
