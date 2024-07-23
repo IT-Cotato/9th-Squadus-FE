@@ -29,7 +29,7 @@ const CloseButton = styled.button`
     cursor: pointer;
 `;
 
-const Title = styled.div`
+const HeaderTitle = styled.div`
     flex-grow: 1;
     text-align: center;
     color: ${({ theme }) => theme.colors.neutral[600]};
@@ -103,7 +103,7 @@ const NoticeCreate = ({ closeNoticeCreate }) => {
     <Container>
       <HeaderContainer>
         <CloseButton onClick={closeNoticeCreate} />
-        <Title>공지 작성하기</Title>
+        <HeaderTitle>공지 작성하기</HeaderTitle>
         <CreateButton>등록</CreateButton>
       </HeaderContainer>
       <ContentContainer>
