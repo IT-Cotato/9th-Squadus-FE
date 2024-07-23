@@ -1,70 +1,215 @@
 import styled from "styled-components";
-import { Link, useLocation } from "react-router-dom";
-import { ReactComponent as HomeIcon } from "../assets/icons/home.svg";
-import { ReactComponent as ReportIcon } from "../assets/icons/report.svg";
-import { ReactComponent as GroupIcon } from "../assets/icons/group.svg";
-import { ReactComponent as MatchIcon } from "../assets/icons/match.svg";
-import { ReactComponent as MyPageIcon } from "../assets/icons/mypage.svg";
+import NoticeItem from "./notice_components/NoticeItem";
+import NoticeCreate from "./NoticeCreate";
+import NoticeDetail from "./NoticeDetail";
+import { useState } from "react";
 
-const NavBar = styled.nav`
-  bottom: 0;
-  left: 0;
+const Container = styled.div`
+  background-color: ${({ theme }) => theme.colors.neutral[100]};
   width: 100%;
-  height: 64px;
-  background-color: white;
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 0;
-  border-top: 1px solid #dcdcdc;
-  box-sizing: border-box;
-`;
-
-const NavItem = styled(({ isActive, ...props }) => <Link {...props} />)`
+  /* margin: 0 auto; */
+  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  flex: 1;
-  text-decoration: none;
-  font-size: 10px;
-  color: ${({ theme, isActive }) =>
-    isActive ? theme.colors.secondary[600] : theme.colors.neutral[400]};
-
-  svg {
-    margin-bottom: 8px;
-    width: 24px;
-    height: 24px;
-    fill: ${({ theme, isActive }) =>
-      isActive ? theme.colors.secondary[600] : theme.colors.neutral[400]};
-  }
+  position: relative;
 `;
 
-function MainNavigationBar() {
-  const location = useLocation();
-  const checkActive = (path) => location.pathname.includes(path);
+const FloatingButton = styled.button`
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: white;
+  color: black;
+  font-size: 32px;
+  border: none;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+`;
+
+const NoticeList = styled.div`
+  height: 100%;
+  overflow: auto;
+`;
+
+const Notice = () => {
+  const [showNoticeCreate, setShowNoticeCreate] = useState(false);
+  const [showNoticeDetail, setShowNoticeDetail] = useState(false);
 
   return (
-    <NavBar>
-      <NavItem to="/" isActive={checkActive("/") && location.pathname === "/"}>
-        <HomeIcon />홈
-      </NavItem>
-      <NavItem to="/report" isActive={checkActive("/report")}>
-        <ReportIcon />
-        분석
-      </NavItem>
-      <NavItem to="/group" isActive={checkActive("/group")}>
-        <GroupIcon />
-        그룹
-      </NavItem>
-      <NavItem to="/match" isActive={checkActive("/match")}>
-        <MatchIcon />
-        매치
-      </NavItem>
-      <NavItem to="/mypage" isActive={checkActive("/mypage")}>
-        <MyPageIcon />
-        마이페이지
-      </NavItem>
-    </NavBar>
-  );
-}
+    <Container>
+      <NoticeList>
+        <NoticeItem
+          title="6월 정기 모임 관련 공지!!!!"
+          date="2024.05.30"
+          isNew={true}
+          onClick={() => {
+            setShowNoticeDetail(true);
+            console.log("공지 아이템 클릭");
+          }}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지2"
+          date="2024.05.30"
+          isNew={true}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지3"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+        <NoticeItem
+          title="6월 정기 모임 관련 공지"
+          date="2024.05.30"
+          isNew={false}
+        />
+      </NoticeList>
 
-export default MainNavigationBar;
+      <FloatingButton
+        onClick={() => {
+          setShowNoticeCreate(true);
+        }}
+      />
+
+      {showNoticeCreate && (
+        <div
+          style={{
+            position: "fixed",
+            top: "0",
+            left: "0",
+            width: "100%",
+            height: "100%",
+            zIndex: 10000,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              maxWidth: "649px",
+              height: "100%",
+              backgroundColor: "white",
+            }}
+          >
+            <NoticeCreate
+              closeNoticeCreate={() => setShowNoticeCreate(false)}
+            />
+          </div>
+        </div>
+      )}
+      {showNoticeDetail && (
+        <div
+          style={{
+            position: "fixed",
+            top: "0",
+            left: "0",
+            width: "100%",
+            height: "100%",
+            zIndex: 10000,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              maxWidth: "649px",
+              height: "100%",
+              backgroundColor: "white",
+            }}
+          >
+            <NoticeDetail
+              closeNoticeDetail={() => setShowNoticeDetail(false)}
+            />
+          </div>
+        </div>
+      )}
+    </Container>
+  );
+};
+
+export default Notice;
