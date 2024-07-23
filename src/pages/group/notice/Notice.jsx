@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import NoticeItem from './notice_components/NoticeItem';
 import NoticeCreate from './NoticeCreate';
+import NoticeDetail from './NoticeDetail';
 import { useState } from 'react';
+
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.neutral[100]};
@@ -39,11 +41,19 @@ const NoticeList = styled.div`
 
 const Notice = () => {
   const [showNoticeCreate, setShowNoticeCreate] = useState(false);
+  const [showNoticeDetail, setShowNoticeDetail] = useState(false);
 
   return (
     <Container>
       <NoticeList >
-        <NoticeItem title="6월 정기 모임 관련 공지1" date="2024.05.30" isNew={true} /> {/* TODO: API 연결 필요 */}
+        <NoticeItem 
+          title="6월 정기 모임 관련 공지!!!!" 
+          date="2024.05.30" 
+          isNew={true} 
+          onClick={() => {
+            setShowNoticeDetail(true);
+            console.log("공지 아이템 클릭");
+          }} />
         <NoticeItem title="6월 정기 모임 관련 공지2" date="2024.05.30" isNew={true} />
         <NoticeItem title="6월 정기 모임 관련 공지3" date="2024.05.30" isNew={false} />
         <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
@@ -90,6 +100,31 @@ const Notice = () => {
               backgroundColor: 'white',
             }}>
             <NoticeCreate closeNoticeCreate={() => setShowNoticeCreate(false)} />
+          </div>
+        </div>
+      }
+      {
+        showNoticeDetail &&
+        <div
+          style={{
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+            zIndex: 10000,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '649px',
+              height: '100%',
+              backgroundColor: 'white',
+            }}>
+            <NoticeDetail closeNoticeDetail={() => setShowNoticeDetail(false)} />
           </div>
         </div>
       }

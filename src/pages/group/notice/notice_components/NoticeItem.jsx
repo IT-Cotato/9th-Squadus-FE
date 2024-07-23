@@ -34,9 +34,9 @@ const NewTag = styled.div`
   justify-content: center;
 `;
 
-const NoticeItem = ({ title, date, isNew }) => {
+const NoticeItem = ({ title, date, isNew, onClick }) => {
   return (
-    <Container>
+    <Container onClick={onClick}>
       <NoticeTitle>
         {title} {isNew && <NewTag>N</NewTag>}
       </NoticeTitle>
