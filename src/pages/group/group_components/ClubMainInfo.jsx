@@ -13,7 +13,6 @@ const Container = styled.div`
   flex-direction: column;
   gap: 8px;
   box-sizing: border-box;
-  height: 100%;
 `;
 const TagInfo = styled.div`
   display: flex;
