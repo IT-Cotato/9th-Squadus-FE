@@ -33,11 +33,8 @@ const RankSpan = styled.div`
   line-height: 45px;
   letter-spacing: -0.011em;
   text-align: left;
-  color: ${({ isUp }) => (isUp ? '#008FDF' : '#FF6330')};
 `;
-// const RankDirection = `
-//   font-size:15px;
-// `;
+
 const ScoreWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -76,11 +73,12 @@ const Score = styled.div`
   color: #475467;
 `;
 const RankItem = ({ rank, isUp, upDown, name, score }) => {
+  const rankColor = isUp ? '#008FDF' : '#FF6330';
   return (
     <Container rank={rank}>
       <Rank>
         0{rank}
-        <RankSpan isUp={isUp}>
+        <RankSpan style={{ color: rankColor }}>
           {isUp ? '↑' : '↓'}
           {upDown}
         </RankSpan>

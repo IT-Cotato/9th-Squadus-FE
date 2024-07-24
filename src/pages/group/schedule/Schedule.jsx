@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import {
   CalenderContainer,
   GroupCalendar,
+  StyledDot,
 } from './schedule_components/Calendar';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import ScheduleItem, {
@@ -12,8 +13,8 @@ import ScheduleAdd from './ScheduleAdd';
 
 const BaseContainer = styled.div`
   width: 100%;
-  height: 100vh;
-  padding: 16px 20px;
+  height: 100%;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -64,6 +65,34 @@ const Schedule = () => {
         eventName: '정기 매치',
         location: '홍익대학교 체육관',
       },
+      {
+        scheduleDate: new Date(2024, 7, 3),
+        startTime: '17:00',
+        endTime: '19:00',
+        eventName: '정기 훈련',
+        location: '홍익대학교 체육관',
+      },
+      {
+        scheduleDate: new Date(2024, 7, 3),
+        startTime: '19:00',
+        endTime: '21:00',
+        eventName: '정기 매치',
+        location: '홍익대학교 체육관',
+      },
+      {
+        scheduleDate: new Date(2024, 7, 10),
+        startTime: '17:00',
+        endTime: '19:00',
+        eventName: '정기 훈련',
+        location: '홍익대학교 체육관',
+      },
+      {
+        scheduleDate: new Date(2024, 7, 10),
+        startTime: '19:00',
+        endTime: '21:00',
+        eventName: '정기 매치',
+        location: '홍익대학교 체육관',
+      },
     ],
     []
   );
@@ -106,6 +135,23 @@ const Schedule = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  // 특정 날짜에 점 표시 및 디버깅용 console.log 추가
+  const tileContent = ({ date, view }) => {
+    if (view === 'month') {
+      const isScheduled = mockData.some(
+        (item) =>
+          item.scheduleDate.getFullYear() === date.getFullYear() &&
+          item.scheduleDate.getMonth() === date.getMonth() &&
+          item.scheduleDate.getDate() === date.getDate()
+      );
+
+      if (isScheduled) {
+        return <StyledDot />;
+      }
+    }
+    return null;
+  };
   return (
     <BaseContainer>
       <CalenderContainer>
@@ -116,6 +162,7 @@ const Schedule = () => {
           formatDay={(locale, date) => date.getDate()}
           navigationLabel={({ date, view }) => `${date.getMonth() + 1}월`}
           formatShortWeekday={formatShortWeekday}
+          tileContent={tileContent}
         />
       </CalenderContainer>
       <ScheduleList>

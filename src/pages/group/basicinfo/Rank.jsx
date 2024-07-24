@@ -12,13 +12,12 @@ const BaseContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  overflow-y: auto;
   z-index: 10001;
-  padding: 4px 20px;
   border-radius: 16px 16px 0px 0px;
   box-shadow: 0px -2px 87px 0px #475467;
   box-sizing: border-box;
-  display: ${(props) => (props.isOpen ? 'block' : 'none')};
   background: linear-gradient(270deg, #1e58ec 0%, #525e9d 100%);
 `;
 const Header = styled.div`
@@ -79,6 +78,7 @@ const RankBackIcon2Styled = styled(RankBackIcon2)`
   height: 231.89px;
   top: 81.24px;
   right: 0px;
+  pointer-events: none;
 `;
 const mockDataMonthly = [
   {
@@ -159,22 +159,23 @@ const Rank = ({ isOpen, onClose }) => {
   const listdata = activeTab === 'monthly' ? mockDataMonthly : mockDataAllTime;
   return (
     <>
-      <BaseContainer isOpen={isOpen}>
-        <Header>
-          <BackButton onClick={onClose}> &lt; </BackButton>
-          <TopText>티어</TopText>
-        </Header>
-        <RankTab activeTab={activeTab} setActiveTab={setActiveTab} />
-        <Awarding />
-        <ListContainer>
-          {listdata.map((item) => (
-            <RankItem key={item.rank} {...item} />
-          ))}
-        </ListContainer>
-
-        <RankBackIcon1Styled />
-        <RankBackIcon2Styled />
-      </BaseContainer>
+      {isOpen && (
+        <BaseContainer>
+          <Header>
+            <BackButton onClick={onClose}> &lt; </BackButton>
+            <TopText>티어</TopText>
+          </Header>
+          <RankTab activeTab={activeTab} setActiveTab={setActiveTab} />
+          <Awarding />
+          <ListContainer>
+            {listdata.map((item) => (
+              <RankItem key={item.rank} {...item} />
+            ))}
+          </ListContainer>
+          <RankBackIcon1Styled />
+          <RankBackIcon2Styled />
+        </BaseContainer>
+      )}
     </>
   );
 };

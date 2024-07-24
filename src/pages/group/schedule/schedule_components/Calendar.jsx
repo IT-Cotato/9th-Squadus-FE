@@ -7,6 +7,7 @@ export const CalenderContainer = styled.div`
   justify-content: center;
   position: relative;
   box-sizing: border-box;
+  padding: 16px 20px;
 
   //기본 캘린더 css속성
   .react-calendar {
@@ -39,8 +40,10 @@ export const CalenderContainer = styled.div`
   }
   //일 간격 설정
   .react-calendar__tile {
-    padding: 8px 16px 8px 16px;
+    padding: 6px 16px;
     position: relative;
+    width: 50px;
+    height: 50px;
   }
   //이웃 달 글씨 연하게
   .react-calendar__month-view__days__day--neighboringMonth {
@@ -49,7 +52,7 @@ export const CalenderContainer = styled.div`
   .react-calendar__tile--active,
   .react-calendar__tile--now {
     padding: 10px 10px;
-    border-radius: 100px;
+    border-radius: 150px;
   }
   .react-calendar__tile--active {
     background-color: #ff6330;
@@ -79,14 +82,13 @@ export const CalenderContainer = styled.div`
 
 export const GroupCalendar = styled(Calendar)``;
 
-/* 출석한 날짜에 점 표시 스타일 */
 export const StyledDot = styled.div`
-  background-color: ${(props) => props.theme.br_2};
+  background-color: #0bde7a;
   border-radius: 50%;
-  width: 0.3rem;
-  height: 0.3rem;
+  width: 5.49px;
+  height: 5.49px;
   position: absolute;
-  top: 60%;
+  top: 15%;
   left: 50%;
   transform: translateX(-50%);
 `;
