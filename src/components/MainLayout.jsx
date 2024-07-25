@@ -18,9 +18,7 @@ const Content = styled.div`
 const MainLayout = ({ children, showMainNav }) => {
   return (
     <LayoutContainer>
-      <Content>
-        {children}
-      </Content>
+      <Content>{children}</Content>
       {showMainNav && <MainNavigationBar />}
     </LayoutContainer>
   );
