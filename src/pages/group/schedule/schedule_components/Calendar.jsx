@@ -46,6 +46,20 @@ export const CalenderContainer = styled.div`
   .react-calendar__month-view__days__day--neighboringMonth {
     color: #98a2b3;
   }
+  .react-calendar__tile--active,
+  .react-calendar__tile--now {
+    padding: 10px 10px;
+    border-radius: 100px;
+  }
+  .react-calendar__tile--active {
+    background-color: #ff6330;
+    color: #ffffff;
+  }
+  .react-calendar__tile--now {
+    border: 2px solid #ff6330;
+
+    background-color: #ffffff;
+  }
 `;
 
 export const GroupCalendar = styled(Calendar)``;

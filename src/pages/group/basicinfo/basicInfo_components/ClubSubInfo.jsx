@@ -1,5 +1,7 @@
 import ClubComment from './ClubComment';
 import styled from 'styled-components';
+import { ReactComponent as Tier } from '../../../../assets/group/RankItem.svg';
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -26,6 +28,9 @@ const RankImg = styled.div`
   width: 83.19px;
   height: 83.19px;
   box-shadow: 0px 0px 11px 0px #00fff033;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const RankTextContainer = styled.div`
   width: 100%;
@@ -46,11 +51,14 @@ const TextBIg = styled.div`
   letter-spacing: -0.011em;
   color: #ffffff;
 `;
-const ClubSubInfo = () => {
+
+const ClubSubInfo = ({ onClick }) => {
   return (
     <Container>
-      <RankContainer>
-        <RankImg />
+      <RankContainer onClick={onClick}>
+        <RankImg>
+          <Tier />
+        </RankImg>
         <RankTextContainer>
           <TextSmall>티어 정보</TextSmall>
           <TextBIg>실버</TextBIg>
