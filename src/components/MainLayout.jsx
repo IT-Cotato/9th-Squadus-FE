@@ -22,6 +22,7 @@ function MainLayout({ children }) {
   return (
     <LayoutContainer>
       <Content>{children}</Content>
+
       <MainNavigationBar />
     </LayoutContainer>
   );
