@@ -28,9 +28,6 @@ const GoogleLoginButton = () => {
       // zustand 상태 및 로컬 스토리지에 사용자 정보와 액세스토큰을 저장
       login(user, accessToken);
 
-      // 리프레시토큰을 HTTP-only 쿠키로 설정
-      document.cookie = `refreshToken=${refreshToken}; path=/; httpOnly`;   // TODO: 수정하기
-      
     } catch (error) {
       console.log("구글 로그인 에러: ", error);
     }

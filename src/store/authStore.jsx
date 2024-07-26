@@ -16,7 +16,6 @@ const useAuthStore = create((set) => ({
   logout: () => {
     set({ isAuthenticated: false, user: null, accessToken: null });
     localStorage.removeItem('accessToken'); // 로컬 스토리지에서 액세스토큰 제거
-    document.cookie = 'refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'; // 쿠키에서 리프레시토큰 제거
     console.log("로그아웃 함수 호출")
   },
 
