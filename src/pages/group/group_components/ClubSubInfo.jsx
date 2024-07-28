@@ -46,10 +46,10 @@ const TextBIg = styled.div`
   letter-spacing: -0.011em;
   color: #ffffff;
 `;
-const ClubSubInfo = () => {
+const ClubSubInfo = ({ onClick }) => {
   return (
     <Container>
-      <RankContainer>
+      <RankContainer onClick={onClick}>
         <RankImg />
         <RankTextContainer>
           <TextSmall>티어 정보</TextSmall>
