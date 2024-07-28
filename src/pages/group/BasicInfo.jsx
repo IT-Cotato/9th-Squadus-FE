@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import ClubMainInfo from './group_components/ClubMainInfo';
 import ClubSubInfo from './group_components/ClubSubInfo';
+import { useState } from 'react';
+import Rank from './Rank';
 
 const BaseContainer = styled.div`
   width: 100%;
@@ -13,6 +15,14 @@ const BaseContainer = styled.div`
 `;
 
 const BasicInfo = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const toggleModal = () => {
+    setIsModalOpen((prev) => !prev);
+    console.log(isModalOpen);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   return (
     <BaseContainer>
       <ClubMainInfo
@@ -23,7 +33,8 @@ const BasicInfo = () => {
         memMax={40}
         establishDate={'2023.09.01'}
       />
-      <ClubSubInfo />
+      <ClubSubInfo onClick={toggleModal} />
+      <Rank isOpen={isModalOpen} onClose={closeModal} />
     </BaseContainer>
   );
 };
