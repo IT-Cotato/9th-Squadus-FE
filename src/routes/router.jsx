@@ -1,5 +1,7 @@
 import { createBrowserRouter, Outlet, Navigate } from 'react-router-dom';
 import MainLayout from '../components/MainLayout';
+
+// Login
 import Login from '../pages/login/Login';
 
 import Home from '../pages/home/Home';
@@ -13,6 +15,9 @@ import BasicInfo from '../pages/group/basicinfo/BasicInfo';
 import Schedule from '../pages/group/schedule/Schedule';
 import Notice from '../pages/group/notice/Notice';
 import Fee from '../pages/group/fee/Fee';
+
+// Notification
+import Notification from '../pages/notification/Notification';
 
 export const router = createBrowserRouter([
   {
@@ -58,5 +63,9 @@ export const router = createBrowserRouter([
         ]
       }
     ],
+  },
+  {
+    path: '/notification',
+    element: <Notification />
   },
 ]);
