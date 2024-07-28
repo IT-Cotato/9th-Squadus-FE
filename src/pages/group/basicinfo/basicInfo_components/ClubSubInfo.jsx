@@ -59,6 +59,7 @@ const ClubSubInfo = ({ onClick }) => {
         <RankImg>
           <Tier />
         </RankImg>
+
         <RankTextContainer>
           <TextSmall>티어 정보</TextSmall>
           <TextBIg>실버</TextBIg>

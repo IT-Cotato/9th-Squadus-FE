@@ -60,6 +60,21 @@ export const CalenderContainer = styled.div`
 
     background-color: #ffffff;
   }
+
+  .react-calendar__tile--now:enabled:hover,
+  .react-calendar__tile--now:enabled:focus {
+    background: #ff6330;
+  }
+
+  .react-calendar__tile--active {
+    background: #ff6330;
+    color: white;
+  }
+
+  .react-calendar__tile--active:enabled:hover,
+  .react-calendar__tile--active:enabled:focus {
+    background: #ff6330;
+  }
 `;
 
 export const GroupCalendar = styled(Calendar)``;
