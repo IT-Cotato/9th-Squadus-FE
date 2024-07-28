@@ -73,4 +73,5 @@ export const AddSchedule = styled.div`
   font-weight: 500;
   line-height: 22px;
   text-align: center;
+  cursor: pointer;
 `;

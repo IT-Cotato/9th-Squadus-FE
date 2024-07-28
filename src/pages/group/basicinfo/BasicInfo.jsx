@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import ClubMainInfo from './group_components/ClubMainInfo';
-import ClubSubInfo from './group_components/ClubSubInfo';
+
+import ClubMainInfo from './basicInfo_components/ClubMainInfo';
+import ClubSubInfo from './basicInfo_components/ClubSubInfo';
 
 const BaseContainer = styled.div`
   width: 100%;
