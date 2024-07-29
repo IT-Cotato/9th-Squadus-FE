@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import MainBannerItem from "./home_components/MainBannerItem";
+import styled from 'styled-components';
+import MainBannerItem from './home_components/MainBannerItem';
 
 const Container = styled.div`
   min-height: 20%;
