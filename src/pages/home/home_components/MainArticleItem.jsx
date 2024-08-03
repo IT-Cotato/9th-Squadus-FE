@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Container = styled.div`
-  width: 220px;
+  min-width: 220px; //min으로 해야 안깨지는데 이유를 모르겠음 console
   height: 230px;
   border-radius: 20px;
   box-shadow: 0px 0px 7px gray;
