@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import FeeInfoCard from './fee_components/FeeInfoCard';
 import ExpenseItem from './fee_components/ExpenseItem';
 import FeeStatus from './FeeStatus';
+import FeeCreate from './FeeCreate';
 import { useState } from 'react';
 
 const Container = styled.div`
@@ -55,6 +56,7 @@ const ExpenseContainerTitle = styled.h3`
 
 const Fee = () => {
   const [showFeeStatus, setShowFeeStatus] = useState(false);
+  const [showFeeCreate, setShowFeeCreate] = useState(false);
 
   return (
     <Container>
@@ -87,7 +89,7 @@ const Fee = () => {
           }}
 
         />
-        <RegisterButton>회비 등록하기 +</RegisterButton>
+        <RegisterButton onClick={() => { setShowFeeCreate(true); }}>회비 등록하기 +</RegisterButton>
       </CardContainer>
       <ExpenseContainer>
         <ExpenseContainerTitle>회비 사용 내역</ExpenseContainerTitle>
@@ -104,6 +106,7 @@ const Fee = () => {
         <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
 
       </ExpenseContainer>
+
       {
         showFeeStatus &&
         <div
@@ -126,6 +129,33 @@ const Fee = () => {
               backgroundColor: 'white',
             }}>
             <FeeStatus closeFeeStatus={() => setShowFeeStatus(false)} />
+          </div>
+        </div>
+      }
+
+      {
+        showFeeCreate &&
+        <div
+          style={{
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+            zIndex: 10000,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '649px',
+              height: '100%',
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              position: 'relative'
+            }}>
+            <FeeCreate closeFeeCreate={() => setShowFeeCreate(false)} />
           </div>
         </div>
       }
