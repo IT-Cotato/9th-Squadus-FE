@@ -66,21 +66,3 @@ const TextBIg = styled.div`
   letter-spacing: -0.011em;
   color: #ffffff;
 `;
-const ClubSubInfo = () => {
-  return (
-    <Container>
-      <RankContainer>
-        <RankImg />
-        <RankTextContainer>
-          <TextSmall>티어 정보</TextSmall>
-          <TextBIg>실버</TextBIg>
-          <TextBIg>138팀 중 7위</TextBIg>
-          <TextSmall>다음 레벨까지 남은 순위 : 3위</TextSmall>
-        </RankTextContainer>
-      </RankContainer>
-      <ClubComment title={'동아리 한마디'} content={'화이팅!!'} />{' '}
-    </Container>
-  );
-};
-
-export default ClubSubInfo;

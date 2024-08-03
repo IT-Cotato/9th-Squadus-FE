@@ -6,7 +6,8 @@ const Container = styled.div`
   padding: 16px 20px;
   display: flex;
   gap: 10px;
-  background-color: ${({ rank }) => (rank % 2 === 0 ? '#F2F4F7' : '#ffffff')};
+  background-color: ${(props) =>
+    props.rank % 2 === 0 ? '#F2F4F7' : '#ffffff'};
   box-sizing: border-box;
 `;
 

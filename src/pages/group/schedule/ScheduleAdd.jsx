@@ -12,55 +12,6 @@ import {
 } from './schedule_components/ToggleButton';
 import { useState } from 'react';
 
-const ScheduleAdd = ({ isOpen, onClose }) => {
-  const [isActive, setIsActive] = useState(false);
-
-  return (
-    <BaseContainer isOpen={isOpen}>
-      <ModalNavi>
-        <CloseButton onClick={onClose}>취소</CloseButton>
-        <AddButton>추가</AddButton>
-      </ModalNavi>
-      <AddContainer>
-        <AddTitle>
-          <TiTlePoint />
-          <TiTleText placeholder={'제목'} />
-        </AddTitle>
-        <AddWrapper>
-          <LocationIcon /> <AddInput placeholder={'위치'} />
-        </AddWrapper>
-        <AddWrapper>
-          <p>하루종일</p>
-          <ToggleSwitch>
-            <CheckBox
-              type="checkbox"
-              checked={isActive}
-              onChange={() => setIsActive(!isActive)}
-            />
-            <ToggleSlider />
-          </ToggleSwitch>
-        </AddWrapper>
-
-        <AddWrapper>
-          <ClockIcon /> <AddInput type="datetime-local" />
-          >
-          <AddInput type="datetime-local" />
-        </AddWrapper>
-        <AddWrapper>
-          <AlarmIcon /> <p>알람</p>
-        </AddWrapper>
-        <AddWrapper>
-          <LinkIcon /> <AddInput placeholder={'URL'} />
-        </AddWrapper>
-        <AddWrapper>
-          <MemoIcon /> <AddInput placeholder={'메모'} />
-        </AddWrapper>
-      </AddContainer>
-    </BaseContainer>
-  );
-};
-
-export default ScheduleAdd;
 const BaseContainer = styled.div`
   max-width: 649px;
   position: fixed;
@@ -74,7 +25,6 @@ const BaseContainer = styled.div`
   border-radius: 16px 16px 0px 0px;
   box-shadow: 0px -2px 87px 0px #475467;
   box-sizing: border-box;
-  display: ${(props) => (props.isOpen ? 'block' : 'none')};
 
   background-color: #ffffff;
 `;
@@ -159,3 +109,57 @@ const TiTleText = styled.input`
   outline: none;
   border: 0px;
 `;
+
+const ScheduleAdd = ({ isOpen, onClose }) => {
+  const [isAllday, setIsAllday] = useState(false);
+
+  return (
+    <>
+      {isOpen && (
+        <BaseContainer>
+          <ModalNavi>
+            <CloseButton onClick={onClose}>취소</CloseButton>
+            <AddButton>추가</AddButton>
+          </ModalNavi>
+          <AddContainer>
+            <AddTitle>
+              <TiTlePoint />
+              <TiTleText placeholder={'제목'} />
+            </AddTitle>
+            <AddWrapper>
+              <LocationIcon /> <AddInput placeholder={'위치'} />
+            </AddWrapper>
+            <AddWrapper>
+              <p>하루종일</p>
+              <ToggleSwitch>
+                <CheckBox
+                  type="checkbox"
+                  checked={isAllday}
+                  onChange={() => setIsAllday(!isAllday)}
+                />
+                <ToggleSlider />
+              </ToggleSwitch>
+            </AddWrapper>
+
+            <AddWrapper>
+              <ClockIcon /> <AddInput type="datetime-local" />
+              >
+              <AddInput type="datetime-local" />
+            </AddWrapper>
+            <AddWrapper>
+              <AlarmIcon /> <p>알람</p>
+            </AddWrapper>
+            <AddWrapper>
+              <LinkIcon /> <AddInput placeholder={'URL'} />
+            </AddWrapper>
+            <AddWrapper>
+              <MemoIcon /> <AddInput placeholder={'메모'} />
+            </AddWrapper>
+          </AddContainer>
+        </BaseContainer>
+      )}
+    </>
+  );
+};
+
+export default ScheduleAdd;

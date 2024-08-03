@@ -7,6 +7,7 @@ const Container = styled.div`
   width: 100%;
   height: 45px;
   padding: 12px 20px;
+  box-sizing: border-box;
 `;
 
 const TabItem = styled.div`

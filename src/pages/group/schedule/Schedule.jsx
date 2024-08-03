@@ -130,7 +130,6 @@ const Schedule = () => {
   };
   const toggleModal = () => {
     setIsModalOpen((prev) => !prev);
-    console.log(isModalOpen);
   };
   const closeModal = () => {
     setIsModalOpen(false);

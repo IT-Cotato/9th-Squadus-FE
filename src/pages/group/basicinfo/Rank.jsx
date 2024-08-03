@@ -35,6 +35,7 @@ const Header = styled.div`
 `;
 
 const BackButton = styled.button`
+  position: absolute;
   background: none;
   border: none;
   font-size: 20px;
@@ -43,7 +44,6 @@ const BackButton = styled.button`
   line-height: 22px;
   color: #ffffff;
   font-size: 24px;
-  position: absolute;
   left: 20px;
 `;
 
