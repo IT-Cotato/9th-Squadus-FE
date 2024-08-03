@@ -23,6 +23,15 @@ const NoticeDetailList = () => {
         { id: "7", title: "공지사항", date: "날짜" },
       ],
     },
+    {
+      id: "3",
+      group: "동아리 이름 3",
+      notice: [
+        { id: "8", title: "공지사항", date: "날짜" },
+        { id: "9", title: "공지사항", date: "날짜" },
+        { id: "10", title: "공지사항", date: "날짜" },
+      ],
+    },
   ];
 
   const onClickHandler = () => {};
@@ -52,6 +61,7 @@ export default NoticeDetailList;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  overflow: scroll;
 `;
 
 const NoticeContainer = styled.div``;
