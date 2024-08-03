@@ -34,7 +34,9 @@ const NoticeDetailList = () => {
     },
   ];
 
-  const onClickHandler = () => {};
+  const onClickHandler = (id) => {
+    //id 를 이용한 routing
+  };
 
   return (
     <Container>
@@ -47,7 +49,7 @@ const NoticeDetailList = () => {
               title={noticeDetail.title}
               date={noticeDetail.date}
               isNew={false}
-              onClick={onClickHandler}
+              onClick={() => onClickHandler(noticeDetail.id)}
             />
           ))}
         </NoticeContainer>
