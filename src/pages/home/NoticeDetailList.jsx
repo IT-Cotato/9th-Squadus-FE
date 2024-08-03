@@ -63,7 +63,6 @@ export default NoticeDetailList;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  overflow: scroll;
 `;
 
 const NoticeContainer = styled.div``;
