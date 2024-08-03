@@ -16,16 +16,12 @@ const Content = styled.div`
   flex-direction: column;
 `;
 
-
 function MainLayout({ children }) {
-
-  console.log("MainLayout 렌더링");
+  console.log('MainLayout 렌더링');
 
   return (
     <LayoutContainer>
-      <Content>
-        {children}
-      </Content>
+      <Content>{children}</Content>
       <MainNavigationBar />
     </LayoutContainer>
   );
