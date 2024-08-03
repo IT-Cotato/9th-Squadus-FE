@@ -1,11 +1,10 @@
-import React from 'react';
 import MainNavigationBar from './MainNavigationBar';
 import styled from 'styled-components';
 
 const LayoutContainer = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   flex-grow: 1;
   background-color: white;
 `;
@@ -13,15 +12,23 @@ const LayoutContainer = styled.div`
 const Content = styled.div`
   flex: 1;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
 `;
 
-const MainLayout = ({ children, showMainNav }) => {
+function MainLayout({ children }) {
+  console.log('MainLayout 렌더링');
+
   return (
     <LayoutContainer>
       <Content>{children}</Content>
+<<<<<<< HEAD
       {showMainNav && <MainNavigationBar />}
+=======
+      <MainNavigationBar />
+>>>>>>> origin/develop
     </LayoutContainer>
   );
-};
+}
 
 export default MainLayout;

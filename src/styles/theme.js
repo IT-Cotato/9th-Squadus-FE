@@ -8,9 +8,7 @@ const theme = {
             400: '#47BDFF',
             500: '#00A3FF',
             600: '#008FDF',
-            700: '#ECF8FF',
-            800: '#ECF8FF',
-            900: '#0077BA',
+            700: '#0077BA',
         },
         secondary: {
             50: '#F4FFE5',
