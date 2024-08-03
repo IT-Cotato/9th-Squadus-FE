@@ -29,11 +29,11 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        index: "home/article",
+        path: "home/article",
         element: <ArticleDetailList />,
       },
       {
-        index: "home/notice",
+        path: "home/notice",
         element: <NoticeDetailList />,
       },
       {
