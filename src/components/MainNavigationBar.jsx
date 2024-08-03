@@ -15,29 +15,29 @@ const NavBar = styled.nav`
   display: flex;
   justify-content: space-around;
   padding: 10px 0;
-  border-top: 1px solid #dcdcdc;  // 임시
+  border-top: 1px solid #dcdcdc;
   box-sizing: border-box;
 `;
-const NavItem = styled(Link)`
+
+const NavItem = styled(({ isActive, ...props }) => <Link {...props} />)`
   display: flex;
   flex-direction: column;
   align-items: center;
   flex: 1;
   text-decoration: none;
   font-size: 10px;
-  color: ${({ theme, isActive }) => (isActive ? theme.colors.secondary[600] : theme.colors.neutral[400])};
+  color: ${({ theme, isActive }) => isActive ? theme.colors.secondary[600] : theme.colors.neutral[400]};
   
   svg {
     margin-bottom: 8px;
     width: 24px;
     height: 24px;
-    fill: ${({ theme, isActive }) => (isActive ? theme.colors.secondary[600] : theme.colors.neutral[400])};
+    fill: ${({ theme, isActive }) => isActive ? theme.colors.secondary[600] : theme.colors.neutral[400]};
   }
 `;
 
 function MainNavigationBar() {
   const location = useLocation();
-
   const checkActive = (path) => location.pathname.includes(path);
 
   return (
@@ -65,6 +65,5 @@ function MainNavigationBar() {
     </NavBar>
   );
 }
-
 
 export default MainNavigationBar;
