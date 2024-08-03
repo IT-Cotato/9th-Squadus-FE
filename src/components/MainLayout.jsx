@@ -1,5 +1,5 @@
-import MainNavigationBar from './MainNavigationBar';
-import styled from 'styled-components';
+import MainNavigationBar from "./MainNavigationBar";
+import styled from "styled-components";
 
 const LayoutContainer = styled.div`
   width: 100%;
@@ -17,16 +17,12 @@ const Content = styled.div`
 `;
 
 function MainLayout({ children }) {
-  console.log('MainLayout 렌더링');
+  console.log("MainLayout 렌더링");
 
   return (
     <LayoutContainer>
       <Content>{children}</Content>
-<<<<<<< HEAD
-      {showMainNav && <MainNavigationBar />}
-=======
       <MainNavigationBar />
->>>>>>> origin/develop
     </LayoutContainer>
   );
 }
