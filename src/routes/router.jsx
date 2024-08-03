@@ -27,10 +27,14 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
-        children: [
-          { path: "article", element: <ArticleDetailList /> },
-          { path: "notice", element: <NoticeDetailList /> },
-        ],
+      },
+      {
+        index: "home/article",
+        element: <ArticleDetailList />,
+      },
+      {
+        index: "home/notice",
+        element: <NoticeDetailList />,
       },
       {
         path: "group",
