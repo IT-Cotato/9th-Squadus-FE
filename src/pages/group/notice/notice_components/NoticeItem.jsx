@@ -20,25 +20,11 @@ const NoticeDate = styled.div`
   color: ${({ theme }) => theme.colors.neutral[400]};
 `;
 
-const NewTag = styled.div`
-  background-color: ${({ theme }) => theme.colors.main[500]};
-  color: #fff;
-  width: 12px;
-  height: 12px;
-  padding: 2px 2px;
-  font-size: 10px;
-  margin-left: 8px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const NoticeItem = ({ title, date, isNew, onClick }) => {
+const NoticeItem = ({ title, date, onClick }) => {
   return (
     <Container onClick={onClick}>
       <NoticeTitle>
-        {title} {isNew && <NewTag>N</NewTag>}
+        {title}
       </NoticeTitle>
       <NoticeDate>{date}</NoticeDate>
     </Container>

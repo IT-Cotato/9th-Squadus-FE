@@ -54,24 +54,10 @@ const Notice = () => {
             setShowNoticeDetail(true);
             console.log("공지 아이템 클릭");
           }} />
-        <NoticeItem title="6월 정기 모임 관련 공지2" date="2024.05.30" isNew={true} />
-        <NoticeItem title="6월 정기 모임 관련 공지3" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
-        <NoticeItem title="6월 정기 모임 관련 공지" date="2024.05.30" isNew={false} />
+        <NoticeItem title="6월 정기 모임 관련 공지2" date="2024.05.30" />
+        <NoticeItem title="6월 정기 모임 관련 공지2" date="2024.05.30" />
+        <NoticeItem title="6월 정기 모임 관련 공지2" date="2024.05.30" />
+        <NoticeItem title="6월 정기 모임 관련 공지2" date="2024.05.30" />
       </NoticeList>
 
       <FloatingButton onClick={() => {
