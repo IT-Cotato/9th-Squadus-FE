@@ -119,6 +119,24 @@ const Input = styled.input`
 `;
 
 const NoticeDetail = ({ closeNoticeDetail }) => {
+  const noticeData = {
+    title: "이건 공지 제목",
+    content: "이건 공지 내용",
+    image: "",
+    date: "2024.07.22",
+    views: "0",
+    likes: "0" 
+  };
+
+  const commentsData = [
+    { id: "1", name: "다인", comment: "댓글1", date: "2024.07.23", likes: "0" },
+    { id: "2", name: "다인", comment: "댓글1", date: "2024.07.23", likes: "0" },
+    { id: "3", name: "다인", comment: "댓글1", date: "2024.07.23", likes: "0" },
+    { id: "4", name: "다인", comment: "댓글1", date: "2024.07.23", likes: "0" },
+    { id: "5", name: "다인", comment: "댓글1", date: "2024.07.23", likes: "0" },
+    { id: "6", name: "다인", comment: "댓글1", date: "2024.07.23", likes: "0" },
+  ];
+
   return (
     <Container>
       <HeaderContainer>
@@ -128,21 +146,18 @@ const NoticeDetail = ({ closeNoticeDetail }) => {
       </HeaderContainer>
       <ContentContainer>
         <NoticeContainer>
-          <NoticeTitle>이건 공지 제목</NoticeTitle>
-          <NoticeContent>이건 공지 내용</NoticeContent>
+          <NoticeTitle>{noticeData.title}</NoticeTitle>
+          <NoticeContent>{noticeData.content}</NoticeContent>
         </NoticeContainer>
         <CommentContainer>
-          <CommentItem
-            name="다인"
-            comment="댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글댓글1댓글댓글"
-            date="2024.07.23"
-          />
-          <CommentItem name="다인" comment="댓글2" date="2024.07.23" />
-          <CommentItem name="다인" comment="댓글3" date="2024.07.23" />
-          <CommentItem name="다인" comment="댓글1" date="2024.07.23" />
-          <CommentItem name="다인" comment="댓글1" date="2024.07.23" />
-          <CommentItem name="다인" comment="댓글1" date="2024.07.23" />
-          <CommentItem name="다인" comment="댓글1" date="2024.07.23" />
+          {commentsData.map(comment => (
+            <CommentItem
+              key={comment.id}
+              name={comment.name}
+              comment={comment.comment}
+              date={comment.date}
+            />
+          ))}
         </CommentContainer>
       </ContentContainer>
       <FooterContainer>
