@@ -1,29 +1,38 @@
 import styled from "styled-components";
 
+const MainArticleItem = ({ img, title, subtitle }) => (
+  <Container>
+    <Image src={img} alt={img}></Image>
+    <Title>{title}</Title>
+    <Subtitle>{subtitle}</Subtitle>
+  </Container>
+);
+
+export default MainArticleItem;
+
 const Container = styled.div`
-  width: 220px;
+  display: flex;
+  flex-direction: column;
+  min-width: 220px; //min으로 해야 안깨지는데 이유를 모르겠음 console
   height: 230px;
   border-radius: 20px;
   box-shadow: 0px 0px 7px gray;
 `;
 
-const ArticleImg = styled.div`
-  height: 70%;
+const Image = styled.image`
+  min-height: 70%;
   border-radius: 20px 20px 0 0;
   background-color: #e4e7ec;
 `;
 
-const ArticleText = styled.div`
+const Title = styled.div`
   height: auto;
-  border-radius: 0 0 20px 20px;
-  background-color: white;
+  margin-top: auto;
+  font-size: 24px;
+  margin: 0 12px;
 `;
 
-const MainArticleItem = () => (
-  <Container>
-    <ArticleImg></ArticleImg>
-    <ArticleText></ArticleText>
-  </Container>
-);
-
-export default MainArticleItem;
+const Subtitle = styled.div`
+  font-size: 14px;
+  margin: 8px 12px;
+`;
