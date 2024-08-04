@@ -3,6 +3,7 @@ import FeeInfoCard from './fee_components/FeeInfoCard';
 import ExpenseItem from './fee_components/ExpenseItem';
 import FeeStatus from './FeeStatus';
 import FeeCreate from './FeeCreate';
+import ExpenseCreate from './ExpenseCreate';
 import { useState } from 'react';
 
 const Container = styled.div`
@@ -67,6 +68,7 @@ const ExpenseCreateButton = styled.button`
 const Fee = () => {
   const [showFeeStatus, setShowFeeStatus] = useState(false);
   const [showFeeCreate, setShowFeeCreate] = useState(false);
+  const [showExpenseCreate, setShowExpenseCreate] = useState(false);
 
   const feeInfoData = [
     { id: "1", label: "1학기 회비", amount: "3만원", dueDate: "~06.30" },
@@ -98,7 +100,7 @@ const Fee = () => {
       </CardContainer>
       <ExpenseContainer>
         <ExpenseContainerTitle>회비 사용 내역</ExpenseContainerTitle>
-        <ExpenseCreateButton>사용 내역 추가 +</ExpenseCreateButton>
+        <ExpenseCreateButton onClick={() => { setShowExpenseCreate(true); }}>사용 내역 추가 +</ExpenseCreateButton>
         {expenseData.map(expense => (
           <ExpenseItem
             key={expense.id}
@@ -157,6 +159,32 @@ const Fee = () => {
               backgroundColor: 'white',
             }}>
             <FeeCreate closeFeeCreate={() => setShowFeeCreate(false)} />
+          </div>
+        </div>
+      }
+
+      {
+        showExpenseCreate &&
+        <div
+          style={{
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+            zIndex: 10000,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '649px',
+              height: '100%',
+              backgroundColor: 'white',
+            }}>
+            <ExpenseCreate closeExpenseCreate={() => setShowExpenseCreate(false)} />
           </div>
         </div>
       }
