@@ -81,16 +81,6 @@ const MemberSelectContainer = styled.div`
   font-size: 18px;
 `;
 
-const SubmitButton = styled.button`
-  width: 100%;
-  padding: 20px;
-  border: none;
-  border-radius: 8px;
-  background-color: ${({ theme }) => theme.colors.main[600]};
-  color: white;
-  font-size: 20px;
-`
-
 const FeeCreate = ({ closeFeeCreate }) => {
   const [showSelectFeeMemeber, setShowSelectFeeMemeber] = useState(false);
   const [selectedMemberIds, setSelectedMemberIds] = useState([]);
@@ -130,7 +120,6 @@ const FeeCreate = ({ closeFeeCreate }) => {
           placeholder="메모"
         />
       </ContentContainer>
-      <SubmitButton>등록</SubmitButton>
 
       {
         showSelectFeeMemeber &&
