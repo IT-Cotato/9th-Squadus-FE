@@ -58,53 +58,44 @@ const Fee = () => {
   const [showFeeStatus, setShowFeeStatus] = useState(false);
   const [showFeeCreate, setShowFeeCreate] = useState(false);
 
+  const feeInfoData = [
+    { id: "1", label: "1학기 회비", amount: "3만원", dueDate: "~06.30" },
+    { id: "2", label: "대회참여비용", amount: "2만원", dueDate: "~07.10" }
+  ];
+
+  const expenseData = [
+    { id: "1", date: "06.30", description: "체육관 사용료", amount: "120,000원" },
+    { id: "2", date: "06.28", description: "대회 뒷풀이", amount: "310,000원" },
+    { id: "3", date: "06.28", description: "대회 뒷풀이", amount: "310,000원" },
+    { id: "4", date: "06.28", description: "대회 뒷풀이", amount: "310,000원" }
+  ];
+
+
   return (
     <Container>
       <CardContainer>
         <FeeText>1,023,130원</FeeText>
-        <FeeInfoCard
-          label="1학기 회비"
-          amount="3만원"
-          dueDate="~06.30"
-          onClick={() => {
-            setShowFeeStatus(true);
-          }}
-
-        />
-        <FeeInfoCard
-          label="대회참여비용"
-          amount="2만원"
-          dueDate="~07.10"
-          onClick={() => {
-            setShowFeeStatus(true);
-          }}
-
-        />
-        <FeeInfoCard
-          label="대회참여비용"
-          amount="2만원"
-          dueDate="~07.10"
-          onClick={() => {
-            setShowFeeStatus(true);
-          }}
-
-        />
+        {feeInfoData.map(fee => (
+          <FeeInfoCard
+            key={fee.id}
+            label={fee.label}
+            amount={fee.amount}
+            dueDate={fee.dueDate}
+            onClick={() => setShowFeeStatus(true)}
+          />
+        ))}
         <RegisterButton onClick={() => { setShowFeeCreate(true); }}>회비 등록하기 +</RegisterButton>
       </CardContainer>
       <ExpenseContainer>
         <ExpenseContainerTitle>회비 사용 내역</ExpenseContainerTitle>
-        <ExpenseItem date="06.30" description="체육관 사용료" amount="120,000원" />
-        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
-        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
-        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
-        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
-        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
-        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
-        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
-        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
-        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
-        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
-
+        {expenseData.map(expense => (
+          <ExpenseItem
+            key={expense.id}
+            date={expense.date}
+            description={expense.description}
+            amount={expense.amount}
+          />
+        ))}
       </ExpenseContainer>
 
       {

@@ -83,7 +83,7 @@ const FilterButton = styled.button`
 `;
 
 const FeeStatus = ({ closeFeeStatus }) => {
-  const members = [
+  const MemberData = [
     { name: '이름(본인)', isPaid: true },
     { name: '이름', isPaid: false },
     { name: '이름', isPaid: false },
@@ -102,7 +102,7 @@ const FeeStatus = ({ closeFeeStatus }) => {
     setFilter(newFilter);
   };
 
-  const filteredMembers = members.filter(member => {
+  const filteredMembers = MemberData.filter(member => {
     if (filter === '납부') return member.isPaid;
     if (filter === '미납부') return !member.isPaid;
     return true;
