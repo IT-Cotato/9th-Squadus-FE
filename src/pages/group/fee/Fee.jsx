@@ -28,7 +28,7 @@ const FeeText = styled.div`
   border-radius: 20px 20px 0 0;
 `;
 
-const RegisterButton = styled.button`
+const FeeCreateButton = styled.button`
   width: 100%;
   padding: 12px;
   border: none;
@@ -48,10 +48,20 @@ const ExpenseContainer = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
-const ExpenseContainerTitle = styled.h3`
+const ExpenseContainerTitle = styled.div`
   font-size: 16px;
   font-weight: 500;
-  margin-bottom: 16px;
+`;
+
+const ExpenseCreateButton = styled.button`
+  width: 100%;
+  margin: 12px 0;
+  padding: 16px;
+  background-color: white;
+  color: ${({ theme }) => theme.colors.main[600]};
+  border: 1px solid ${({ theme }) => theme.colors.main[600]};;
+  border-radius: 8px;
+  font-size: 16px;
 `;
 
 const Fee = () => {
@@ -84,10 +94,11 @@ const Fee = () => {
             onClick={() => setShowFeeStatus(true)}
           />
         ))}
-        <RegisterButton onClick={() => { setShowFeeCreate(true); }}>회비 등록하기 +</RegisterButton>
+        <FeeCreateButton onClick={() => { setShowFeeCreate(true); }}>회비 등록하기 +</FeeCreateButton>
       </CardContainer>
       <ExpenseContainer>
         <ExpenseContainerTitle>회비 사용 내역</ExpenseContainerTitle>
+        <ExpenseCreateButton>사용 내역 추가 +</ExpenseCreateButton>
         {expenseData.map(expense => (
           <ExpenseItem
             key={expense.id}
