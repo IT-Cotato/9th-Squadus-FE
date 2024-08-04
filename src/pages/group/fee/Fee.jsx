@@ -152,8 +152,7 @@ const Fee = () => {
               width: '100%',
               maxWidth: '649px',
               height: '100%',
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
-              position: 'relative'
+              backgroundColor: 'white',
             }}>
             <FeeCreate closeFeeCreate={() => setShowFeeCreate(false)} />
           </div>

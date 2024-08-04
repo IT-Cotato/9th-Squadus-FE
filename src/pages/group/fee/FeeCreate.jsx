@@ -1,28 +1,57 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import SelectFeeMember from './SelectFeeMember';
+import FeeMemberSelect from './FeeMemberSelect';
 
 const Container = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
   width: 100%;
   box-sizing: border-box;
   flex-direction: column;
-  padding: 20px;
   background-color: white;
   align-items: center;
 `;
 
-const TitleContainer = styled.div`
+const HeaderContainer = styled.div`
   width: 100%;
-  padding: 10px 0 32px;
-  font-size: 20px;
-  text-align: center;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #dcdcdc;
 `;
 
-const InputGroupContainer = styled.div`
-  box-sizing: border-box;
+const CloseButton = styled.button`
+  width: 24px;
+  height: 24px;
+  background-color: blue;
+  border: none;
+  cursor: pointer;
+`;
+
+const HeaderTitle = styled.div`
+  flex-grow: 1;
+  text-align: center;
+  color: ${({ theme }) => theme.colors.neutral[600]};
+  font-size: 20px;
+  font-weight: bold;
+`;
+
+const SaveButton = styled.div`
+  color: ${({ theme }) => theme.colors.main[500]};
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+`;
+
+const ContentContainer = styled.div`
+  height: 100vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 `;
 
 const InputContainer = styled.input`
@@ -64,11 +93,20 @@ const SubmitButton = styled.button`
 
 const FeeCreate = ({ closeFeeCreate }) => {
   const [showSelectFeeMemeber, setShowSelectFeeMemeber] = useState(false);
+  const [selectedMemberIds, setSelectedMemberIds] = useState([]);
+
+  const updateSelection = (selectedIds) => {
+    setSelectedMemberIds(selectedIds);
+  };
 
   return (
     <Container>
-      <TitleContainer>회비 등록</TitleContainer>
-      <InputGroupContainer>
+      <HeaderContainer>
+        <CloseButton onClick={closeFeeCreate}/>
+        <HeaderTitle>회비 등록</HeaderTitle>
+        <SaveButton>완료</SaveButton>
+      </HeaderContainer>
+      <ContentContainer>
         <InputContainer
           type="text"
           placeholder="회비명"
@@ -84,12 +122,14 @@ const FeeCreate = ({ closeFeeCreate }) => {
         <InputContainer
           type="date"
         />
-        <MemberSelectContainer onClick={() => {setShowSelectFeeMemeber(true);}}>회비 납부 인원 선택</MemberSelectContainer>
+        <MemberSelectContainer onClick={() => {setShowSelectFeeMemeber(true);}}>
+          회비 납부 인원 선택 ({selectedMemberIds.length}명)
+        </MemberSelectContainer>
         <InputContainer
           type="text"
           placeholder="메모"
         />
-      </InputGroupContainer>
+      </ContentContainer>
       <SubmitButton>등록</SubmitButton>
 
       {
@@ -113,7 +153,11 @@ const FeeCreate = ({ closeFeeCreate }) => {
               height: '100%',
               backgroundColor: 'white',
             }}>
-            <SelectFeeMember closeSelectFeeMember={() => setShowSelectFeeMemeber(false)} />
+            <FeeMemberSelect 
+              closeFeeMemberSelect={() => setShowSelectFeeMemeber(false)} 
+              updateSelection={updateSelection}
+              selectedMemberIds={selectedMemberIds}
+            />
           </div>
         </div>
       }
