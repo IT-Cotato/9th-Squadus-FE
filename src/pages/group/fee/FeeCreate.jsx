@@ -166,6 +166,13 @@ const StyledCalendar = styled(Calendar)`
     }
   }
 
+  .react-calendar__month-view__weekdays {
+    abbr {
+      text-decoration: none;
+      color: ${({ theme }) => theme.colors.neutral[500]};
+    }
+  }
+
   /* 저번 달 & 다음 달 일자 */
   .react-calendar__month-view__days__day--neighboringMonth{
     abbr {
