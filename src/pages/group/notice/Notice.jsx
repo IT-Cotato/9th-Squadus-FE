@@ -93,7 +93,7 @@ const Notice = () => {
               height: '100%',
               backgroundColor: 'white',
             }}>
-            <NoticeDetail noticeId={selectedNoticeId} closeNoticeDetail={() => setShowNoticeDetail(false)} />
+            <NoticeCreate noticeId={selectedNoticeId} closeNoticeCreate={() => setShowNoticeCreate(false)} />
           </div>
         </div>
       }
