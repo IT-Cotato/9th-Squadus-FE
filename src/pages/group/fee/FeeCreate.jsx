@@ -179,17 +179,44 @@ const StyledCalendar = styled(Calendar)`
       color: ${({ theme }) => theme.colors.neutral[300]};
     }
   }
-
-
-
 `;
 
+const SelectMemberContainer = styled.div`
+  width: 60%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: ${({ theme }) => theme.colors.neutral[100]};
+  color: ${({ theme }) => theme.colors.neutral[700]};
+  font-size: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
+
+const SelectMemberButton = styled.div`
+  color: ${({ theme }) => theme.colors.main[500]};
+`
 
 const FeeCreate = ({ closeFeeCreate }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [showStartCalendar, setShowStartCalendar] = useState(false);
   const [showEndCalendar, setShowEndCalendar] = useState(false);
+
+  const handleContainerClick = () => {
+    if (showStartCalendar) setShowStartCalendar(false);
+    if (showEndCalendar) setShowEndCalendar(false);
+    if (showSelectFeeMember) setShowSelectFeeMember(false);
+  };
+
+  const handleCalendarClick = (e) => {
+    e.stopPropagation(); // 이벤트 버블링 중단
+  };
+
+  const handleFeeSelectClick = (e) => {
+    e.stopPropagation();
+  }
 
   const [showSelectFeeMember, setShowSelectFeeMember] = useState(false);
   const [selectedMemberIds, setSelectedMemberIds] = useState([]);
@@ -198,7 +225,7 @@ const FeeCreate = ({ closeFeeCreate }) => {
   };
 
   return (
-    <Container>
+    <Container onClick={handleContainerClick}>
       <HeaderContainer>
         <CloseButton onClick={closeFeeCreate}/>
         <HeaderTitle>회비 등록</HeaderTitle>
@@ -231,10 +258,14 @@ const FeeCreate = ({ closeFeeCreate }) => {
           <Input
             readOnly
             value={startDate ? startDate.toLocaleDateString() : "날짜 선택"}
-            onClick={() => setShowStartCalendar(!showStartCalendar)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowStartCalendar(!showStartCalendar);
+              setShowEndCalendar(false);
+            }}
           />
           {showStartCalendar && (
-            <CalendarContainer>
+            <CalendarContainer onClick={handleCalendarClick}>
               <StyledCalendar
                 onChange={(date) => {
                   setStartDate(date);
@@ -252,10 +283,14 @@ const FeeCreate = ({ closeFeeCreate }) => {
           <Input
             readOnly
             value={endDate ? endDate.toLocaleDateString() : "날짜 선택"}
-            onClick={() => setShowEndCalendar(!showEndCalendar)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowEndCalendar(!showEndCalendar);
+              setShowStartCalendar(false);
+            }}
           />
           {showEndCalendar && (
-            <CalendarContainer>
+            <CalendarContainer onClick={handleCalendarClick}>
               <StyledCalendar
                 onChange={(date) => {
                   setEndDate(date);
@@ -270,7 +305,10 @@ const FeeCreate = ({ closeFeeCreate }) => {
 
         <FieldContainer onClick={() => setShowSelectFeeMember(true)}>
           <Label>회비 납부 인원</Label>
-          <Input readOnly value={`${selectedMemberIds.length}명`} />
+          <SelectMemberContainer>
+            {`${selectedMemberIds.length}명`}
+            <SelectMemberButton>선택하기</SelectMemberButton>
+          </SelectMemberContainer>
         </FieldContainer>
         <FieldContainer>
           <Label>메모</Label>
@@ -291,14 +329,18 @@ const FeeCreate = ({ closeFeeCreate }) => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-          }}>
+          }}
+          onClick={handleFeeSelectClick}
+          >
           <div
             style={{
               width: '100%',
               maxWidth: '649px',
               height: '100%',
               backgroundColor: 'white',
-            }}>
+            }}
+            onClick={handleFeeSelectClick}
+            >
             <FeeMemberSelect 
               closeFeeMemberSelect={() => setShowSelectFeeMember(false)} 
               updateSelection={updateSelection}
