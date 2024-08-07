@@ -6,7 +6,8 @@ import Rank from './Rank';
 
 const BaseContainer = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  overflow-y: auto;
   padding: 16px 20px;
   display: flex;
   flex-direction: column;
