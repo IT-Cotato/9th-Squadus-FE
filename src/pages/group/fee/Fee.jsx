@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import FeeInfoCard from './fee_components/FeeInfoCard';
 import ExpenseItem from './fee_components/ExpenseItem';
 import FeeStatus from './FeeStatus';
+import FeeCreate from './FeeCreate';
+import ExpenseCreate from './ExpenseCreate';
 import { useState } from 'react';
 
 const Container = styled.div`
@@ -27,7 +29,7 @@ const FeeText = styled.div`
   border-radius: 20px 20px 0 0;
 `;
 
-const RegisterButton = styled.button`
+const FeeCreateButton = styled.button`
   width: 100%;
   padding: 12px;
   border: none;
@@ -47,63 +49,68 @@ const ExpenseContainer = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
-const ExpenseContainerTitle = styled.h3`
+const ExpenseContainerTitle = styled.div`
   font-size: 16px;
   font-weight: 500;
-  margin-bottom: 16px;
+`;
+
+const ExpenseCreateButton = styled.button`
+  width: 100%;
+  margin: 12px 0;
+  padding: 16px;
+  background-color: white;
+  color: ${({ theme }) => theme.colors.main[600]};
+  border: 1px solid ${({ theme }) => theme.colors.main[600]};;
+  border-radius: 8px;
+  font-size: 16px;
 `;
 
 const Fee = () => {
   const [showFeeStatus, setShowFeeStatus] = useState(false);
+  const [showFeeCreate, setShowFeeCreate] = useState(false);
+  const [showExpenseCreate, setShowExpenseCreate] = useState(false);
+
+  const feeInfoData = [
+    { id: "1", label: "1학기 회비", amount: "3만원", dueDate: "~06.30" },
+    { id: "2", label: "대회참여비용", amount: "2만원", dueDate: "~07.10" }
+  ];
+
+  const expenseData = [
+    { id: "1", date: "06.30", description: "체육관 사용료", amount: "120,000원" },
+    { id: "2", date: "06.28", description: "대회 뒷풀이", amount: "310,000원" },
+    { id: "3", date: "06.28", description: "대회 뒷풀이", amount: "310,000원" },
+    { id: "4", date: "06.28", description: "대회 뒷풀이", amount: "310,000원" }
+  ];
+
 
   return (
     <Container>
       <CardContainer>
         <FeeText>1,023,130원</FeeText>
-        <FeeInfoCard
-          label="1학기 회비"
-          amount="3만원"
-          dueDate="~06.30"
-          onClick={() => {
-            setShowFeeStatus(true);
-          }}
-
-        />
-        <FeeInfoCard
-          label="대회참여비용"
-          amount="2만원"
-          dueDate="~07.10"
-          onClick={() => {
-            setShowFeeStatus(true);
-          }}
-
-        />
-        <FeeInfoCard
-          label="대회참여비용"
-          amount="2만원"
-          dueDate="~07.10"
-          onClick={() => {
-            setShowFeeStatus(true);
-          }}
-
-        />
-        <RegisterButton>회비 등록하기 +</RegisterButton>
+        {feeInfoData.map(fee => (
+          <FeeInfoCard
+            key={fee.id}
+            label={fee.label}
+            amount={fee.amount}
+            dueDate={fee.dueDate}
+            onClick={() => setShowFeeStatus(true)}
+          />
+        ))}
+        <FeeCreateButton onClick={() => { setShowFeeCreate(true); }}>회비 등록하기 +</FeeCreateButton>
       </CardContainer>
       <ExpenseContainer>
         <ExpenseContainerTitle>회비 사용 내역</ExpenseContainerTitle>
-        <ExpenseItem date="06.30" description="체육관 사용료" amount="120,000원" />
-        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
-        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
-        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
-        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
-        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
-        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
-        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
-        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
-        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
-        <ExpenseItem date="06.28" description="대회 뒷풀이" amount="310,000원" />
-
+        <ExpenseCreateButton onClick={() => { setShowExpenseCreate(true); }}>사용 내역 추가 +</ExpenseCreateButton>
+        {expenseData.map(expense => (
+          <ExpenseItem
+            key={expense.id}
+            date={expense.date}
+            description={expense.description}
+            amount={expense.amount}
+          />
+        ))}
       </ExpenseContainer>
+
       {
         showFeeStatus &&
         <div
@@ -126,6 +133,58 @@ const Fee = () => {
               backgroundColor: 'white',
             }}>
             <FeeStatus closeFeeStatus={() => setShowFeeStatus(false)} />
+          </div>
+        </div>
+      }
+
+      {
+        showFeeCreate &&
+        <div
+          style={{
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+            zIndex: 10000,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '649px',
+              height: '100%',
+              backgroundColor: 'white',
+            }}>
+            <FeeCreate closeFeeCreate={() => setShowFeeCreate(false)} />
+          </div>
+        </div>
+      }
+
+      {
+        showExpenseCreate &&
+        <div
+          style={{
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+            zIndex: 10000,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '649px',
+              height: '100%',
+              backgroundColor: 'white',
+            }}>
+            <ExpenseCreate closeExpenseCreate={() => setShowExpenseCreate(false)} />
           </div>
         </div>
       }

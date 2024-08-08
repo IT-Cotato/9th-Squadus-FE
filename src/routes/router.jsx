@@ -1,11 +1,16 @@
 import { createBrowserRouter, Outlet, Navigate } from "react-router-dom";
 import MainLayout from "../components/MainLayout";
 
-import Home from "../pages/home/Home";
-import Group from "../pages/group/Group";
-import Match from "../pages/Match";
-import Mypage from "../pages/Mypage";
-import Report from "../pages/Report";
+// Login
+import Login from '../pages/login/Login';
+import Callback from "../pages/login/Callback";
+
+// GNB
+import Home from '../pages/home/Home';
+import Group from '../pages/group/Group';
+import Match from '../pages/Match';
+import Mypage from '../pages/Mypage';
+import Report from '../pages/Report';
 
 // GNB3: Group
 import BasicInfo from "../pages/group/basicinfo/BasicInfo";
@@ -15,7 +20,18 @@ import Fee from "../pages/group/fee/Fee";
 import ArticleDetailList from "../pages/home/ArticleDetailList";
 import NoticeDetailList from "../pages/home/NoticeDetailList";
 
+// Notification
+import Notification from '../pages/notification/Notification';
+
 export const router = createBrowserRouter([
+  {
+    path: '/login',
+    element: <Login />
+  },
+  {
+    path: "callback",
+    element: <Callback />,
+  },
   {
     path: "/",
     element: (
@@ -63,5 +79,9 @@ export const router = createBrowserRouter([
         element: <Report />,
       },
     ],
+  },
+  {
+    path: '/notification',
+    element: <Notification />
   },
 ]);
