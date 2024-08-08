@@ -3,7 +3,9 @@ import MainLayout from "../components/MainLayout";
 
 // Login
 import Login from '../pages/login/Login';
+import Callback from "../pages/login/Callback";
 
+// GNB
 import Home from '../pages/home/Home';
 import Group from '../pages/group/Group';
 import Match from '../pages/Match';
@@ -25,6 +27,10 @@ export const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />
+  },
+  {
+    path: "callback",
+    element: <Callback />,
   },
   {
     path: "/",

@@ -3,6 +3,7 @@ import logo from '../../assets/login_logo.svg';
 import google_button from '../../assets/login/google.svg';
 import apple_button from '../../assets/login/apple.svg';
 import kakao_button from '../../assets/login/kakao.svg';
+import api from '../../api/api';
 
 const Container = styled.div`
   width: 100%;
@@ -59,18 +60,32 @@ const KakaoLoginButton = styled.div`
   margin: 0 auto;
 `;
 
+// const handleGoogleLogin = () => {
+//   window.location.href = `${api.defaults.baseURL}/oauth2/authorization/google`;
+// };
+
+// const handleAppleLogin = () => {
+//   window.location.href = `${api.defaults.baseURL}/oauth2/authorization/apple`;
+// };
+
+const handleKakaoLogin = () => {
+  window.location.href = `${api.defaults.baseURL}/oauth2/authorization/kakao`;
+};
 
 const Login = () => {
+  console.log('REACT_APP_TEST:', process.env.REACT_APP_TEST);
+
   return (
     <Container>
       <Logo />
       <ButtonContainer>
         <GoogleLoginButton />
         <AppleLoginButton />
-        <KakaoLoginButton />
+        <KakaoLoginButton onClick={handleKakaoLogin} />
       </ButtonContainer>
     </Container>
   );
 }
+
 
 export default Login;
