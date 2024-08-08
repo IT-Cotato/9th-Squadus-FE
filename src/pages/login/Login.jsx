@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import GoogleLoginButton from './GoogleLoginButton';
-import logo from '../../assets/login_logo.svg'
-
+import logo from '../../assets/login_logo.svg';
+import google_button from '../../assets/login/google.svg';
+import apple_button from '../../assets/login/apple.svg';
+import kakao_button from '../../assets/login/kakao.svg';
 
 const Container = styled.div`
   width: 100%;
@@ -23,10 +24,39 @@ const Logo = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
-  /* background-color: yellow; */
   margin-top: 100px;
   margin: 0px auto;
+  gap: 8px;
+`;
 
+const GoogleLoginButton = styled.div`
+  width: 256px;
+  height: 48px;
+  background-image: url(${google_button});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 0 auto;
+`
+
+const AppleLoginButton = styled.div`
+  width: 256px;
+  height: 48px;
+  background-image: url(${apple_button});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 0 auto;
+`;
+
+const KakaoLoginButton = styled.div`
+  width: 256px;
+  height: 48px;
+  background-image: url(${kakao_button});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 0 auto;
 `;
 
 
@@ -36,6 +66,8 @@ const Login = () => {
       <Logo />
       <ButtonContainer>
         <GoogleLoginButton />
+        <AppleLoginButton />
+        <KakaoLoginButton />
       </ButtonContainer>
     </Container>
   );
