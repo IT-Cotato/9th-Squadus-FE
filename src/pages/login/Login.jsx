@@ -73,7 +73,6 @@ const handleKakaoLogin = () => {
 };
 
 const Login = () => {
-  console.log('REACT_APP_TEST:', process.env.REACT_APP_TEST);
 
   return (
     <Container>
