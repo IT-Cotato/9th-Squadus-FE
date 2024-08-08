@@ -11,13 +11,13 @@ const HeaderContainer = styled.div`
   width: 100%;
   top: 0;
   left: 0;
-  z-index: 1000; // 다른 요소 위에 위치하도록
+  z-index: 1000; 
   box-sizing: border-box;
   display: flex;
-  justify-content: space-between; // 왼쪽과 오른쪽 컨텐츠 사이의 공간을 균등하게 분배
-  align-items: center; // 세로 중앙 정렬
-  padding: 20px; // 헤더 패딩
-  border-bottom: 1px solid #dcdcdc;  // 임시
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px; 
+  border-bottom: 1px solid #dcdcdc;  
 `;
 
 const CloseButton = styled.button`
@@ -76,14 +76,16 @@ const FilterButton = styled.button`
   padding: 8px 12px;
   border: none;
   border-radius: 16px;
-  background-color: ${({ theme, $active }) => ($active ? theme.colors.neutral[700] : theme.colors.neutral[50])};
-  color: ${({ theme, $active }) => ($active ? theme.colors.neutral[50] : theme.colors.neutral[500])};
+  background-color: ${({ theme, $active }) =>
+    $active ? theme.colors.neutral[700] : theme.colors.neutral[50]};
+  color: ${({ theme, $active }) =>
+    $active ? theme.colors.neutral[50] : theme.colors.neutral[500]};
   font-size: 14px;
   font-weight: 500;
 `;
 
 const FeeStatus = ({ closeFeeStatus }) => {
-  const members = [
+  const MemberData = [
     { name: '이름(본인)', isPaid: true },
     { name: '이름', isPaid: false },
     { name: '이름', isPaid: false },
@@ -93,7 +95,7 @@ const FeeStatus = ({ closeFeeStatus }) => {
     { name: '이름', isPaid: true },
     { name: '이름', isPaid: true },
     { name: '이름', isPaid: true },
-    { name: '다인', isPaid: true }
+    { name: '다인', isPaid: true },
   ];
 
   const [filter, setFilter] = useState('전체');
@@ -102,12 +104,11 @@ const FeeStatus = ({ closeFeeStatus }) => {
     setFilter(newFilter);
   };
 
-  const filteredMembers = members.filter(member => {
+  const filteredMembers = MemberData.filter(member => {
     if (filter === '납부') return member.isPaid;
     if (filter === '미납부') return !member.isPaid;
     return true;
   });
-
 
   return (
     <Container>
@@ -122,13 +123,32 @@ const FeeStatus = ({ closeFeeStatus }) => {
           <Description>6.30일까지, 3만원씩</Description>
         </PreviewContainer>
         <FilterContainer>
-          <FilterButton $active={filter === '전체'} onClick={() => handleFilterChange('전체')}>전체</FilterButton>
-          <FilterButton $active={filter === '납부'} onClick={() => handleFilterChange('납부')}>납부</FilterButton>
-          <FilterButton $active={filter === '미납부'} onClick={() => handleFilterChange('미납부')}>미납부</FilterButton>
+          <FilterButton
+            $active={filter === '전체'}
+            onClick={() => handleFilterChange('전체')}
+          >
+            전체
+          </FilterButton>
+          <FilterButton
+            $active={filter === '납부'}
+            onClick={() => handleFilterChange('납부')}
+          >
+            납부
+          </FilterButton>
+          <FilterButton
+            $active={filter === '미납부'}
+            onClick={() => handleFilterChange('미납부')}
+          >
+            미납부
+          </FilterButton>
         </FilterContainer>
         {filteredMembers.map((member, index) => (
-        <FeeMemberItem key={index} name={member.name} isPaid={member.isPaid} />
-      ))}
+          <FeeMemberItem
+            key={index}
+            name={member.name}
+            isPaid={member.isPaid}
+          />
+        ))}
       </ContentContainer>
     </Container>
   );

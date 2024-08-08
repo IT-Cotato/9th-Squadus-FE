@@ -1,9 +1,9 @@
-import MainBanner from "./MainBanners";
-import MainCalendar from "./Calendar";
-import MainSchedule from "./MainSchedule";
-import MainNotice from "./MainNotice";
-import MainArticle from "./MainArticle";
-import styled from "styled-components";
+import MainBanner from './MainBanners';
+import MainCalendar from './Calendar';
+import MainSchedule from './MainSchedule';
+import MainNotice from './MainNotice';
+import MainArticle from './MainArticle';
+import styled from 'styled-components';
 
 const Container = styled.div`
   display: flex;
