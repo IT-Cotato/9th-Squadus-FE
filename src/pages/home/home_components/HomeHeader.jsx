@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import notification_icon from '../../../assets/icons/notification.svg';
+import useAuthStore from '../../../stores/useAuthStore';
+import api from '../../../api/api';
 
 const Container = styled.div`
   display: flex;
@@ -28,9 +30,32 @@ const Notification = styled.div`
 `;
 
 function HomeHeader() {
+  const [userData, setUserData] = useState(null);
+  const accessToken = useAuthStore(state => state.accessToken);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await api.get(`/v1/api/member/info`, {
+          headers: {
+            'Content-Type': 'application/json',
+            access: `${accessToken}` 
+          }
+        });
+        setUserData(response.data);
+      } catch (error) {
+        console.error('Failed to fetch user data:', error);
+      }
+    };
+
+    if (accessToken) {
+      fetchUserData();
+    }
+  }, [accessToken]);
+
   return (
     <Container>
-        <Title>안녕하세요!</Title>
+        <Title>반가워요 {userData ? userData.memberName : ''}님!</Title>
         <Notification></Notification>
     </Container>
   );
