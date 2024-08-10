@@ -36,7 +36,7 @@ function HomeHeader() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await api.get(`/v1/api/member/info`, {
+        const response = await api.get(`/v1/api/members/info`, {
           headers: {
             'Content-Type': 'application/json',
             access: `${accessToken}` 
