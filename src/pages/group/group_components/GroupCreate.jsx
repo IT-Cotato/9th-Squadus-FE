@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import api from '../../../api/api';
+import useAuthStore from '../../../stores/useAuthStore';
 
 const WrapperContainer = styled.div`
   position: fixed;
@@ -11,7 +13,6 @@ const WrapperContainer = styled.div`
   z-index: 10000;
   justify-content: center;
 `;
-
 
 const Container = styled.div`
   width: 100%;
@@ -64,9 +65,47 @@ const ContentContainer = styled.div`
   padding: 0 20px;
 `;
 
+const Input = styled.input`
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+`;
+
 
 const GroupCreate = ({ closeGroupCreate }) => {
+  const [clubName, setClubName] = useState('');
+  const [university, setUniversity] = useState('');
+  const [sportsCategory, setSportsCategory] = useState('');
+  const [logo, setLogo] = useState('');
 
+  const accessToken = useAuthStore(state => state.accessToken);
+
+  const handleSubmit = () => {
+    api.post('/v1/api/clubs', {
+      clubName,
+      university,
+      sportsCategory,
+      logo
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`
+      }
+    })
+    .then(response => {
+      console.log('Response:', response.data);
+      alert('동아리가 성공적으로 생성되었습니다.');
+      closeGroupCreate();
+    })
+    .catch(error => {
+      console.error('동아리 생성 요청 실패:', error);
+      alert('동아리 생성 요청 실패');
+    });
+  };
+  
 
   return (
     <WrapperContainer>
@@ -74,10 +113,17 @@ const GroupCreate = ({ closeGroupCreate }) => {
         <HeaderContainer>
           <CloseButton onClick={closeGroupCreate} />
           <HeaderTitle>동아리 생성</HeaderTitle>
-          <SubmitButton>등록</SubmitButton>
+          <SubmitButton onClick={handleSubmit}>등록</SubmitButton>
         </HeaderContainer>
         <ContentContainer>
-          
+        <label>동아리 이름:</label>
+          <Input type="text" value={clubName} onChange={(e) => setClubName(e.target.value)} />
+          <label>대학교:</label>
+          <Input type="text" value={university} onChange={(e) => setUniversity(e.target.value)} />
+          <label>스포츠 분류:</label>
+          <Input type="text" value={sportsCategory} onChange={(e) => setSportsCategory(e.target.value)} />
+          <label>로고 URL:</label>
+          <Input type="text" value={logo} onChange={(e) => setLogo(e.target.value)} />
         </ContentContainer>
       </Container>
     </WrapperContainer>
