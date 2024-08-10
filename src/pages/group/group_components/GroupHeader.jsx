@@ -11,6 +11,7 @@ const Container = styled.div`
   background-color: white;
   font-size: 16px;
   border-bottom: 1px solid #dcdcdc;
+  position: relative;
 `;
 
 const Logo = styled.img`

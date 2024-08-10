@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import GroupCreate from './GroupCreate'
 
 const Container = styled.div`
   position: absolute;
@@ -24,7 +25,7 @@ const GroupItem = styled.div`
   word-wrap: break-word;
 `;
 
-const GroupCreate = styled.div`
+const GroupCreateButton = styled.div`
   color: #101828; 
   font-size: 14px; 
   line-height: 19px; 
@@ -35,6 +36,8 @@ const GroupCreate = styled.div`
 
 
 function GroupSelectList() {
+  const [showGroupCreate, setShowGroupCreate] = useState(false);
+
   const groupData = [
     { id: "1", name: "중앙가르드"},
     { id: "2", name: "코테이토" },
@@ -48,7 +51,9 @@ function GroupSelectList() {
           {group.name}
         </GroupItem>
       ))}
-      <GroupCreate>+ 동아리 생성</GroupCreate>
+      <GroupCreateButton onClick={() => setShowGroupCreate(true)}>+ 동아리 생성</GroupCreateButton>
+      {showGroupCreate && <GroupCreate closeGroupCreate={() => setShowGroupCreate(false)} />}
+
     </Container>
   );
 }
