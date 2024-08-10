@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import notification_icon from '../../../assets/icons/notification.svg';
 import useAuthStore from '../../../stores/useAuthStore';
@@ -32,6 +33,11 @@ const Notification = styled.div`
 function HomeHeader() {
   const [userData, setUserData] = useState(null);
   const accessToken = useAuthStore(state => state.accessToken);
+  const navigate = useNavigate();
+
+  const handleNotificationClick = () => {
+    navigate('/notification');
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -58,7 +64,7 @@ function HomeHeader() {
   return (
     <Container>
         <Title>반가워요 {userData ? userData.memberName : ''}님!</Title>
-        <Notification></Notification>
+        <Notification onClick={handleNotificationClick}></Notification>
     </Container>
   );
 }
