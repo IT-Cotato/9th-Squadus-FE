@@ -35,17 +35,19 @@ function HomeHeader() {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      try {
-        const response = await api.get(`/v1/api/members/info`, {
-          headers: {
-            'Content-Type': 'application/json',
-            access: `${accessToken}` 
-          }
-        });
+      await api.get(`/v1/api/members/info`, {
+        headers: {
+          'Content-Type': 'application/json',
+          access: `${accessToken}` 
+        }
+      })
+      .then((response) => {
         setUserData(response.data);
-      } catch (error) {
+        console.log('User data fetched:', response.data);
+      })
+      .catch((error) => {
         console.error('Failed to fetch user data:', error);
-      }
+      })
     };
 
     if (accessToken) {
