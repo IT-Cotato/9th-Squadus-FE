@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import FeeMemberItem from './fee_components/FeeMemberItem';
+import more_icon from '../../../assets/icons/more.svg';
+import close_icon from '../../../assets/icons/close.svg'
+import FeeStatusMore from './fee_components/FeeStatusMore';
 
 const Container = styled.div`
   width: 100%;
@@ -18,14 +21,16 @@ const HeaderContainer = styled.div`
   align-items: center;
   padding: 20px; 
   border-bottom: 1px solid #dcdcdc;  
+  position: relative;
 `;
 
-const CloseButton = styled.button`
-  width: 24px;
+const CloseButton = styled.div`
   height: 24px;
-  background-color: blue;
-  border: none;
-  cursor: pointer;
+  width: 24px;
+  background-image: url(${close_icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const HeaderTitle = styled.div`
@@ -34,6 +39,15 @@ const HeaderTitle = styled.div`
   color: ${({ theme }) => theme.colors.neutral[600]};
   font-size: 20px;
   font-weight: bold;
+`;
+
+const MoreButton = styled.div`
+  height: 24px;
+  width: 24px;
+  background-image: url(${more_icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const ContentContainer = styled.div`
@@ -98,6 +112,7 @@ const FeeStatus = ({ closeFeeStatus }) => {
     { name: '다인', isPaid: true },
   ];
 
+  const [showFeeStatusMore, setShowFeeStatusMore] = useState(false);
   const [filter, setFilter] = useState('전체');
 
   const handleFilterChange = (newFilter) => {
@@ -115,6 +130,10 @@ const FeeStatus = ({ closeFeeStatus }) => {
       <HeaderContainer>
         <CloseButton onClick={closeFeeStatus} />
         <HeaderTitle>회비 입금 현황</HeaderTitle>
+        <MoreButton onClick={(e) => {
+          setShowFeeStatusMore(!showFeeStatusMore);
+        }} />
+        {showFeeStatusMore && <FeeStatusMore />}
       </HeaderContainer>
       <ContentContainer>
         <PreviewContainer>
