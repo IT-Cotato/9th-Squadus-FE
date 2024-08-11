@@ -83,16 +83,18 @@ const GroupCreate = ({ closeGroupCreate }) => {
 
   const accessToken = useAuthStore(state => state.accessToken);
 
-  const handleSubmit = () => {
-    api.post('/v1/api/clubs', {
-      clubName,
-      university,
-      sportsCategory,
-      logo
+  const handleSubmit = async () => {
+    console.log(accessToken);
+
+    await api.post('/v1/api/clubs', {
+      clubName: clubName,
+      university: university,
+      sportsCategory: sportsCategory,
+      logo: logo
     }, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}`
+        access: `${accessToken}` 
       }
     })
     .then(response => {
