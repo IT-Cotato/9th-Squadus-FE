@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import CustomCalendar from './fee_components/CustomCalendar';
+import close_icon from '../../../assets/icons/close.svg';
 
 const WrapperContainer = styled.div`
   position: fixed;
@@ -35,12 +36,13 @@ const HeaderContainer = styled.div`
 `;
 
 
-const CloseButton = styled.button`
-  width: 24px;
+const CloseButton = styled.div`
   height: 24px;
-  background-color: blue;
-  border: none;
-  cursor: pointer;
+  width: 24px;
+  background-image: url(${close_icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const HeaderTitle = styled.div`

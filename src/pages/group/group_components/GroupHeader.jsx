@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import arrowdown_icon from '../../../assets/icons/group/arrow_down.svg';
+import run_emoji from '../../../assets/icons/group/run_emoji.svg';
 import GroupSelectList from './GroupSelectList';
 
 
@@ -14,10 +15,13 @@ const Container = styled.div`
   position: relative;
 `;
 
-const Logo = styled.img`
-  height: 24px;
+const RunEmoji = styled.div`
   width: 24px;
-  background-color: pink;
+  height: 24px;
+  background-image: url(${run_emoji});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const Title = styled.h1`
@@ -40,7 +44,7 @@ function GroupHeader() {
 
   return (
     <Container>
-        <Logo />
+        <RunEmoji />
         <Title>중앙가르드</Title>
         <ArrowDown onClick={(e) => {
           setShowGroupSelectList(!showGroupSelectList);

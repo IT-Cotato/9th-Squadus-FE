@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import CommentItem from "./notice_components/CommentItem";
+import close_icon from "../../../assets/icons/close.svg";
+import more_icon from "../../../assets/icons/more.svg";
 
 const WrapperContainer = styled.div`
   position: fixed;
@@ -24,21 +26,23 @@ const HeaderContainer = styled.div`
   width: 100%;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 1000; 
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  border-bottom: 1px solid #dcdcdc;
-  background-color: white;
+  padding: 20px; 
+  border-bottom: 1px solid #dcdcdc;  
+  position: relative;
 `;
 
-const PreviousButton = styled.button`
-  width: 24px;
+const CloseButton = styled.div`
   height: 24px;
-  background-color: blue;
-  cursor: pointer;
+  width: 24px;
+  background-image: url(${close_icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const HeaderTitle = styled.div`
@@ -46,14 +50,16 @@ const HeaderTitle = styled.div`
   text-align: center;
   color: ${({ theme }) => theme.colors.neutral[600]};
   font-size: 20px;
-  font-weight: 700;
+  font-weight: bold;
 `;
 
 const MoreButton = styled.div`
-  width: 24px;
   height: 24px;
-  background-color: red;
-  cursor: pointer;
+  width: 24px;
+  background-image: url(${more_icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const ContentContainer = styled.div`
@@ -151,7 +157,7 @@ const NoticeDetail = ({ closeNoticeDetail }) => {
     <WrapperContainer>
       <Container>
         <HeaderContainer>
-          <PreviousButton onClick={closeNoticeDetail} />
+          <CloseButton onClick={closeNoticeDetail} />
           <HeaderTitle>공지사항</HeaderTitle>
           <MoreButton />
         </HeaderContainer>
