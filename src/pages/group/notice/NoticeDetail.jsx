@@ -1,13 +1,23 @@
 import styled from "styled-components";
 import CommentItem from "./notice_components/CommentItem";
 
+const WrapperContainer = styled.div`
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  z-index: 10000;
+  justify-content: center;
+`;
+
 const Container = styled.div`
   width: 100%;
-  height: 100vh;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  background-color: ${({ theme }) => theme.colors.neutral[100]};
+  height: 100%;
+  max-width: 649px;
+  justify-content: center;
+  background-color: white;
 `;
 
 const HeaderContainer = styled.div`
@@ -138,34 +148,36 @@ const NoticeDetail = ({ closeNoticeDetail }) => {
   ];
 
   return (
-    <Container>
-      <HeaderContainer>
-        <PreviousButton onClick={closeNoticeDetail} />
-        <HeaderTitle>공지사항</HeaderTitle>
-        <MoreButton />
-      </HeaderContainer>
-      <ContentContainer>
-        <NoticeContainer>
-          <NoticeTitle>{noticeData.title}</NoticeTitle>
-          <NoticeContent>{noticeData.content}</NoticeContent>
-        </NoticeContainer>
-        <CommentContainer>
-          {commentsData.map(comment => (
-            <CommentItem
-              key={comment.id}
-              name={comment.name}
-              comment={comment.comment}
-              date={comment.date}
-            />
-          ))}
-        </CommentContainer>
-      </ContentContainer>
-      <FooterContainer>
-        <InputContainer>
-          <Input placeholder="댓글을 입력하세요." />
-        </InputContainer>
-      </FooterContainer>
-    </Container>
+    <WrapperContainer>
+      <Container>
+        <HeaderContainer>
+          <PreviousButton onClick={closeNoticeDetail} />
+          <HeaderTitle>공지사항</HeaderTitle>
+          <MoreButton />
+        </HeaderContainer>
+        <ContentContainer>
+          <NoticeContainer>
+            <NoticeTitle>{noticeData.title}</NoticeTitle>
+            <NoticeContent>{noticeData.content}</NoticeContent>
+          </NoticeContainer>
+          <CommentContainer>
+            {commentsData.map(comment => (
+              <CommentItem
+                key={comment.id}
+                name={comment.name}
+                comment={comment.comment}
+                date={comment.date}
+              />
+            ))}
+          </CommentContainer>
+        </ContentContainer>
+        <FooterContainer>
+          <InputContainer>
+            <Input placeholder="댓글을 입력하세요." />
+          </InputContainer>
+        </FooterContainer>
+      </Container>
+    </WrapperContainer>
   );
 };
 

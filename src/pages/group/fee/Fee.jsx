@@ -113,7 +113,7 @@ const Fee = () => {
 
       {showFeeStatus && <FeeStatus closeFeeStatus={() => setShowFeeStatus(false)} />}
       {showFeeCreate && <FeeCreate closeFeeCreate={() => setShowFeeCreate(false)} />}
-      {showExpenseCreate && <ExpenseCreate closeExpenseCreate={() => showExpenseCreate(false)}/>}
+      {showExpenseCreate && <ExpenseCreate closeExpenseCreate={() => setShowExpenseCreate(false)}/>}
       
     </Container>
   );
