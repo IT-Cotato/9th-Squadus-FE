@@ -5,9 +5,23 @@ import more_icon from '../../../assets/icons/more.svg';
 import close_icon from '../../../assets/icons/close.svg'
 import FeeStatusMore from './fee_components/FeeStatusMore';
 
+const WrapperContainer = styled.div`
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  z-index: 10000;
+  justify-content: center;
+`;
+
 const Container = styled.div`
   width: 100%;
-  box-sizing: border-box;
+  height: 100%;
+  max-width: 649px;
+  justify-content: center;
+  background-color: white;
 `;
 
 const HeaderContainer = styled.div`
@@ -126,50 +140,52 @@ const FeeStatus = ({ closeFeeStatus }) => {
   });
 
   return (
-    <Container>
-      <HeaderContainer>
-        <CloseButton onClick={closeFeeStatus} />
-        <HeaderTitle>회비 입금 현황</HeaderTitle>
-        <MoreButton onClick={(e) => {
-          setShowFeeStatusMore(!showFeeStatusMore);
-        }} />
-        {showFeeStatusMore && <FeeStatusMore />}
-      </HeaderContainer>
-      <ContentContainer>
-        <PreviewContainer>
-          <Title>정기대회</Title>
-          <Amount>140,000원</Amount>
-          <Description>6.30일까지, 3만원씩</Description>
-        </PreviewContainer>
-        <FilterContainer>
-          <FilterButton
-            $active={filter === '전체'}
-            onClick={() => handleFilterChange('전체')}
-          >
-            전체
-          </FilterButton>
-          <FilterButton
-            $active={filter === '납부'}
-            onClick={() => handleFilterChange('납부')}
-          >
-            납부
-          </FilterButton>
-          <FilterButton
-            $active={filter === '미납부'}
-            onClick={() => handleFilterChange('미납부')}
-          >
-            미납부
-          </FilterButton>
-        </FilterContainer>
-        {filteredMembers.map((member, index) => (
-          <FeeMemberItem
-            key={index}
-            name={member.name}
-            isPaid={member.isPaid}
-          />
-        ))}
-      </ContentContainer>
-    </Container>
+    <WrapperContainer>
+      <Container>
+        <HeaderContainer>
+          <CloseButton onClick={closeFeeStatus} />
+          <HeaderTitle>회비 입금 현황</HeaderTitle>
+          <MoreButton onClick={(e) => {
+            setShowFeeStatusMore(!showFeeStatusMore);
+          }} />
+          {showFeeStatusMore && <FeeStatusMore />}
+        </HeaderContainer>
+        <ContentContainer>
+          <PreviewContainer>
+            <Title>정기대회</Title>
+            <Amount>140,000원</Amount>
+            <Description>6.30일까지, 3만원씩</Description>
+          </PreviewContainer>
+          <FilterContainer>
+            <FilterButton
+              $active={filter === '전체'}
+              onClick={() => handleFilterChange('전체')}
+            >
+              전체
+            </FilterButton>
+            <FilterButton
+              $active={filter === '납부'}
+              onClick={() => handleFilterChange('납부')}
+            >
+              납부
+            </FilterButton>
+            <FilterButton
+              $active={filter === '미납부'}
+              onClick={() => handleFilterChange('미납부')}
+            >
+              미납부
+            </FilterButton>
+          </FilterContainer>
+          {filteredMembers.map((member, index) => (
+            <FeeMemberItem
+              key={index}
+              name={member.name}
+              isPaid={member.isPaid}
+            />
+          ))}
+        </ContentContainer>
+      </Container>
+    </WrapperContainer>
   );
 };
 
