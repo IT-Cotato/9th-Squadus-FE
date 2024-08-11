@@ -1,10 +1,24 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import FeeMemberSelectItem from './fee_components/FeeMemberSelectItem';
+import close_icon from '../../../assets/icons/close.svg';
+
+const WrapperContainer = styled.div`
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  z-index: 10000;
+  justify-content: center;
+`;
 
 const Container = styled.div`
   width: 100%;
-  box-sizing: border-box;
+  height: 100%;
+  max-width: 649px;
+  justify-content: center;
   background-color: white;
 `;
 
@@ -21,12 +35,13 @@ const HeaderContainer = styled.div`
   border-bottom: 1px solid #dcdcdc;
 `;
 
-const CloseButton = styled.button`
-  width: 24px;
+const CloseButton = styled.div`
   height: 24px;
-  background-color: blue;
-  border: none;
-  cursor: pointer;
+  width: 24px;
+  background-image: url(${close_icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const HeaderTitle = styled.div`
@@ -99,26 +114,33 @@ const FeeMemberSelect = ({ closeFeeMemberSelect, updateSelection, selectedMember
     closeFeeMemberSelect();
   };
 
+  // 클릭 이벤트가 부모 컴포넌트로 전파되는 것을 방지
+  const handleModalClick = (e) => {
+    e.stopPropagation();
+  }
+
   return (
-    <Container>
-      <HeaderContainer>
-        <CloseButton onClick={closeFeeMemberSelect} />
-        <HeaderTitle>회비 납부 인원 선택</HeaderTitle>
-        <SaveButton onClick={handleComplete}>완료</SaveButton>
-      </HeaderContainer>
-      <ContentContainer>
-        <SelectAllButton onClick={toggleAllSelection} $allSelected={allSelected}>모두 선택</SelectAllButton>
-        {members.map(member => (
-          <FeeMemberSelectItem 
-          key={member.id} 
-          img={member.img} 
-          name={member.name}
-          isSelected={member.isSelected}
-          toggleCheck={() => toggleMemberSelection(member.id)}
-           />
-        ))}
-      </ContentContainer>
-    </Container>
+    <WrapperContainer>
+      <Container onClick={handleModalClick}> 
+        <HeaderContainer>
+          <CloseButton onClick={closeFeeMemberSelect} />
+          <HeaderTitle>회비 납부 인원 선택</HeaderTitle>
+          <SaveButton onClick={handleComplete}>완료</SaveButton>
+        </HeaderContainer>
+        <ContentContainer>
+          <SelectAllButton onClick={toggleAllSelection} $allSelected={allSelected}>모두 선택</SelectAllButton>
+          {members.map(member => (
+            <FeeMemberSelectItem 
+            key={member.id} 
+            img={member.img} 
+            name={member.name}
+            isSelected={member.isSelected}
+            toggleCheck={() => toggleMemberSelection(member.id)}
+            />
+          ))}
+        </ContentContainer>
+      </Container>
+    </WrapperContainer>
   );
 };
 

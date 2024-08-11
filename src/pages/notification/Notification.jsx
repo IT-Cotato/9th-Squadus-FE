@@ -15,18 +15,28 @@ const NotificationList = styled.div`
 `;
 
 const Notification = () => {
+  const notificationData = [
+    { id: "1", mainTitle: "중앙가르드-새로운 공지사항", subTitle: "5월 일정 안내" },
+    { id: "2", mainTitle: "중앙가르드-새로운 공지사항", subTitle: "5월 일정 안내" },
+    { id: "3", mainTitle: "중앙가르드-새로운 공지사항", subTitle: "5월 일정 안내" },
+    { id: "4", mainTitle: "중앙가르드-새로운 공지사항", subTitle: "5월 일정 안내" },
+    { id: "5", mainTitle: "중앙가르드-새로운 공지사항", subTitle: "5월 일정 안내" },
+    { id: "6", mainTitle: "중앙가르드-새로운 공지사항", subTitle: "5월 일정 안내" },
+    { id: "7", mainTitle: "중앙가르드-새로운 공지사항", subTitle: "5월 일정 안내" },
+    { id: "8", mainTitle: "중앙가르드-새로운 공지사항", subTitle: "5월 일정 안내" },
+    { id: "9", mainTitle: "중앙가르드-새로운 공지사항", subTitle: "5월 일정 안내" },
+  ];
+
   return (
     <Container>
       <NotificationHeader />
       <NotificationList>
-        <NotificationItem mainTitle="중앙가르드-새로운 공지사항" subTitle="5월 활동 일정 안내" isNew={true} />
-        <NotificationItem mainTitle="중앙가르드-새로운 공지사항" subTitle="5월 활동 일정 안내" isNew={true} />
-        <NotificationItem mainTitle="중앙가르드-새로운 공지사항" subTitle="5월 활동 일정 안내" isNew={true} />
-        <NotificationItem mainTitle="중앙가르드-새로운 공지사항" subTitle="5월 활동 일정 안내" isNew={true} />
-        <NotificationItem mainTitle="중앙가르드-새로운 공지사항" subTitle="5월 활동 일정 안내" isNew={false} />
-        <NotificationItem mainTitle="중앙가르드-새로운 공지사항" subTitle="5월 활동 일정 안내" isNew={false} />
-        <NotificationItem mainTitle="중앙가르드-새로운 공지사항" subTitle="5월 활동 일정 안내" isNew={false} />
-        <NotificationItem mainTitle="중앙가르드-새로운 공지사항" subTitle="5월 활동 일정 안내" isNew={false} />
+        {notificationData.map(notification => (
+          <NotificationItem
+            mainTitle={notification.mainTitle}
+            subTitle={notification.subTitle}
+          />
+        ))}
       </NotificationList>
     </Container>
   );

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import more_grey_icon from '../../../../assets/icons/group/more_grey.svg';
 
 const Container = styled.div`
   border-bottom: 1px solid rgba(221, 221, 221, 0.5);
@@ -41,12 +42,13 @@ const CommentDate = styled.div`
   color: ${({ theme }) => theme.colors.neutral[300]};
 `;
 
-const MoreButton = styled.button`
-  width: 16px;
+const MoreButton = styled.div`
   height: 16px;
-  background: blue;
-  border: none;
-  cursor: pointer;
+  width: 16px;
+  background-image: url(${more_grey_icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 

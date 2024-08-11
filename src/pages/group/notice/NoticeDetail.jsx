@@ -1,34 +1,48 @@
 import styled from "styled-components";
 import CommentItem from "./notice_components/CommentItem";
+import close_icon from "../../../assets/icons/close.svg";
+import more_icon from "../../../assets/icons/more.svg";
+
+const WrapperContainer = styled.div`
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  z-index: 10000;
+  justify-content: center;
+`;
 
 const Container = styled.div`
   width: 100%;
-  height: 100vh;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  background-color: ${({ theme }) => theme.colors.neutral[100]};
+  height: 100%;
+  max-width: 649px;
+  justify-content: center;
+  background-color: white;
 `;
 
 const HeaderContainer = styled.div`
   width: 100%;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 1000; 
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  border-bottom: 1px solid #dcdcdc;
-  background-color: white;
+  padding: 20px; 
+  border-bottom: 1px solid #dcdcdc;  
+  position: relative;
 `;
 
-const PreviousButton = styled.button`
-  width: 24px;
+const CloseButton = styled.div`
   height: 24px;
-  background-color: blue;
-  cursor: pointer;
+  width: 24px;
+  background-image: url(${close_icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const HeaderTitle = styled.div`
@@ -36,14 +50,16 @@ const HeaderTitle = styled.div`
   text-align: center;
   color: ${({ theme }) => theme.colors.neutral[600]};
   font-size: 20px;
-  font-weight: 700;
+  font-weight: bold;
 `;
 
 const MoreButton = styled.div`
-  width: 24px;
   height: 24px;
-  background-color: red;
-  cursor: pointer;
+  width: 24px;
+  background-image: url(${more_icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const ContentContainer = styled.div`
@@ -138,34 +154,36 @@ const NoticeDetail = ({ closeNoticeDetail }) => {
   ];
 
   return (
-    <Container>
-      <HeaderContainer>
-        <PreviousButton onClick={closeNoticeDetail} />
-        <HeaderTitle>공지사항</HeaderTitle>
-        <MoreButton />
-      </HeaderContainer>
-      <ContentContainer>
-        <NoticeContainer>
-          <NoticeTitle>{noticeData.title}</NoticeTitle>
-          <NoticeContent>{noticeData.content}</NoticeContent>
-        </NoticeContainer>
-        <CommentContainer>
-          {commentsData.map(comment => (
-            <CommentItem
-              key={comment.id}
-              name={comment.name}
-              comment={comment.comment}
-              date={comment.date}
-            />
-          ))}
-        </CommentContainer>
-      </ContentContainer>
-      <FooterContainer>
-        <InputContainer>
-          <Input placeholder="댓글을 입력하세요." />
-        </InputContainer>
-      </FooterContainer>
-    </Container>
+    <WrapperContainer>
+      <Container>
+        <HeaderContainer>
+          <CloseButton onClick={closeNoticeDetail} />
+          <HeaderTitle>공지사항</HeaderTitle>
+          <MoreButton />
+        </HeaderContainer>
+        <ContentContainer>
+          <NoticeContainer>
+            <NoticeTitle>{noticeData.title}</NoticeTitle>
+            <NoticeContent>{noticeData.content}</NoticeContent>
+          </NoticeContainer>
+          <CommentContainer>
+            {commentsData.map(comment => (
+              <CommentItem
+                key={comment.id}
+                name={comment.name}
+                comment={comment.comment}
+                date={comment.date}
+              />
+            ))}
+          </CommentContainer>
+        </ContentContainer>
+        <FooterContainer>
+          <InputContainer>
+            <Input placeholder="댓글을 입력하세요." />
+          </InputContainer>
+        </FooterContainer>
+      </Container>
+    </WrapperContainer>
   );
 };
 
