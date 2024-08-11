@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import FeeStatusMemberEdit from '../FeeStatusMemberEdit';
 
 const Container = styled.div`
   position: absolute;
@@ -26,12 +27,14 @@ const TaskItem = styled.div`
 
 
 function FeeStatusMore() {
-
+  const [showFeeStatusMemberEdit, setShowFeeStatusMemberEdit] = useState(false);
+  
   return (
     <Container>
-      <TaskItem>납부 현황 편집</TaskItem>
+      <TaskItem onClick={() => setShowFeeStatusMemberEdit(true)}>납부 현황 편집</TaskItem>
       <TaskItem>편집</TaskItem>
       <TaskItem>마감</TaskItem>
+      {showFeeStatusMemberEdit && <FeeStatusMemberEdit closeFeeStatusMemberEdit={() => setShowFeeStatusMemberEdit(false)} />}
     </Container>
   );
 }
