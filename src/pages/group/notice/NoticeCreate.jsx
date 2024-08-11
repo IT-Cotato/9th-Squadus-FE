@@ -1,12 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const WrapperContainer = styled.div`
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  z-index: 10000;
+  justify-content: center;
+`;
+
 const Container = styled.div`
-    width: 100%;
-    height: 100vh;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
+  width: 100%;
+  height: 100%;
+  max-width: 649px;
+  justify-content: center;
+  background-color: white;
 `;
 
 const HeaderContainer = styled.div`
@@ -100,20 +111,22 @@ const CameraButton = styled.button`
 
 const NoticeCreate = ({ closeNoticeCreate }) => {
   return (
-    <Container>
-      <HeaderContainer>
-        <CloseButton onClick={closeNoticeCreate} />
-        <HeaderTitle>공지 작성하기</HeaderTitle>
-        <CreateButton>등록</CreateButton>
-      </HeaderContainer>
-      <ContentContainer>
-        <Input type="text" placeholder="제목" />
-        <TextArea placeholder="내용을 입력하세요." />
-      </ContentContainer>
-      <FooterContainer>
-        <CameraButton />
-      </FooterContainer>
-    </Container>
+    <WrapperContainer>
+      <Container>
+        <HeaderContainer>
+          <CloseButton onClick={closeNoticeCreate} />
+          <HeaderTitle>공지 작성하기</HeaderTitle>
+          <CreateButton>등록</CreateButton>
+        </HeaderContainer>
+        <ContentContainer>
+          <Input type="text" placeholder="제목" />
+          <TextArea placeholder="내용을 입력하세요." />
+        </ContentContainer>
+        <FooterContainer>
+          <CameraButton />
+        </FooterContainer>
+      </Container>
+    </WrapperContainer>
   );
 };
 

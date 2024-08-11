@@ -72,56 +72,22 @@ const Notice = () => {
         setShowNoticeCreate(true);
       }} />
 
-      {
-        showNoticeCreate &&
-        <div
-          style={{
-            position: 'fixed',
-            top: '0',
-            left: '0',
-            width: '100%',
-            height: '100%',
-            zIndex: 10000,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <div
-            style={{
-              width: '100%',
-              maxWidth: '649px',
-              height: '100%',
-              backgroundColor: 'white',
-            }}>
-            <NoticeCreate noticeId={selectedNoticeId} closeNoticeCreate={() => setShowNoticeCreate(false)} />
-          </div>
-        </div>
+      { 
+        showNoticeCreate && 
+        <NoticeCreate 
+          closeNoticeCreate={() => setShowNoticeCreate(false)} 
+          noticeId={selectedNoticeId}
+        />
       }
+
       {
         showNoticeDetail &&
-        <div
-          style={{
-            position: 'fixed',
-            top: '0',
-            left: '0',
-            width: '100%',
-            height: '100%',
-            zIndex: 10000,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <div
-            style={{
-              width: '100%',
-              maxWidth: '649px',
-              height: '100%',
-              backgroundColor: 'white',
-            }}>
-            <NoticeDetail closeNoticeDetail={() => setShowNoticeDetail(false)} />
-          </div>
-        </div>
+        <NoticeDetail
+          closeNoticeDetail={() => setShowNoticeDetail(false)}
+        />
       }
+
+      
     </Container>
   );
 }
