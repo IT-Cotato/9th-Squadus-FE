@@ -1,8 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { Outlet } from "react-router-dom";
-import GroupHeader from "./group_components/GroupHeader";
-import GroupTabBar from "./group_components/GroupTabBar";
+import React from 'react';
+import styled from 'styled-components';
+import { Outlet } from 'react-router-dom';
+import MatchHeader from './MatchHeader';
 
 const FixedContainer = styled.div`
   top: 0;
@@ -19,18 +18,17 @@ const ContentContainer = styled.div`
   flex-grow: 1;
 `;
 
-const Group = () => {
+const Match = () => {
   return (
     <>
       <FixedContainer>
-        <GroupHeader />
-        <GroupTabBar />
+        <MatchHeader />
       </FixedContainer>
       <ContentContainer>
         <Outlet />
       </ContentContainer>
     </>
   );
-};
+}
 
-export default Group;
+export default Match;

@@ -1,13 +1,25 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import CustomCalendar from './fee_components/CustomCalendar';
+import close_icon from '../../../assets/icons/close.svg';
+
+const WrapperContainer = styled.div`
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  z-index: 10000;
+  justify-content: center;
+`;
 
 const Container = styled.div`
   width: 100%;
-  box-sizing: border-box;
-  flex-direction: column;
+  height: 100%;
+  max-width: 649px;
+  justify-content: center;
   background-color: white;
-  align-items: center;
 `;
 
 const HeaderContainer = styled.div`
@@ -23,12 +35,14 @@ const HeaderContainer = styled.div`
   border-bottom: 1px solid #dcdcdc;
 `;
 
-const CloseButton = styled.button`
-  width: 24px;
+
+const CloseButton = styled.div`
   height: 24px;
-  background-color: blue;
-  border: none;
-  cursor: pointer;
+  width: 24px;
+  background-image: url(${close_icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const HeaderTitle = styled.div`
@@ -100,53 +114,55 @@ const ExpenseCreate = ({ closeExpenseCreate }) => {
   };
 
   return (
-    <Container onClick={handleContainerClick}>
-      <HeaderContainer>
-        <CloseButton onClick={closeExpenseCreate}/>
-        <HeaderTitle>회비 사용 내역 등록</HeaderTitle>
-        <SaveButton>등록</SaveButton>
-      </HeaderContainer>
-      <ContentContainer>
-        <FieldContainer>
-          <Label>사용 내역</Label>
-          <Input type="text" />
-        </FieldContainer>
-        <FieldContainer>
-          <Label>회비 사용 일자</Label>
-          <Input
-            readOnly
-            value={expenseDate ? expenseDate.toLocaleDateString() : "날짜 선택"}
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowCalendar(!showCalendar);
-            }}
-          />
-          {showCalendar && (
-            <CustomCalendar
-              value={expenseDate}
-              onChange={(date) => {
-                setExpenseDate(date);
-                setShowCalendar(false);
+    <WrapperContainer>
+      <Container onClick={handleContainerClick}>
+        <HeaderContainer>
+          <CloseButton onClick={closeExpenseCreate}/>
+          <HeaderTitle>회비 사용 내역 등록</HeaderTitle>
+          <SaveButton>등록</SaveButton>
+        </HeaderContainer>
+        <ContentContainer>
+          <FieldContainer>
+            <Label>사용 내역</Label>
+            <Input type="text" />
+          </FieldContainer>
+          <FieldContainer>
+            <Label>회비 사용 일자</Label>
+            <Input
+              readOnly
+              value={expenseDate ? expenseDate.toLocaleDateString() : "날짜 선택"}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowCalendar(!showCalendar);
               }}
             />
-          )}
-        </FieldContainer>
-        <FieldContainer>
-          <Label>금액 (원)</Label>
-          <Input
-            type="number"
-            min="0"  // 최소값을 0으로 설정
-            placeholder="숫자로 입력하세요"
-            onChange={e => {
-              if (!Number(e.target.value) && e.target.value !== '') {
-                e.target.value = e.target.value.slice(0, -1);
-              }
-            }}
-          />
-        </FieldContainer>
-      </ContentContainer>
+            {showCalendar && (
+              <CustomCalendar
+                value={expenseDate}
+                onChange={(date) => {
+                  setExpenseDate(date);
+                  setShowCalendar(false);
+                }}
+              />
+            )}
+          </FieldContainer>
+          <FieldContainer>
+            <Label>금액 (원)</Label>
+            <Input
+              type="number"
+              min="0"  // 최소값을 0으로 설정
+              placeholder="숫자로 입력하세요"
+              onChange={e => {
+                if (!Number(e.target.value) && e.target.value !== '') {
+                  e.target.value = e.target.value.slice(0, -1);
+                }
+              }}
+            />
+          </FieldContainer>
+        </ContentContainer>
 
-    </Container>
+      </Container>
+    </WrapperContainer>
   );
 };
 
