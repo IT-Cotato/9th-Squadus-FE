@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
 import MatchHeader from './MatchHeader';
 import create_icon from '../../assets/icons/write.svg'
+import MatchCreate from './MatchCreate';
+import MercenaryCreate from './MercenaryCreate';
 
 const FixedContainer = styled.div`
   top: 0;
@@ -50,17 +52,45 @@ const CreateIcon = styled.div`
 `;
 
 const Match = () => {
+  const [selectedTab, setSelectedTab] = useState('match');
+
+  const [showMatchCreate, setShowMatchCreate] = useState(false);
+  const [showMercenaryCreate, setShowMercenaryCreate] = useState(false);
+
+
+  const handleFloatingButtonClick = () => {
+    if (selectedTab === 'match') {
+      setShowMatchCreate(true);
+    } else if (selectedTab === 'mercenary') {
+      setShowMercenaryCreate(true);
+    }
+  }
+
   return (
     <>
       <FixedContainer>
-        <MatchHeader />
+        <MatchHeader setSelectedTab={setSelectedTab} />
       </FixedContainer>
       <ContentContainer>
         <Outlet />
-        <FloatingButton> 
+        <FloatingButton onClick={handleFloatingButtonClick}> 
           <CreateIcon />
         </FloatingButton>
       </ContentContainer>
+
+      {
+        showMatchCreate && 
+        <MatchCreate
+          closeMatchCreate={() => setShowMatchCreate(false)}
+        />
+      }
+
+      {
+        showMercenaryCreate && 
+        <MercenaryCreate
+          closeMercenaryCreate={() => setShowMercenaryCreate(false)}
+        />
+      }
     </>
   );
 }

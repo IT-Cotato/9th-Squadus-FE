@@ -34,7 +34,7 @@ const ApplicationHistoryButton = styled.div`
 `;
 
 
-const MatchHeader = () => {
+const MatchHeader = ({ setSelectedTab }) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('match');
 
@@ -43,6 +43,7 @@ const MatchHeader = () => {
 
   const handleTabClick = (path) => {
     setActiveTab(path);
+    setSelectedTab(path)
 
     if (path === 'match') {
       navigate(`/match`);
