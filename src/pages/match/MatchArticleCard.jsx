@@ -157,6 +157,7 @@ const RequestButton = styled.div`
   font-weight: 600;
   font-size: 16px;
   margin-top: 12px;
+  display: ${({ $expanded }) => ($expanded ? 'flex' : 'none')};
 `;
 
 const MatchArticleCard = ({ title, location, date, placeOffer, img, tierNeed, maxCount, currentCount, content}) => {
