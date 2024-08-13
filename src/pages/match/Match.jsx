@@ -14,13 +14,20 @@ const FixedContainer = styled.div`
   z-index: 1000;
 `;
 
-const ContentContainer = styled.div`
-  width: 100%;
-  height: 100vh;
-  overflow: auto;
+const WrapperContainer = styled.div`
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   position: relative;
+  flex-grow: 1;
+`;
+
+const ContentContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
 `;
 
 const FloatingButton = styled.div`
@@ -71,12 +78,14 @@ const Match = () => {
       <FixedContainer>
         <MatchHeader setSelectedTab={setSelectedTab} />
       </FixedContainer>
-      <ContentContainer>
-        <Outlet />
+      <WrapperContainer>
+        <ContentContainer>
+          <Outlet />
+        </ContentContainer>
         <FloatingButton onClick={handleFloatingButtonClick}> 
           <CreateIcon />
         </FloatingButton>
-      </ContentContainer>
+      </WrapperContainer>
 
       {
         showMatchCreate && 
