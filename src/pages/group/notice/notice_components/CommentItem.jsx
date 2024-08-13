@@ -1,5 +1,8 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import more_grey_icon from '../../../../assets/icons/group/more_grey.svg';
+import heart_fill_icon from "../../../../assets/icons/group/heart-fill.svg";
+import heart_stroke_icon from "../../../../assets/icons/group/heart-stroke.svg";
 
 const Container = styled.div`
   border-bottom: 1px solid rgba(221, 221, 221, 0.5);
@@ -42,6 +45,30 @@ const CommentDate = styled.div`
   color: ${({ theme }) => theme.colors.neutral[300]};
 `;
 
+const SubContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+`;
+
+const HeartContainer = styled.div`
+  font-size: 14px;
+  color: ${({ theme, like }) => like ? theme.colors.main[600] : theme.colors.neutral[400]};
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+`;
+
+const HeartIcon = styled.div`
+  height: 16px;
+  width: 16px;
+  margin-right: 4px;
+  background-image: url(${({ like }) => like ? heart_fill_icon : heart_stroke_icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+
 const MoreButton = styled.div`
   height: 16px;
   width: 16px;
@@ -54,6 +81,8 @@ const MoreButton = styled.div`
 
 // TODO: 프로필이미지도 props로 보내야함
 const CommentItem = ({ name, comment, date }) => {
+  const [like, setLike] = useState(false);
+
   return (
     <Container>
       <ProfileImage />
@@ -62,7 +91,13 @@ const CommentItem = ({ name, comment, date }) => {
         <CommentText>{comment}</CommentText>
         <CommentDate>{date}</CommentDate>
       </ContentContainer>
-      <MoreButton />
+      <SubContainer>
+        <HeartContainer like={like} onClick={() => setLike(!like)}>
+          <HeartIcon like={like} />
+          공감
+        </HeartContainer>
+        <MoreButton />
+      </SubContainer>
     </Container>
   );
 }
