@@ -4,7 +4,7 @@ import {
   GroupCalendar,
   StyledDot,
 } from "./schedule_components/Calendar";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import ScheduleItem, {
   AddSchedule,
   PlusIcon,
