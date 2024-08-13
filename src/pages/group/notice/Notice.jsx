@@ -31,7 +31,7 @@ const FloatingButton = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 1000;
+  z-index: 100;
 `;
 
 const CreateIcon = styled.div`

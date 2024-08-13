@@ -84,7 +84,6 @@ const GroupCreate = ({ closeGroupCreate }) => {
   const accessToken = useAuthStore(state => state.accessToken);
 
   const handleSubmit = async () => {
-    console.log(accessToken);
 
     await api.post('/v1/api/clubs', {
       clubName: clubName,
@@ -94,10 +93,11 @@ const GroupCreate = ({ closeGroupCreate }) => {
     }, {
       headers: {
         'Content-Type': 'application/json',
-        access: `${accessToken}` 
+        access: `${accessToken}`
       }
     })
     .then(response => {
+      console.log(response);
       console.log('Response:', response.data);
       alert('동아리가 성공적으로 생성되었습니다.');
       closeGroupCreate();
