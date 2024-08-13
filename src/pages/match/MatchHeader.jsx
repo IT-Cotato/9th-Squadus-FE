@@ -19,10 +19,10 @@ const TabBar = styled.div`
 
 const TabItem = styled.div`
   padding: 12px 4px;
-  color: ${({ isActive, theme }) => isActive ? theme.colors.neutral[900] : theme.colors.neutral[400]};
+  color: ${({ $isActive, theme }) => $isActive ? theme.colors.neutral[900] : theme.colors.neutral[400]};
   font-size: 24px;
   font-weight: 500;
-  border-bottom: ${({ isActive, theme }) => isActive ? `2px solid ${theme.colors.neutral[900]}` : "none"};
+  border-bottom: ${({ $isActive, theme }) => $isActive ? `2px solid ${theme.colors.neutral[900]}` : "none"};
   cursor: pointer;
 `;
 
@@ -43,8 +43,8 @@ const MatchHeader = () => {
   return (
     <Container>
       <TabBar>
-        <TabItem onClick={() => handleTabClick('match')} isActive={activeTab === 'match'}>매치</TabItem>
-        <TabItem onClick={() => handleTabClick('mercenary')} isActive={activeTab === 'mercenary'}>용병</TabItem>
+        <TabItem onClick={() => handleTabClick('match')} $isActive={activeTab === 'match'}>매치</TabItem>
+        <TabItem onClick={() => handleTabClick('mercenary')} $isActive={activeTab === 'mercenary'}>용병</TabItem>
       </TabBar>
       <ApplicationHistoryButton>신청 내역</ApplicationHistoryButton>
     </Container>

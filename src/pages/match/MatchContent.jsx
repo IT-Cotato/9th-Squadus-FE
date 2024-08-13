@@ -1,8 +1,16 @@
 import React from 'react';
+import MatchCard from './MatchCard';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  padding: 16px;
+`;
 
 const MatchContent = () => {
   return (
-    <div>매치</div>
+    <Container>
+      <MatchCard></MatchCard>
+    </Container>
   );
 }
 
