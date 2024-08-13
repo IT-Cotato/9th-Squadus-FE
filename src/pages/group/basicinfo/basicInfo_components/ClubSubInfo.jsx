@@ -1,6 +1,6 @@
-import ClubComment from "./ClubComment";
-import styled from "styled-components";
-import { ReactComponent as Tier } from "../../../../assets/group/RankItem.svg";
+import ClubComment from './ClubComment';
+import styled from 'styled-components';
+import { ReactComponent as Tier } from '../../../../assets/group/RankItem.svg';
 
 const Container = styled.div`
   display: flex;
@@ -52,7 +52,7 @@ const TextBIg = styled.div`
   color: #ffffff;
 `;
 
-const ClubSubInfo = ({ onClick, information }) => {
+const ClubSubInfo = ({ onClick }) => {
   return (
     <Container>
       <RankContainer onClick={onClick}>
@@ -62,12 +62,12 @@ const ClubSubInfo = ({ onClick, information }) => {
 
         <RankTextContainer>
           <TextSmall>티어 정보</TextSmall>
-          <TextBIg>{information.clubTier}</TextBIg>
+          <TextBIg>실버</TextBIg>
           <TextBIg>138팀 중 7위</TextBIg>
           <TextSmall>다음 레벨까지 남은 순위 : 3위</TextSmall>
         </RankTextContainer>
       </RankContainer>
-      <ClubComment title={"동아리 한마디"} content={information.clubMessage} />
+      <ClubComment title={'동아리 한마디'} content={'화이팅!!'} />{' '}
     </Container>
   );
 };

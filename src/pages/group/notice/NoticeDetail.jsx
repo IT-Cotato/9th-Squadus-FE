@@ -1,50 +1,34 @@
-import { useState } from 'react';
 import styled from "styled-components";
 import CommentItem from "./notice_components/CommentItem";
-import close_icon from "../../../assets/icons/close.svg";
-import more_icon from "../../../assets/icons/more.svg";
-import heart_fill_icon from "../../../assets/icons/group/heart-fill.svg";
-import heart_stroke_icon from "../../../assets/icons/group/heart-stroke.svg";
-
-const WrapperContainer = styled.div`
-  position: fixed;
-  left: 0px;
-  top: 0px;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  z-index: 10000;
-  justify-content: center;
-`;
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
-  max-width: 649px;
-  justify-content: center;
-  background-color: white;
+  height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background-color: ${({ theme }) => theme.colors.neutral[100]};
 `;
 
 const HeaderContainer = styled.div`
   width: 100%;
   top: 0;
   left: 0;
-  z-index: 1000; 
+  z-index: 1000;
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px; 
-  border-bottom: 1px solid #dcdcdc;  
-  position: relative;
+  padding: 20px;
+  border-bottom: 1px solid #dcdcdc;
+  background-color: white;
 `;
 
-const CloseButton = styled.div`
-  height: 24px;
+const PreviousButton = styled.button`
   width: 24px;
-  background-image: url(${close_icon});
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  height: 24px;
+  background-color: blue;
+  cursor: pointer;
 `;
 
 const HeaderTitle = styled.div`
@@ -52,21 +36,20 @@ const HeaderTitle = styled.div`
   text-align: center;
   color: ${({ theme }) => theme.colors.neutral[600]};
   font-size: 20px;
-  font-weight: bold;
+  font-weight: 700;
 `;
 
 const MoreButton = styled.div`
-  height: 24px;
   width: 24px;
-  background-image: url(${more_icon});
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  height: 24px;
+  background-color: red;
+  cursor: pointer;
 `;
 
 const ContentContainer = styled.div`
   width: 100%;
   height: 100vh;
+  box-sizing: border-box;
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -74,12 +57,14 @@ const ContentContainer = styled.div`
 
 const NoticeContainer = styled.div`
   width: 100%;
+  box-sizing: border-box;
   padding: 0 20px;
   background-color: white;
 `;
 
 const NoticeTitle = styled.h1`
   width: 100%;
+  box-sizing: border-box;
   padding: 16px 0;
   border-bottom: 1px solid #dcdcdc;
   font-size: 16px;
@@ -89,42 +74,12 @@ const NoticeTitle = styled.h1`
 
 const NoticeContent = styled.p`
   width: 100%;
+  box-sizing: border-box;
   padding: 16px 0;
   padding-bottom: 200px;
+  border-bottom: 1px solid #dcdcdc;
   font-size: 16px;
   color: ${({ theme }) => theme.colors.neutral[500]};
-`;
-
-const StatsContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  padding: 20px 16px;
-  gap: 10px;
-  border-bottom: 1px solid #dcdcdc;
-`;
-
-const HeartContainer = styled.div`
-  font-size: 14px;
-  color: ${({ theme, like }) => like ? theme.colors.main[600] : theme.colors.neutral[400]};
-  display: flex;
-  flex-direction: row;
-  cursor: pointer;
-`;
-
-const HeartIcon = styled.div`
-  height: 16px;
-  width: 16px;
-  margin-right: 4px;
-  background-image: url(${({ like }) => like ? heart_fill_icon : heart_stroke_icon});
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-`;
-
-const ViewsContainer = styled.div`
-  font-size: 14px;
-  color: ${({ theme }) => theme.colors.neutral[400]};
 `;
 
 const CommentContainer = styled.div`
@@ -164,8 +119,6 @@ const Input = styled.input`
 `;
 
 const NoticeDetail = ({ closeNoticeDetail }) => {
-  const [like, setLike] = useState(false);
-
   const noticeData = {
     title: "이건 공지 제목",
     content: "이건 공지 내용",
@@ -185,43 +138,34 @@ const NoticeDetail = ({ closeNoticeDetail }) => {
   ];
 
   return (
-    <WrapperContainer>
-      <Container>
-        <HeaderContainer>
-          <CloseButton onClick={closeNoticeDetail} />
-          <HeaderTitle>공지사항</HeaderTitle>
-          <MoreButton />
-        </HeaderContainer>
-        <ContentContainer>
-          <NoticeContainer>
-            <NoticeTitle>{noticeData.title}</NoticeTitle>
-            <NoticeContent>{noticeData.content}</NoticeContent>
-          </NoticeContainer>
-          <StatsContainer>
-            <HeartContainer like={like} onClick={() => setLike(!like)}>
-              <HeartIcon like={like} />
-              공감
-            </HeartContainer>
-            <ViewsContainer>조회수</ViewsContainer>
-          </StatsContainer>
-          <CommentContainer>
-            {commentsData.map(comment => (
-              <CommentItem
-                key={comment.id}
-                name={comment.name}
-                comment={comment.comment}
-                date={comment.date}
-              />
-            ))}
-          </CommentContainer>
-        </ContentContainer>
-        <FooterContainer>
-          <InputContainer>
-            <Input placeholder="댓글을 입력하세요." />
-          </InputContainer>
-        </FooterContainer>
-      </Container>
-    </WrapperContainer>
+    <Container>
+      <HeaderContainer>
+        <PreviousButton onClick={closeNoticeDetail} />
+        <HeaderTitle>공지사항</HeaderTitle>
+        <MoreButton />
+      </HeaderContainer>
+      <ContentContainer>
+        <NoticeContainer>
+          <NoticeTitle>{noticeData.title}</NoticeTitle>
+          <NoticeContent>{noticeData.content}</NoticeContent>
+        </NoticeContainer>
+        <CommentContainer>
+          {commentsData.map(comment => (
+            <CommentItem
+              key={comment.id}
+              name={comment.name}
+              comment={comment.comment}
+              date={comment.date}
+            />
+          ))}
+        </CommentContainer>
+      </ContentContainer>
+      <FooterContainer>
+        <InputContainer>
+          <Input placeholder="댓글을 입력하세요." />
+        </InputContainer>
+      </FooterContainer>
+    </Container>
   );
 };
 

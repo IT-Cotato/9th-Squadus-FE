@@ -3,7 +3,6 @@ import NoticeItem from './notice_components/NoticeItem';
 import NoticeCreate from './NoticeCreate';
 import NoticeDetail from './NoticeDetail';
 import { useState } from 'react';
-import create_icon from '../../../assets/icons/group/write.svg'
 
 
 const Container = styled.div`
@@ -15,7 +14,7 @@ const Container = styled.div`
   position: relative;
 `;
 
-const FloatingButton = styled.div`
+const FloatingButton = styled.button`
   position: absolute;
   bottom: 20px;
   right: 20px;
@@ -31,16 +30,7 @@ const FloatingButton = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 100;
-`;
-
-const CreateIcon = styled.div`
-  width: 40px;
-  height: 40px;
-  background-image: url(${create_icon});
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  z-index: 1000;
 `;
 
 const NoticeList = styled.div`
@@ -78,26 +68,60 @@ const Notice = () => {
         ))}
       </NoticeList>
 
-      <FloatingButton onClick={() => { setShowNoticeCreate(true);}} > 
-        <CreateIcon />
-      </FloatingButton>
-
-      { 
-        showNoticeCreate && 
-        <NoticeCreate 
-          closeNoticeCreate={() => setShowNoticeCreate(false)} 
-          noticeId={selectedNoticeId}
-        />
-      }
+      <FloatingButton onClick={() => {
+        setShowNoticeCreate(true);
+      }} />
 
       {
-        showNoticeDetail &&
-        <NoticeDetail
-          closeNoticeDetail={() => setShowNoticeDetail(false)}
-        />
+        showNoticeCreate &&
+        <div
+          style={{
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+            zIndex: 10000,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '649px',
+              height: '100%',
+              backgroundColor: 'white',
+            }}>
+            <NoticeCreate noticeId={selectedNoticeId} closeNoticeCreate={() => setShowNoticeCreate(false)} />
+          </div>
+        </div>
       }
-
-      
+      {
+        showNoticeDetail &&
+        <div
+          style={{
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+            zIndex: 10000,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '649px',
+              height: '100%',
+              backgroundColor: 'white',
+            }}>
+            <NoticeDetail closeNoticeDetail={() => setShowNoticeDetail(false)} />
+          </div>
+        </div>
+      }
     </Container>
   );
 }

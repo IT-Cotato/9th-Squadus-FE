@@ -1,8 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import previous_icon from "../../../assets/icons/arrow-left.svg";
-import { useNavigate } from 'react-router-dom';
-
 
 const Container = styled.div`
   display: flex;
@@ -13,13 +10,10 @@ const Container = styled.div`
   border-bottom: 1px solid #dcdcdc;
 `;
 
-const BackButton = styled.div`
+const BackButton = styled.img`
   height: 24px;
   width: 24px;
-  background-image: url(${previous_icon});
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  background-color: pink;
 `;
 
 const Title = styled.h1`
@@ -30,11 +24,9 @@ const Title = styled.h1`
 
 
 function NotificationHeader() {
-  const navigate = useNavigate();
-
   return (
     <Container>
-        <BackButton onClick={() => navigate(-1)}/>
+        <BackButton />
         <Title>알림</Title>
     </Container>
   );

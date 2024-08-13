@@ -2,25 +2,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import FeeMemberSelect from './FeeMemberSelect';
 import CustomCalendar from './fee_components/CustomCalendar';
-import close_icon from '../../../assets/icons/close.svg';
-
-const WrapperContainer = styled.div`
-  position: fixed;
-  left: 0px;
-  top: 0px;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  z-index: 10000;
-  justify-content: center;
-`;
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
-  max-width: 649px;
-  justify-content: center;
+  box-sizing: border-box;
+  flex-direction: column;
   background-color: white;
+  align-items: center;
 `;
 
 const HeaderContainer = styled.div`
@@ -36,13 +24,12 @@ const HeaderContainer = styled.div`
   border-bottom: 1px solid #dcdcdc;
 `;
 
-const CloseButton = styled.div`
-  height: 24px;
+const CloseButton = styled.button`
   width: 24px;
-  background-image: url(${close_icon});
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  height: 24px;
+  background-color: blue;
+  border: none;
+  cursor: pointer;
 `;
 
 const HeaderTitle = styled.div`
@@ -126,8 +113,6 @@ const FeeCreate = ({ closeFeeCreate }) => {
   const [endDate, setEndDate] = useState(new Date());
   const [showStartCalendar, setShowStartCalendar] = useState(false);
   const [showEndCalendar, setShowEndCalendar] = useState(false);
-  const [showSelectFeeMember, setShowSelectFeeMember] = useState(false);
-  const [selectedMemberIds, setSelectedMemberIds] = useState([]);
 
   const handleContainerClick = () => {
     if (showStartCalendar) setShowStartCalendar(false);
@@ -135,109 +120,136 @@ const FeeCreate = ({ closeFeeCreate }) => {
     if (showSelectFeeMember) setShowSelectFeeMember(false);
   };
 
+  const handleFeeSelectClick = (e) => {
+    e.stopPropagation();
+  }
+
+  const [showSelectFeeMember, setShowSelectFeeMember] = useState(false);
+  const [selectedMemberIds, setSelectedMemberIds] = useState([]);
   const updateSelection = (selectedIds) => {
     setSelectedMemberIds(selectedIds);
   };
 
   return (
-    <WrapperContainer>
-      <Container onClick={handleContainerClick}>
-        <HeaderContainer>
-          <CloseButton onClick={closeFeeCreate}/>
-          <HeaderTitle>회비 등록</HeaderTitle>
-          <SaveButton>완료</SaveButton>
-        </HeaderContainer>
-        <ContentContainer>
-          <FieldContainer>
-            <Label>회비명</Label>
-            <Input type="text" />
-          </FieldContainer>
-          <FieldContainer>
-            <Label>금액 (원)</Label>
-            <Input
-              type="number"
-              min="0"  // 최소값을 0으로 설정
-              placeholder="숫자로 입력하세요"
-              onChange={e => {
-                if (!Number(e.target.value) && e.target.value !== '') {
-                  e.target.value = e.target.value.slice(0, -1);
-                }
-              }}
-            />
-          </FieldContainer>
-          <FieldContainer>
-            <Label>회비 구분</Label>
-            <Input type="text" />
-          </FieldContainer>
-          <FieldContainer>
-            <Label>회비 납부 시작일</Label>
-            <Input
-              readOnly
-              value={startDate ? startDate.toLocaleDateString() : "날짜 선택"}
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowStartCalendar(!showStartCalendar);
-                setShowEndCalendar(false);
-              }}
-            />
-            {showStartCalendar && (
-              <CustomCalendar
-                value={startDate}
-                onChange={(date) => {
-                  setStartDate(date);
-                  setShowStartCalendar(false);
-                }}
-              />
-            )}
-          </FieldContainer>
-          <FieldContainer>
-            <Label>회비 납부 마감일</Label>
-            <Input
-              readOnly
-              value={endDate ? endDate.toLocaleDateString() : "날짜 선택"}
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowEndCalendar(!showEndCalendar);
+    <Container onClick={handleContainerClick}>
+      <HeaderContainer>
+        <CloseButton onClick={closeFeeCreate}/>
+        <HeaderTitle>회비 등록</HeaderTitle>
+        <SaveButton>완료</SaveButton>
+      </HeaderContainer>
+      <ContentContainer>
+        <FieldContainer>
+          <Label>회비명</Label>
+          <Input type="text" />
+        </FieldContainer>
+        <FieldContainer>
+          <Label>금액 (원)</Label>
+          <Input
+            type="number"
+            min="0"  // 최소값을 0으로 설정
+            placeholder="숫자로 입력하세요"
+            onChange={e => {
+              if (!Number(e.target.value) && e.target.value !== '') {
+                e.target.value = e.target.value.slice(0, -1);
+              }
+            }}
+          />
+        </FieldContainer>
+        <FieldContainer>
+          <Label>회비 구분</Label>
+          <Input type="text" />
+        </FieldContainer>
+        <FieldContainer>
+          <Label>회비 납부 시작일</Label>
+          <Input
+            readOnly
+            value={startDate ? startDate.toLocaleDateString() : "날짜 선택"}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowStartCalendar(!showStartCalendar);
+              setShowEndCalendar(false);
+            }}
+          />
+          {showStartCalendar && (
+            <CustomCalendar
+              value={startDate}
+              onChange={(date) => {
+                setStartDate(date);
                 setShowStartCalendar(false);
               }}
             />
-            {showEndCalendar && (
-              <CustomCalendar
-                value={endDate}
-                onChange={(date) => {
-                  setEndDate(date);
-                  setShowEndCalendar(false);
-                }}
-              />
-            )}
-          </FieldContainer>
-          <FieldContainer onClick={() => setShowSelectFeeMember(true)}>
-            <Label>회비 납부 인원</Label>
-            <SelectMemberContainer>
-              {`${selectedMemberIds.length}명`}
-              <SelectMemberButton>선택하기</SelectMemberButton>
-            </SelectMemberContainer>
-          </FieldContainer>
-          <FieldContainer>
-            <Label>메모</Label>
-            <Input type="text" />
-          </FieldContainer>
-        </ContentContainer>
+          )}
+        </FieldContainer>
 
-        
-
-        {showSelectFeeMember && 
-          <FeeMemberSelect 
-            closeFeeMemberSelect={() => setShowSelectFeeMember(false)} 
-            updateSelection={updateSelection}
-            selectedMemberIds={selectedMemberIds}
+        <FieldContainer>
+          <Label>회비 납부 마감일</Label>
+          <Input
+            readOnly
+            value={endDate ? endDate.toLocaleDateString() : "날짜 선택"}
             onClick={(e) => {
               e.stopPropagation();
+              setShowEndCalendar(!showEndCalendar);
+              setShowStartCalendar(false);
             }}
           />
-        }
-      </Container>
-    </WrapperContainer>
+          {showEndCalendar && (
+            <CustomCalendar
+              value={endDate}
+              onChange={(date) => {
+                setEndDate(date);
+                setShowEndCalendar(false);
+              }}
+            />
+          )}
+        </FieldContainer>
+
+        <FieldContainer onClick={() => setShowSelectFeeMember(true)}>
+          <Label>회비 납부 인원</Label>
+          <SelectMemberContainer>
+            {`${selectedMemberIds.length}명`}
+            <SelectMemberButton>선택하기</SelectMemberButton>
+          </SelectMemberContainer>
+        </FieldContainer>
+        <FieldContainer>
+          <Label>메모</Label>
+          <Input type="text" />
+        </FieldContainer>
+      </ContentContainer>
+
+      {
+        showSelectFeeMember &&
+        <div
+          style={{
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+            zIndex: 10000,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          onClick={handleFeeSelectClick}
+          >
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '649px',
+              height: '100%',
+              backgroundColor: 'white',
+            }}
+            onClick={handleFeeSelectClick}
+            >
+            <FeeMemberSelect 
+              closeFeeMemberSelect={() => setShowSelectFeeMember(false)} 
+              updateSelection={updateSelection}
+              selectedMemberIds={selectedMemberIds}
+            />
+          </div>
+        </div>
+      }
+    </Container>
   );
 };
 

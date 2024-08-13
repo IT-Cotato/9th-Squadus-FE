@@ -111,10 +111,83 @@ const Fee = () => {
         ))}
       </ExpenseContainer>
 
-      {showFeeStatus && <FeeStatus closeFeeStatus={() => setShowFeeStatus(false)} />}
-      {showFeeCreate && <FeeCreate closeFeeCreate={() => setShowFeeCreate(false)} />}
-      {showExpenseCreate && <ExpenseCreate closeExpenseCreate={() => setShowExpenseCreate(false)}/>}
-      
+      {
+        showFeeStatus &&
+        <div
+          style={{
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+            zIndex: 10000,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '649px',
+              height: '100%',
+              backgroundColor: 'white',
+            }}>
+            <FeeStatus closeFeeStatus={() => setShowFeeStatus(false)} />
+          </div>
+        </div>
+      }
+
+      {
+        showFeeCreate &&
+        <div
+          style={{
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+            zIndex: 10000,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '649px',
+              height: '100%',
+              backgroundColor: 'white',
+            }}>
+            <FeeCreate closeFeeCreate={() => setShowFeeCreate(false)} />
+          </div>
+        </div>
+      }
+
+      {
+        showExpenseCreate &&
+        <div
+          style={{
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+            zIndex: 10000,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '649px',
+              height: '100%',
+              backgroundColor: 'white',
+            }}>
+            <ExpenseCreate closeExpenseCreate={() => setShowExpenseCreate(false)} />
+          </div>
+        </div>
+      }
     </Container>
   );
 }

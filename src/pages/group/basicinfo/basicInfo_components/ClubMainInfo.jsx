@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import TagItem from "./TagItem";
+import styled from 'styled-components';
+import TagItem from './TagItem';
 
-const ClubImage = styled.img`
+const ClubImage = styled.div`
   width: 100%;
   height: 192px;
   border-radius: 8px;
@@ -44,11 +44,10 @@ const ClubInfo = ({
   memRecent,
   memMax,
   establishDate,
-  img,
 }) => {
   return (
     <Container>
-      <ClubImage src={img} alt={"Club Image"} />
+      <ClubImage />
       <TagInfo>
         <TagItem content={region} />
         <TagItem content={personality} />
