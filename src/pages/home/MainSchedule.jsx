@@ -1,6 +1,18 @@
 import styled from "styled-components";
 import MainScheduleItem from "./home_components/MainScheduleItem";
-import SectionHeader from "./home_components/SectionHeader";
+
+const MainSchedule = () => (
+  <Container>
+    <ScheduleHeader>
+      <ColorHeader>오늘</ColorHeader>의 주요 일정
+    </ScheduleHeader>
+    <ScheduleContainer>
+      <MainScheduleItem></MainScheduleItem>
+    </ScheduleContainer>
+  </Container>
+);
+
+export default MainSchedule;
 
 const Container = styled.div`
   min-height: 20%;
@@ -17,14 +29,13 @@ const ScheduleContainer = styled.div`
   gap: 8px;
 `;
 
-const MainSchedule = () => (
-  <Container>
-    <SectionHeader></SectionHeader>
-    <ScheduleContainer>
-      <MainScheduleItem></MainScheduleItem>
-      <MainScheduleItem></MainScheduleItem>
-    </ScheduleContainer>
-  </Container>
-);
-
-export default MainSchedule;
+const ScheduleHeader = styled.div`
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 22px;
+  display: flex;
+  color: #101828;
+`;
+const ColorHeader = styled.div`
+  color: #ff6330;
+`;

@@ -1,62 +1,37 @@
-import styled from "styled-components";
+import { useContext } from "react";
+import ScheduleItem from "../../group/schedule/schedule_components/ScheduleItem";
+import { scheduleContext } from "../Home";
+const MainScheduleItem = () => {
+  const today = new Date();
 
-const Container = styled.div`
-  height: auto;
-  display: flex;
-  flex-direction: row;
-  padding: 20px 16px;
-  border-radius: 16px;
-  background-color: #00a3ff;
-  box-shadow: 0px 0px 7px #555ba021;
-  gap: 28px;
-`;
+  const clubSchedule = useContext(scheduleContext);
+  const todaySchedule = clubSchedule.filter(
+    (item) =>
+      new Date(item.date).getFullYear() === today.getFullYear() &&
+      new Date(item.date).getMonth() === today.getMonth() &&
+      new Date(item.date).getDate() === today.getDate()
+  );
 
-const ScheduleTime = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-`;
+  console.log(todaySchedule);
 
-const StartTime = styled.div`
-  height: 22px;
-  font-size: 20px;
-  color: white;
-`;
-
-const EndTime = styled.div`
-  font-size: 16px;
-  color: #c2c6ff;
-`;
-
-const ScheduleDetail = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-`;
-
-const ScheduleTitle = styled.div`
-  height: 22px;
-  font-size: 20px;
-  color: white;
-`;
-
-const ScheduleContent = styled.div`
-  font-size: 16px;
-  color: #c2c6ff;
-`;
-
-const MainScheduleItem = () => (
-  <Container>
-    <ScheduleTime>
-      <StartTime>00:00</StartTime>
-      <EndTime>~00:00</EndTime>
-    </ScheduleTime>
-    <ScheduleDetail>
-      <ScheduleTitle>Schedule Title</ScheduleTitle>
-      <ScheduleContent>Schedule Content</ScheduleContent>
-    </ScheduleDetail>
-  </Container>
-);
+  return (
+    <>
+      {todaySchedule.length !== 0 ? (
+        todaySchedule.map((item, index) => (
+          <ScheduleItem
+            key={index}
+            startTime={item.startTime}
+            endTime={item.endTime}
+            eventName={item.eventName}
+            Location={item.location}
+            id={index + 1}
+          />
+        ))
+      ) : (
+        <h1>오늘의 일정은 없습니다!</h1>
+      )}
+    </>
+  );
+};
 
 export default MainScheduleItem;
