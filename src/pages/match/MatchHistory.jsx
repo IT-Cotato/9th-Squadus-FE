@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import close_icon from '../../assets/icons/close.svg'
+import previous_icon from '../../assets/icons/arrow-left.svg';
 
 const WrapperContainer = styled.div`
   position: fixed;
@@ -35,10 +35,10 @@ const HeaderContainer = styled.div`
   position: relative;
 `;
 
-const CloseButton = styled.div`
+const PreviousButton = styled.div`
   height: 24px;
   width: 24px;
-  background-image: url(${close_icon});
+  background-image: url(${previous_icon});
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -67,7 +67,7 @@ const MatchHistory = ({ closeMatchHistory }) => {
     <WrapperContainer>
       <Container>
         <HeaderContainer>
-          <CloseButton onClick={closeMatchHistory} />
+          <PreviousButton onClick={closeMatchHistory} />
           <HeaderTitle>매치 신청내역</HeaderTitle>
         </HeaderContainer>
         <ContentContainer>
