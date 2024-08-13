@@ -37,7 +37,13 @@ const MatchHeader = () => {
 
   const handleTabClick = (path) => {
     setActiveTab(path);
-    navigate(`/match/${path}`);
+
+    if (path === 'match') {
+      navigate(`/match`)
+    } else if (path === 'mercenary') {
+      navigate(`/match/mercenary`)
+    }
+    
   };
 
   return (
