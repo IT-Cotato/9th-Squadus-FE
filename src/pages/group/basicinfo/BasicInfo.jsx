@@ -1,8 +1,76 @@
-import styled from 'styled-components';
-import { useState } from 'react';
-import ClubMainInfo from './basicInfo_components/ClubMainInfo';
-import ClubSubInfo from './basicInfo_components/ClubSubInfo';
-import Rank from './Rank';
+import styled from "styled-components";
+import { useEffect, useState } from "react";
+import ClubMainInfo from "./basicInfo_components/ClubMainInfo";
+import ClubSubInfo from "./basicInfo_components/ClubSubInfo";
+import Rank from "./Rank";
+import axios from "axios";
+
+const BasicInfo = () => {
+  const [information, setInfomation] = useState({
+    id: 1,
+    clubMessage: "",
+    clubName: "",
+    clubRank: "",
+    clubTier: "",
+    createdAt: "",
+    logo: "",
+    maxMembers: null,
+    numberOfMembers: 0,
+    sportsCategory: "",
+    tags: [],
+    university: "",
+  });
+  const getInfo = async () => {
+    axios
+      .get("http://15.165.165.240:8080/v1/api/clubs/1")
+      .then((res) => {
+        console.log(res.data);
+        setInfomation(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getInfo();
+  }, []);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const toggleModal = () => {
+    setIsModalOpen((prev) => !prev);
+    console.log(isModalOpen);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  const fommatDate = () => {
+    const tmp = new Date(information.createdAt);
+    const result = `${tmp.getFullYear()}.${
+      tmp.getMonth() + 1
+    }.${tmp.getDate()}`;
+    return result;
+  };
+  return (
+    <>
+      <BaseContainer>
+        <ClubMainInfo
+          region={information.tags[0]}
+          personality={information.tags[1]}
+          name={information.clubName}
+          memRecent={information.numberOfMembers}
+          memMax={information.maxMembers}
+          establishDate={fommatDate()}
+          img={information.logo}
+        />
+        <ClubSubInfo onClick={toggleModal} information={information} />
+      </BaseContainer>
+
+      <Rank isOpen={isModalOpen} onClose={closeModal} />
+    </>
+  );
+};
+
+export default BasicInfo;
 
 const BaseContainer = styled.div`
   width: 100%;
@@ -14,33 +82,3 @@ const BaseContainer = styled.div`
   gap: 12px;
   box-sizing: border-box;
 `;
-
-const BasicInfo = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const toggleModal = () => {
-    setIsModalOpen((prev) => !prev);
-    console.log(isModalOpen);
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-  return (
-    <>
-      <BaseContainer>
-        <ClubMainInfo
-          region={'서울'}
-          personality={'모두 환영'}
-          name={'중앙 가르드'}
-          memRecent={32}
-          memMax={40}
-          establishDate={'2023.09.01'}
-        />
-        <ClubSubInfo onClick={toggleModal} />
-      </BaseContainer>
-
-      <Rank isOpen={isModalOpen} onClose={closeModal} />
-    </>
-  );
-};
-
-export default BasicInfo;

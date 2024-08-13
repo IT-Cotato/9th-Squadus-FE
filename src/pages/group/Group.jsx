@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Outlet } from 'react-router-dom';
-import GroupHeader from './group_components/GroupHeader';
-import GroupTabBar from './group_components/GroupTabBar';
+import React from "react";
+import styled from "styled-components";
+import { Outlet } from "react-router-dom";
+import GroupHeader from "./group_components/GroupHeader";
+import GroupTabBar from "./group_components/GroupTabBar";
 
 const FixedContainer = styled.div`
   top: 0;
@@ -31,6 +31,6 @@ const Group = () => {
       </ContentContainer>
     </>
   );
-}
+};
 
 export default Group;
