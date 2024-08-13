@@ -1,9 +1,9 @@
-import React from 'react';
-import { ThemeProvider } from 'styled-components';
-import { GlobalStyle } from './styles/global-style';
-import theme from './styles/theme';
-import { RouterProvider } from 'react-router-dom';
-import { router } from './routes/router';
+import React from "react";
+import { ThemeProvider } from "styled-components";
+import { GlobalStyle } from "./styles/global-style";
+import theme from "./styles/theme";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./routes/router";
 
 function App() {
   console.log("App 실행");
@@ -15,7 +15,5 @@ function App() {
     </ThemeProvider>
   );
 }
-
-
 
 export default App;
