@@ -3,7 +3,7 @@ import NoticeItem from './notice_components/NoticeItem';
 import NoticeCreate from './NoticeCreate';
 import NoticeDetail from './NoticeDetail';
 import { useState } from 'react';
-import create_icon from '../../../assets/icons/group/write.svg'
+import create_icon from '../../../assets/icons/write.svg'
 
 
 const Container = styled.div`

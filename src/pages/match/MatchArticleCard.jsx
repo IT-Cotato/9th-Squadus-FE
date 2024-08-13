@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import arrow_up_icon from '../../assets/icons/arrow-up-white.svg'
 
@@ -43,12 +44,14 @@ const ArrowUpIcon = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  transform: ${({ $expanded }) => ($expanded ? 'rotate(0)' : 'rotate(180deg)')};
+  transition: transform 0.3s ease;
 `;
-
 const SubInfoContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 12px;
+  display: ${({ $expanded }) => ($expanded ? 'flex' : 'none')};
 `;
 
 const Schedule = styled.div`
@@ -124,12 +127,22 @@ const RecruitmentCount = styled.div`
 const BarContainer = styled.div`
   width: 100%;
   height: 4px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  position: relative;
+`;
+
+const CurrentBarContainer = styled.div`
+  width: ${({ $currentCount, $maxCount }) => ($currentCount / $maxCount) * 100}%;
+  height: 100%;
   background-color: white;
-  opacity: 30%;
+  border-radius: 2px;
 `;
 
 const ContentContainer = styled.div`
   width: 100%;
+  display: ${({ $expanded }) => ($expanded ? 'flex' : 'none')};
+
 `;
 
 const RequestButton = styled.div`
@@ -147,16 +160,18 @@ const RequestButton = styled.div`
 `;
 
 const MatchArticleCard = ({ title, location, date, placeOffer, img, tierNeed, maxCount, currentCount, content}) => {
+  const [expanded, setExpanded] = useState(false);
+
   return (
-    <Container>
+    <Container onClick={() => setExpanded(!expanded)}>
       <MainInfoContainer>
         <div>
           <Title>{title}</Title>
           <Location>{location}</Location>
         </div>
-        <ArrowUpIcon />
+        <ArrowUpIcon $expanded={expanded ? "true" : undefined} />
       </MainInfoContainer>
-      <SubInfoContainer>
+      <SubInfoContainer $expanded={expanded ? "true" : undefined}>
         <Schedule>
           <Label>일시</Label>
           <ScheduleContent>{date}</ScheduleContent>
@@ -173,11 +188,13 @@ const MatchArticleCard = ({ title, location, date, placeOffer, img, tierNeed, ma
             <TierDescription>{tierNeed} 이상</TierDescription>
             <RecruitmentCount>{currentCount}/{maxCount}</RecruitmentCount>
           </DescriptionContainer>
-          <BarContainer></BarContainer>
+          <BarContainer>
+            <CurrentBarContainer $currentCount={currentCount} $maxCount={maxCount} />
+          </BarContainer>
         </StatusContainer>
       </DetailContainer>
-      <ContentContainer>{content}</ContentContainer>
-      <RequestButton>요청 보내기</RequestButton>
+      <ContentContainer $expanded={expanded ? "true" : undefined}>{content}</ContentContainer>
+      <RequestButton $expanded={expanded ? "true" : undefined}>요청 보내기</RequestButton>
 
     </Container>
     
