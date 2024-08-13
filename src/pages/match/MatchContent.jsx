@@ -1,15 +1,64 @@
 import React from 'react';
-import MatchCard from './MatchCard';
+import MatchArticleCard from './MatchArticleCard';
 import styled from 'styled-components';
 
 const Container = styled.div`
   padding: 16px;
 `;
 
+const MatchArticleList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
 const MatchContent = () => {
+  const matchArticleData = [
+    { 
+      id: "1", 
+      title: "매치 구합니다!!", 
+      location: "서울 강남",
+      date: "2024.07.30", 
+      placeOffer: "O", 
+      img: "", 
+      tierNeed: "silver", 
+      maxCount: "8", 
+      currentCount: "7",
+      content: "강남구민체육관에서 5시에 매치하실 분 구합니다!!"
+    },
+    { 
+      id: "2", 
+      title: "농구 매치할 팀 구해용", 
+      location: "파리",
+      date: "2024.08.30", 
+      placeOffer: "X", 
+      img: "", 
+      tierNeed: "silver", 
+      maxCount: "8", 
+      currentCount: "7",
+      content: "강남구민체육관에서 5시에 매치하실 분 구합니다!!"
+    },
+  ]
+
+
   return (
     <Container>
-      <MatchCard></MatchCard>
+      <MatchArticleList>
+        {matchArticleData.map(matchArticle => (
+          <MatchArticleCard 
+            key={matchArticle.id}
+            title={matchArticle.title}
+            date={matchArticle.date}
+            placeOffer={matchArticle.placeOffer}
+            img={matchArticle.img}
+            tierNeed={matchArticle.tierNeed}
+            maxCount={matchArticle.maxCount}
+            currentCount={matchArticle.currentCount}
+            content={matchArticle.content}
+          />
+        )) }
+
+      </MatchArticleList>
     </Container>
   );
 }

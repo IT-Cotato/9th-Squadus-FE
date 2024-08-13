@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import arrow_up_icon from '../../assets/icons/arrow-up-white.svg'
 
 const Container = styled.div`
   width: 100%; 
@@ -19,31 +19,70 @@ const Container = styled.div`
 
 const MainInfoContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
   gap: 8px;
 `;
 
 const Title = styled.div`
   font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
 `;
 
 const Location = styled.div`
   font-size: 14px;
+  font-weight: 500;
+`;
+
+const ArrowUpIcon = styled.div`
+  width: 20px;
+  height: 20px;
+  background-image: url(${arrow_up_icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const SubInfoContainer = styled.div`
   display: flex;
   flex-direction: row;
+  gap: 12px;
 `;
 
 const Schedule = styled.div`
   display: flex;
   flex-direction: row;
+  gap: 4px;
+  align-items: center;
 `;
 
 const PlaceOffer = styled.div`
   display: flex;
   flex-direction: row;
+  gap: 4px;
+  align-items: center;
+`;
+
+const Label = styled.div`
+  font-size: 12px;
+  color: white;
+  opacity: 80%;
+`
+
+const ScheduleContent = styled.div`
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  opacity: 80%;
+`
+
+const PlaceOfferContent = styled.div`
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  opacity: 80%;
 `;
 
 const DetailContainer = styled.div`
@@ -70,6 +109,8 @@ const StatusContainer = styled.div`
 const DescriptionContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const TierDescription = styled.div`
@@ -83,10 +124,11 @@ const RecruitmentCount = styled.div`
 const BarContainer = styled.div`
   width: 100%;
   height: 4px;
-  background-color: pink;
+  background-color: white;
+  opacity: 30%;
 `;
 
-const CommentContainer = styled.div`
+const ContentContainer = styled.div`
   width: 100%;
 `;
 
@@ -101,30 +143,40 @@ const RequestButton = styled.div`
   align-items: center;
   font-weight: 600;
   font-size: 16px;
+  margin-top: 12px;
 `;
 
-const MatchCard = () => {
+const MatchArticleCard = ({ title, location, date, placeOffer, img, tierNeed, maxCount, currentCount, content}) => {
   return (
     <Container>
       <MainInfoContainer>
-        <Title>매치 구합니다</Title>
-        <Location>서울 강남</Location>
+        <div>
+          <Title>{title}</Title>
+          <Location>{location}</Location>
+        </div>
+        <ArrowUpIcon />
       </MainInfoContainer>
       <SubInfoContainer>
-        <Schedule>일시</Schedule>
-        <PlaceOffer>장소 제공 여부</PlaceOffer>
+        <Schedule>
+          <Label>일시</Label>
+          <ScheduleContent>{date}</ScheduleContent>
+        </Schedule>
+        <PlaceOffer>
+          <Label>장소제공 여부</Label>
+          <PlaceOfferContent>{placeOffer}</PlaceOfferContent>
+        </PlaceOffer>
       </SubInfoContainer>
       <DetailContainer>
         <Image></Image>
         <StatusContainer>
           <DescriptionContainer>
-            <TierDescription>티어 3이상</TierDescription>
-            <RecruitmentCount>7/8</RecruitmentCount>
+            <TierDescription>{tierNeed} 이상</TierDescription>
+            <RecruitmentCount>{currentCount}/{maxCount}</RecruitmentCount>
           </DescriptionContainer>
           <BarContainer></BarContainer>
         </StatusContainer>
       </DetailContainer>
-      <CommentContainer>매치해용</CommentContainer>
+      <ContentContainer>{content}</ContentContainer>
       <RequestButton>요청 보내기</RequestButton>
 
     </Container>
@@ -132,4 +184,4 @@ const MatchCard = () => {
   );
 }
 
-export default MatchCard;
+export default MatchArticleCard;
