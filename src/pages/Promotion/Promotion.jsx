@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 import PromotionHeader from "./promotion_components/PromotionHeader";
-
+import { useState } from "react";
+import FilterBar from "../../components/FilterBar";
 const FixedContainer = styled.div`
   top: 0;
   left: 0;
@@ -19,10 +20,13 @@ const ContentContainer = styled.div`
 `;
 
 const Group = () => {
+  const [selectedTab, setSelectedTab] = useState("oncampus");
+
   return (
     <>
       <FixedContainer>
-        <PromotionHeader />
+        <PromotionHeader setSelectedTab={setSelectedTab} />
+        <FilterBar />
       </FixedContainer>
       <ContentContainer>
         <Outlet />

@@ -1,64 +1,100 @@
+import React, { useState } from "react";
 import styled from "styled-components";
-import { ReactComponent as Search } from "../../../assets/icons/promotion/search.svg";
-import { ReactComponent as New } from "../../../assets/icons/promotion/new.svg";
+import { useNavigate } from "react-router-dom";
+import { ReactComponent as New } from "../../../assets/icons/new.svg";
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0px 20px;
+  background-color: white;
+  font-size: 16px;
+  border-bottom: 1px solid #dcdcdc;
+  position: relative;
+  gap: 20px;
+`;
 
-const PromotionHeader = () => {
-  return (
-    <BaseContainer>
-      <TopTitle>
-        <TopBar>
-          <Tab>교내</Tab>
-          <Tab>연합</Tab>
-        </TopBar>
-        <Introduce>
-          동아리 지원 현황
-          <New />
-        </Introduce>
-      </TopTitle>
-      <Search />
-    </BaseContainer>
-  );
-};
-export default PromotionHeader;
-
-const BaseContainer = styled.div`
-  width: 100%;
-  height: 64px;
-  padding: 20px 20px;
-  justify-content: space-between;
+const TabBar = styled.div`
   display: flex;
 `;
 
-const TopTitle = styled.div`
-  width: 226px;
-  height: 42px;
-  display: flex;
-  gap: 16px;
+const TabItem = styled.div`
+  padding: 12px 4px;
+  color: ${({ $isActive, theme }) =>
+    $isActive ? theme.colors.neutral[900] : theme.colors.neutral[400]};
+  font-size: 24px;
+  font-weight: 500;
+  border-bottom: ${({ $isActive, theme }) =>
+    $isActive ? `2px solid ${theme.colors.neutral[900]}` : "none"};
+  cursor: pointer;
+`;
+
+const ApplicationHistoryButton = styled.div`
   font-size: 16px;
   font-weight: 500;
-  line-height: 16px;
-  text-align: left;
-  color: #101828;
-`;
-const Introduce = styled.div`
-  width: 105px;
-  height: 22px;
-  gap: 4px;
+  padding: 8px;
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.neutral[700]};
   display: flex;
+  gap: 4px;
 `;
 
-const TopBar = styled.div`
-  width: 92px;
-  height: 42px;
-  display: flex;
-  gap: 8px;
-`;
-const Tab = styled.div`
-  width: 42px;
-  height: 36px;
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 36px;
-  text-align: left;
-  color: #98a2b3;
-`;
+const PromotionHeader = ({ setSelectedTab }) => {
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("oncampus");
+
+  const [showApplyStatus, setShowApplyStatus] = useState(false);
+
+  const handleTabClick = (path) => {
+    setActiveTab(path);
+    setSelectedTab(path);
+
+    if (path === "oncampus") {
+      navigate(`/promotion/oncampus`);
+    } else if (path === "offcampus") {
+      navigate(`/promotion/offcampus`);
+    }
+  };
+
+  const handleApplicationClick = () => {
+    setShowApplyStatus(true);
+  };
+
+  return (
+    <Container>
+      <TabBar>
+        <TabItem
+          onClick={() => handleTabClick("oncampus")}
+          $isActive={activeTab === "oncampus"}
+        >
+          교내
+        </TabItem>
+        <TabItem
+          onClick={() => handleTabClick("offcampus")}
+          $isActive={activeTab === "offcampus"}
+        >
+          교외
+        </TabItem>
+      </TabBar>
+      <ApplicationHistoryButton onClick={handleApplicationClick}>
+        동아리 지원현황
+        <New />
+      </ApplicationHistoryButton>
+
+      {/* {
+        showMatchHistory && 
+        <MatchHistory
+          closeMatchHistory={() => setShowMatchHistory(false)}
+        />
+      }
+
+      {
+        showMercenaryHistory && 
+        <MercenaryHistory
+          closeMercenaryHistory={() => setShowMercenaryHistory(false)}
+        />
+      } */}
+    </Container>
+  );
+};
+
+export default PromotionHeader;

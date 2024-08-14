@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import arrow_right_button from '../../../../assets/icons/arrow-right.svg';
 
 const Container = styled.div`
   margin: 4px 0;
@@ -42,9 +43,12 @@ const FeeInfoDate = styled.div`
 `;
 
 const FeeInfoButton = styled.div`
-  background-color: pink;
-  width: 24px;
   height: 24px;
+  width: 24px;
+  background-image: url(${arrow_right_button});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const FeeInfoCard = ({ label, amount, dueDate, onClick }) => (

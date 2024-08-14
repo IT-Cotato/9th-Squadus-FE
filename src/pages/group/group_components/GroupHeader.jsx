@@ -27,28 +27,30 @@ function GroupHeader() {
             setShowGroupSelectList(!showGroupSelectList);
           }}
         />
-        {showGroupSelectList && <GroupSelectList />}
       </Wrapper>
       <IconWrapper>
         <ModiInfoIcon onClick={toggleModal} />
         <AlarmIcon />
       </IconWrapper>
       <ModifyInfo isOpen={isModalOpen} onClose={closeModal} />
+      {showGroupSelectList && <GroupSelectList />}
     </Container>
   );
 }
 
 export default GroupHeader;
+
+
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
 `;
+
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
->>>>>>> 61b126a (feat: 동아리 정보 수정 페이지)
   background-color: white;
   font-size: 16px;
   border-bottom: 1px solid #dcdcdc;

@@ -3,7 +3,7 @@ import NoticeItem from './notice_components/NoticeItem';
 import NoticeCreate from './NoticeCreate';
 import NoticeDetail from './NoticeDetail';
 import { useState } from 'react';
-import create_icon from '../../../assets/icons/group/write.svg'
+import create_icon from '../../../assets/icons/write.svg'
 
 
 const Container = styled.div`
@@ -31,7 +31,7 @@ const FloatingButton = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 1000;
+  z-index: 100;
 `;
 
 const CreateIcon = styled.div`

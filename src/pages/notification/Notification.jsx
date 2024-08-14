@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import NotificationHeader from "./notification_components/NotificationHeader";
-import NotificationItem from "./notification_components/NotificationItem";
+import NotificationHeader from "./NotificationHeader";
+import NotificationItem from "./NotificationItem";
 
 const Container = styled.div`
   width: 100%;

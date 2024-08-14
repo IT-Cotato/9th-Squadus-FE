@@ -1,7 +1,11 @@
-import react from "react";
-import styled from "styled-components";
+import { BaseContainer } from "./Components_styled";
+import PromotionItem from "./PromotionItem";
 const OffCampus = () => {
-  return <div>OffCampus</div>;
+  return (
+    <BaseContainer>
+      <PromotionItem />
+    </BaseContainer>
+  );
 };
 
 export default OffCampus;
