@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const ScheduleContainer = styled.div`
   width: 100%;
@@ -9,11 +9,11 @@ const ScheduleContainer = styled.div`
   background: ${({ id }) => {
     switch (id) {
       case 1:
-        return 'linear-gradient(90deg, #FF6330 0%, #FF3F00 100%)';
+        return "linear-gradient(90deg, #FF6330 0%, #FF3F00 100%)";
       case 2:
-        return 'linear-gradient(90deg, #FF760A 0%, #FF6B00 100%)';
+        return "linear-gradient(90deg, #FF760A 0%, #FF6B00 100%)";
       default:
-        return 'linear-gradient(90deg, #FF6330 0%, #FF3F00 100%)';
+        return "linear-gradient(90deg, #FF6330 0%, #FF3F00 100%)";
     }
   }};
   box-sizing: border-box;
@@ -38,7 +38,7 @@ const SubText = styled.div`
   color: #ffd9a5;
 `;
 
-const ScheduleItem = ({ startTime, endTime, eventName, Location, id }) => {
+const ScheduleItem = ({ startTime, endTime, title, Location, id }) => {
   return (
     <ScheduleContainer id={id}>
       <TimeWrapper>
@@ -46,7 +46,7 @@ const ScheduleItem = ({ startTime, endTime, eventName, Location, id }) => {
         <SubText>~{endTime}</SubText>
       </TimeWrapper>
       <NameWrapper>
-        <MainText>{eventName}</MainText>
+        <MainText>{title}</MainText>
         <SubText>{Location}</SubText>
       </NameWrapper>
     </ScheduleContainer>

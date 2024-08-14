@@ -1,16 +1,16 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import {
   CalenderContainer,
   GroupCalendar,
   StyledDot,
-} from './schedule_components/Calendar';
-import { useState, useEffect, useCallback, useMemo } from 'react';
+} from "./schedule_components/Calendar";
+import { useState, useEffect, useCallback } from "react";
 import ScheduleItem, {
   AddSchedule,
   PlusIcon,
-} from './schedule_components/ScheduleItem';
-import ScheduleAdd from './ScheduleAdd';
-
+} from "./schedule_components/ScheduleItem";
+import ScheduleAdd from "./ScheduleAdd";
+import axios from "axios";
 const BaseContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -40,6 +40,23 @@ const ScheduleTitle = styled.div`
 `;
 
 const Schedule = () => {
+  const [clubSchedule, setClubSchedule] = useState([]);
+  const getClubSchedule = async () => {
+    axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/1/schedules`)
+      .then((res) => {
+        console.log(res.data);
+        setClubSchedule(res.data.schedules);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getClubSchedule();
+  }, []);
+
   const [date, setDate] = useState(new Date());
   const [selectedSchedule, setSelectedSchedule] = useState([]);
 
@@ -49,64 +66,16 @@ const Schedule = () => {
     date.getMonth() + 1
   }월 ${date.getDate()}일`;
 
-  const mockData = useMemo(
-    () => [
-      {
-        scheduleDate: new Date(2024, 6, 25),
-        startTime: '17:00',
-        endTime: '19:00',
-        eventName: '정기 훈련',
-        location: '홍익대학교 체육관',
-      },
-      {
-        scheduleDate: new Date(2024, 6, 25),
-        startTime: '19:00',
-        endTime: '21:00',
-        eventName: '정기 매치',
-        location: '홍익대학교 체육관',
-      },
-      {
-        scheduleDate: new Date(2024, 7, 3),
-        startTime: '17:00',
-        endTime: '19:00',
-        eventName: '정기 훈련',
-        location: '홍익대학교 체육관',
-      },
-      {
-        scheduleDate: new Date(2024, 7, 3),
-        startTime: '19:00',
-        endTime: '21:00',
-        eventName: '정기 매치',
-        location: '홍익대학교 체육관',
-      },
-      {
-        scheduleDate: new Date(2024, 7, 10),
-        startTime: '17:00',
-        endTime: '19:00',
-        eventName: '정기 훈련',
-        location: '홍익대학교 체육관',
-      },
-      {
-        scheduleDate: new Date(2024, 7, 10),
-        startTime: '19:00',
-        endTime: '21:00',
-        eventName: '정기 매치',
-        location: '홍익대학교 체육관',
-      },
-    ],
-    []
-  );
-
   const filterSchedule = useCallback(
     (newDate) => {
-      return mockData.filter(
+      return clubSchedule.filter(
         (item) =>
-          item.scheduleDate.getFullYear() === newDate.getFullYear() &&
-          item.scheduleDate.getMonth() === newDate.getMonth() &&
-          item.scheduleDate.getDate() === newDate.getDate()
+          new Date(item.date).getFullYear() === newDate.getFullYear() &&
+          new Date(item.date).getMonth() === newDate.getMonth() &&
+          new Date(item.date).getDate() === newDate.getDate()
       );
     },
-    [mockData]
+    [clubSchedule]
   );
 
   const onChange = (newDate) => {
@@ -121,7 +90,7 @@ const Schedule = () => {
   }, [date, filterSchedule]);
 
   const formatShortWeekday = (locale, date) => {
-    const weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+    const weekdays = ["S", "M", "T", "W", "T", "F", "S"];
     return weekdays[date.getDay()];
   };
 
@@ -135,14 +104,13 @@ const Schedule = () => {
     setIsModalOpen(false);
   };
 
-  // 특정 날짜에 점 표시 및 디버깅용 console.log 추가
   const tileContent = ({ date, view }) => {
-    if (view === 'month') {
-      const isScheduled = mockData.some(
+    if (view === "month") {
+      const isScheduled = clubSchedule.some(
         (item) =>
-          item.scheduleDate.getFullYear() === date.getFullYear() &&
-          item.scheduleDate.getMonth() === date.getMonth() &&
-          item.scheduleDate.getDate() === date.getDate()
+          new Date(item.date).getFullYear() === date.getFullYear() &&
+          new Date(item.date).getMonth() === date.getMonth() &&
+          new Date(item.date).getDate() === date.getDate()
       );
 
       if (isScheduled) {
@@ -171,7 +139,7 @@ const Schedule = () => {
             key={index}
             startTime={item.startTime}
             endTime={item.endTime}
-            eventName={item.eventName}
+            title={item.title}
             Location={item.location}
             id={index + 1}
           />

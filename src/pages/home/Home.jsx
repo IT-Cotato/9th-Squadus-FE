@@ -1,11 +1,12 @@
-import HomeHeader from './home_components/HomeHeader';
-import MainBanner from './MainBanners';
-import MainCalendar from './Calendar';
-import MainSchedule from './MainSchedule';
-import MainNotice from './MainNotice';
-import MainArticle from './MainArticle';
-import styled from 'styled-components';
-
+import HomeHeader from "./home_components/HomeHeader";
+import MainBanner from "./MainBanners";
+import MainCalendar from "./Calendar";
+import MainSchedule from "./MainSchedule";
+import MainNotice from "./MainNotice";
+import MainArticle from "./MainArticle";
+import styled from "styled-components";
+import { useState, useEffect, createContext } from "react";
+import axios from "axios";
 const FixedContainer = styled.div`
   top: 0;
   left: 0;
@@ -28,8 +29,25 @@ const Container = styled.div`
   padding: 0 16px;
   gap: 32px;
 `;
-
+export const scheduleContext = createContext();
 const Home = () => {
+  const [clubSchedule, setClubSchedule] = useState([]);
+  const getClubSchedule = async () => {
+    axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/1/schedules`)
+      .then((res) => {
+        console.log(res.data);
+        setClubSchedule(res.data.schedules);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getClubSchedule();
+  }, []);
+
   return (
     <>
       <FixedContainer>
@@ -38,8 +56,10 @@ const Home = () => {
       <ContentContainer>
         <MainBanner></MainBanner>
         <Container>
-          <MainCalendar></MainCalendar>
-          <MainSchedule></MainSchedule>
+          <scheduleContext.Provider value={clubSchedule}>
+            <MainCalendar></MainCalendar>
+            <MainSchedule></MainSchedule>
+          </scheduleContext.Provider>
           <MainNotice></MainNotice>
           <MainArticle></MainArticle>
         </Container>
