@@ -30,7 +30,10 @@ const TabItem = styled.div`
 
 const ApplicationHistoryButton = styled.div`
   font-size: 16px;
-  padding: 4px 8px;
+  font-weight: 500;
+  padding: 8px;
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.neutral[700]};
 `;
 
 
