@@ -81,6 +81,8 @@ const MatchContent = () => {
             maxCount={matchArticle.maxCount}
             currentCount={matchArticle.currentCount}
             content={matchArticle.content}
+            requestButtonLabel="요청 보내기"
+            showRequestButton={true}
           />
         )) }
 

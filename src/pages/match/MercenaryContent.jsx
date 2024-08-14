@@ -77,6 +77,8 @@ const MercenaryContent = () => {
             maxCount={mercenaryArticle.maxCount}
             currentCount={mercenaryArticle.currentCount}
             content={mercenaryArticle.content}
+            requestButtonLabel="요청 보내기"
+            showRequestButton={true}
           />
         )) }
 

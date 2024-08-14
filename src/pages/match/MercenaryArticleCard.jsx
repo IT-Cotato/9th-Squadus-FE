@@ -5,7 +5,7 @@ import arrow_up_icon from '../../assets/icons/arrow-up-white.svg'
 const Container = styled.div`
   width: 100%; 
   height: auto; 
-  padding: 16px 16px 8px 16px;
+  padding: 16px;
   background: radial-gradient(300% 300% at -30% 100%, #FF5810 0%, #A88BE4 38%, #3887E3 100%); 
   box-shadow: 0px 1px 6px rgba(42, 36, 112, 0.13); 
   border-radius: 12px; 
@@ -139,7 +139,7 @@ const CurrentBarContainer = styled.div`
 const ContentContainer = styled.div`
   width: 100%;
   display: ${({ $expanded }) => ($expanded ? 'flex' : 'none')};
-
+  margin-top: 4px;
 `;
 
 const RequestButton = styled.div`
@@ -154,10 +154,10 @@ const RequestButton = styled.div`
   font-weight: 600;
   font-size: 16px;
   margin-top: 12px;
-  display: ${({ $expanded }) => ($expanded ? 'flex' : 'none')};
+  display: ${({ $expanded, $show }) => ($expanded && $show ? 'flex' : 'none')};
 `;
 
-const MercenaryArticleCard = ({ title, location, date, placeOffer, img, maxCount, currentCount, content}) => {
+const MercenaryArticleCard = ({ title, location, date, placeOffer, img, maxCount, currentCount, content, requestButtonLabel, showRequestButton = true }) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -191,8 +191,9 @@ const MercenaryArticleCard = ({ title, location, date, placeOffer, img, maxCount
         </StatusContainer>
       </DetailContainer>
       <ContentContainer $expanded={expanded ? "true" : undefined}>{content}</ContentContainer>
-      <RequestButton $expanded={expanded ? "true" : undefined}>요청 보내기</RequestButton>
-
+      <RequestButton $expanded={expanded ? "true" : undefined} $show={showRequestButton ? "true" : undefined}>
+        {requestButtonLabel}
+      </RequestButton>
     </Container>
     
   );
