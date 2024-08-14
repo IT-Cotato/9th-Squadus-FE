@@ -116,12 +116,9 @@ const DescriptionContainer = styled.div`
   align-items: center;
 `;
 
-const TierDescription = styled.div`
-  font-size: 12px;
-`;
-
 const RecruitmentCount = styled.div`
   font-size: 12px;
+  margin-left: auto;
 `
 
 const BarContainer = styled.div`
@@ -160,7 +157,7 @@ const RequestButton = styled.div`
   display: ${({ $expanded, $show }) => ($expanded && $show ? 'flex' : 'none')};
 `;
 
-const MatchArticleCard = ({ title, location, date, placeOffer, img, tierNeed, maxCount, currentCount, content, requestButtonLabel, showRequestButton = true }) => {
+const MercenaryArticleCard = ({ title, location, date, placeOffer, img, maxCount, currentCount, content, requestButtonLabel, showRequestButton = true }) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -186,7 +183,6 @@ const MatchArticleCard = ({ title, location, date, placeOffer, img, tierNeed, ma
         <Image></Image>
         <StatusContainer>
           <DescriptionContainer>
-            <TierDescription>{tierNeed} 이상</TierDescription>
             <RecruitmentCount>{currentCount}/{maxCount}</RecruitmentCount>
           </DescriptionContainer>
           <BarContainer>
@@ -203,4 +199,4 @@ const MatchArticleCard = ({ title, location, date, placeOffer, img, tierNeed, ma
   );
 }
 
-export default MatchArticleCard;
+export default MercenaryArticleCard;

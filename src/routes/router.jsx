@@ -61,10 +61,7 @@ export const router = createBrowserRouter([
         element: <Group />,
         children: [
           { path: "", element: <Navigate to="basic-info" replace /> },
-          {
-            path: "basic-info",
-            element: <BasicInfo />,
-          },
+          { path: "basic-info", element: <BasicInfo /> },
           { path: "schedule", element: <Schedule /> },
           { path: "notice", element: <Notice /> },
           { path: "fee", element: <Fee /> },
@@ -74,11 +71,11 @@ export const router = createBrowserRouter([
         path: "match",
         element: <Match />,
         children: [
-          { path: "", element: <Navigate to="match" replace /> },
-          { path: "match", element: <MatchContent /> },
+          { path: "", element: <MatchContent /> },
           { path: "mercenary", element: <MercenaryContent /> }
         ],
       },
+      
       {
         path: "mypage",
         element: <Mypage />,

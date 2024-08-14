@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import MatchHistory from './MatchHistory';
+import MercenaryHistory from './MercenaryHistory';
 
 const Container = styled.div`
   display: flex;
@@ -28,17 +30,39 @@ const TabItem = styled.div`
 
 const ApplicationHistoryButton = styled.div`
   font-size: 16px;
+  font-weight: 500;
+  padding: 8px;
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.neutral[700]};
 `;
 
 
-const MatchHeader = () => {
+const MatchHeader = ({ setSelectedTab }) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('match');
 
+  const [showMatchHistory, setShowMatchHistory] = useState(false);
+  const [showMercenaryHistory, setShowMercenaryHistory] = useState(false);
+
   const handleTabClick = (path) => {
     setActiveTab(path);
-    navigate(`/match/${path}`);
+    setSelectedTab(path)
+
+    if (path === 'match') {
+      navigate(`/match`);
+    } else if (path === 'mercenary') {
+      navigate(`/match/mercenary`);
+    }
   };
+
+  const handleApplicationClick = () => {
+    if (activeTab === 'match') {
+      setShowMatchHistory(true);
+    } else if (activeTab === 'mercenary') {
+      setShowMercenaryHistory(true);
+    }
+  }
+
 
   return (
     <Container>
@@ -46,7 +70,22 @@ const MatchHeader = () => {
         <TabItem onClick={() => handleTabClick('match')} $isActive={activeTab === 'match'}>매치</TabItem>
         <TabItem onClick={() => handleTabClick('mercenary')} $isActive={activeTab === 'mercenary'}>용병</TabItem>
       </TabBar>
-      <ApplicationHistoryButton>신청 내역</ApplicationHistoryButton>
+      <ApplicationHistoryButton onClick={handleApplicationClick}>신청 내역</ApplicationHistoryButton>
+
+      {
+        showMatchHistory && 
+        <MatchHistory
+          closeMatchHistory={() => setShowMatchHistory(false)}
+        />
+      }
+
+      {
+        showMercenaryHistory && 
+        <MercenaryHistory
+          closeMercenaryHistory={() => setShowMercenaryHistory(false)}
+        />
+      }
+
     </Container>
   );
 }
