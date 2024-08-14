@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import close_icon from '../../assets/icons/close.svg'
 import location_grey_icon from '../../assets/icons/match/location-grey.svg'
@@ -56,6 +56,15 @@ const HeaderTitle = styled.div`
   color: ${({ theme }) => theme.colors.neutral[600]};
   font-size: 20px;
   font-weight: bold;
+`;
+
+const SubmitButton = styled.div`
+  color: ${({ theme }) => theme.colors.main[500]};
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
 `;
 
 const ContentContainer = styled.div`
@@ -127,6 +136,23 @@ const InputContainer = styled.div`
   gap: 8px;
 `;
 
+const ScheduleInputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 30px;
+  gap: 8px;
+`;
+
+const DateInputContainer = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+const TimeInputContainer = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
 const Icon = styled.div`
   width: 24px;
   height: 24px;
@@ -168,9 +194,51 @@ const Button = styled.button`
     outline: none;
     border-color: ${({ theme }) => theme.colors.main[500]};
   }
+
+  &.selected {
+    border-color: ${({ theme }) => theme.colors.main[500]};
+    background-color: ${({ theme }) => theme.colors.neutral[50]};
+    color: ${({ theme }) => theme.colors.main[500]};
+  }
+`;
+
+const Select = styled.select`
+  padding: 8px;
+  background-color: ${({ theme }) => theme.colors.neutral[50]};
+  border: 1px solid ${({ theme }) => theme.colors.neutral[200]};
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  &:focus {
+    outline: none;
+    border-color: ${({ theme }) => theme.colors.main[500]};
+  }
 `;
 
 const MatchCreate = ({ closeMatchCreate }) => {
+  const clubData = [
+    { id: "1", name: "중앙가르드"},
+    { id: "2", name: "코테이토" },
+    { id: "3", name: "하하"}
+  ];
+
+  const currentYear = new Date().getFullYear();
+  const [selectedYear, setSelectedYear] = useState(currentYear);
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedDay, setSelectedDay] = useState("");
+  const [selectedHour, setSelectedHour] = useState("");
+  const [selectedMinute, setSelectedMinute] = useState("");
+  const [selectedClub, setSelectedClub] = useState("");
+  const [selectedTier, setSelectedTier] = useState("");
+  const [placeOffer, setPlaceOffer] = useState("");
+
+  // 월에 따른 일수 계산
+  const getDaysInMonth = (year, month) => {
+    return new Date(year, month, 0).getDate();
+  };
+
+  const daysInMonth = selectedMonth ? getDaysInMonth(selectedYear, selectedMonth) : 31;
 
   return (
     <WrapperContainer>
@@ -178,6 +246,7 @@ const MatchCreate = ({ closeMatchCreate }) => {
         <HeaderContainer>
           <CloseButton onClick={closeMatchCreate} />
           <HeaderTitle>매치 글 작성하기</HeaderTitle>
+          <SubmitButton>완료</SubmitButton>
         </HeaderContainer>
           <ContentContainer>
             <Title type="text" placeholder="제목" />
@@ -198,11 +267,66 @@ const MatchCreate = ({ closeMatchCreate }) => {
                   <CalendarIcon />
                   날짜와 시간을 선택해 주세요.
                 </Label>
-                <InputContainer>
-                  <Button>월</Button>
-                  <Button>일</Button>
-                  <Button>시간</Button>
-                </InputContainer>
+                <ScheduleInputContainer>
+                  <DateInputContainer>
+                    <Select
+                      value={selectedYear}
+                      onChange={(e) => setSelectedYear(e.target.value)}
+                    >
+                      {Array.from({ length: 10 }, (_, i) => (
+                        <option key={i} value={currentYear + i}>
+                          {currentYear + i}년
+                        </option>
+                      ))}
+                    </Select>
+                    <Select
+                      value={selectedMonth}
+                      onChange={(e) => setSelectedMonth(e.target.value)}
+                    >
+                      <option value="">월</option>
+                      {Array.from({ length: 12 }, (_, i) => (
+                        <option key={i} value={i + 1}>
+                          {i + 1}월
+                        </option>
+                      ))}
+                    </Select>
+                    <Select
+                      value={selectedDay}
+                      onChange={(e) => setSelectedDay(e.target.value)}
+                    >
+                      <option value="">일</option>
+                      {Array.from({ length: daysInMonth }, (_, i) => (
+                        <option key={i} value={i + 1}>
+                          {i + 1}일
+                        </option>
+                      ))}
+                    </Select>
+                  </DateInputContainer>
+                  <TimeInputContainer>
+                    <Select
+                      value={selectedHour}
+                      onChange={(e) => setSelectedHour(e.target.value)}
+                    >
+                      <option value="">시</option>
+                      {Array.from({ length: 24 }, (_, i) => (
+                        <option key={i} value={i}>
+                          {i}시
+                        </option>
+                      ))}
+                    </Select>
+                    <Select
+                      value={selectedMinute}
+                      onChange={(e) => setSelectedMinute(e.target.value)}
+                    >
+                      <option value="">분</option>
+                      {Array.from({ length: 60 }, (_, i) => (
+                        <option key={i} value={i}>
+                          {i}분
+                        </option>
+                      ))}
+                    </Select>
+                  </TimeInputContainer>
+                </ScheduleInputContainer>
               </FieldContainer>
               <FieldContainer>
                 <Label>
@@ -210,7 +334,16 @@ const MatchCreate = ({ closeMatchCreate }) => {
                   매치에 참여할 동아리를 선택해 주세요.
                 </Label>
                 <InputContainer>
-                  <Button>중앙가드</Button>
+                  <Select
+                    value={selectedClub}
+                    onChange={(e) => setSelectedClub(e.target.value)}
+                  >
+                    {clubData.map((club) => (
+                      <option key={club.id} value={club.id}>
+                        {club.name}
+                      </option>
+                    ))}
+                  </Select>
                 </InputContainer>
               </FieldContainer>
               <FieldContainer>
@@ -219,7 +352,14 @@ const MatchCreate = ({ closeMatchCreate }) => {
                   티어를 선택해 주세요.
                 </Label>
                 <InputContainer>
-                  <Button>아무나</Button>
+                  <Select
+                    value={selectedTier}
+                    onChange={(e) => setSelectedTier(e.target.value)}
+                  >
+                    <option>GOLD</option>
+                    <option>SILVER</option>
+                    <option>BRONZE</option>
+                  </Select>
                 </InputContainer>
               </FieldContainer>
               <FieldContainer>
@@ -228,11 +368,20 @@ const MatchCreate = ({ closeMatchCreate }) => {
                   장소 제공 여부를 선택해 주세요.
                 </Label>
                 <InputContainer>
-                  <Button>Yes</Button>
-                  <Button>No</Button>
+                  <Button
+                    onClick={() => setPlaceOffer("Yes")}
+                    className={placeOffer === "Yes" ? "selected" : ""}
+                  >
+                    Yes
+                  </Button>
+                  <Button
+                    onClick={() => setPlaceOffer("No")}
+                    className={placeOffer === "No" ? "selected" : ""}
+                  >
+                    No
+                  </Button>
                 </InputContainer>
               </FieldContainer>
-
             </FormContainer>
           </ContentContainer>
       </Container>
