@@ -2,15 +2,19 @@ import { createBrowserRouter, Outlet, Navigate } from "react-router-dom";
 import MainLayout from "../components/MainLayout";
 
 // Login
-import Login from '../pages/login/Login';
+import Login from "../pages/login/Login";
 import Callback from "../pages/login/Callback";
 
 // GNB
-import Home from '../pages/home/Home';
-import Group from '../pages/group/Group';
-import Match from '../pages/Match';
-import Mypage from '../pages/Mypage';
-import Report from '../pages/Report';
+import Home from "../pages/home/Home";
+import Group from "../pages/group/Group";
+import Match from "../pages/Match";
+import Mypage from "../pages/Mypage";
+import Promotion from "../pages/Promotion/Promotion";
+
+// GNB2: promotion
+import OnCampus from "../pages/Promotion/promotion_components/OnCampus";
+import OffCampus from "../pages/Promotion/promotion_components/OffCampus";
 
 // GNB3: Group
 import BasicInfo from "../pages/group/basicinfo/BasicInfo";
@@ -21,12 +25,12 @@ import ArticleDetailList from "../pages/home/ArticleDetailList";
 import NoticeDetailList from "../pages/home/NoticeDetailList";
 
 // Notification
-import Notification from '../pages/notification/Notification';
+import Notification from "../pages/notification/Notification";
 
 export const router = createBrowserRouter([
   {
-    path: '/login',
-    element: <Login />
+    path: "/login",
+    element: <Login />,
   },
   {
     path: "callback",
@@ -75,13 +79,21 @@ export const router = createBrowserRouter([
         element: <Mypage />,
       },
       {
-        path: "report",
-        element: <Report />,
+        path: "promotion",
+        element: <Promotion />,
+        children: [
+          { path: "", element: <Navigate to="oncampus" replace /> },
+          {
+            path: "oncampus",
+            element: <OnCampus />,
+          },
+          { path: "offcampus", element: <OffCampus /> },
+        ],
       },
     ],
   },
   {
-    path: '/notification',
-    element: <Notification />
+    path: "/notification",
+    element: <Notification />,
   },
 ]);
