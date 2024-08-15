@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import default_profile_image from '../../assets/default_profile_image.svg'
+import arrow_right_icon from '../../assets/icons/arrow-right-orange.svg'
+import UniversityAuth from './UniversityAuth';
 
 const FixedContainer = styled.div`
   top: 0;
@@ -63,6 +65,20 @@ const AuthMessage = styled.div`
   font-weight: 500;
   color: ${({ $isVerified, theme }) => ($isVerified ? theme.colors.secondary[600] : theme.colors.main[600])};
   margin-top: 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: -4px;
+`;
+
+const ArrowIcon = styled.div`
+  width: 24px;
+  height: 24px;
+  background-image: url(${arrow_right_icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const AccountSection = styled.div`
@@ -84,7 +100,9 @@ const MenuContainer = styled.div`
 `;
 
 const MyPage = () => {
-  const isUniversityVerified = true;
+  const [showUniversityAuth, setShowUniversityAuth] = useState(false);
+
+  const isUniversityVerified = false;
 
   return (
     <>
@@ -98,8 +116,9 @@ const MyPage = () => {
           {isUniversityVerified && (
             <UniversityName>서울대학교</UniversityName>
           )}
-          <AuthMessage $isVerified={isUniversityVerified}>
-            {isUniversityVerified ? '인증 완료' : '인증 미완료'}
+          <AuthMessage $isVerified={isUniversityVerified} onClick={() => setShowUniversityAuth(true)}>
+            {isUniversityVerified ? '학교 인증 완료' : '학교 인증이 필요합니다'}
+            {!isUniversityVerified && <ArrowIcon />}
           </AuthMessage>
         </ProfileSection>
         <AccountSection>
@@ -109,7 +128,13 @@ const MyPage = () => {
         </AccountSection>
       </ContentContainer>
 
-      
+      {
+        showUniversityAuth && 
+        <UniversityAuth
+          closeUniversityAuth={() => setShowUniversityAuth(false)}
+        />
+      }
+
     </>
   );
 }
