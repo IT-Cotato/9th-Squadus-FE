@@ -1,10 +1,9 @@
-import styled from 'styled-components';
-import NoticeItem from './notice_components/NoticeItem';
-import NoticeCreate from './NoticeCreate';
-import NoticeDetail from './NoticeDetail';
-import { useState } from 'react';
-import create_icon from '../../../assets/icons/write.svg'
-
+import styled from "styled-components";
+import NoticeItem from "./notice_components/NoticeItem";
+import NoticeCreate from "./NoticeCreate";
+import NoticeDetail from "./NoticeDetail";
+import { useState } from "react";
+import create_icon from "../../../assets/icons/write.svg";
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.neutral[100]};
@@ -63,13 +62,13 @@ const Notice = () => {
     { id: "2", title: "공지사항임", date: "2024.05.30" },
     { id: "3", title: "공지사항~~", date: "2024.05.30" },
     { id: "4", title: "공지사항", date: "2024.05.30" },
-  ]
+  ];
 
   return (
     <Container>
-      <NoticeList >
-        {noticeData.map(notice => (
-          <NoticeItem 
+      <NoticeList>
+        {noticeData.map((notice) => (
+          <NoticeItem
             key={notice.id}
             title={notice.title}
             date={notice.date}
@@ -78,28 +77,26 @@ const Notice = () => {
         ))}
       </NoticeList>
 
-      <FloatingButton onClick={() => { setShowNoticeCreate(true);}} > 
+      <FloatingButton
+        onClick={() => {
+          setShowNoticeCreate(true);
+        }}
+      >
         <CreateIcon />
       </FloatingButton>
 
-      { 
-        showNoticeCreate && 
-        <NoticeCreate 
-          closeNoticeCreate={() => setShowNoticeCreate(false)} 
+      {showNoticeCreate && (
+        <NoticeCreate
+          closeNoticeCreate={() => setShowNoticeCreate(false)}
           noticeId={selectedNoticeId}
         />
-      }
+      )}
 
-      {
-        showNoticeDetail &&
-        <NoticeDetail
-          closeNoticeDetail={() => setShowNoticeDetail(false)}
-        />
-      }
-
-      
+      {showNoticeDetail && (
+        <NoticeDetail closeNoticeDetail={() => setShowNoticeDetail(false)} />
+      )}
     </Container>
   );
-}
+};
 
 export default Notice;

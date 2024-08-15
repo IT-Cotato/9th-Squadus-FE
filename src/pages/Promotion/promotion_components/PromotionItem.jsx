@@ -1,32 +1,45 @@
 import { useState } from "react";
 import styled from "styled-components";
+import ClubApply from "../ClubApply";
+
 const PromotionItem = () => {
   const [expanded, setExpanded] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  const openModal = () => {
+    setIsModalOpen(true);
+    console.log(isModalOpen);
+  };
   return (
-    <Container onClick={() => setExpanded(!expanded)}>
-      <ContentWrapper>
-        <RecruitmentWrapper>
-          <RecruitmentTag>모집중</RecruitmentTag>
-          <RecruitmentDate>08.23~09.11</RecruitmentDate>
-        </RecruitmentWrapper>
-        <NoticeTitleWrapper>
-          <NoticeTitle>그린비 2024 여름 동아리원 모집 🐝💚</NoticeTitle>
-          <NoticeTagWrapper>
-            <NoticeTag>서울강남</NoticeTag>
-            <NoticeTag>·</NoticeTag>
-            <NoticeTag>테니스</NoticeTag>
-          </NoticeTagWrapper>
-        </NoticeTitleWrapper>
-        <CommentWrapper>
-          <CommentTag>브론즈</CommentTag>
-          <CommentTag>모두환영</CommentTag>
-        </CommentWrapper>
-      </ContentWrapper>
-      <ButtonWrapper $expanded={expanded ? "ture" : undefined}>
-        <Button>상세보기</Button>
-        <Button>지원하기</Button>
-      </ButtonWrapper>
-    </Container>
+    <>
+      <Container>
+        <ContentWrapper onClick={() => setExpanded(!expanded)}>
+          <RecruitmentWrapper>
+            <RecruitmentTag>모집중</RecruitmentTag>
+            <RecruitmentDate>08.23~09.11</RecruitmentDate>
+          </RecruitmentWrapper>
+          <NoticeTitleWrapper>
+            <NoticeTitle>그린비 2024 여름 동아리원 모집 🐝💚</NoticeTitle>
+            <NoticeTagWrapper>
+              <NoticeTag>서울강남</NoticeTag>
+              <NoticeTag>·</NoticeTag>
+              <NoticeTag>테니스</NoticeTag>
+            </NoticeTagWrapper>
+          </NoticeTitleWrapper>
+          <CommentWrapper>
+            <CommentTag>브론즈</CommentTag>
+            <CommentTag>모두환영</CommentTag>
+          </CommentWrapper>
+        </ContentWrapper>
+        <ButtonWrapper $expanded={expanded ? "ture" : undefined}>
+          <Button>상세보기</Button>
+          <Button onClick={openModal}>지원하기</Button>
+        </ButtonWrapper>
+      </Container>
+      <ClubApply isOpen={isModalOpen} closeModal={closeModal} />
+    </>
   );
 };
 

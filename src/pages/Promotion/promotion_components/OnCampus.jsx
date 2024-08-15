@@ -1,6 +1,9 @@
 import PromotionItem from "./PromotionItem";
 import { BaseContainer } from "./Components_styled";
-const qwe = [
+import WriteButton from "./WriteButton";
+import { useState } from "react";
+import PromotionWrite from "../PromotionWrite";
+const List = [
   { id: 1 },
   { id: 2 },
   { id: 3 },
@@ -10,22 +13,26 @@ const qwe = [
   { id: 7 },
   { id: 8 },
 ];
+
 const OnCampus = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  const openModal = () => {
+    setIsModalOpen(true);
+    console.log(isModalOpen);
+  };
   return (
-    <BaseContainer>
-      {/* <PromotionItem />
-      <PromotionItem />
-      <PromotionItem />
-      <PromotionItem />
-      <PromotionItem />
-      <PromotionItem />
-      <PromotionItem />
-      <PromotionItem />
-      <PromotionItem /> */}
-      {qwe.map((item) => (
-        <PromotionItem key={item.id} />
-      ))}
-    </BaseContainer>
+    <>
+      <BaseContainer>
+        {List.map((item) => (
+          <PromotionItem key={item.id} />
+        ))}
+        <WriteButton onClick={openModal} />
+      </BaseContainer>
+      <PromotionWrite isOpen={isModalOpen} closeModal={closeModal} />
+    </>
   );
 };
 
