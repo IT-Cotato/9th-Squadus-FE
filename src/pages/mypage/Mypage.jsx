@@ -4,6 +4,7 @@ import write_icon from '../../assets/icons/write.svg';
 import default_profile_image from '../../assets/default_profile_image.svg';
 import arrow_right_icon from '../../assets/icons/arrow-right-orange.svg';
 import UniversityAuth from './UniversityAuth';
+import ImageEdit from './ImageEdit';
 
 const FixedContainer = styled.div`
   top: 0;
@@ -23,8 +24,9 @@ const Spacer = styled.div`
 `;
 
 const Title = styled.div`
+  color: ${({ theme }) => theme.colors.neutral[600]};
   font-size: 20px;
-  color: ${({ theme }) => theme.colors.neutral[800]};
+  font-weight: bold;
 `;
 
 const EditIcon = styled.div`
@@ -119,6 +121,7 @@ const MenuContainer = styled.div`
 
 const MyPage = () => {
   const [showUniversityAuth, setShowUniversityAuth] = useState(false);
+  const [showImageEdit, setShowImageEdit] = useState(false);
 
   const isUniversityVerified = false;
 
@@ -127,7 +130,7 @@ const MyPage = () => {
       <FixedContainer>
         <Spacer></Spacer>
         <Title>프로필</Title>
-        <EditIcon></EditIcon>
+        <EditIcon onClick={() => setShowImageEdit(true)}></EditIcon>
       </FixedContainer>
       <ContentContainer>
         <ProfileSection>
@@ -152,6 +155,13 @@ const MyPage = () => {
         showUniversityAuth && 
         <UniversityAuth
           closeUniversityAuth={() => setShowUniversityAuth(false)}
+        />
+      }
+
+      {
+        showImageEdit &&
+        <ImageEdit 
+          closeImageEdit={() => setShowImageEdit(false)}
         />
       }
 
