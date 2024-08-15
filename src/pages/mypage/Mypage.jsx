@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import default_profile_image from '../../assets/default_profile_image.svg'
-import arrow_right_icon from '../../assets/icons/arrow-right-orange.svg'
+import write_icon from '../../assets/icons/write.svg';
+import default_profile_image from '../../assets/default_profile_image.svg';
+import arrow_right_icon from '../../assets/icons/arrow-right-orange.svg';
 import UniversityAuth from './UniversityAuth';
 
 const FixedContainer = styled.div`
@@ -13,9 +14,26 @@ const FixedContainer = styled.div`
   display: flex;
   padding: 20px;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+`;
+
+const Spacer = styled.div`
+  width: 32px;
+  height: 32px;
+`;
+
+const Title = styled.div`
   font-size: 20px;
   color: ${({ theme }) => theme.colors.neutral[800]};
+`;
+
+const EditIcon = styled.div`
+  height: 32px;
+  width: 32px;
+  background-image: url(${write_icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const ContentContainer = styled.div`
@@ -107,7 +125,9 @@ const MyPage = () => {
   return (
     <>
       <FixedContainer>
-        프로필
+        <Spacer></Spacer>
+        <Title>프로필</Title>
+        <EditIcon></EditIcon>
       </FixedContainer>
       <ContentContainer>
         <ProfileSection>
