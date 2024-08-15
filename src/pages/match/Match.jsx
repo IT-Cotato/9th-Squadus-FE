@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Outlet } from 'react-router-dom';
-import MatchHeader from './MatchHeader';
-import create_icon from '../../assets/icons/write.svg'
-import MatchCreate from './MatchCreate';
-import MercenaryCreate from './MercenaryCreate';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Outlet } from "react-router-dom";
+import MatchHeader from "./MatchHeader";
+import create_icon from "../../assets/icons/write.svg";
+import MatchCreate from "./MatchCreate";
+import MercenaryCreate from "./MercenaryCreate";
 
 const FixedContainer = styled.div`
   top: 0;
@@ -59,19 +59,18 @@ const CreateIcon = styled.div`
 `;
 
 const Match = () => {
-  const [selectedTab, setSelectedTab] = useState('match');
+  const [selectedTab, setSelectedTab] = useState("match");
 
   const [showMatchCreate, setShowMatchCreate] = useState(false);
   const [showMercenaryCreate, setShowMercenaryCreate] = useState(false);
 
-
   const handleFloatingButtonClick = () => {
-    if (selectedTab === 'match') {
+    if (selectedTab === "match") {
       setShowMatchCreate(true);
-    } else if (selectedTab === 'mercenary') {
+    } else if (selectedTab === "mercenary") {
       setShowMercenaryCreate(true);
     }
-  }
+  };
 
   return (
     <>
@@ -82,26 +81,22 @@ const Match = () => {
         <ContentContainer>
           <Outlet />
         </ContentContainer>
-        <FloatingButton onClick={handleFloatingButtonClick}> 
+        <FloatingButton onClick={handleFloatingButtonClick}>
           <CreateIcon />
         </FloatingButton>
       </WrapperContainer>
 
-      {
-        showMatchCreate && 
-        <MatchCreate
-          closeMatchCreate={() => setShowMatchCreate(false)}
-        />
-      }
+      {showMatchCreate && (
+        <MatchCreate closeMatchCreate={() => setShowMatchCreate(false)} />
+      )}
 
-      {
-        showMercenaryCreate && 
+      {showMercenaryCreate && (
         <MercenaryCreate
           closeMercenaryCreate={() => setShowMercenaryCreate(false)}
         />
-      }
+      )}
     </>
   );
-}
+};
 
 export default Match;

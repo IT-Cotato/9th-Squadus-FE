@@ -22,7 +22,7 @@ const BasicInfo = () => {
   });
   const getInfo = async () => {
     axios
-      .get("http://15.165.165.240:8080/v1/api/clubs/1")
+      .get(`${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/1`)
       .then((res) => {
         console.log(res.data);
         setInfomation(res.data);
@@ -36,12 +36,12 @@ const BasicInfo = () => {
     getInfo();
   }, []);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   const toggleModal = () => {
     setIsModalOpen((prev) => !prev);
     console.log(isModalOpen);
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
   };
   const fommatDate = () => {
     const tmp = new Date(information.createdAt);

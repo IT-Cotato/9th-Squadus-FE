@@ -13,8 +13,8 @@ export const BaseContainer = styled.div`
   border-radius: 16px 16px 0px 0px;
   box-shadow: 0px -2px 87px 0px #475467;
   box-sizing: border-box;
-
   background-color: #ffffff;
+  overflow-y: auto;
 `;
 export const ModalNavi = styled.div`
   width: 100%;
@@ -23,6 +23,13 @@ export const ModalNavi = styled.div`
   border-radius: 8px 0px 0px 0px;
   display: flex;
   justify-content: space-between;
+`;
+export const ModalTitle = styled.div`
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 22px;
+  text-align: center;
+  color: #475467;
 `;
 export const CloseButton = styled.button`
   background: none;
@@ -43,4 +50,17 @@ export const AddButton = styled.button`
   font-size: 20px;
   font-weight: 600;
   line-height: 22px;
+`;
+export const CloseButtonStyled = styled(CloseButton)`
+  font-size: 14px;
+`;
+export const EntireContainer = styled.div`
+  width: 100%;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Container = styled(BaseContainer)`
+  border-radius: 0px;
 `;

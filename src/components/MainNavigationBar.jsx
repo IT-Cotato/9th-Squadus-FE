@@ -1,10 +1,10 @@
-import styled from 'styled-components';
-import { Link, useLocation } from 'react-router-dom';
-import { ReactComponent as HomeIcon } from '../assets/icons/home.svg';
-import { ReactComponent as ReportIcon } from '../assets/icons/report.svg';
-import { ReactComponent as GroupIcon } from '../assets/icons/group.svg';
-import { ReactComponent as MatchIcon } from '../assets/icons/match.svg';
-import { ReactComponent as MyPageIcon } from '../assets/icons/mypage.svg';
+import styled from "styled-components";
+import { Link, useLocation } from "react-router-dom";
+import { ReactComponent as HomeIcon } from "../assets/icons/home.svg";
+import { ReactComponent as PromotionIcon } from "../assets/icons/promotion.svg";
+import { ReactComponent as GroupIcon } from "../assets/icons/group.svg";
+import { ReactComponent as MatchIcon } from "../assets/icons/match.svg";
+import { ReactComponent as MyPageIcon } from "../assets/icons/mypage.svg";
 
 const NavBar = styled.nav`
   bottom: 0;
@@ -26,13 +26,15 @@ const NavItem = styled(({ isActive, ...props }) => <Link {...props} />)`
   flex: 1;
   text-decoration: none;
   font-size: 10px;
-  color: ${({ theme, isActive }) => isActive ? theme.colors.secondary[600] : theme.colors.neutral[400]};
-  
+  color: ${({ theme, isActive }) =>
+    isActive ? theme.colors.secondary[600] : theme.colors.neutral[400]};
+
   svg {
     margin-bottom: 8px;
     width: 24px;
     height: 24px;
-    fill: ${({ theme, isActive }) => isActive ? theme.colors.secondary[600] : theme.colors.neutral[400]};
+    fill: ${({ theme, isActive }) =>
+      isActive ? theme.colors.secondary[600] : theme.colors.neutral[400]};
   }
 `;
 
@@ -42,23 +44,22 @@ function MainNavigationBar() {
 
   return (
     <NavBar>
-      <NavItem to="/" isActive={checkActive('/') && location.pathname === '/'}>
-        <HomeIcon />
-        홈
+      <NavItem to="/" isActive={checkActive("/") && location.pathname === "/"}>
+        <HomeIcon />홈
       </NavItem>
-      <NavItem to="/report" isActive={checkActive('/report')}>
-        <ReportIcon />
+      <NavItem to="/promotion" isActive={checkActive("/promotion")}>
+        <PromotionIcon />
         분석
       </NavItem>
-      <NavItem to="/group" isActive={checkActive('/group')}>
+      <NavItem to="/group" isActive={checkActive("/group")}>
         <GroupIcon />
         그룹
       </NavItem>
-      <NavItem to="/match" isActive={checkActive('/match')}>
+      <NavItem to="/match" isActive={checkActive("/match")}>
         <MatchIcon />
         매치
       </NavItem>
-      <NavItem to="/mypage" isActive={checkActive('/mypage')}>
+      <NavItem to="/mypage" isActive={checkActive("/mypage")}>
         <MyPageIcon />
         마이페이지
       </NavItem>
