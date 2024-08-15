@@ -66,28 +66,30 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
+  gap: 16px;
 `;
 
 const FieldContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
   width: 100%;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 `;
 
 const Label = styled.div`
-  font-size: 18px;
-  color: ${({ theme }) => theme.colors.neutral[400]};
-  width: 40%;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.neutral[500]};
 `;
 
 const Input = styled.input`
-  width: 60%;
+  width: 100%;
   padding: 10px;
   border: none;
   border-radius: 8px;
-  background-color: ${({ theme }) => theme.colors.neutral[100]};
+  background-color: ${({ theme }) => theme.colors.neutral[50]};
   color: ${({ theme }) => theme.colors.neutral[700]};
   font-size: 16px;
   /* input 타입이 number일 때 스타일 */
@@ -102,7 +104,6 @@ const Input = styled.input`
     margin: 0;
   }
 `;
-
 
 
 const ExpenseCreate = ({ closeExpenseCreate }) => {
@@ -147,7 +148,7 @@ const ExpenseCreate = ({ closeExpenseCreate }) => {
             )}
           </FieldContainer>
           <FieldContainer>
-            <Label>금액 (원)</Label>
+            <Label>사용 금액 (원)</Label>
             <Input
               type="number"
               min="0"  // 최소값을 0으로 설정
