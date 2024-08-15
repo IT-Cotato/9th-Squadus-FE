@@ -5,6 +5,7 @@ import default_profile_image from '../../assets/default_profile_image.svg';
 import arrow_right_icon from '../../assets/icons/arrow-right-orange.svg';
 import UniversityAuth from './UniversityAuth';
 import ImageEdit from './ImageEdit';
+import LogoutModal from './LogoutModal';
 
 const FixedContainer = styled.div`
   top: 0;
@@ -122,6 +123,7 @@ const MenuContainer = styled.div`
 const MyPage = () => {
   const [showUniversityAuth, setShowUniversityAuth] = useState(false);
   const [showImageEdit, setShowImageEdit] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const isUniversityVerified = false;
 
@@ -146,7 +148,7 @@ const MyPage = () => {
         </ProfileSection>
         <AccountSection>
           <AccountHeader>계정</AccountHeader>
-          <MenuContainer>로그아웃</MenuContainer>
+          <MenuContainer onClick={() => setShowLogoutModal(true)}>로그아웃</MenuContainer>
           <MenuContainer>회원 탈퇴</MenuContainer>
         </AccountSection>
       </ContentContainer>
@@ -162,6 +164,13 @@ const MyPage = () => {
         showImageEdit &&
         <ImageEdit 
           closeImageEdit={() => setShowImageEdit(false)}
+        />
+      }
+
+      {
+        showLogoutModal &&
+        <LogoutModal 
+          closeLogoutModal={() => setShowLogoutModal(false)}
         />
       }
 
