@@ -65,12 +65,28 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
+  gap: 24px;
+`;
+
+const InputContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
+
+const Label = styled.div`
+  width: 100%;
+  display: flex;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 2px 8px;
+  color: ${({ theme }) => theme.colors.neutral[600]};
 `;
 
 const EmailInput = styled.input`
   width: 100%;
   padding: 12px;
-  margin: 16px 0;
   font-size: 18px;
   border: none;
   border-radius: 8px;
@@ -79,11 +95,10 @@ const EmailInput = styled.input`
   color: ${({ emailSent }) => emailSent ? '#666' : 'inherit'};
 `;
 
-
 const InfoText = styled.div`
   font-size: 14px;
   color: ${({ theme }) => theme.colors.main[600]};
-  margin-bottom: 16px;
+  padding: 4px 8px;
 `;
 
 const FooterContainer = styled.div`
@@ -121,7 +136,6 @@ const VerificationSection = styled.div`
 const CodeInput = styled.input`
   flex-grow: 1;
   padding: 12px;
-  margin: 16px 0;
   font-size: 18px;
   border: none;
   border-radius: 8px;
@@ -180,25 +194,31 @@ const UniversityAuth = ({ closeUniversityAuth }) => {
           <HeaderTitle>학교 인증</HeaderTitle>
         </HeaderContainer>
         <ContentContainer>
-          <EmailInput
-            type="email"
-            placeholder="학교 이메일을 입력하세요."
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            readOnly={emailSent}
-            emailSent={emailSent}
-          />
+          <InputContainer>
+            <Label>학교 이메일</Label>
+            <EmailInput
+              type="email"
+              placeholder="학교 이메일을 입력하세요."
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              readOnly={emailSent}
+              emailSent={emailSent}
+            />
           <InfoText>학교에서 발급받은 메일을 통해서만 인증이 가능합니다.</InfoText>
+          </InputContainer>
           {emailSent && (
-            <VerificationSection>
-              <CodeInput
-                type="text"
-                placeholder="인증번호를 입력하세요."
-                value={verificationCode}
-                onChange={(e) => setVerificationCode(e.target.value)}
-              />
-              <ResendButton>재전송</ResendButton>
-            </VerificationSection>
+            <InputContainer>
+              <Label>인증번호</Label>
+              <VerificationSection>
+                <CodeInput
+                  type="text"
+                  placeholder="인증번호를 입력하세요."
+                  value={verificationCode}
+                  onChange={(e) => setVerificationCode(e.target.value)}
+                />
+                <ResendButton>재전송</ResendButton>
+              </VerificationSection>
+            </InputContainer>
           )}
         </ContentContainer>
         <FooterContainer>
