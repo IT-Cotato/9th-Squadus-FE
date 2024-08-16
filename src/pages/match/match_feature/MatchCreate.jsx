@@ -25,6 +25,8 @@ const Container = styled.div`
   max-width: 649px;
   justify-content: center;
   background-color: white;
+  display: flex;
+  flex-direction: column;
 `;
 
 const HeaderContainer = styled.div`
