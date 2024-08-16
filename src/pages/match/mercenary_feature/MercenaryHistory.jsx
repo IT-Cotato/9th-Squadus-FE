@@ -40,8 +40,9 @@ const HeaderContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   padding: 20px;
-  border-bottom: 1px solid #dcdcdc;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.neutral[200]};
   position: relative;
+  gap: 4px;
 `;
 
 const PreviousButton = styled.div`
@@ -54,9 +55,6 @@ const PreviousButton = styled.div`
 `;
 
 const HeaderTitle = styled.div`
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   color: ${({ theme }) => theme.colors.neutral[600]};
   font-size: 20px;
   font-weight: bold;
@@ -67,12 +65,12 @@ const TabBar = styled.div`
   flex-direction: row;
   /* background-color: pink; */
   padding: 0px 20px;
+  margin: 8px 0px;
   gap: 12px;
 `;
 
 const TabItem = styled.div`
-  margin: 8px 0px;
-  padding: 6px 0px;
+  padding: 8px 0px;
   color: ${({ theme }) => theme.colors.neutral[700]};
   font-size: 18px;
   font-weight: 500;

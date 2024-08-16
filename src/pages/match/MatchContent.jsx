@@ -3,7 +3,7 @@ import MatchArticleCard from './match_feature/MatchArticleCard';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  padding: 16px;
+  padding: 20px;
 `;
 
 const MatchArticleList = styled.div`
