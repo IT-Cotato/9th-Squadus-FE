@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import close_icon from '../../assets/icons/close.svg'
-import location_grey_icon from '../../assets/icons/match/location-grey.svg'
-import calendar_grey_icon from '../../assets/icons/match/calendar-grey.svg';
-import club_grey_icon from '../../assets/icons/match/club-grey.svg';
-import tier_grey_icon from '../../assets/icons/match/tier-grey.svg';
-import placeoffer_grey_icon from '../../assets/icons/match/placeoffer-grey.svg';
+import close_icon from '../../../assets/icons/close.svg'
+import location_grey_icon from '../../../assets/icons/match/location-grey.svg'
+import calendar_grey_icon from '../../../assets/icons/match/calendar-grey.svg';
+import club_grey_icon from '../../../assets/icons/match/club-grey.svg';
+import tier_grey_icon from '../../../assets/icons/match/tier-grey.svg';
+import placeoffer_grey_icon from '../../../assets/icons/match/placeoffer-grey.svg';
 
 const WrapperContainer = styled.div`
   position: fixed;

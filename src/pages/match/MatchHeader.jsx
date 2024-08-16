@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import MatchHistory from './MatchHistory';
-import MercenaryHistory from './MercenaryHistory';
+import MatchHistory from './match_feature/MatchHistory';
+import MercenaryHistory from './mercenary_feature/MercenaryHistory';
 
 const Container = styled.div`
   display: flex;

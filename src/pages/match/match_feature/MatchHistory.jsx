@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import previous_icon from '../../assets/icons/arrow-left.svg';
+import previous_icon from '../../../assets/icons/arrow-left.svg';
 import MatchReceivedList from './MatchReceivedList';
 import MatchSentList from './MatchSentList'
 

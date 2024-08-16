@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import arrow_up_icon from '../../assets/icons/arrow-up-white.svg'
+import arrow_up_icon from '../../../assets/icons/arrow-up-white.svg'
 
 const Container = styled.div`
   width: 100%; 

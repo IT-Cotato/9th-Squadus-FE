@@ -1,5 +1,5 @@
 import React from 'react';
-import MatchArticleCard from './MatchArticleCard';
+import MatchArticleCard from './match_feature/MatchArticleCard';
 import styled from 'styled-components';
 
 const Container = styled.div`
