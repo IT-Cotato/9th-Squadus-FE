@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import close_icon from '../../assets/icons/close.svg';
+import useAuthStore from '../../stores/useAuthStore';
 import default_profile_image from '../../assets/default_profile_image.svg';
 
 const WrapperContainer = styled.div`
@@ -85,10 +86,10 @@ const ProfileSection = styled.div`
 const ProfileImage = styled.div`
   height: 146px;
   width: 146px;
-  background-image: url(${default_profile_image});
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  border-radius: 50%;
 `;
 
 const UserName = styled.div`
@@ -110,6 +111,7 @@ const MenuContainer = styled.div`
 `;
 
 const ImageEdit = ({ closeImageEdit }) => {
+  const { userData } = useAuthStore();
   
   return (
     <WrapperContainer>
@@ -121,8 +123,12 @@ const ImageEdit = ({ closeImageEdit }) => {
         </HeaderContainer>
         <ContentContainer>
           <ProfileSection>
-            <ProfileImage></ProfileImage>
-            <UserName>안유진</UserName>
+            <ProfileImage
+              style={{
+                backgroundImage: `url(${userData?.profileImage ? userData.profileImage : default_profile_image})`
+              }}
+            />
+            <UserName>{userData ? userData.memberName : ''}</UserName>
           </ProfileSection>
           <MenuSection>
             <MenuContainer>프로필 사진 변경</MenuContainer>

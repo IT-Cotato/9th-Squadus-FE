@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import write_icon from '../../assets/icons/write.svg';
 import default_profile_image from '../../assets/default_profile_image.svg';
@@ -6,6 +6,8 @@ import arrow_right_icon from '../../assets/icons/arrow-right-orange.svg';
 import UniversityAuth from './UniversityAuth';
 import ImageEdit from './ImageEdit';
 import LogoutModal from './LogoutModal';
+import useAuthStore from '../../stores/useAuthStore';
+import api from '../../api/api';
 
 const FixedContainer = styled.div`
   top: 0;
@@ -61,10 +63,10 @@ const ProfileSection = styled.div`
 const ProfileImage = styled.div`
   height: 146px;
   width: 146px;
-  background-image: url(${default_profile_image});
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  border-radius: 50%;
 `;
 
 const UserName = styled.div`
@@ -120,11 +122,37 @@ const MenuContainer = styled.div`
 `;
 
 const MyPage = () => {
+  const { accessToken, setUserData, userData } = useAuthStore();
+
   const [showUniversityAuth, setShowUniversityAuth] = useState(false);
   const [showImageEdit, setShowImageEdit] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const isUniversityVerified = false;
+
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      await api.get(`/v1/api/members/info`, {
+        headers: {
+          'Content-Type': 'application/json',
+          access: `${accessToken}` 
+        }
+      })
+      .then((response) => {
+        setUserData(response.data);
+        console.log('User data fetched:', response.data);
+      })
+      .catch((error) => {
+        console.error('Failed to fetch user data:', error);
+      })
+    };
+
+    if (accessToken) {
+      fetchUserData();
+    }
+  }, [accessToken, setUserData]);
+
 
   return (
     <>
@@ -135,8 +163,12 @@ const MyPage = () => {
       </FixedContainer>
       <ContentContainer>
         <ProfileSection>
-          <ProfileImage></ProfileImage>
-          <UserName>안유진</UserName>
+          <ProfileImage
+            style={{
+              backgroundImage: `url(${userData?.profileImage ? userData.profileImage : default_profile_image})`
+            }}
+          />
+          <UserName>{userData ? userData.memberName : ''}</UserName>
           {isUniversityVerified && (
             <UniversityName>서울대학교</UniversityName>
           )}
@@ -151,7 +183,6 @@ const MyPage = () => {
           <MenuContainer>회원 탈퇴</MenuContainer>
         </AccountSection>
       </ContentContainer>
-
       {
         showUniversityAuth && 
         <UniversityAuth
