@@ -7,7 +7,6 @@ import UniversityAuth from './UniversityAuth';
 import ImageEdit from './ImageEdit';
 import LogoutModal from './LogoutModal';
 import useAuthStore from '../../stores/useAuthStore';
-import api from '../../api/api';
 
 const FixedContainer = styled.div`
   top: 0;
@@ -122,7 +121,7 @@ const MenuContainer = styled.div`
 `;
 
 const MyPage = () => {
-  const { accessToken, setUserData, userData } = useAuthStore();
+  const { userData, accessToken, fetchUserData } = useAuthStore();
 
   const [showUniversityAuth, setShowUniversityAuth] = useState(false);
   const [showImageEdit, setShowImageEdit] = useState(false);
@@ -132,27 +131,10 @@ const MyPage = () => {
 
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      await api.get(`/v1/api/members/info`, {
-        headers: {
-          'Content-Type': 'application/json',
-          access: `${accessToken}` 
-        }
-      })
-      .then((response) => {
-        setUserData(response.data);
-        console.log('User data fetched:', response.data);
-      })
-      .catch((error) => {
-        console.error('Failed to fetch user data:', error);
-      })
-    };
-
-    if (accessToken) {
+    if (accessToken && !userData) {
       fetchUserData();
     }
-  }, [accessToken, setUserData]);
-
+  }, [accessToken, userData, fetchUserData]);
 
   return (
     <>
