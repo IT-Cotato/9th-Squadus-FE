@@ -4,6 +4,7 @@ import close_icon from '../../../assets/icons/close.svg'
 import location_grey_icon from '../../../assets/icons/match/location-grey.svg'
 import calendar_grey_icon from '../../../assets/icons/match/calendar-grey.svg';
 import club_grey_icon from '../../../assets/icons/match/club-grey.svg';
+import people_grey_icon from '../../../assets/icons/match/people-grey.svg';
 import placeoffer_grey_icon from '../../../assets/icons/match/placeoffer-grey.svg';
 
 const WrapperContainer = styled.div`
@@ -172,6 +173,10 @@ const ClubIcon = styled(Icon)`
   background-image: url(${club_grey_icon});
 `;
 
+const PeopleIcon = styled(Icon)`
+  background-image: url(${people_grey_icon});
+`;
+
 const PlaceOfferIcon = styled(Icon)`
   background-image: url(${placeoffer_grey_icon});
 `;
@@ -226,6 +231,8 @@ const MercenaryCreate = ({ closeMercenaryCreate }) => {
   const [selectedMinute, setSelectedMinute] = useState("");
   const [selectedClub, setSelectedClub] = useState("");
   const [placeOffer, setPlaceOffer] = useState("");
+  const [numberOfParticipants, setNumberOfParticipants] = useState(5);
+
 
   // 월에 따른 일수 계산
   const getDaysInMonth = (year, month) => {
@@ -335,6 +342,24 @@ const MercenaryCreate = ({ closeMercenaryCreate }) => {
                     {clubData.map((club) => (
                       <option key={club.id} value={club.id}>
                         {club.name}
+                      </option>
+                    ))}
+                  </Select>
+                </InputContainer>
+              </FieldContainer>
+              <FieldContainer>
+                <Label>
+                  <PeopleIcon />
+                  참여인원을 선택해주세요.
+                </Label>
+                <InputContainer>
+                  <Select
+                    value={numberOfParticipants}
+                    onChange={(e) => setNumberOfParticipants(e.target.value)}
+                  >
+                    {Array.from({ length: 51 }, (_, i) => (
+                      <option key={i} value={i}>
+                        {i}
                       </option>
                     ))}
                   </Select>
