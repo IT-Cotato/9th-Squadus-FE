@@ -122,12 +122,11 @@ const MenuContainer = styled.div`
 
 const MyPage = () => {
   const { userData, accessToken, fetchUserData } = useAuthStore();
+  const [isUniversityVerified, setIsUniversityVerified] = useState(false);
 
   const [showUniversityAuth, setShowUniversityAuth] = useState(false);
   const [showImageEdit, setShowImageEdit] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-
-  const isUniversityVerified = false;
 
 
   useEffect(() => {
@@ -135,6 +134,16 @@ const MyPage = () => {
       fetchUserData();
     }
   }, [accessToken, userData, fetchUserData]);
+
+  // TODO: 백에서 리턴하는 값 바꿔주면, 수정하기
+  useEffect(() => {
+    console.log("UserData:", userData);
+    if (userData?.university) {
+      setIsUniversityVerified(true);
+    } else {
+      setIsUniversityVerified(false);
+    }
+  }, [userData]);
 
   return (
     <>
@@ -152,7 +161,7 @@ const MyPage = () => {
           />
           <UserName>{userData ? userData.memberName : ''}</UserName>
           {isUniversityVerified && (
-            <UniversityName>서울대학교</UniversityName>
+            <UniversityName>{userData.university}</UniversityName>
           )}
           <AuthMessage $isVerified={isUniversityVerified} onClick={() => setShowUniversityAuth(true)}>
             {isUniversityVerified ? '학교 인증 완료' : '학교 인증이 필요합니다'}
@@ -165,6 +174,7 @@ const MyPage = () => {
           <MenuContainer>회원 탈퇴</MenuContainer>
         </AccountSection>
       </ContentContainer>
+      
       {
         showUniversityAuth && 
         <UniversityAuth
