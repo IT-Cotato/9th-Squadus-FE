@@ -4,49 +4,44 @@ import styled from 'styled-components';
 const Container = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
 `;
 
 const ClubInfoContainer = styled.div`
-  width: 100%; 
-  height: auto; 
-  padding: 16px;
-  background-color: ${({ theme }) => theme.colors.neutral[600]};
-  border-radius: 12px; 
   display: flex;
-  flex-direction: row; 
-  justify-content: space-between; 
-  align-items: center; 
+  flex-direction: column; 
+  gap: 4px;
 `;
 
 const ClubName = styled.div`
   font-size: 20px;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.neutral[100]};
+  color: ${({ theme }) => theme.colors.neutral[900]};
 `;
 
 const SubInfo = styled.div`
   font-size: 14px;
   font-weight: 500;
-  color: ${({ theme }) => theme.colors.neutral[300]};
+  color: ${({ theme }) => theme.colors.neutral[500]};
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
-  width: 100%;
   gap: 8px;
 `;
 
 const Button = styled.div`
-  flex: 1;
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 12px 0;
+  justify-content: center;
+  padding: 8px 16px;
   cursor: pointer;
-  border-radius: 12px;
+  border-radius: 8px;
   color: white;
   font-size: 16px;
   font-weight: 600;
@@ -54,7 +49,7 @@ const Button = styled.div`
 
 const RejectButton = styled(Button)`
   border: 1px solid ${({ theme }) => theme.colors.neutral[300]};
-  color: ${({ theme }) => theme.colors.neutral[800]};
+  color: ${({ theme }) => theme.colors.neutral[500]};
 `;
 
 const ApproveButton = styled(Button)`

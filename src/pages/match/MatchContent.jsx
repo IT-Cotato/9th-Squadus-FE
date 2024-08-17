@@ -1,7 +1,6 @@
 import React from 'react';
 import MatchArticleCard from './match_feature/MatchArticleCard';
 import styled from 'styled-components';
-import MainArticle from '../home/MainArticle';
 
 const Container = styled.div`
   padding: 20px;

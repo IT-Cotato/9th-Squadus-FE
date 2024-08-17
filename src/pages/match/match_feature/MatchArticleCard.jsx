@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import arrow_up_icon from '../../../assets/icons/arrow-up-white.svg'
+import arrow_up_icon from '../../../assets/icons/arrow-up-white.svg';
+import MatchClubItem from './MatchClubItem'; 
 
-const Container = styled.div`
+const WrapperContainer = styled.div`
+  width: 100%;
+  height: auto;
+  box-shadow: 0px 2px 10px rgba(85, 91, 160, 0.23);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 12px;
+`;
+
+const MainContainer = styled.div`
   width: 100%; 
   height: auto; 
   padding: 16px;
   background: radial-gradient(300% 300% at -30% 100%, #FF5810 0%, #A88BE4 38%, #3887E3 100%); 
-  box-shadow: 0px 1px 6px rgba(42, 36, 112, 0.13); 
-  border-radius: 12px; 
   overflow: hidden; 
   flex-direction: column; 
   justify-content: flex-start; 
@@ -16,6 +25,15 @@ const Container = styled.div`
   gap: 10px; 
   display: inline-flex;
   color: white;
+  border-radius: 12px 12px 0 0; 
+`;
+
+const BottomContainer = styled.div`
+  background-color: white;
+  display: ${({ $expanded }) => ($expanded ? 'flex' : 'none')};
+  flex-direction: column;
+  padding: 4px 16px;
+  border-radius: 0 0 12px 12px; 
 `;
 
 const MainInfoContainer = styled.div`
@@ -138,43 +156,56 @@ const RequestButton = styled.div`
   display: ${({ $expanded, $show }) => ($expanded && $show ? 'flex' : 'none')};
 `;
 
-const MatchArticleCard = ({ title, location, date, placeOffer, img, clubName, tierNeed, peopleCount, content, requestButtonLabel, showRequestButton = true }) => {
+const MatchArticleCard = ({ title, location, date, placeOffer, img, clubName, tierNeed, peopleCount, content, requestButtonLabel, showRequestButton = true, showClubContainer = false, clubData }) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <Container onClick={() => setExpanded(!expanded)}>
-      <MainInfoContainer>
-        <div>
-          <Title>{title}</Title>
-          <Location>{location}</Location>
-        </div>
-        <ArrowUpIcon $expanded={expanded ? "true" : undefined} />
-      </MainInfoContainer>
-      <SubInfoContainer $expanded={expanded ? "true" : undefined}>
-        <Schedule>
-          <Label>일시</Label>
-          <ScheduleContent>{date}</ScheduleContent>
-        </Schedule>
-        <PlaceOffer>
-          <Label>장소제공 여부</Label>
-          <PlaceOfferContent>{placeOffer}</PlaceOfferContent>
-        </PlaceOffer>
-      </SubInfoContainer>
-      <DetailContainer>
-        <ClubContainer>
-          <Image></Image>
-          {clubName}
-        </ClubContainer>
-        <StatusContainer>
-          {tierNeed} 이상 · {peopleCount}명
-        </StatusContainer>
-      </DetailContainer>
-      <ContentContainer $expanded={expanded ? "true" : undefined}>{content}</ContentContainer>
-      <RequestButton $expanded={expanded ? "true" : undefined} $show={showRequestButton ? "true" : undefined}>
-        {requestButtonLabel}
-      </RequestButton>
-    </Container>
-    
+    <WrapperContainer onClick={() => setExpanded(!expanded)}>
+      <MainContainer>
+        <MainInfoContainer>
+          <div>
+            <Title>{title}</Title>
+            <Location>{location}</Location>
+          </div>
+          <ArrowUpIcon $expanded={expanded ? "true" : undefined} />
+        </MainInfoContainer>
+        <SubInfoContainer $expanded={expanded ? "true" : undefined}>
+          <Schedule>
+            <Label>일시</Label>
+            <ScheduleContent>{date}</ScheduleContent>
+          </Schedule>
+          <PlaceOffer>
+            <Label>장소제공 여부</Label>
+            <PlaceOfferContent>{placeOffer}</PlaceOfferContent>
+          </PlaceOffer>
+        </SubInfoContainer>
+        <DetailContainer>
+          <ClubContainer>
+            <Image></Image>
+            {clubName}
+          </ClubContainer>
+          <StatusContainer>
+            {tierNeed} 이상 · {peopleCount}명
+          </StatusContainer>
+        </DetailContainer>
+        <ContentContainer $expanded={expanded ? "true" : undefined}>{content}</ContentContainer>
+        <RequestButton $expanded={expanded ? "true" : undefined} $show={showRequestButton ? "true" : undefined}>
+          {requestButtonLabel}
+        </RequestButton>
+      </MainContainer>
+      {showClubContainer && 
+        <BottomContainer $expanded={expanded ? "true" : undefined}>
+          {clubData.map(club => (
+            <MatchClubItem 
+              key={club.id}
+              clubName={club.clubName}
+              university={club.university}
+              tier={club.tier}
+            />
+          ))}
+        </BottomContainer>
+      }
+    </WrapperContainer>
   );
 }
 
