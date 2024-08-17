@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import close_icon from '../../assets/icons/close.svg';
-import AuthSuccessModal from './AuthSuccessModal';
+import EmailSendModal from './EmailSendModal';
+import AuthSuccessPage from './AuthSuccessPage';
+import api from '../../api/api';
+import useAuthStore from '../../stores/useAuthStore';
+
 
 const WrapperContainer = styled.div`
   position: fixed;
@@ -155,34 +159,51 @@ const ResendButton = styled.div`
 
 
 const UniversityAuth = ({ closeUniversityAuth }) => {
+  const { fetchUserData } = useAuthStore();
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [emailSent, setEmailSent] = useState(false);
   const [isAuthSuccessful, setIsAuthSuccessful] = useState(null);
+  const [showEmailSentModal, setShowEmailSentModal] = useState(false);
 
+  // 이메일 보내는 함수
   const handleSendEmail = async () => {
-    try {
-      // 백엔드 API 연결 필요
-
+    await api.post('/v1/api/email/signup', {
+      email: email
+    })
+    .then((response) => {
+      console.log(response);
       setEmailSent(true);
-    } catch (error) {
+      setShowEmailSentModal(true);
+      console.log('이메일 전송 완료');
+    })
+    .catch((error) => {
       console.error('이메일 전송 오류', error);
-    }
+    });
   };
 
+  // 인증코드 확인하는 함수
   const handleVerify = async () => {
-    try {
-      // 백엔드 API 필요
-      const result = 'success';
-
-      if (result === 'success') {
-        setIsAuthSuccessful(true);
-      } else {
-        setIsAuthSuccessful(false);
+    await api.post('/v1/api/email/signup/emailAuth', {
+      email: email,
+      authNum: verificationCode
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        access: `${useAuthStore.getState().accessToken}`
       }
-    } catch (error) {
+    })
+    .then((response) => {
+      console.log(response);
+      setIsAuthSuccessful(true);
+      console.log('인증코드 확인 성공')
+
+      fetchUserData();
+    })
+    .catch((error) => {
       setIsAuthSuccessful(false);
-    }
+      console.error('인증코드 확인 오류', error)
+    })
   };
   
 
@@ -216,7 +237,7 @@ const UniversityAuth = ({ closeUniversityAuth }) => {
                   value={verificationCode}
                   onChange={(e) => setVerificationCode(e.target.value)}
                 />
-                <ResendButton>재전송</ResendButton>
+                <ResendButton onClick={handleSendEmail}>재전송</ResendButton>
               </VerificationSection>
             </InputContainer>
           )}
@@ -227,7 +248,14 @@ const UniversityAuth = ({ closeUniversityAuth }) => {
           </SubmitButton>
         </FooterContainer>
       </Container>
-      {isAuthSuccessful === true && <AuthSuccessModal />}
+
+      {showEmailSentModal && (
+        <EmailSendModal
+          closeEmailSendModal={() => setShowEmailSentModal(false)}
+        />
+      )}
+
+      {isAuthSuccessful === true && <AuthSuccessPage />}
       {/* {isAuthSuccessful === false && <WarningModal />} */}
     </WrapperContainer>
   );
