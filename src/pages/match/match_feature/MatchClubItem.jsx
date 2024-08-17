@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import arrow_right_icon from '../../../assets/icons/arrow-right-grey.svg';
 
 const Container = styled.div`
   width: 100%;
@@ -21,6 +22,19 @@ const ClubName = styled.div`
   font-size: 20px;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.neutral[900]};
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+`;
+
+const ArrowRightIcon = styled.div`
+  height: 24px;
+  width: 24px;
+  background-image: url(${arrow_right_icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const SubInfo = styled.div`
@@ -62,7 +76,9 @@ const MatchClubItem = ({ clubName, university, tier}) => {
   return (
     <Container>
       <ClubInfoContainer>
-        <ClubName>{clubName}</ClubName>
+        <ClubName>{clubName}
+          <ArrowRightIcon />
+        </ClubName>
         <SubInfo>{university}  {tier}</SubInfo>
       </ClubInfoContainer>
       <ButtonContainer>
