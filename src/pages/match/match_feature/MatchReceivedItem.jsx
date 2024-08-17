@@ -10,7 +10,7 @@ const Container = styled.div`
 `;
 
 
-const MatchReceivedItem = ({ title, location, date, placeOffer, img, tierNeed, maxCount, currentCount, content}) => {
+const MatchReceivedItem = ({ title, location, date, placeOffer, img, clubName, tierNeed, peopleCount, content}) => {
   const ClubData = [
     { 
       id: "1", 
@@ -40,9 +40,9 @@ const MatchReceivedItem = ({ title, location, date, placeOffer, img, tierNeed, m
         date={date}
         placeOffer={placeOffer}
         img={img}
+        clubName={clubName}
         tierNeed={tierNeed}
-        maxCount={maxCount}
-        currentCount={currentCount}
+        peopleCount={peopleCount}
         content={content}
         showRequestButton={false}
       />

@@ -16,7 +16,7 @@ const Result = styled.div`
 `;
 
 
-const MatchSentItem = ({ title, location, date, placeOffer, img, tierNeed, maxCount, currentCount, content, status}) => {
+const MatchSentItem = ({ title, location, date, placeOffer, img, clubName, tierNeed, peopleCount, content, status}) => {
 
   return (
     <Container>
@@ -26,9 +26,9 @@ const MatchSentItem = ({ title, location, date, placeOffer, img, tierNeed, maxCo
         date={date}
         placeOffer={placeOffer}
         img={img}
+        clubName={clubName}
         tierNeed={tierNeed}
-        maxCount={maxCount}
-        currentCount={currentCount}
+        peopleCount={peopleCount}
         content={content}
         requestButtonLabel="요청 취소"
         showRequestButton={true}

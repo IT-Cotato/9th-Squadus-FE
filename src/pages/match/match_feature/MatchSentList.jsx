@@ -18,9 +18,9 @@ const MatchSentList = () => {
       date: "2024.07.30", 
       placeOffer: "O", 
       img: "", 
+      clubName: "코테이토1",
       tierNeed: "silver", 
-      maxCount: "8", 
-      currentCount: "7",
+      peopleCount: "2",
       content: "강남구민체육관에서 5시에 매치하실 분 구합니다!!",
       status: "승낙"
     },
@@ -31,9 +31,9 @@ const MatchSentList = () => {
       date: "2024.08.30", 
       placeOffer: "X", 
       img: "", 
+      clubName: "코테이토2",
       tierNeed: "silver", 
-      maxCount: "10", 
-      currentCount: "5",
+      peopleCount: "222",
       content: "강남구민체육관에서 5시에 매치하실 분 구합니다!!",
       status: "대기"
     },
@@ -44,9 +44,9 @@ const MatchSentList = () => {
       date: "2024.08.30", 
       placeOffer: "X", 
       img: "", 
+      clubName: "코테이토3",
       tierNeed: "silver", 
-      maxCount: "10", 
-      currentCount: "5",
+      peopleCount: "33",
       content: "강남구민체육관에서 5시에 매치하실 분 구합니다!!",
       status: "거절"
     },
@@ -57,9 +57,9 @@ const MatchSentList = () => {
       date: "2024.08.30", 
       placeOffer: "X", 
       img: "", 
+      clubName: "코테이토4",
       tierNeed: "silver", 
-      maxCount: "10", 
-      currentCount: "5",
+      peopleCount: "20",
       content: "강남구민체육관에서 5시에 매치하실 분 구합니다!!",
       status: "대기"
     },
@@ -75,9 +75,9 @@ const MatchSentList = () => {
           date={matchSent.date}
           placeOffer={matchSent.placeOffer}
           img={matchSent.img}
+          clubName={matchSent.clubName}
           tierNeed={matchSent.tierNeed}
-          maxCount={matchSent.maxCount}
-          currentCount={matchSent.currentCount}
+          peopleCount={matchSent.peopleCount}
           content={matchSent.content}
           status={matchSent.status}
         />

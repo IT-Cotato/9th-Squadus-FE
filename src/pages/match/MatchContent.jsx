@@ -1,6 +1,7 @@
 import React from 'react';
 import MatchArticleCard from './match_feature/MatchArticleCard';
 import styled from 'styled-components';
+import MainArticle from '../home/MainArticle';
 
 const Container = styled.div`
   padding: 20px;
@@ -22,9 +23,9 @@ const MatchContent = () => {
       date: "2024.07.30", 
       placeOffer: "O", 
       img: "", 
+      clubName: "코테이토",
       tierNeed: "silver", 
-      maxCount: "8", 
-      currentCount: "7",
+      peopleCount: "3",
       content: "강남구민체육관에서 5시에 매치하실 분 구합니다!!"
     },
     { 
@@ -34,9 +35,9 @@ const MatchContent = () => {
       date: "2024.08.30", 
       placeOffer: "X", 
       img: "", 
+      clubName: "토마토",
       tierNeed: "silver", 
-      maxCount: "10", 
-      currentCount: "5",
+      peopleCount: "8",
       content: "강남구민체육관에서 5시에 매치하실 분 구합니다!!"
     },
     { 
@@ -46,9 +47,9 @@ const MatchContent = () => {
       date: "2024.08.30", 
       placeOffer: "X", 
       img: "", 
+      clubName: "서울펜싱팀",
       tierNeed: "silver", 
-      maxCount: "10", 
-      currentCount: "5",
+      peopleCount: "5",
       content: "강남구민체육관에서 5시에 매치하실 분 구합니다!!"
     },
     { 
@@ -58,9 +59,9 @@ const MatchContent = () => {
       date: "2024.08.30", 
       placeOffer: "X", 
       img: "", 
+      clubName: "서울사격팀",
       tierNeed: "silver", 
-      maxCount: "10", 
-      currentCount: "5",
+      peopleCount: "6",
       content: "강남구민체육관에서 5시에 매치하실 분 구합니다!!"
     },
   ]
@@ -77,9 +78,9 @@ const MatchContent = () => {
             date={matchArticle.date}
             placeOffer={matchArticle.placeOffer}
             img={matchArticle.img}
+            clubName={matchArticle.clubName}
             tierNeed={matchArticle.tierNeed}
-            maxCount={matchArticle.maxCount}
-            currentCount={matchArticle.currentCount}
+            peopleCount={matchArticle.peopleCount}
             content={matchArticle.content}
             requestButtonLabel="요청 보내기"
             showRequestButton={true}

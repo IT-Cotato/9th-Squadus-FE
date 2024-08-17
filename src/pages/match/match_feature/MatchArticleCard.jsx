@@ -96,6 +96,15 @@ const DetailContainer = styled.div`
   align-items: center;
 `;
 
+const ClubContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 500;
+`;
+
 const Image = styled.div`
   width: 28px;
   height: 28px;
@@ -105,39 +114,8 @@ const Image = styled.div`
 
 const StatusContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  width: 160px;
-  gap: 8px;
-`
-const DescriptionContainer = styled.div`
-  display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const TierDescription = styled.div`
-  font-size: 12px;
-`;
-
-const RecruitmentCount = styled.div`
-  font-size: 12px;
 `
-
-const BarContainer = styled.div`
-  width: 100%;
-  height: 4px;
-  background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 2px;
-  position: relative;
-`;
-
-const CurrentBarContainer = styled.div`
-  width: ${({ $currentCount, $maxCount }) => ($currentCount / $maxCount) * 100}%;
-  height: 100%;
-  background-color: white;
-  border-radius: 2px;
-`;
 
 const ContentContainer = styled.div`
   width: 100%;
@@ -160,7 +138,7 @@ const RequestButton = styled.div`
   display: ${({ $expanded, $show }) => ($expanded && $show ? 'flex' : 'none')};
 `;
 
-const MatchArticleCard = ({ title, location, date, placeOffer, img, tierNeed, maxCount, currentCount, content, requestButtonLabel, showRequestButton = true }) => {
+const MatchArticleCard = ({ title, location, date, placeOffer, img, clubName, tierNeed, peopleCount, content, requestButtonLabel, showRequestButton = true }) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -183,15 +161,12 @@ const MatchArticleCard = ({ title, location, date, placeOffer, img, tierNeed, ma
         </PlaceOffer>
       </SubInfoContainer>
       <DetailContainer>
-        <Image></Image>
+        <ClubContainer>
+          <Image></Image>
+          {clubName}
+        </ClubContainer>
         <StatusContainer>
-          <DescriptionContainer>
-            <TierDescription>{tierNeed} 이상</TierDescription>
-            <RecruitmentCount>{currentCount}/{maxCount}</RecruitmentCount>
-          </DescriptionContainer>
-          <BarContainer>
-            <CurrentBarContainer $currentCount={currentCount} $maxCount={maxCount} />
-          </BarContainer>
+          {tierNeed} 이상 · {peopleCount}명
         </StatusContainer>
       </DetailContainer>
       <ContentContainer $expanded={expanded ? "true" : undefined}>{content}</ContentContainer>

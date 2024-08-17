@@ -22,6 +22,7 @@ const MercenaryContent = () => {
       date: "2024.07.30", 
       placeOffer: "O", 
       img: "", 
+      clubName: "중앙가르드",
       maxCount: "8", 
       currentCount: "7",
       content: "강남구민체육관에서 5시에 매치하실 분 구합니다!!"
@@ -33,6 +34,7 @@ const MercenaryContent = () => {
       date: "2024.08.30", 
       placeOffer: "X", 
       img: "", 
+      clubName: "서울사격팀",
       maxCount: "10", 
       currentCount: "5",
       content: "강남구민체육관에서 5시에 매치하실 분 구합니다!!"
@@ -44,6 +46,7 @@ const MercenaryContent = () => {
       date: "2024.08.30", 
       placeOffer: "X", 
       img: "", 
+      clubName: "한국펜싱",
       maxCount: "10", 
       currentCount: "5",
       content: "강남구민체육관에서 5시에 매치하실 분 구합니다!!"
@@ -55,6 +58,7 @@ const MercenaryContent = () => {
       date: "2024.08.30", 
       placeOffer: "X", 
       img: "", 
+      clubName: "한국피겨",
       tierNeed: "silver", 
       maxCount: "10", 
       currentCount: "5",
@@ -74,6 +78,7 @@ const MercenaryContent = () => {
             date={mercenaryArticle.date}
             placeOffer={mercenaryArticle.placeOffer}
             img={mercenaryArticle.img}
+            clubName={mercenaryArticle.clubName}
             maxCount={mercenaryArticle.maxCount}
             currentCount={mercenaryArticle.currentCount}
             content={mercenaryArticle.content}

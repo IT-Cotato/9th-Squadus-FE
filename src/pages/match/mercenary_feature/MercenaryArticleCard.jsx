@@ -96,6 +96,15 @@ const DetailContainer = styled.div`
   align-items: center;
 `;
 
+const ClubContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 500;
+`;
+
 const Image = styled.div`
   width: 28px;
   height: 28px;
@@ -157,7 +166,7 @@ const RequestButton = styled.div`
   display: ${({ $expanded, $show }) => ($expanded && $show ? 'flex' : 'none')};
 `;
 
-const MercenaryArticleCard = ({ title, location, date, placeOffer, img, maxCount, currentCount, content, requestButtonLabel, showRequestButton = true }) => {
+const MercenaryArticleCard = ({ title, location, date, placeOffer, img, clubName, maxCount, currentCount, content, requestButtonLabel, showRequestButton = true }) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -180,7 +189,10 @@ const MercenaryArticleCard = ({ title, location, date, placeOffer, img, maxCount
         </PlaceOffer>
       </SubInfoContainer>
       <DetailContainer>
-        <Image></Image>
+        <ClubContainer>
+          <Image></Image>
+          {clubName}
+        </ClubContainer>
         <StatusContainer>
           <DescriptionContainer>
             <RecruitmentCount>{currentCount}/{maxCount}</RecruitmentCount>
