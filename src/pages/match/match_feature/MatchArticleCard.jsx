@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import arrow_up_icon from '../../../assets/icons/arrow-up-white.svg';
 import MatchClubItem from './MatchClubItem'; 
+import MatchSendModal from './MatchSendModal';
+import MatchSendCancelModal from './MatchSendCancelModal';
+import MatchSendSuccessModal from './MatchSendSuccessModal';
 
 const WrapperContainer = styled.div`
   width: 100%;
@@ -158,6 +161,32 @@ const RequestButton = styled.div`
 
 const MatchArticleCard = ({ title, location, date, placeOffer, img, clubName, tierNeed, peopleCount, content, requestButtonLabel, showRequestButton = true, showClubContainer = false, clubData }) => {
   const [expanded, setExpanded] = useState(false);
+  const [showMatchSendModal, setShowMatchSendModal] = useState(false);
+  const [showMatchSendCancelModal, setShowMatchSendCancelModal] = useState(false);
+  const [showMatchSendSuccessModal, setShowMatchSendSuccessModal] = useState(false);
+
+
+  const handleRequestButtonClick = (event) => {
+    event.stopPropagation();
+    if (requestButtonLabel === "요청 보내기") {
+      setShowMatchSendModal(true);
+    } else if (requestButtonLabel === "요청 취소") {
+      setShowMatchSendCancelModal(true);
+    }
+  };
+
+  const handleSendModalClose = () => {
+    setShowMatchSendModal(false);
+  };
+
+  const handleSendModalConfirm = () => {
+    handleSendModalClose();
+    setShowMatchSendSuccessModal(true);
+  };
+
+  const handleSuccessModalClose = () => {
+    setShowMatchSendSuccessModal(false);
+  };
 
   return (
     <WrapperContainer onClick={() => setExpanded(!expanded)}>
@@ -189,7 +218,11 @@ const MatchArticleCard = ({ title, location, date, placeOffer, img, clubName, ti
           </StatusContainer>
         </DetailContainer>
         <ContentContainer $expanded={expanded ? "true" : undefined}>{content}</ContentContainer>
-        <RequestButton $expanded={expanded ? "true" : undefined} $show={showRequestButton ? "true" : undefined}>
+        <RequestButton
+          $expanded={expanded}
+          $show={showRequestButton}
+          onClick={handleRequestButtonClick}
+        >
           {requestButtonLabel}
         </RequestButton>
       </MainContainer>
@@ -205,7 +238,12 @@ const MatchArticleCard = ({ title, location, date, placeOffer, img, clubName, ti
           ))}
         </BottomContainer>
       }
+
+      {showMatchSendModal && <MatchSendModal onClose={handleSendModalClose} onConfirm={handleSendModalConfirm} />}
+      {showMatchSendCancelModal && <MatchSendCancelModal onClose={() => setShowMatchSendCancelModal(false)} />}
+      {showMatchSendSuccessModal && <MatchSendSuccessModal onClose={handleSuccessModalClose} />}
     </WrapperContainer>
+    
   );
 }
 

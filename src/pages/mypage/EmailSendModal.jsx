@@ -65,6 +65,7 @@ const ModalButtonContainer = styled.div`
   width: 100%;
   display: flex;
   gap: 8px;
+  margin-top: 12px;
 `;
 
 const Button = styled.div`
