@@ -1,11 +1,13 @@
 import { useState } from "react";
 import {
-  AddButton,
-  CloseButtonStyled,
-  ModalNavi,
-  ModalTitle,
+  WrapperContainer,
   Container,
-} from "../group/group_components/ModalHeader";
+  HeaderWrapperContainer,
+  HeaderContainer,
+  CloseButton,
+  HeaderTitle,
+  SubmitButton,
+} from "./promotion_components/ModalStyled";
 import styled from "styled-components";
 const AddQuestionInput = styled.input`
   width: 100%;
@@ -25,6 +27,7 @@ const PromotionWrite = ({ isOpen, closeModal }) => {
     setQuestionList(
       questionList.concat(
         <AddQuestionInput
+          key={count}
           $isClicked={isClicked}
           onClick={() => {
             console.log("isClicked:", isClicked);
@@ -44,40 +47,44 @@ const PromotionWrite = ({ isOpen, closeModal }) => {
   return (
     <>
       {isOpen && (
-        <Container>
-          <ModalNavi>
-            <CloseButtonStyled onClick={closeModal}>X</CloseButtonStyled>
-            <ModalTitle>모집글 작성하기</ModalTitle>
-            <AddButton>등록</AddButton>
-          </ModalNavi>
-          <Title placeholder="제목" />
-          <Line />
-          <EntireContainer>
-            <Wrapper>
-              <WrapperTitle>홍보 동아리</WrapperTitle>
-              <ChooseClub></ChooseClub>
-            </Wrapper>
-            <Wrapper>
-              <WrapperTitle>모집 기간</WrapperTitle>
-              <SmallWrapper>
-                <WrapperSmallTitle>모집 시작일</WrapperSmallTitle>
-                <ChooseDate type="date" value={today}></ChooseDate>
-              </SmallWrapper>
-              <SmallWrapper>
-                <WrapperSmallTitle>모집 마감일</WrapperSmallTitle>
-                <ChooseDate type="date" value={today}></ChooseDate>
-              </SmallWrapper>
-            </Wrapper>
-            <Wrapper>
-              <WrapperTitle>지원서 문항</WrapperTitle>
-              <QuestionList>{questionList}</QuestionList>
-              <AddQuestionButton onClick={addQuestion}>
-                <AddButtonPlus>+</AddButtonPlus>
-                <AddButtonText>문항 추가하기</AddButtonText>
-              </AddQuestionButton>
-            </Wrapper>
-          </EntireContainer>
-        </Container>
+        <WrapperContainer>
+          <Container>
+            <HeaderWrapperContainer>
+              <HeaderContainer>
+                <CloseButton onClick={closeModal} />
+                <HeaderTitle>모집글 작성하기</HeaderTitle>
+                <SubmitButton>등록</SubmitButton>
+              </HeaderContainer>
+            </HeaderWrapperContainer>
+            <Title placeholder="제목" />
+            <Line />
+            <EntireContainer>
+              <Wrapper>
+                <WrapperTitle>홍보 동아리</WrapperTitle>
+                <ChooseClub></ChooseClub>
+              </Wrapper>
+              <Wrapper>
+                <WrapperTitle>모집 기간</WrapperTitle>
+                <SmallWrapper>
+                  <WrapperSmallTitle>모집 시작일</WrapperSmallTitle>
+                  <ChooseDate type="date" value={today}></ChooseDate>
+                </SmallWrapper>
+                <SmallWrapper>
+                  <WrapperSmallTitle>모집 마감일</WrapperSmallTitle>
+                  <ChooseDate type="date" value={today}></ChooseDate>
+                </SmallWrapper>
+              </Wrapper>
+              <Wrapper>
+                <WrapperTitle>지원서 문항</WrapperTitle>
+                <QuestionList>{questionList}</QuestionList>
+                <AddQuestionButton onClick={addQuestion}>
+                  <AddButtonPlus>+</AddButtonPlus>
+                  <AddButtonText>문항 추가하기</AddButtonText>
+                </AddQuestionButton>
+              </Wrapper>
+            </EntireContainer>
+          </Container>
+        </WrapperContainer>
       )}
     </>
   );
@@ -90,6 +97,7 @@ const EntireContainer = styled.div`
   flex-direction: column;
   padding: 16px 20px;
   gap: 24px;
+  overflow-y: auto;
 `;
 const Title = styled.input`
   width: 100%;

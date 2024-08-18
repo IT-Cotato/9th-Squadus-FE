@@ -1,47 +1,54 @@
 import React from "react";
-import {
-  AddButton,
-  CloseButtonStyled,
-  ModalNavi,
-  ModalTitle,
-  Container,
-} from "../group/group_components/ModalHeader";
 import styled from "styled-components";
+import {
+  WrapperContainer,
+  Container,
+  HeaderWrapperContainer,
+  HeaderContainer,
+  CloseButton,
+  HeaderTitle,
+  SubmitButton,
+} from "./promotion_components/ModalStyled";
 const ClubApply = ({ isOpen, closeModal }) => {
   return (
     <>
       {isOpen && (
-        <Container>
-          <ModalNavi>
-            <CloseButtonStyled onClick={closeModal}>X</CloseButtonStyled>
-            <ModalTitle>동아리 지원</ModalTitle>
-            <AddButton>지원</AddButton>
-          </ModalNavi>
-          <TitleWrapper>
-            <TitleText>그린비</TitleText>
-            <TitleEvent>테니스</TitleEvent>
-          </TitleWrapper>
-          <EntireContainer>
-            <Wrapper>
-              <Question>1. 자신을 소개해주세요.</Question>
-              <Answer placeholder="답변을 입력하세요"></Answer>
-            </Wrapper>
-            <Wrapper>
-              <Question>2. 지원 동기가 무엇인가요?</Question>
-              <Answer placeholder="답변을 입력하세요"></Answer>
-            </Wrapper>
-            <Wrapper>
-              <Question>3. 동아리를 통해 이루고싶은 목표가 있나요?</Question>
-              <Answer placeholder="답변을 입력하세요"></Answer>
-            </Wrapper>
-          </EntireContainer>
-        </Container>
+        <WrapperContainer>
+          <Container>
+            <HeaderWrapperContainer>
+              <HeaderContainer>
+                <CloseButton onClick={closeModal} />
+                <HeaderTitle>동아리 지원</HeaderTitle>
+                <SubmitButton>지원</SubmitButton>
+              </HeaderContainer>
+            </HeaderWrapperContainer>
+            <TitleWrapper>
+              <TitleText>그린비</TitleText>
+              <TitleEvent>테니스</TitleEvent>
+            </TitleWrapper>
+            <EntireContainer>
+              <Wrapper>
+                <Question>1. 자신을 소개해주세요.</Question>
+                <Answer placeholder="답변을 입력하세요"></Answer>
+              </Wrapper>
+              <Wrapper>
+                <Question>2. 지원 동기가 무엇인가요?</Question>
+                <Answer placeholder="답변을 입력하세요"></Answer>
+              </Wrapper>
+              <Wrapper>
+                <Question>3. 동아리를 통해 이루고싶은 목표가 있나요?</Question>
+                <Answer placeholder="답변을 입력하세요"></Answer>
+              </Wrapper>
+            </EntireContainer>
+          </Container>
+        </WrapperContainer>
       )}
     </>
   );
 };
 
 export default ClubApply;
+
 const TitleWrapper = styled.div`
   width: 100%;
   height: 54px;
@@ -71,7 +78,7 @@ const EntireContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  padding: 20px 0px;
+  padding: 20px 20px;
   gap: 24px;
 `;
 const Wrapper = styled.div`
