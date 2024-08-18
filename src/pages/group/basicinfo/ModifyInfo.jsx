@@ -1,16 +1,17 @@
-import styled from 'styled-components';
-import React from 'react';
+import React from "react";
 import {
   AddButton,
-  BaseContainer,
-  CloseButton,
+  EntireContainer,
+  CloseButtonStyled,
   ModalNavi,
-} from '../group_components/ModalHeader';
-import ImgWrapper from './ModiComponent/ImgWrapper';
-import Region from './ModiComponent/RegionWrapper';
-import Character from './ModiComponent/CharacterWrapper';
-import Comment from './ModiComponent/Comment';
-import MaxPeople from './ModiComponent/MaxPeople';
+  ModalTitle,
+  Container,
+} from "../group_components/ModalHeader";
+import ImgWrapper from "./ModiComponent/ImgWrapper";
+import Region from "./ModiComponent/RegionWrapper";
+import Character from "./ModiComponent/CharacterWrapper";
+import Comment from "./ModiComponent/Comment";
+import MaxPeople from "./ModiComponent/MaxPeople";
 
 const ModifyInfo = ({ isOpen, onClose }) => {
   return (
@@ -36,25 +37,3 @@ const ModifyInfo = ({ isOpen, onClose }) => {
 };
 
 export default ModifyInfo;
-
-const CloseButtonStyled = styled(CloseButton)`
-  font-size: 14px;
-`;
-const ModalTitle = styled.div`
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 22px;
-  text-align: center;
-  color: #475467;
-`;
-
-const EntireContainer = styled.div`
-  width: 100%;
-  gap: 10px;
-  display: flex;
-  flex-direction: column;
-`;
-
-const Container = styled(BaseContainer)`
-  border-radius: 0px;
-`;
