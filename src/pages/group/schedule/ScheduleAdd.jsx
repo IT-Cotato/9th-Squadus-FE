@@ -1,16 +1,16 @@
-import styled from 'styled-components';
-import { ReactComponent as MemoIcon } from '../../../assets/icons/group/memo.svg';
-import { ReactComponent as LocationIcon } from '../../../assets/icons/group/location.svg';
-import { ReactComponent as LinkIcon } from '../../../assets/icons/group/link.svg';
-import { ReactComponent as ClockIcon } from '../../../assets/icons/group/clock.svg';
-import { ReactComponent as AlarmIcon } from '../../../assets/icons/group/alarm.svg';
+import styled from "styled-components";
+import { ReactComponent as MemoIcon } from "../../../assets/icons/group/memo.svg";
+import { ReactComponent as LocationIcon } from "../../../assets/icons/group/location.svg";
+import { ReactComponent as LinkIcon } from "../../../assets/icons/group/link.svg";
+import { ReactComponent as ClockIcon } from "../../../assets/icons/group/clock.svg";
+import { ReactComponent as AlarmIcon } from "../../../assets/icons/group/alarm.svg";
 
 import {
   ToggleSwitch,
   ToggleSlider,
   CheckBox,
-} from './schedule_components/ToggleButton';
-import { useState } from 'react';
+} from "./schedule_components/ToggleButton";
+import { useState } from "react";
 
 const BaseContainer = styled.div`
   max-width: 649px;
@@ -124,10 +124,10 @@ const ScheduleAdd = ({ isOpen, onClose }) => {
           <AddContainer>
             <AddTitle>
               <TiTlePoint />
-              <TiTleText placeholder={'제목'} />
+              <TiTleText placeholder={"제목"} />
             </AddTitle>
             <AddWrapper>
-              <LocationIcon /> <AddInput placeholder={'위치'} />
+              <LocationIcon /> <AddInput placeholder={"위치"} />
             </AddWrapper>
             <AddWrapper>
               <p>하루종일</p>
@@ -143,17 +143,16 @@ const ScheduleAdd = ({ isOpen, onClose }) => {
 
             <AddWrapper>
               <ClockIcon /> <AddInput type="datetime-local" />
-              >
               <AddInput type="datetime-local" />
             </AddWrapper>
             <AddWrapper>
               <AlarmIcon /> <p>알람</p>
             </AddWrapper>
             <AddWrapper>
-              <LinkIcon /> <AddInput placeholder={'URL'} />
+              <LinkIcon /> <AddInput placeholder={"URL"} />
             </AddWrapper>
             <AddWrapper>
-              <MemoIcon /> <AddInput placeholder={'메모'} />
+              <MemoIcon /> <AddInput placeholder={"메모"} />
             </AddWrapper>
           </AddContainer>
         </BaseContainer>
