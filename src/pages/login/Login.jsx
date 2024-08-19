@@ -3,7 +3,7 @@ import logo from '../../assets/login_logo.svg';
 import google_button from '../../assets/login/google.svg';
 import apple_button from '../../assets/login/apple.svg';
 import kakao_button from '../../assets/login/kakao.svg';
-import api from '../../api/api';
+import api from '../../apis/utils/api';
 
 const Container = styled.div`
   width: 100%;

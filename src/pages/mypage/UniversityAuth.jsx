@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import close_icon from '../../assets/icons/close.svg';
 import EmailSendModal from './EmailSendModal';
 import AuthSuccessPage from './AuthSuccessPage';
-import api from '../../api/api';
+import api from '../../apis/utils/api';
 import useAuthStore from '../../stores/useAuthStore';
 
 
@@ -159,12 +159,13 @@ const ResendButton = styled.div`
 
 
 const UniversityAuth = ({ closeUniversityAuth }) => {
-  const { fetchUserData } = useAuthStore();
+  const { fetchAndStoreUserData } = useAuthStore();
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [emailSent, setEmailSent] = useState(false);
   const [isAuthSuccessful, setIsAuthSuccessful] = useState(null);
   const [showEmailSentModal, setShowEmailSentModal] = useState(false);
+  const [showAuthSuccessPage, setShowAuthSuccessPage] = useState(false);
 
   // 이메일 보내는 함수
   const handleSendEmail = async () => {
@@ -184,28 +185,35 @@ const UniversityAuth = ({ closeUniversityAuth }) => {
 
   // 인증코드 확인하는 함수
   const handleVerify = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+
     await api.post('/v1/api/email/signup/emailAuth', {
       email: email,
       authNum: verificationCode
     }, {
       headers: {
         'Content-Type': 'application/json',
-        access: `${useAuthStore.getState().accessToken}`
+        access: `${accessToken}`
       }
     })
     .then((response) => {
       console.log(response);
       setIsAuthSuccessful(true);
-      console.log('인증코드 확인 성공')
+      console.log('인증코드 확인 성공');
 
-      fetchUserData();
+      fetchAndStoreUserData();
+      setShowAuthSuccessPage(true);
     })
     .catch((error) => {
       setIsAuthSuccessful(false);
-      console.error('인증코드 확인 오류', error)
-    })
+      console.error('인증코드 확인 오류', error);
+    });
   };
-  
+
+  const closeAuthSuccessPage = () => {
+    setShowAuthSuccessPage(false);
+    closeUniversityAuth(); // AuthSuccessPage 닫을 때 전체 모달도 닫기
+  };
 
   return (
     <WrapperContainer>
@@ -255,7 +263,9 @@ const UniversityAuth = ({ closeUniversityAuth }) => {
         />
       )}
 
-      {isAuthSuccessful === true && <AuthSuccessPage />}
+      {isAuthSuccessful === true && (
+        <AuthSuccessPage closeAuthSuccessPage={closeAuthSuccessPage} />
+      )}
       {/* {isAuthSuccessful === false && <WarningModal />} */}
     </WrapperContainer>
   );

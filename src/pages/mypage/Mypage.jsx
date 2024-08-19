@@ -121,19 +121,13 @@ const MenuContainer = styled.div`
 `;
 
 const MyPage = () => {
-  const { userData, accessToken, fetchUserData } = useAuthStore();
+  const { userData } = useAuthStore();
   const [isUniversityVerified, setIsUniversityVerified] = useState(false);
 
   const [showUniversityAuth, setShowUniversityAuth] = useState(false);
   const [showImageEdit, setShowImageEdit] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-
-  useEffect(() => {
-    if (accessToken && !userData) {
-      fetchUserData();
-    }
-  }, [accessToken, userData, fetchUserData]);
 
   // TODO: 백에서 리턴하는 값 바꿔주면, 수정하기
   useEffect(() => {

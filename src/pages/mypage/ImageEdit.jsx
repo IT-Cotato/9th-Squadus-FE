@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import close_icon from '../../assets/icons/close.svg';
 import useAuthStore from '../../stores/useAuthStore';
 import default_profile_image from '../../assets/default_profile_image.svg';
-import api from '../../api/api';
+import api from '../../apis/utils/api';
 
 
 const WrapperContainer = styled.div`
@@ -117,7 +117,7 @@ const FileInput = styled.input`
 `;
 
 const ImageEdit = ({ closeImageEdit }) => {
-  const { userData } = useAuthStore();
+  const { userData, fetchAndStoreUserData } = useAuthStore();
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(userData?.profileImage || default_profile_image);
 
@@ -138,10 +138,12 @@ const ImageEdit = ({ closeImageEdit }) => {
     const formData = new FormData();
     formData.append('profileImage', selectedFile);
 
+    const accessToken = localStorage.getItem("accessToken");
+
     api.post('/v1/api/members/profile-image', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        access: `${useAuthStore.getState().accessToken}`
+        access: `${accessToken}`
       },
     })
     .then((response) => {
@@ -149,14 +151,9 @@ const ImageEdit = ({ closeImageEdit }) => {
 
       if (response.data.profileImage) {
         setPreviewUrl(response.data.profileImage);
-
-        // userData를 업데이트하여 상태를 반영
-        useAuthStore.getState().setUserData({
-          ...useAuthStore.getState().userData,
-          profileImage: response.data.profileImage,
-        });
       }
 
+      fetchAndStoreUserData();
       closeImageEdit();
     })
     .catch((error) => {
