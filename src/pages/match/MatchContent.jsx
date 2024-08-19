@@ -1,6 +1,7 @@
 import React from 'react';
 import MatchArticleCard from './match_feature/MatchArticleCard';
 import styled from 'styled-components';
+import MainArticle from '../home/MainArticle';
 
 const Container = styled.div`
   padding: 20px;
@@ -19,6 +20,7 @@ const MatchContent = () => {
       id: "1", 
       title: "매치 구합니다!!", 
       location: "서울 강남",
+      category: "축구",
       date: "2024.07.30", 
       placeOffer: "O", 
       img: "", 
@@ -31,6 +33,7 @@ const MatchContent = () => {
       id: "2", 
       title: "농구 매치할 팀 구해용", 
       location: "파리",
+      category: "농구",
       date: "2024.08.30", 
       placeOffer: "X", 
       img: "", 
@@ -43,6 +46,7 @@ const MatchContent = () => {
       id: "3", 
       title: "농구 매치할 팀 구해용", 
       location: "파리",
+      category: "농구",
       date: "2024.08.30", 
       placeOffer: "X", 
       img: "", 
@@ -55,6 +59,7 @@ const MatchContent = () => {
       id: "4", 
       title: "농구 매치할 팀 구해용", 
       location: "파리",
+      category: "농구",
       date: "2024.08.30", 
       placeOffer: "X", 
       img: "", 
@@ -74,6 +79,7 @@ const MatchContent = () => {
             key={matchArticle.id}
             title={matchArticle.title}
             location={matchArticle.location}
+            category={matchArticle.category}
             date={matchArticle.date}
             placeOffer={matchArticle.placeOffer}
             img={matchArticle.img}

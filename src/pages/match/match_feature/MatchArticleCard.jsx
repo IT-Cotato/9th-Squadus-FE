@@ -53,7 +53,7 @@ const Title = styled.div`
   margin-bottom: 8px;
 `;
 
-const Location = styled.div`
+const SubTitle = styled.div`
   font-size: 14px;
   font-weight: 500;
 `;
@@ -68,48 +68,8 @@ const ArrowUpIcon = styled.div`
   transform: ${({ $expanded }) => ($expanded ? 'rotate(0)' : 'rotate(180deg)')};
   transition: transform 0.3s ease;
 `;
+
 const SubInfoContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 12px;
-  display: ${({ $expanded }) => ($expanded ? 'flex' : 'none')};
-`;
-
-const Schedule = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 4px;
-  align-items: center;
-`;
-
-const PlaceOffer = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 4px;
-  align-items: center;
-`;
-
-const Label = styled.div`
-  font-size: 12px;
-  color: white;
-  opacity: 80%;
-`
-
-const ScheduleContent = styled.div`
-  font-size: 16px;
-  font-weight: 600;
-  color: white;
-  opacity: 80%;
-`
-
-const PlaceOfferContent = styled.div`
-  font-size: 16px;
-  font-weight: 600;
-  color: white;
-  opacity: 80%;
-`;
-
-const DetailContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -133,7 +93,26 @@ const Image = styled.div`
   background-color: black;
 `;
 
-const StatusContainer = styled.div`
+const DetailContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 28px;
+`;
+
+const SegmentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
+
+const Schedule = styled.div`
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  opacity: 80%;
+`
+
+const CountContainer = styled.div`
   display: flex;
   flex-direction: row;
 `
@@ -141,8 +120,27 @@ const StatusContainer = styled.div`
 const ContentContainer = styled.div`
   width: 100%;
   display: ${({ $expanded }) => ($expanded ? 'flex' : 'none')};
+  flex-direction: column;
   margin-top: 4px;
+  gap: 8px;
 `;
+
+const PlaceOffer = styled.div`
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  opacity: 80%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+`;
+
+const Label = styled.div`
+  font-size: 12px;
+  color: white;
+  opacity: 80%;
+`
 
 const RequestButton = styled.div`
   width: 100%;
@@ -159,7 +157,7 @@ const RequestButton = styled.div`
   display: ${({ $expanded, $show }) => ($expanded && $show ? 'flex' : 'none')};
 `;
 
-const MatchArticleCard = ({ title, location, date, placeOffer, img, clubName, tierNeed, peopleCount, content, requestButtonLabel, showRequestButton = true, showClubContainer = false, clubData }) => {
+const MatchArticleCard = ({ title, location, category, date, placeOffer, img, clubName, tierNeed, peopleCount, content, requestButtonLabel, showRequestButton = true, showClubContainer = false, clubData }) => {
   const [expanded, setExpanded] = useState(false);
   const [showMatchSendModal, setShowMatchSendModal] = useState(false);
   const [showMatchSendCancelModal, setShowMatchSendCancelModal] = useState(false);
@@ -194,30 +192,32 @@ const MatchArticleCard = ({ title, location, date, placeOffer, img, clubName, ti
         <MainInfoContainer>
           <div>
             <Title>{title}</Title>
-            <Location>{location}</Location>
+            <SubTitle>{location} · {category}</SubTitle>
           </div>
           <ArrowUpIcon $expanded={expanded ? "true" : undefined} />
         </MainInfoContainer>
-        <SubInfoContainer $expanded={expanded ? "true" : undefined}>
-          <Schedule>
-            <Label>일시</Label>
-            <ScheduleContent>{date}</ScheduleContent>
-          </Schedule>
-          <PlaceOffer>
-            <Label>장소제공 여부</Label>
-            <PlaceOfferContent>{placeOffer}</PlaceOfferContent>
-          </PlaceOffer>
-        </SubInfoContainer>
-        <DetailContainer>
+        <SubInfoContainer>
           <ClubContainer>
             <Image></Image>
             {clubName}
           </ClubContainer>
-          <StatusContainer>
-            {tierNeed} 이상 · {peopleCount}명
-          </StatusContainer>
-        </DetailContainer>
-        <ContentContainer $expanded={expanded ? "true" : undefined}>{content}</ContentContainer>
+          <DetailContainer>
+            <SegmentContainer>
+              <Schedule>{date}</Schedule>
+              {tierNeed} 이상
+            </SegmentContainer>
+            <CountContainer>
+              {peopleCount}명
+            </CountContainer>
+          </DetailContainer>
+        </SubInfoContainer>
+        <ContentContainer $expanded={expanded ? "true" : undefined}>
+          <PlaceOffer>
+            <Label>장소제공 여부</Label>
+            {placeOffer}
+          </PlaceOffer>
+          {content}
+          </ContentContainer>
         <RequestButton
           $expanded={expanded}
           $show={showRequestButton}
