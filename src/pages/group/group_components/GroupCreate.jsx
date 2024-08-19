@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import api from '../../../api/api';
-import useAuthStore from '../../../stores/useAuthStore';
+import api from '../../../apis/utils/api';
 
 const WrapperContainer = styled.div`
   position: fixed;
@@ -81,7 +80,7 @@ const GroupCreate = ({ closeGroupCreate }) => {
   const [sportsCategory, setSportsCategory] = useState('');
   const [logo, setLogo] = useState('');
 
-  const accessToken = useAuthStore(state => state.accessToken);
+  const accessToken = localStorage.getItem('accessToken');
 
   const handleSubmit = async () => {
 
