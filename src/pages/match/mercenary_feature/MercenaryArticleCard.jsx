@@ -50,7 +50,7 @@ const Title = styled.div`
   margin-bottom: 8px;
 `;
 
-const Location = styled.div`
+const SubTitle = styled.div`
   font-size: 14px;
   font-weight: 500;
 `;
@@ -65,48 +65,8 @@ const ArrowUpIcon = styled.div`
   transform: ${({ $expanded }) => ($expanded ? 'rotate(0)' : 'rotate(180deg)')};
   transition: transform 0.3s ease;
 `;
+
 const SubInfoContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 12px;
-  display: ${({ $expanded }) => ($expanded ? 'flex' : 'none')};
-`;
-
-const Schedule = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 4px;
-  align-items: center;
-`;
-
-const PlaceOffer = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 4px;
-  align-items: center;
-`;
-
-const Label = styled.div`
-  font-size: 12px;
-  color: white;
-  opacity: 80%;
-`
-
-const ScheduleContent = styled.div`
-  font-size: 16px;
-  font-weight: 600;
-  color: white;
-  opacity: 80%;
-`
-
-const PlaceOfferContent = styled.div`
-  font-size: 16px;
-  font-weight: 600;
-  color: white;
-  opacity: 80%;
-`;
-
-const DetailContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -130,23 +90,29 @@ const Image = styled.div`
   background-color: black;
 `;
 
-const StatusContainer = styled.div`
+
+const DetailContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 160px;
   gap: 8px;
-`
-const DescriptionContainer = styled.div`
+`;
+
+const SegmentContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  gap: 32px;
+`;
+
+const Schedule = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
   align-items: center;
 `;
 
-const RecruitmentCount = styled.div`
-  font-size: 12px;
-  margin-left: auto;
-`
+const CountContainer = styled.div`
+  font-size: 14px;
+`;
 
 const BarContainer = styled.div`
   width: 100%;
@@ -166,7 +132,26 @@ const CurrentBarContainer = styled.div`
 const ContentContainer = styled.div`
   width: 100%;
   display: ${({ $expanded }) => ($expanded ? 'flex' : 'none')};
+  flex-direction: column;
   margin-top: 4px;
+  gap: 8px;
+`;
+
+const PlaceOffer = styled.div`
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  opacity: 80%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+`;
+
+const Label = styled.div`
+  font-size: 12px;
+  color: white;
+  opacity: 80%;
 `;
 
 const RequestButton = styled.div`
@@ -184,7 +169,7 @@ const RequestButton = styled.div`
   display: ${({ $expanded, $show }) => ($expanded && $show ? 'flex' : 'none')};
 `;
 
-const MercenaryArticleCard = ({ title, location, date, placeOffer, img, clubName, maxCount, currentCount, content, requestButtonLabel, showRequestButton = true, showPersonContainer = false, personData }) => {
+const MercenaryArticleCard = ({ title, location, category, date, placeOffer, img, clubName, maxCount, currentCount, content, requestButtonLabel, showRequestButton = true, showPersonContainer = false, personData }) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -193,35 +178,32 @@ const MercenaryArticleCard = ({ title, location, date, placeOffer, img, clubName
         <MainInfoContainer>
           <div>
             <Title>{title}</Title>
-            <Location>{location}</Location>
+            <SubTitle>{location} · {category}</SubTitle>
           </div>
           <ArrowUpIcon $expanded={expanded ? "true" : undefined} />
         </MainInfoContainer>
-        <SubInfoContainer $expanded={expanded ? "true" : undefined}>
-          <Schedule>
-            <Label>일시</Label>
-            <ScheduleContent>{date}</ScheduleContent>
-          </Schedule>
-          <PlaceOffer>
-            <Label>장소제공 여부</Label>
-            <PlaceOfferContent>{placeOffer}</PlaceOfferContent>
-          </PlaceOffer>
-        </SubInfoContainer>
-        <DetailContainer>
+        <SubInfoContainer>
           <ClubContainer>
             <Image></Image>
             {clubName}
           </ClubContainer>
-          <StatusContainer>
-            <DescriptionContainer>
-              <RecruitmentCount>{currentCount}/{maxCount}</RecruitmentCount>
-            </DescriptionContainer>
+          <DetailContainer>
+            <SegmentContainer>
+              <Schedule>{date}</Schedule>
+              <CountContainer>{currentCount}/{maxCount}</CountContainer>
+            </SegmentContainer>
             <BarContainer>
               <CurrentBarContainer $currentCount={currentCount} $maxCount={maxCount} />
             </BarContainer>
-          </StatusContainer>
-        </DetailContainer>
-        <ContentContainer $expanded={expanded ? "true" : undefined}>{content}</ContentContainer>
+          </DetailContainer>
+        </SubInfoContainer>
+        <ContentContainer $expanded={expanded ? "true" : undefined}>
+            <PlaceOffer>
+              <Label>장소제공 여부</Label>
+              {placeOffer}
+            </PlaceOffer>
+            {content}
+          </ContentContainer>
         <RequestButton $expanded={expanded ? "true" : undefined} $show={showRequestButton ? "true" : undefined}>
           {requestButtonLabel}
         </RequestButton>

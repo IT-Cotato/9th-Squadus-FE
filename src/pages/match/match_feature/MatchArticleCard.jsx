@@ -217,7 +217,7 @@ const MatchArticleCard = ({ title, location, category, date, placeOffer, img, cl
             {placeOffer}
           </PlaceOffer>
           {content}
-          </ContentContainer>
+        </ContentContainer>
         <RequestButton
           $expanded={expanded}
           $show={showRequestButton}

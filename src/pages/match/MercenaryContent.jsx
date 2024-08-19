@@ -19,6 +19,7 @@ const MercenaryContent = () => {
       id: "1", 
       title: "용병 구합니다!!", 
       location: "서울 강남",
+      category: "축구",
       date: "2024.07.30", 
       placeOffer: "O", 
       img: "", 
@@ -31,6 +32,7 @@ const MercenaryContent = () => {
       id: "2", 
       title: "용병 구합니다~~~", 
       location: "파리",
+      category: "농구",
       date: "2024.08.30", 
       placeOffer: "X", 
       img: "", 
@@ -43,6 +45,7 @@ const MercenaryContent = () => {
       id: "3", 
       title: "용병 구함", 
       location: "서울 성북구",
+      category: "펜싱",
       date: "2024.08.30", 
       placeOffer: "X", 
       img: "", 
@@ -55,6 +58,7 @@ const MercenaryContent = () => {
       id: "4", 
       title: "농구 매치할 팀 구해용", 
       location: "파리",
+      category: "피겨",
       date: "2024.08.30", 
       placeOffer: "X", 
       img: "", 
@@ -75,6 +79,7 @@ const MercenaryContent = () => {
             key={mercenaryArticle.id}
             title={mercenaryArticle.title}
             location={mercenaryArticle.location}
+            category={mercenaryArticle.category}
             date={mercenaryArticle.date}
             placeOffer={mercenaryArticle.placeOffer}
             img={mercenaryArticle.img}
