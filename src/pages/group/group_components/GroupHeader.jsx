@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import styled from "styled-components";
 import arrowdown_icon from "../../../assets/icons/group/arrow_down.svg";
 import run_emoji from "../../../assets/icons/group/run_emoji.svg";
@@ -7,6 +6,9 @@ import GroupSelectList from "./GroupSelectList";
 import { ReactComponent as ModiInfoIcon } from "../../../assets/group/ModiInfoIcon.svg";
 import { ReactComponent as AlarmIcon } from "../../../assets/group/AlarmIcon.svg";
 import ModifyInfo from "../basicinfo/ModifyInfo";
+
+import React, { useState, useEffect, useContext } from "react";
+import { GroupContext } from "../Group";
 
 function GroupHeader() {
   const [showGroupSelectList, setShowGroupSelectList] = useState(false);
@@ -17,17 +19,29 @@ function GroupHeader() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  const { Loading, chooseClubId, groupData } = useContext(GroupContext);
+
+  useEffect(() => {
+    console.log(Loading);
+    console.log(groupData.length);
+    console.log(groupData[chooseClubId]);
+  }, []);
   return (
     <Container>
       <Wrapper>
         <RunEmoji />
-        <Title>중앙가르드</Title>
+        <Title>
+          {Loading && groupData && groupData[chooseClubId]
+            ? groupData[chooseClubId].clubName
+            : "Loading..."}
+        </Title>
         <ArrowDown
           onClick={(e) => {
             setShowGroupSelectList(!showGroupSelectList);
           }}
         />
-        {showGroupSelectList && <GroupSelectList />}
+        {showGroupSelectList && <GroupSelectList groupData={groupData} />}
       </Wrapper>
       <IconWrapper>
         <ModiInfoIcon onClick={toggleModal} />
@@ -40,7 +54,6 @@ function GroupHeader() {
 
 export default GroupHeader;
 
-
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
@@ -51,7 +64,6 @@ const Container = styled.div`
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  background-color: pink;
   font-size: 16px;
   border-bottom: 1px solid #dcdcdc;
   position: relative;

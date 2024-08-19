@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
@@ -24,29 +24,32 @@ const TabItem = styled.div`
   cursor: pointer;
 
   &::after {
-    content: '';
-    display: ${({ $active }) => ($active ? 'block' : 'none')};
+    content: "";
+    display: ${({ $active }) => ($active ? "block" : "none")};
     position: absolute;
     bottom: -5px;
     left: 0;
     height: 2px;
-    background: #ff6330;
+    background: ${({ $clubTier }) =>
+      $clubTier === "BRONZE" ? "#ffffff" : "#ff6330"};
     width: 100%;
   }
 `;
 
-const RankTab = ({ activeTab, setActiveTab }) => {
+const RankTab = ({ activeTab, setActiveTab, clubTier }) => {
   return (
     <Container>
       <TabItem
-        $active={activeTab === 'monthly'}
-        onClick={() => setActiveTab('monthly')}
+        $active={activeTab === "monthly"}
+        onClick={() => setActiveTab("monthly")}
+        $clubTier={clubTier}
       >
         Monthly
       </TabItem>
       <TabItem
-        $active={activeTab === 'all-time'}
-        onClick={() => setActiveTab('all-time')}
+        $active={activeTab === "all-time"}
+        onClick={() => setActiveTab("all-time")}
+        $clubTier={clubTier}
       >
         All time
       </TabItem>
