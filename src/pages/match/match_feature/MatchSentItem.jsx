@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import MatchArticleCard from './MatchArticleCard';
+import MatchDetail from '../match_detail/MatchDetail';
 
 const Container = styled.div`
   display: flex;
@@ -16,7 +17,13 @@ const Result = styled.div`
 `;
 
 
-const MatchSentItem = ({ title, location, date, placeOffer, img, tierNeed, maxCount, currentCount, content, status}) => {
+const MatchSentItem = ({ title, location, date, placeOffer, img, clubName, tierNeed, peopleCount, content, status}) => {
+  const [showMatchDetail, setShowMatchDetail] = useState(false);
+
+  const handleDetailClick = () => {
+    setShowMatchDetail(true);
+  }
+
 
   return (
     <Container>
@@ -26,14 +33,21 @@ const MatchSentItem = ({ title, location, date, placeOffer, img, tierNeed, maxCo
         date={date}
         placeOffer={placeOffer}
         img={img}
+        clubName={clubName}
         tierNeed={tierNeed}
-        maxCount={maxCount}
-        currentCount={currentCount}
+        peopleCount={peopleCount}
         content={content}
         requestButtonLabel="요청 취소"
         showRequestButton={true}
       />
-      <Result>{status}</Result>
+      <Result onClick={handleDetailClick}>{status}</Result>
+
+      {
+        showMatchDetail && 
+        <MatchDetail
+          closeMatchDetail={() => setShowMatchDetail(false)}
+        />
+      }
     </Container>
   );
 }

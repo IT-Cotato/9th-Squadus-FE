@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import write_icon from '../../assets/icons/write.svg';
 import default_profile_image from '../../assets/default_profile_image.svg';
@@ -6,6 +6,7 @@ import arrow_right_icon from '../../assets/icons/arrow-right-orange.svg';
 import UniversityAuth from './UniversityAuth';
 import ImageEdit from './ImageEdit';
 import LogoutModal from './LogoutModal';
+import useAuthStore from '../../stores/useAuthStore';
 
 const FixedContainer = styled.div`
   top: 0;
@@ -42,7 +43,6 @@ const EditIcon = styled.div`
 const ContentContainer = styled.div`
   width: 100%;
   height: 100%;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.neutral[50]};
@@ -62,10 +62,10 @@ const ProfileSection = styled.div`
 const ProfileImage = styled.div`
   height: 146px;
   width: 146px;
-  background-image: url(${default_profile_image});
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  border-radius: 50%;
 `;
 
 const UserName = styled.div`
@@ -121,11 +121,23 @@ const MenuContainer = styled.div`
 `;
 
 const MyPage = () => {
+  const { userData } = useAuthStore();
+  const [isUniversityVerified, setIsUniversityVerified] = useState(false);
+
   const [showUniversityAuth, setShowUniversityAuth] = useState(false);
   const [showImageEdit, setShowImageEdit] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-  const isUniversityVerified = false;
+
+  // TODO: 백에서 리턴하는 값 바꿔주면, 수정하기
+  useEffect(() => {
+    console.log("UserData:", userData);
+    if (userData?.university) {
+      setIsUniversityVerified(true);
+    } else {
+      setIsUniversityVerified(false);
+    }
+  }, [userData]);
 
   return (
     <>
@@ -136,10 +148,14 @@ const MyPage = () => {
       </FixedContainer>
       <ContentContainer>
         <ProfileSection>
-          <ProfileImage></ProfileImage>
-          <UserName>안유진</UserName>
+          <ProfileImage
+            style={{
+              backgroundImage: `url(${userData?.profileImage ? userData.profileImage : default_profile_image})`
+            }}
+          />
+          <UserName>{userData ? userData.memberName : ''}</UserName>
           {isUniversityVerified && (
-            <UniversityName>서울대학교</UniversityName>
+            <UniversityName>{userData.university}</UniversityName>
           )}
           <AuthMessage $isVerified={isUniversityVerified} onClick={() => setShowUniversityAuth(true)}>
             {isUniversityVerified ? '학교 인증 완료' : '학교 인증이 필요합니다'}
@@ -152,7 +168,7 @@ const MyPage = () => {
           <MenuContainer>회원 탈퇴</MenuContainer>
         </AccountSection>
       </ContentContainer>
-
+      
       {
         showUniversityAuth && 
         <UniversityAuth

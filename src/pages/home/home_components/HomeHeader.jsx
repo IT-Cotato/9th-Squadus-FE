@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import notification_icon from '../../../assets/icons/notification.svg';
 import useAuthStore from '../../../stores/useAuthStore';
-import api from '../../../api/api';
 
 const Container = styled.div`
   display: flex;
@@ -31,35 +30,13 @@ const Notification = styled.div`
 `;
 
 function HomeHeader() {
-  const [userData, setUserData] = useState(null);
-  const accessToken = useAuthStore(state => state.accessToken);
+  const { userData } = useAuthStore();
   const navigate = useNavigate();
 
   const handleNotificationClick = () => {
     navigate('/notification');
   };
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      await api.get(`/v1/api/members/info`, {
-        headers: {
-          'Content-Type': 'application/json',
-          access: `${accessToken}` 
-        }
-      })
-      .then((response) => {
-        setUserData(response.data);
-        console.log('User data fetched:', response.data);
-      })
-      .catch((error) => {
-        console.error('Failed to fetch user data:', error);
-      })
-    };
-
-    if (accessToken) {
-      fetchUserData();
-    }
-  }, [accessToken]);
 
   return (
     <Container>

@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import api from "../../../api/api";
-import useAuthStore from "../../../stores/useAuthStore";
 import close_icon from "../../../assets/icons/close.svg";
 import backStep_icon from "../../../assets/icons/backStep.svg";
 import {

@@ -26,12 +26,14 @@ const Container = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  width: 70%;
+  width: 80%;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: white;
   border-radius: 12px;
+  text-align: center;
+  box-shadow: 0px 2px 50px rgba(85, 91, 160, 0.43);
 `;
 
 const ModalHeader = styled.div`
@@ -57,8 +59,12 @@ const ModalContentContainer = styled.div`
 
 const ModalContent = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  padding: 30px 0px;
+  padding: 8px;
+  align-items: center;
+  font-size: 18px;
+  line-height: 22px;
 `;
 
 const ModalButtonContainer = styled.div`
@@ -69,36 +75,36 @@ const ModalButtonContainer = styled.div`
 `;
 
 const Button = styled.div`
-  background-color: pink;
   display: flex;
   justify-content: center;
   padding: 16px;
-  width: 50%;
   border-radius: 8px;
 `;
 
-const CancelButton = styled(Button)`
-  background-color: ${({ theme }) => theme.colors.neutral[300]};
-  color: white;
-`;
 
 const ConfirmButton = styled(Button)`
   background-color: ${({ theme }) => theme.colors.main[600]};
   color: white;
+  width: 100%;
 `;
 
+const MatchSendSuccessModal = ({ onClose }) => {
 
-const AuthSuccessModal = () => {
+  const handleModalClick = (event) => {
+    event.stopPropagation();
+  };
+
   return(
-    <WrapperContainer>
-      <Container>
+    <WrapperContainer onClick={onClose}>
+      <Container onClick={handleModalClick}>
         <ModalContainer>
-          <ModalHeader>로그아웃</ModalHeader>
+          <ModalHeader>매치 요청 보내기</ModalHeader>
           <ModalContentContainer>
-            <ModalContent>로그아웃 하시겠습니까?</ModalContent>
+            <ModalContent>
+              매치 요청을 보냈습니다.
+            </ModalContent>
             <ModalButtonContainer>
-              <CancelButton>취소</CancelButton>
-              <ConfirmButton>확인</ConfirmButton>
+              <ConfirmButton onClick={onClose}>확인</ConfirmButton>
             </ModalButtonContainer>
           </ModalContentContainer>
         </ModalContainer>
@@ -107,4 +113,4 @@ const AuthSuccessModal = () => {
   )
 }
 
-export default AuthSuccessModal;
+export default MatchSendSuccessModal;

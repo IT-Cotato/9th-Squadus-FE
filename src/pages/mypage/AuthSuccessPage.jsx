@@ -84,12 +84,12 @@ const Message = styled.div`
   color: ${({ theme }) => theme.colors.neutral[800]};
 `
 
-const AuthSuccessModal = () => {
+const AuthSuccessPage = ({ closeAuthSuccessPage }) => {
   return(
     <WrapperContainer>
       <Container>
         <HeaderContainer>
-          <CloseButton />
+          <CloseButton onClick={closeAuthSuccessPage} />
           <HeaderTitle>학교 인증</HeaderTitle>
         </HeaderContainer>
         <ContentContainer>
@@ -101,4 +101,4 @@ const AuthSuccessModal = () => {
   )
 }
 
-export default AuthSuccessModal;
+export default AuthSuccessPage;

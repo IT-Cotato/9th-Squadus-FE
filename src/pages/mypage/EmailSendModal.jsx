@@ -69,36 +69,25 @@ const ModalButtonContainer = styled.div`
 `;
 
 const Button = styled.div`
-  background-color: pink;
   display: flex;
   justify-content: center;
   padding: 16px;
-  width: 50%;
+  width: 100%;
   border-radius: 8px;
-`;
-
-const CancelButton = styled(Button)`
-  background-color: ${({ theme }) => theme.colors.neutral[300]};
-  color: white;
-`;
-
-const ConfirmButton = styled(Button)`
   background-color: ${({ theme }) => theme.colors.main[600]};
   color: white;
 `;
 
-
-const AuthSuccessModal = () => {
+const EmailSendModal = ({ closeEmailSendModal }) => {
   return(
     <WrapperContainer>
       <Container>
         <ModalContainer>
-          <ModalHeader>로그아웃</ModalHeader>
+          <ModalHeader>인증번호 전송 완료</ModalHeader>
           <ModalContentContainer>
-            <ModalContent>로그아웃 하시겠습니까?</ModalContent>
+            <ModalContent>이메일로 인증번호가 전송되었습니다.</ModalContent>
             <ModalButtonContainer>
-              <CancelButton>취소</CancelButton>
-              <ConfirmButton>확인</ConfirmButton>
+              <Button onClick={closeEmailSendModal}>확인</Button>
             </ModalButtonContainer>
           </ModalContentContainer>
         </ModalContainer>
@@ -107,4 +96,4 @@ const AuthSuccessModal = () => {
   )
 }
 
-export default AuthSuccessModal;
+export default EmailSendModal;

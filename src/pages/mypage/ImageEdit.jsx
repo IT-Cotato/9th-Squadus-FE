@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import close_icon from '../../assets/icons/close.svg';
+import useAuthStore from '../../stores/useAuthStore';
 import default_profile_image from '../../assets/default_profile_image.svg';
+import api from '../../apis/utils/api';
+
 
 const WrapperContainer = styled.div`
   position: fixed;
@@ -12,7 +15,7 @@ const WrapperContainer = styled.div`
   display: flex;
   z-index: 10000;
   justify-content: center;
-`;
+`; 
 
 const Container = styled.div`
   width: 100%;
@@ -85,10 +88,10 @@ const ProfileSection = styled.div`
 const ProfileImage = styled.div`
   height: 146px;
   width: 146px;
-  background-image: url(${default_profile_image});
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  border-radius: 50%;
 `;
 
 const UserName = styled.div`
@@ -109,7 +112,54 @@ const MenuContainer = styled.div`
   padding: 12px 0px;
 `;
 
+const FileInput = styled.input`
+  display: none;
+`;
+
 const ImageEdit = ({ closeImageEdit }) => {
+  const { userData, fetchAndStoreUserData } = useAuthStore();
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(userData?.profileImage || default_profile_image);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+
+    const previewUrl = URL.createObjectURL(file);
+    setPreviewUrl(previewUrl);
+  };
+
+  const handleSubmit = () => {
+    if (!selectedFile) {
+      alert('파일을 선택해주세요.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('profileImage', selectedFile);
+
+    const accessToken = localStorage.getItem("accessToken");
+
+    api.post('/v1/api/members/profile-image', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        access: `${accessToken}`
+      },
+    })
+    .then((response) => {
+      console.log('이미지 업로드 성공:', response.data);
+
+      if (response.data.profileImage) {
+        setPreviewUrl(response.data.profileImage);
+      }
+
+      fetchAndStoreUserData();
+      closeImageEdit();
+    })
+    .catch((error) => {
+      console.error('이미지 업로드 실패:', error);
+    });
+  };
   
   return (
     <WrapperContainer>
@@ -117,16 +167,28 @@ const ImageEdit = ({ closeImageEdit }) => {
         <HeaderContainer>
           <CloseButton onClick={closeImageEdit} />
           <HeaderTitle>프로필 편집</HeaderTitle>
-          <SubmitButton>완료</SubmitButton>
+          <SubmitButton onClick={handleSubmit}>완료</SubmitButton>
         </HeaderContainer>
         <ContentContainer>
           <ProfileSection>
-            <ProfileImage></ProfileImage>
-            <UserName>안유진</UserName>
+            <ProfileImage
+              style={{
+                backgroundImage: `url(${previewUrl})`
+              }}
+            />
+            <UserName>{userData ? userData.memberName : ''}</UserName>
           </ProfileSection>
           <MenuSection>
-            <MenuContainer>프로필 사진 변경</MenuContainer>
+            <MenuContainer onClick={() => document.getElementById('fileInput').click()}>
+              프로필 사진 변경
+            </MenuContainer>
             <MenuContainer>프로필 사진 삭제</MenuContainer>
+            <FileInput
+              id="fileInput"
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+            />
           </MenuSection>
         </ContentContainer>
         

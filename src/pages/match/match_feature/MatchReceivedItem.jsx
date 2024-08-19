@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import MatchArticleCard from './MatchArticleCard';
-import MatchClubItem from './MatchClubItem';
 
 const Container = styled.div`
   display: flex;
@@ -10,8 +9,8 @@ const Container = styled.div`
 `;
 
 
-const MatchReceivedItem = ({ title, location, date, placeOffer, img, tierNeed, maxCount, currentCount, content}) => {
-  const ClubData = [
+const MatchReceivedItem = ({ title, location, date, placeOffer, img, clubName, tierNeed, peopleCount, content}) => {
+  const clubData = [
     { 
       id: "1", 
       clubName: "코테이토", 
@@ -26,37 +25,22 @@ const MatchReceivedItem = ({ title, location, date, placeOffer, img, tierNeed, m
     }
   ]
   
-  const [showRequests, setShowRequests] = useState(false);
-
-  const toggleButtonContainer = () => {
-    setShowRequests(prevShowButtons => !prevShowButtons);
-  };
-
   return (
-    <Container onClick={toggleButtonContainer}>
+    <Container>
       <MatchArticleCard
         title={title}
         location={location}
         date={date}
         placeOffer={placeOffer}
         img={img}
+        clubName={clubName}
         tierNeed={tierNeed}
-        maxCount={maxCount}
-        currentCount={currentCount}
+        peopleCount={peopleCount}
         content={content}
         showRequestButton={false}
+        showClubContainer={true}
+        clubData={clubData}
       />
-      {showRequests && (
-        ClubData.map(club => (
-          <MatchClubItem 
-            key={club.id}
-            clubName={club.clubName}
-            university={club.university}
-            tier={club.tier}
-          />
-        ))
-      )}
-
     </Container>
   );
 }

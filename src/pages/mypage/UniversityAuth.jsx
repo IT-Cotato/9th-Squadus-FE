@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import close_icon from '../../assets/icons/close.svg';
-import AuthSuccessModal from './AuthSuccessModal';
+import EmailSendModal from './EmailSendModal';
+import AuthSuccessPage from './AuthSuccessPage';
+import api from '../../apis/utils/api';
+import useAuthStore from '../../stores/useAuthStore';
+
 
 const WrapperContainer = styled.div`
   position: fixed;
@@ -65,12 +69,28 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
+  gap: 24px;
+`;
+
+const InputContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
+
+const Label = styled.div`
+  width: 100%;
+  display: flex;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 2px 8px;
+  color: ${({ theme }) => theme.colors.neutral[600]};
 `;
 
 const EmailInput = styled.input`
   width: 100%;
   padding: 12px;
-  margin: 16px 0;
   font-size: 18px;
   border: none;
   border-radius: 8px;
@@ -79,11 +99,10 @@ const EmailInput = styled.input`
   color: ${({ emailSent }) => emailSent ? '#666' : 'inherit'};
 `;
 
-
 const InfoText = styled.div`
   font-size: 14px;
   color: ${({ theme }) => theme.colors.main[600]};
-  margin-bottom: 16px;
+  padding: 4px 8px;
 `;
 
 const FooterContainer = styled.div`
@@ -121,7 +140,6 @@ const VerificationSection = styled.div`
 const CodeInput = styled.input`
   flex-grow: 1;
   padding: 12px;
-  margin: 16px 0;
   font-size: 18px;
   border: none;
   border-radius: 8px;
@@ -141,36 +159,61 @@ const ResendButton = styled.div`
 
 
 const UniversityAuth = ({ closeUniversityAuth }) => {
+  const { fetchAndStoreUserData } = useAuthStore();
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [emailSent, setEmailSent] = useState(false);
   const [isAuthSuccessful, setIsAuthSuccessful] = useState(null);
+  const [showEmailSentModal, setShowEmailSentModal] = useState(false);
+  const [showAuthSuccessPage, setShowAuthSuccessPage] = useState(false);
 
+  // 이메일 보내는 함수
   const handleSendEmail = async () => {
-    try {
-      // 백엔드 API 연결 필요
-
+    await api.post('/v1/api/email/signup', {
+      email: email
+    })
+    .then((response) => {
+      console.log(response);
       setEmailSent(true);
-    } catch (error) {
+      setShowEmailSentModal(true);
+      console.log('이메일 전송 완료');
+    })
+    .catch((error) => {
       console.error('이메일 전송 오류', error);
-    }
+    });
   };
 
+  // 인증코드 확인하는 함수
   const handleVerify = async () => {
-    try {
-      // 백엔드 API 필요
-      const result = 'success';
+    const accessToken = localStorage.getItem("accessToken");
 
-      if (result === 'success') {
-        setIsAuthSuccessful(true);
-      } else {
-        setIsAuthSuccessful(false);
+    await api.post('/v1/api/email/signup/emailAuth', {
+      email: email,
+      authNum: verificationCode
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        access: `${accessToken}`
       }
-    } catch (error) {
+    })
+    .then((response) => {
+      console.log(response);
+      setIsAuthSuccessful(true);
+      console.log('인증코드 확인 성공');
+
+      fetchAndStoreUserData();
+      setShowAuthSuccessPage(true);
+    })
+    .catch((error) => {
       setIsAuthSuccessful(false);
-    }
+      console.error('인증코드 확인 오류', error);
+    });
   };
-  
+
+  const closeAuthSuccessPage = () => {
+    setShowAuthSuccessPage(false);
+    closeUniversityAuth(); // AuthSuccessPage 닫을 때 전체 모달도 닫기
+  };
 
   return (
     <WrapperContainer>
@@ -180,25 +223,31 @@ const UniversityAuth = ({ closeUniversityAuth }) => {
           <HeaderTitle>학교 인증</HeaderTitle>
         </HeaderContainer>
         <ContentContainer>
-          <EmailInput
-            type="email"
-            placeholder="학교 이메일을 입력하세요."
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            readOnly={emailSent}
-            emailSent={emailSent}
-          />
+          <InputContainer>
+            <Label>학교 이메일</Label>
+            <EmailInput
+              type="email"
+              placeholder="학교 이메일을 입력하세요."
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              readOnly={emailSent}
+              emailSent={emailSent}
+            />
           <InfoText>학교에서 발급받은 메일을 통해서만 인증이 가능합니다.</InfoText>
+          </InputContainer>
           {emailSent && (
-            <VerificationSection>
-              <CodeInput
-                type="text"
-                placeholder="인증번호를 입력하세요."
-                value={verificationCode}
-                onChange={(e) => setVerificationCode(e.target.value)}
-              />
-              <ResendButton>재전송</ResendButton>
-            </VerificationSection>
+            <InputContainer>
+              <Label>인증번호</Label>
+              <VerificationSection>
+                <CodeInput
+                  type="text"
+                  placeholder="인증번호를 입력하세요."
+                  value={verificationCode}
+                  onChange={(e) => setVerificationCode(e.target.value)}
+                />
+                <ResendButton onClick={handleSendEmail}>재전송</ResendButton>
+              </VerificationSection>
+            </InputContainer>
           )}
         </ContentContainer>
         <FooterContainer>
@@ -207,7 +256,16 @@ const UniversityAuth = ({ closeUniversityAuth }) => {
           </SubmitButton>
         </FooterContainer>
       </Container>
-      {isAuthSuccessful === true && <AuthSuccessModal />}
+
+      {showEmailSentModal && (
+        <EmailSendModal
+          closeEmailSendModal={() => setShowEmailSentModal(false)}
+        />
+      )}
+
+      {isAuthSuccessful === true && (
+        <AuthSuccessPage closeAuthSuccessPage={closeAuthSuccessPage} />
+      )}
       {/* {isAuthSuccessful === false && <WarningModal />} */}
     </WrapperContainer>
   );

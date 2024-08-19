@@ -1,26 +1,27 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import MatchHistory from './MatchHistory';
-import MercenaryHistory from './MercenaryHistory';
+import MatchHistory from './match_feature/MatchHistory';
+import MercenaryHistory from './mercenary_feature/MercenaryHistory';
+import arrow_right_icon from '../../assets/icons/arrow-right.svg';
 
 const Container = styled.div`
   display: flex;
-  align-items: center;
-  padding: 0px 20px;
+  flex-direction: column;
   background-color: white;
   font-size: 16px;
   border-bottom: 1px solid #dcdcdc;
   position: relative;
-  gap: 20px;
 `;
 
 const TabBar = styled.div`
   display: flex;
+  padding: 12px 20px;
+  gap: 8px;
 `;
 
 const TabItem = styled.div`
-  padding: 12px 4px;
+  padding: 8px 0px;
   color: ${({ $isActive, theme }) => $isActive ? theme.colors.neutral[900] : theme.colors.neutral[400]};
   font-size: 24px;
   font-weight: 500;
@@ -28,14 +29,24 @@ const TabItem = styled.div`
   cursor: pointer;
 `;
 
-const ApplicationHistoryButton = styled.div`
+const ApplicationHistoryContainer = styled.div`
+  display: flex;
   font-size: 16px;
   font-weight: 500;
-  padding: 8px;
+  padding: 8px 20px;
   cursor: pointer;
   color: ${({ theme }) => theme.colors.neutral[700]};
+  gap: 4px;
 `;
 
+const ArrowRightIcon = styled.div`
+  width: 16px;
+  height: 16px;
+  background-image: url(${arrow_right_icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
 
 const MatchHeader = ({ setSelectedTab }) => {
   const navigate = useNavigate();
@@ -63,6 +74,10 @@ const MatchHeader = ({ setSelectedTab }) => {
     }
   }
 
+  const getApplicationHistoryText = () => {
+    return activeTab === 'match' ? '매치 신청내역' : '용병 신청내역';
+  };
+
 
   return (
     <Container>
@@ -70,7 +85,11 @@ const MatchHeader = ({ setSelectedTab }) => {
         <TabItem onClick={() => handleTabClick('match')} $isActive={activeTab === 'match'}>매치</TabItem>
         <TabItem onClick={() => handleTabClick('mercenary')} $isActive={activeTab === 'mercenary'}>용병</TabItem>
       </TabBar>
-      <ApplicationHistoryButton onClick={handleApplicationClick}>신청 내역</ApplicationHistoryButton>
+      <ApplicationHistoryContainer onClick={handleApplicationClick}>
+        {getApplicationHistoryText()}
+        <ArrowRightIcon />
+      </ApplicationHistoryContainer>
+      
 
       {
         showMatchHistory && 

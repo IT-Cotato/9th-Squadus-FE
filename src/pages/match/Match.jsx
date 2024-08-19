@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { Outlet } from "react-router-dom";
-import MatchHeader from "./MatchHeader";
-import create_icon from "../../assets/icons/write.svg";
-import MatchCreate from "./MatchCreate";
-import MercenaryCreate from "./MercenaryCreate";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { Outlet } from 'react-router-dom';
+import MatchHeader from './MatchHeader';
+import create_icon from '../../assets/icons/write.svg'
+import MatchCreate from './match_feature/MatchCreate';
+import MercenaryCreate from './mercenary_feature/MercenaryCreate';
 
 const FixedContainer = styled.div`
   top: 0;

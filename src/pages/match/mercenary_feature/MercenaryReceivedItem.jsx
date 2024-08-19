@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import MercenaryArticleCard from './MercenaryArticleCard';
-import MercenaryPersonItem from './MercenaryPersonItem';
 
 const Container = styled.div`
   display: flex;
@@ -11,7 +10,7 @@ const Container = styled.div`
 
 
 const MercenaryReceivedItem = ({ title, location, date, placeOffer, img, tierNeed, maxCount, currentCount, content}) => {
-  const PersonData = [
+  const personData = [
     { 
       id: "1", 
       personName: "이다인", 
@@ -24,14 +23,8 @@ const MercenaryReceivedItem = ({ title, location, date, placeOffer, img, tierNee
     }
   ]
   
-  const [showRequests, setShowRequests] = useState(false);
-
-  const toggleButtonContainer = () => {
-    setShowRequests(prevShowButtons => !prevShowButtons);
-  };
-
   return (
-    <Container onClick={toggleButtonContainer}>
+    <Container>
       <MercenaryArticleCard
         title={title}
         location={location}
@@ -43,17 +36,9 @@ const MercenaryReceivedItem = ({ title, location, date, placeOffer, img, tierNee
         currentCount={currentCount}
         content={content}
         showRequestButton={false}
+        showPersonContainer={true}
+        personData={personData}
       />
-      {showRequests && (
-        PersonData.map(person => (
-          <MercenaryPersonItem 
-            key={person.id}
-            personName={person.personName}
-            university={person.university}
-          />
-        ))
-      )}
-
     </Container>
   );
 }

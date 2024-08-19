@@ -27,13 +27,13 @@ function GroupHeader() {
             setShowGroupSelectList(!showGroupSelectList);
           }}
         />
+        {showGroupSelectList && <GroupSelectList />}
       </Wrapper>
       <IconWrapper>
         <ModiInfoIcon onClick={toggleModal} />
         <AlarmIcon />
       </IconWrapper>
       <ModifyInfo isOpen={isModalOpen} onClose={closeModal} />
-      {showGroupSelectList && <GroupSelectList />}
     </Container>
   );
 }
@@ -51,7 +51,7 @@ const Container = styled.div`
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  background-color: white;
+  background-color: pink;
   font-size: 16px;
   border-bottom: 1px solid #dcdcdc;
   position: relative;

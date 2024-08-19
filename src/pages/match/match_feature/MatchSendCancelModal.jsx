@@ -59,6 +59,7 @@ const ModalContent = styled.div`
   display: flex;
   justify-content: center;
   padding: 30px 0px;
+  text-align: center;
 `;
 
 const ModalButtonContainer = styled.div`
@@ -69,7 +70,6 @@ const ModalButtonContainer = styled.div`
 `;
 
 const Button = styled.div`
-  background-color: pink;
   display: flex;
   justify-content: center;
   padding: 16px;
@@ -88,16 +88,29 @@ const ConfirmButton = styled(Button)`
 `;
 
 
-const AuthSuccessModal = () => {
+const MatchSendCancelModal = ({ onClose }) => {
+
+  const matchClubData = {
+    id: "1",
+    matchClubName: "파리펜싱팀",
+    matchDate: "7월 30일 4시"
+  }
+
+  const handleModalClick = (event) => {
+    event.stopPropagation(); // 이벤트 버블링 중지
+  };
+
   return(
-    <WrapperContainer>
-      <Container>
+    <WrapperContainer onClick={onClose}>
+      <Container onClick={handleModalClick}>
         <ModalContainer>
-          <ModalHeader>로그아웃</ModalHeader>
+          <ModalHeader>매치 신청 취소</ModalHeader>
           <ModalContentContainer>
-            <ModalContent>로그아웃 하시겠습니까?</ModalContent>
+            <ModalContent>
+              {matchClubData.matchClubName}에게 보낸 신청을<br />취소하시겠습니까?
+            </ModalContent>
             <ModalButtonContainer>
-              <CancelButton>취소</CancelButton>
+              <CancelButton onClick={onClose}>취소</CancelButton>
               <ConfirmButton>확인</ConfirmButton>
             </ModalButtonContainer>
           </ModalContentContainer>
@@ -107,4 +120,4 @@ const AuthSuccessModal = () => {
   )
 }
 
-export default AuthSuccessModal;
+export default MatchSendCancelModal;
