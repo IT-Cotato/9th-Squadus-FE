@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import close_icon from '../../../assets/icons/close.svg'
 import location_grey_icon from '../../../assets/icons/match/location-grey.svg'
@@ -7,6 +7,8 @@ import club_grey_icon from '../../../assets/icons/match/club-grey.svg'
 import people_grey_icon from '../../../assets/icons/match/people-grey.svg';
 import tier_grey_icon from '../../../assets/icons/match/tier-grey.svg';
 import placeoffer_grey_icon from '../../../assets/icons/match/placeoffer-grey.svg';
+import { getAdminClubs } from '../../../apis/api/user';
+import { createMatch } from '../../../apis/api/match';
 
 const WrapperContainer = styled.div`
   position: fixed;
@@ -224,12 +226,19 @@ const Select = styled.select`
 `;
 
 const MatchCreate = ({ closeMatchCreate }) => {
-  const clubData = [
-    { id: "1", name: "중앙가르드"},
-    { id: "2", name: "코테이토" },
-    { id: "3", name: "하하"}
-  ];
+  const [clubData, setClubData] = useState([]);
 
+  // const clubData = [
+  //   { id: "1", name: "중앙가르드"},
+  //   { id: "2", name: "코테이토" },
+  //   { id: "3", name: "하하"}
+  // ];
+
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [selectedCity, setSelectedCity] = useState("지역");
+  const [selectedCounty, setSelectedCounty] = useState("");
+  const [counties, setCounties] = useState([]);
   const currentYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const [selectedMonth, setSelectedMonth] = useState("");
@@ -240,6 +249,78 @@ const MatchCreate = ({ closeMatchCreate }) => {
   const [selectedTier, setSelectedTier] = useState("");
   const [placeOffer, setPlaceOffer] = useState("");
   const [numberOfParticipants, setNumberOfParticipants] = useState(5);
+
+  const CityOptions = [
+    { value: "지역", label: "지역" },
+    { value: "서울", label: "서울특별시" },
+    { value: "부산", label: "부산광역시" },
+    // 나머지 도시들 생략...
+  ];
+
+  const CountyOptions = {
+    지역: ["지역"],
+    서울: [
+      "강남구", "강동구", "강북구", "강서구", // 예시 생략
+    ],
+    부산: [
+      "강서구", "금정구", "남구", // 예시 생략
+    ],
+    // 나머지 시/도 생략...
+  };
+
+  useEffect(() => {
+    const fetchAdminClubs = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+        const clubs = await getAdminClubs(accessToken);
+        setClubData(clubs);
+      } catch (error) {
+        console.error('관리자로 속한 동아리를 가져오는 중 오류가 발생했습니다:', error);
+      }
+    };
+
+    fetchAdminClubs();
+  }, []);
+
+  useEffect(() => {
+    setCounties(CountyOptions[selectedCity] || []);
+    setSelectedCounty(CountyOptions[selectedCity]?.[0] || "");
+  }, [selectedCity]);
+
+  const handleSubmit = async () => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+
+      const matchData = {
+        homeClubId: selectedClub,
+        memberId: 0, // 여기에 실제 memberId를 추가해야 합니다
+        sportsCategory: "SOCCER",
+        title,
+        content,
+        tier: selectedTier,
+        matchPlace: {
+          city: selectedCity,
+          district: selectedCounty
+        },
+        placeProvided: placeOffer === "Yes",
+        matchStartDate: `${selectedYear}-${selectedMonth}-${selectedDay}`,
+        matchStartTime: {
+          hour: selectedHour,
+          minute: selectedMinute,
+          second: 0,
+          nano: 0
+        },
+        currentParticipants: 0,
+        maxParticipants: numberOfParticipants
+      };
+
+      const response = await createMatch(accessToken, matchData);
+      console.log('매치가 성공적으로 생성되었습니다.', response);
+      // 추가 작업: 매치 생성 후 처리 (예: 페이지 이동, 성공 메시지 표시 등)
+    } catch (error) {
+      console.error('매치 생성 중 오류가 발생했습니다:', error);
+    }
+  };
 
   // 월에 따른 일수 계산
   const getDaysInMonth = (year, month) => {
@@ -254,11 +335,20 @@ const MatchCreate = ({ closeMatchCreate }) => {
         <HeaderContainer>
           <CloseButton onClick={closeMatchCreate} />
           <HeaderTitle>매치 글 작성하기</HeaderTitle>
-          <SubmitButton>완료</SubmitButton>
+          <SubmitButton onClick={handleSubmit}>완료</SubmitButton>
         </HeaderContainer>
           <ContentContainer>
-            <Title type="text" placeholder="제목" />
-            <Content placeholder="내용을 입력하세요." />
+            <Title
+              type="text"
+              placeholder="제목"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <Content
+              placeholder="내용을 입력하세요."
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
             <FormContainer>
               <FieldContainer>
                 <Label>
@@ -266,9 +356,23 @@ const MatchCreate = ({ closeMatchCreate }) => {
                 지역을 선택해 주세요.
                 </Label>
                 <InputContainer>
-                  <Button>시/도</Button>
-                  <Button>군/구</Button>
-                </InputContainer>
+                <Select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
+                  {CityOptions.map((city) => (
+                    <option key={city.value} value={city.value}>
+                      {city.label}
+                    </option>
+                  ))}
+                </Select>
+                {selectedCity !== "지역" && (
+                  <Select value={selectedCounty} onChange={(e) => setSelectedCounty(e.target.value)}>
+                    {counties.map((county) => (
+                      <option key={county} value={county}>
+                        {county}
+                      </option>
+                    ))}
+                  </Select>
+                )}
+              </InputContainer>
               </FieldContainer>
               <FieldContainer>
                 <Label>
@@ -346,9 +450,10 @@ const MatchCreate = ({ closeMatchCreate }) => {
                     value={selectedClub}
                     onChange={(e) => setSelectedClub(e.target.value)}
                   >
+                    <option value="">동아리 선택</option>
                     {clubData.map((club) => (
-                      <option key={club.id} value={club.id}>
-                        {club.name}
+                      <option key={club.clubId} value={club.clubId}>
+                        {club.clubName}
                       </option>
                     ))}
                   </Select>
