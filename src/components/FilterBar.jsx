@@ -69,6 +69,31 @@ const FilterBar = () => {
 
 export default FilterBar;
 
+export const ChooseRegion = () => {
+  const [selectedCity, setSelectedCity] = useState("지역");
+  const [counties, setCounties] = useState(CountyOptions["지역"]);
+  return (
+    <Container>
+      <FilterContainer value={selectedCity}>
+        {CityOptions.map((city) => (
+          <option key={city.value} value={city.value}>
+            {city.label}
+          </option>
+        ))}
+      </FilterContainer>
+
+      {selectedCity !== "지역" && (
+        <FilterContainer value={counties[0]} onChange={(e) => {}}>
+          {counties.map((county) => (
+            <option key={county} value={county}>
+              {county}
+            </option>
+          ))}
+        </FilterContainer>
+      )}
+    </Container>
+  );
+};
 const FilterBox = ({ value, onChange, options }) => (
   <FilterContainer value={value} onChange={onChange}>
     {options.map((option) => (

@@ -49,7 +49,7 @@ function MainNavigationBar() {
       </NavItem>
       <NavItem to="/promotion" isActive={checkActive("/promotion")}>
         <PromotionIcon />
-        분석
+        동아리 홍보
       </NavItem>
       <NavItem to="/group" isActive={checkActive("/group")}>
         <GroupIcon />
