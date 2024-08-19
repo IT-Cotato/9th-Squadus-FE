@@ -1,14 +1,14 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import React from 'react';
+import React from "react";
 
 const Tag = ({ text }) => {
-  return <Container>{text}</Container>;
+  return <TagContainer>{text}</TagContainer>;
 };
 
 export default Tag;
 
-const Container = styled.div`
+const TagContainer = styled.div`
   height: 38px;
   padding: 8px 16px;
   gap: 6px;
@@ -20,4 +20,5 @@ const Container = styled.div`
   line-height: 22px;
   text-align: center;
   color: #1d2939;
+  white-space: nowrap;
 `;

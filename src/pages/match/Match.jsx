@@ -59,19 +59,18 @@ const CreateIcon = styled.div`
 `;
 
 const Match = () => {
-  const [selectedTab, setSelectedTab] = useState('match');
+  const [selectedTab, setSelectedTab] = useState("match");
 
   const [showMatchCreate, setShowMatchCreate] = useState(false);
   const [showMercenaryCreate, setShowMercenaryCreate] = useState(false);
 
-
   const handleFloatingButtonClick = () => {
-    if (selectedTab === 'match') {
+    if (selectedTab === "match") {
       setShowMatchCreate(true);
-    } else if (selectedTab === 'mercenary') {
+    } else if (selectedTab === "mercenary") {
       setShowMercenaryCreate(true);
     }
-  }
+  };
 
   return (
     <>
@@ -82,26 +81,22 @@ const Match = () => {
         <ContentContainer>
           <Outlet />
         </ContentContainer>
-        <FloatingButton onClick={handleFloatingButtonClick}> 
+        <FloatingButton onClick={handleFloatingButtonClick}>
           <CreateIcon />
         </FloatingButton>
       </WrapperContainer>
 
-      {
-        showMatchCreate && 
-        <MatchCreate
-          closeMatchCreate={() => setShowMatchCreate(false)}
-        />
-      }
+      {showMatchCreate && (
+        <MatchCreate closeMatchCreate={() => setShowMatchCreate(false)} />
+      )}
 
-      {
-        showMercenaryCreate && 
+      {showMercenaryCreate && (
         <MercenaryCreate
           closeMercenaryCreate={() => setShowMercenaryCreate(false)}
         />
-      }
+      )}
     </>
   );
-}
+};
 
 export default Match;

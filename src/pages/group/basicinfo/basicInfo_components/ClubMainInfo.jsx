@@ -48,7 +48,7 @@ const ClubInfo = ({
 }) => {
   return (
     <Container>
-      <ClubImage src={img} alt={"Club Image"} />
+      <ClubImage src={img} />
       <TagInfo>
         <TagItem content={region} />
         <TagItem content={personality} />
