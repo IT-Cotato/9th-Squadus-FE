@@ -23,11 +23,14 @@ const useAuthStore = create(
         if (!refreshToken) return;
 
         await api.post('/reissue', null, {
-            withCredentials: true,
+            headers: {
+              refresh: `${refreshToken}`,
+              'Content-Type': 'application/json',
+            },
           })
           .then((response) => {
             console.log(response);
-            const newAccessToken = response.data.accessToken;
+            const newAccessToken = response.headers['access'];
             localStorage.setItem("accessToken", newAccessToken); // 새로 받은 액세스토큰을 로컬스토리지에 저장
             console.log('reissueTokens 성공', response.data);
           })
