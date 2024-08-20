@@ -12,7 +12,27 @@ export const createMatch = (accessToken, matchData) => {
     return response.data;
   })
   .catch((error) => {
-    console.error('매치 생성 중 오류가 발생했습니다:', error);
+    console.error('매치 생성 API 호출 오류', error);
     throw error;
   });
 };
+
+// 매치 게시글 조회 API 호출 함수
+export const getMatches = (accessToken, clubMemberId) => {
+  return api.get('/v1/api/matches', {
+    headers: {
+      'Content-Type': 'application/json',
+      access: `${accessToken}`,
+    },
+    params: {
+      clubMemberId: clubMemberId,
+    }
+  })
+  .then((response) => {
+    return response.data;
+  })
+  .catch((error) => {
+    console.error("매치 게시글 조회 API 호출 오류", error);
+    throw error;
+  })
+}
