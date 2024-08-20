@@ -226,7 +226,7 @@ const Select = styled.select`
 `;
 
 const MatchCreate = ({ closeMatchCreate }) => {
-  const [clubData, setClubData] = useState([]);
+  const [clubData, setClubData] = useState([]);   // 사용자가 관리자인 동아리 불러오기
 
   // const clubData = [
   //   { id: "1", name: "중앙가르드"},
@@ -250,24 +250,29 @@ const MatchCreate = ({ closeMatchCreate }) => {
   const [placeOffer, setPlaceOffer] = useState("");
   const [numberOfParticipants, setNumberOfParticipants] = useState(5);
 
+  // 지역 선택 필드
   const CityOptions = [
     { value: "지역", label: "지역" },
     { value: "서울", label: "서울특별시" },
     { value: "부산", label: "부산광역시" },
-    // 나머지 도시들 생략...
   ];
 
   const CountyOptions = {
     지역: ["지역"],
     서울: [
-      "강남구", "강동구", "강북구", "강서구", // 예시 생략
+      "강남구", "강동구", "강북구", "강서구",
     ],
     부산: [
-      "강서구", "금정구", "남구", // 예시 생략
+      "강서구", "금정구", "남구",
     ],
-    // 나머지 시/도 생략...
   };
 
+  useEffect(() => {
+    setCounties(CountyOptions[selectedCity] || []);
+    setSelectedCounty(CountyOptions[selectedCity]?.[0] || "");
+  }, [selectedCity]);
+
+  // 사용자가 관리자로 속한 동아리 불러오기
   useEffect(() => {
     const fetchAdminClubs = async () => {
       try {
@@ -282,41 +287,38 @@ const MatchCreate = ({ closeMatchCreate }) => {
     fetchAdminClubs();
   }, []);
 
-  useEffect(() => {
-    setCounties(CountyOptions[selectedCity] || []);
-    setSelectedCounty(CountyOptions[selectedCity]?.[0] || "");
-  }, [selectedCity]);
-
+  // 완료 버튼 눌렀을 때 실행되는 함수
   const handleSubmit = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
 
+      // 날짜와 시간 형식이 두 자리 수를 유지하도록 포맷팅
+      const formattedMonth = selectedMonth.toString().padStart(2, '0');
+      const formattedDay = selectedDay.toString().padStart(2, '0');
+
       const matchData = {
-        homeClubId: selectedClub,
-        memberId: 0, // 여기에 실제 memberId를 추가해야 합니다
-        sportsCategory: "SOCCER",
-        title,
-        content,
+        homeClubId: parseInt(selectedClub, 10),
+        clubMemberId: 2,  // TODO: 뭔지 확인하기
+        title: title,
+        content: content,
         tier: selectedTier,
         matchPlace: {
           city: selectedCity,
           district: selectedCounty
         },
         placeProvided: placeOffer === "Yes",
-        matchStartDate: `${selectedYear}-${selectedMonth}-${selectedDay}`,
+        matchStartDate: `${selectedYear}-${formattedMonth}-${formattedDay}`,
         matchStartTime: {
-          hour: selectedHour,
-          minute: selectedMinute,
+          hour: parseInt(selectedHour, 10),
+          minute: parseInt(selectedMinute, 10),
           second: 0,
           nano: 0
         },
-        currentParticipants: 0,
-        maxParticipants: numberOfParticipants
+        maxParticipants: parseInt(numberOfParticipants, 10)
       };
 
       const response = await createMatch(accessToken, matchData);
       console.log('매치가 성공적으로 생성되었습니다.', response);
-      // 추가 작업: 매치 생성 후 처리 (예: 페이지 이동, 성공 메시지 표시 등)
     } catch (error) {
       console.error('매치 생성 중 오류가 발생했습니다:', error);
     }
@@ -356,23 +358,23 @@ const MatchCreate = ({ closeMatchCreate }) => {
                 지역을 선택해 주세요.
                 </Label>
                 <InputContainer>
-                <Select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
-                  {CityOptions.map((city) => (
-                    <option key={city.value} value={city.value}>
-                      {city.label}
-                    </option>
-                  ))}
-                </Select>
-                {selectedCity !== "지역" && (
-                  <Select value={selectedCounty} onChange={(e) => setSelectedCounty(e.target.value)}>
-                    {counties.map((county) => (
-                      <option key={county} value={county}>
-                        {county}
+                  <Select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)}>
+                    {CityOptions.map((city) => (
+                      <option key={city.value} value={city.value}>
+                        {city.label}
                       </option>
                     ))}
                   </Select>
-                )}
-              </InputContainer>
+                  {selectedCity !== "지역" && (
+                    <Select value={selectedCounty} onChange={(e) => setSelectedCounty(e.target.value)}>
+                      {counties.map((county) => (
+                        <option key={county} value={county}>
+                          {county}
+                        </option>
+                      ))}
+                    </Select>
+                  )}
+                </InputContainer>
               </FieldContainer>
               <FieldContainer>
                 <Label>
