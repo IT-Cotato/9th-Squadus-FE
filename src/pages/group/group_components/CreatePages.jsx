@@ -100,53 +100,7 @@ export const CreatePage3 = () => {
     </MainContainer>
   );
 };
-// export const CreatePage3 = () => {
-//   return (
-//     <MainContainer>
-//       <HeaderContainer>
-//         <HeaderStep>STEP 3</HeaderStep>
-//         <HeaderText>어떤 종목의 동아리인가요?</HeaderText>
-//       </HeaderContainer>
-//       <ContentContainer>
-//         <EventTitle>구기</EventTitle>
-//         <EventWrapper>
-//           <EventTag>축구</EventTag>
-//           <EventTag>농구</EventTag>
-//           <EventTag>배구</EventTag>
-//           <EventTag>야구</EventTag>
-//         </EventWrapper>
-//         <EventTitle>라켓</EventTitle>
-//         <EventWrapper>
-//           <EventTag>배드민턴</EventTag>
-//           <EventTag>테니스</EventTag>
-//           <EventTag>탁구</EventTag>
-//         </EventWrapper>
-//         <EventTitle>격투</EventTitle>
-//         <EventWrapper>
-//           <EventTag>태권도</EventTag>
-//           <EventTag>유도</EventTag>
-//           <EventTag>검도</EventTag>
-//         </EventWrapper>
-//         <EventTitle>육상</EventTitle>
-//         <EventWrapper>
-//           <EventTag>러닝</EventTag>
-//           <EventTag>크로스핏</EventTag>
-//           <EventTag>사이클</EventTag>
-//         </EventWrapper>
-//         <EventTitle>수상</EventTitle>
-//         <EventWrapper>
-//           <EventTag>수영</EventTag>
-//           <EventTag>서핑</EventTag>
-//           <EventTag>요트</EventTag>
-//         </EventWrapper>
-//       </ContentContainer>
-//       <ContentContainer>
-//         <InputTitle>직접 입력하기</InputTitle>
-//         <InputStyled />
-//       </ContentContainer>
-//     </MainContainer>
-//   );
-// };
+
 export const CreatePage4 = () => {
   return (
     <>
@@ -166,6 +120,26 @@ export const CreatePage4 = () => {
   );
 };
 export const CreatePage5 = () => {
+  return (
+    <>
+      <HeaderContainer>
+        <HeaderStep>STEP 5</HeaderStep>
+        <HeaderText>마지막이에요!</HeaderText>
+        <HeaderText>동아리 한마디와 </HeaderText>
+        <HeaderText>대표이미지를 설정해주세요.</HeaderText>
+      </HeaderContainer>
+      <ContentContainer>
+        <ContentTitle>동아리 한마디</ContentTitle>
+        <InputStyled />
+      </ContentContainer>
+      <ContentContainer>
+        <ContentTitle>대표 이미지 설정</ContentTitle>
+        <ImgWrapper />
+      </ContentContainer>
+    </>
+  );
+};
+export const CreatePage6 = () => {
   return (
     <>
       <HeaderContainer>
@@ -336,3 +310,5 @@ const EventTag = styled.div`
     background-color: #d3d3d3;
   }
 `;
+
+const CompleteContainer = styled.div``;

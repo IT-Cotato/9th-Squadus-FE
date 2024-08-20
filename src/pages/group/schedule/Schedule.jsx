@@ -4,13 +4,14 @@ import {
   GroupCalendar,
   StyledDot,
 } from "./schedule_components/Calendar";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import ScheduleItem, {
   AddSchedule,
   PlusIcon,
 } from "./schedule_components/ScheduleItem";
 import ScheduleAdd from "./ScheduleAdd";
 import axios from "axios";
+import { GroupContext } from "../Group";
 const BaseContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -41,9 +42,13 @@ const ScheduleTitle = styled.div`
 
 const Schedule = () => {
   const [clubSchedule, setClubSchedule] = useState([]);
+  const { chooseClubId, groupData, Loading } = useContext(GroupContext);
+
   const getClubSchedule = async () => {
     axios
-      .get(`${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/1/schedules`)
+      .get(
+        `${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/${groupData[chooseClubId].clubId}/schedules`
+      )
       .then((res) => {
         console.log(res.data);
         setClubSchedule(res.data.schedules);
@@ -54,9 +59,11 @@ const Schedule = () => {
   };
 
   useEffect(() => {
-    getClubSchedule();
-  }, []);
-
+    console.log(groupData);
+    if (groupData && chooseClubId !== undefined && groupData.length > 0) {
+      getClubSchedule();
+    }
+  }, [chooseClubId, groupData, Loading]);
   const [date, setDate] = useState(new Date());
   const [selectedSchedule, setSelectedSchedule] = useState([]);
 

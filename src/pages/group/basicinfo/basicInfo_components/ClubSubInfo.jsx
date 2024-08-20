@@ -1,6 +1,8 @@
 import ClubComment from "./ClubComment";
 import styled from "styled-components";
-import { ReactComponent as Tier } from "../../../../assets/group/RankItem.svg";
+import { ReactComponent as BronzeIcon } from "../../../../assets/icons/group/bronze.svg";
+import { ReactComponent as SilverIcon } from "../../../../assets/icons/group/silver.svg";
+import { ReactComponent as GoldIcon } from "../../../../assets/icons/group/gold.svg";
 
 const Container = styled.div`
   display: flex;
@@ -17,7 +19,6 @@ const RankContainer = styled.div`
   padding: 12px;
   gap: 10px;
   width: 100%;
-  background: linear-gradient(270deg, #1e58ec 0%, #525e9d 100%);
   box-sizing: border-box;
 
   box-shadow: 0px 0px 8px rgba(110, 110, 110, 0.23);
@@ -41,7 +42,7 @@ const TextSmall = styled.div`
   font-weight: 400;
   line-height: 18px;
   letter-spacing: -0.011em;
-  color: #f9fafb;
+  color: #667085;
 `;
 
 const TextBIg = styled.div`
@@ -49,21 +50,34 @@ const TextBIg = styled.div`
   font-weight: 600;
   line-height: 19.2px;
   letter-spacing: -0.011em;
-  color: #ffffff;
+  color: #344054;
 `;
-
+const TextMid = styled.div`
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 19.2px;
+  letter-spacing: -0.011em;
+  color: #667085;
+`;
 const ClubSubInfo = ({ onClick, information }) => {
+  const tierTranslations = {
+    BRONZE: "브론즈",
+    SILVER: "실버",
+    GOLD: "골드",
+  };
+  const tierText = tierTranslations[information.clubTier];
   return (
     <Container>
       <RankContainer onClick={onClick}>
         <RankImg>
-          <Tier />
+          {tierText === "브론즈" && <BronzeIcon />}
+          {tierText === "실버" && <SilverIcon />}
+          {tierText === "골드" && <GoldIcon />}
         </RankImg>
 
         <RankTextContainer>
-          <TextSmall>티어 정보</TextSmall>
-          <TextBIg>{information.clubTier}</TextBIg>
-          <TextBIg>138팀 중 7위</TextBIg>
+          <TextBIg>{tierText}</TextBIg>
+          <TextMid>138팀 중 7위</TextMid>
           <TextSmall>다음 레벨까지 남은 순위 : 3위</TextSmall>
         </RankTextContainer>
       </RankContainer>
