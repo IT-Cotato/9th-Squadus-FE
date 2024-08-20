@@ -2,8 +2,10 @@ import styled from "styled-components";
 import NoticeItem from "./notice_components/NoticeItem";
 import NoticeCreate from "./NoticeCreate";
 import NoticeDetail from "./NoticeDetail";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import create_icon from "../../../assets/icons/write.svg";
+import { GroupContext } from "../Group";
+import { getNotices } from "../../../apis/api/notice";
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.neutral[100]};
@@ -48,33 +50,55 @@ const NoticeList = styled.div`
 `;
 
 const Notice = () => {
+  const { selectedClubId } = useContext(GroupContext);
+  const [notices, setNotices] = useState([]);
   const [showNoticeCreate, setShowNoticeCreate] = useState(false);
   const [showNoticeDetail, setShowNoticeDetail] = useState(false);
   const [selectedNoticeId, setSelectedNoticeId] = useState(null);
+
+  useEffect(() => {
+    const fetchNotices = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken"); // 저장된 accessToken 가져오기
+        if (accessToken && selectedClubId) {
+          const data = await getNotices(accessToken, selectedClubId);
+          setNotices(data.clubPosts || []);
+        }
+      } catch (error) {
+        console.error("공지사항 가져오는 중 오류 발생:", error);
+      }
+    };
+
+    fetchNotices();
+  }, [selectedClubId]);
 
   const handleNoticeClick = (id) => {
     setSelectedNoticeId(id);
     setShowNoticeDetail(true);
   };
 
-  const noticeData = [
-    { id: "1", title: "공지사항1", date: "2024.05.30" },
-    { id: "2", title: "공지사항임", date: "2024.05.30" },
-    { id: "3", title: "공지사항~~", date: "2024.05.30" },
-    { id: "4", title: "공지사항", date: "2024.05.30" },
-  ];
+  // const noticeData = [
+  //   { id: "1", title: "공지사항1", date: "2024.05.30" },
+  //   { id: "2", title: "공지사항임", date: "2024.05.30" },
+  //   { id: "3", title: "공지사항~~", date: "2024.05.30" },
+  //   { id: "4", title: "공지사항", date: "2024.05.30" },
+  // ];
 
   return (
     <Container>
       <NoticeList>
-        {noticeData.map((notice) => (
-          <NoticeItem
-            key={notice.id}
-            title={notice.title}
-            date={notice.date}
-            onClick={() => handleNoticeClick(notice.id)}
-          />
-        ))}
+        {notices.length > 0 ? (
+          notices.map((notice) => (
+            <NoticeItem
+              key={notice.postId}
+              title={notice.title}
+              date={notice.createdAt}
+              onClick={() => handleNoticeClick(notice.id)}
+            />
+          ))
+        ) : (
+          <p>해당 동아리의 공지사항이 없습니다.</p>
+        )}
       </NoticeList>
 
       <FloatingButton
