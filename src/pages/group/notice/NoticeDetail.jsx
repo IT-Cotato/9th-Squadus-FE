@@ -272,8 +272,8 @@ const NoticeDetail = ({ closeNoticeDetail, noticeId }) => {
           <NoticeContainer>
             <NoticeTitle>{noticeData.title}</NoticeTitle>
             <NoticeContent>{noticeData.content}</NoticeContent>
-            {noticeData.image && (
-              <NoticeImage src={noticeData.image} alt="공지 이미지" />
+            {noticeData.image && noticeData.image !== "no image" && (
+              <NoticeImage src={noticeData.image} />
             )}
           </NoticeContainer>
           <StatsContainer>
