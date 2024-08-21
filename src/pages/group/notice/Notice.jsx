@@ -56,19 +56,20 @@ const Notice = () => {
   const [showNoticeDetail, setShowNoticeDetail] = useState(false);
   const [selectedNoticeId, setSelectedNoticeId] = useState(null);
 
-  useEffect(() => {
-    const fetchNotices = async () => {
-      try {
-        const accessToken = localStorage.getItem("accessToken"); // 저장된 accessToken 가져오기
-        if (accessToken && selectedClubId) {
-          const notices = await getNotices(accessToken, selectedClubId);
+  const fetchNotices = () => {
+    const accessToken = localStorage.getItem("accessToken"); // 저장된 accessToken 가져오기
+    if (accessToken && selectedClubId) {
+      getNotices(accessToken, selectedClubId)
+        .then((notices) => {
           setNoticesData(notices.clubPosts || []);
-        }
-      } catch (error) {
-        console.error("공지사항 가져오는 중 오류 발생:", error);
-      }
-    };
+        })
+        .catch((error) => {
+          console.error("공지사항 가져오는 중 오류 발생:", error);
+        });
+    }
+  };
 
+  useEffect(() => {
     fetchNotices();
   }, [selectedClubId]);
 
@@ -111,7 +112,12 @@ const Notice = () => {
 
       {showNoticeCreate && (
         <NoticeCreate
-          closeNoticeCreate={() => setShowNoticeCreate(false)}
+          closeNoticeCreate={() => {
+            setShowNoticeCreate(false);
+            fetchNotices();
+          }}
+          clubId={selectedClubId}
+          refreshNotices={fetchNotices}
         />
       )}
 

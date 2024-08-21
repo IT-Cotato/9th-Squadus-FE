@@ -25,6 +25,8 @@ const Container = styled.div`
   max-width: 649px;
   justify-content: center;
   background-color: white;
+  display: flex;
+  flex-direction: column;
 `;
 
 const HeaderContainer = styled.div`
@@ -78,6 +80,7 @@ const NoticeContainer = styled.div`
   width: 100%;
   padding: 0 20px;
   background-color: white;
+  margin-bottom: 20px;
 `;
 
 const NoticeTitle = styled.h1`
@@ -92,9 +95,17 @@ const NoticeTitle = styled.h1`
 const NoticeContent = styled.p`
   width: 100%;
   padding: 16px 0;
-  padding-bottom: 200px;
+  padding-bottom: 20px;
   font-size: 16px;
   color: ${({ theme }) => theme.colors.neutral[500]};
+`;
+
+const NoticeImage = styled.img`
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  margin-top: 16px;
+  border-radius: 8px;
 `;
 
 const StatsContainer = styled.div`
@@ -173,22 +184,22 @@ const NoticeDetail = ({ closeNoticeDetail, noticeId }) => {
 
 
   useEffect(() => {
-    const fetchNoticeData = async () => {
-      try {
-        const accessToken = localStorage.getItem("accessToken"); // 저장된 accessToken 가져오기
-        if (accessToken && selectedClubId && noticeId) {
-          const notice = await getNotice(accessToken, selectedClubId, noticeId);
-          const comments = await getNoticeComments(accessToken, selectedClubId, noticeId);
-          setNoticeData(notice || []);
-          setCommentsData(comments.clubPostCommentResponseList || []);
-        }
-      } catch (error) {
-        console.error("공지사항 가져오는 중 오류 발생:", error);
-      }
-    };
+    const accessToken = localStorage.getItem("accessToken");
 
-    fetchNoticeData();
-  }, [selectedClubId]);
+    if (accessToken && selectedClubId && noticeId) {
+      getNotice(accessToken, selectedClubId, noticeId)
+        .then((notice) => {
+          setNoticeData(notice || []);
+          return getNoticeComments(accessToken, selectedClubId, noticeId);
+        })
+        .then((comments) => {
+          setCommentsData(comments.clubPostCommentResponseList || []);
+        })
+        .catch((error) => {
+          console.error("공지사항 가져오는 중 오류 발생:", error);
+        });
+    }
+  }, [selectedClubId, noticeId]);
 
 
   // const noticeData = {
@@ -221,6 +232,9 @@ const NoticeDetail = ({ closeNoticeDetail, noticeId }) => {
           <NoticeContainer>
             <NoticeTitle>{noticeData.title}</NoticeTitle>
             <NoticeContent>{noticeData.content}</NoticeContent>
+            {noticeData.image && (
+              <NoticeImage src={noticeData.image} alt="공지 이미지" />
+            )}
           </NoticeContainer>
           <StatsContainer>
             <HeartContainer like={like} onClick={() => setLike(!like)}>
@@ -236,7 +250,7 @@ const NoticeDetail = ({ closeNoticeDetail, noticeId }) => {
                 name={comment.clubMemberName}
                 comment={comment.content}
                 date={comment.createdDate}
-                profileImage={comment.profileImage}
+                profileImage={comment.profileImgUrl}
               />
             ))}
           </CommentContainer>
