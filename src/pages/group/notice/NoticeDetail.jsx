@@ -5,7 +5,8 @@ import close_icon from "../../../assets/icons/close.svg";
 import more_icon from "../../../assets/icons/more.svg";
 import heart_fill_icon from "../../../assets/icons/group/heart-fill.svg";
 import heart_stroke_icon from "../../../assets/icons/group/heart-stroke.svg";
-import { getNotice, getNoticeComments } from '../../../apis/api/notice';
+import send_icon from "../../../assets/icons/send-icon-grey.svg";
+import { getNotice, getNoticeComments, postComment } from '../../../apis/api/notice';
 import { GroupContext } from "../Group";
 
 const WrapperContainer = styled.div`
@@ -149,7 +150,6 @@ const CommentContainer = styled.div`
 
 const FooterContainer = styled.div`
   width: 100%;
-  height: 64px;
   padding: 8px 16px;
   box-sizing: border-box;
   border-top: 1px solid #dcdcdc;
@@ -158,29 +158,50 @@ const FooterContainer = styled.div`
 
 const InputContainer = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
 `;
 
 const Input = styled.input`
-  width: 100%;
+  width: auto;
+  flex-grow: 1;
   box-sizing: border-box;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
+  padding: 16px 12px;
   border-bottom: 1px solid #dcdcdc;
   font-size: 16px;
   font-weight: 400;
-  background-color: ${({ theme }) => theme.colors.neutral[100]};
+  background-color: ${({ theme }) => theme.colors.neutral[50]};
+  border: 1px solid ${({ theme }) => theme.colors.neutral[100]};
+  border-radius: 12px;
+  color: ${({ theme }) => theme.colors.neutral[700]};
   &:focus {
     outline: none;
     border: 1px solid ${({ theme }) => theme.colors.main[500]};
   }
+  
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.neutral[400]};
+  }
 `;
+
+const SendButton = styled.div`
+  height: 24px;
+  width: 24px;
+  background-image: url(${send_icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+
 
 const NoticeDetail = ({ closeNoticeDetail, noticeId }) => {
   const { selectedClubId } = useContext(GroupContext);
   const [noticeData, setNoticeData] = useState([]);
   const [commentsData, setCommentsData] = useState([]);
   const [like, setLike] = useState(false);
+  const [comment, setComment] = useState('');
 
 
   useEffect(() => {
@@ -200,6 +221,25 @@ const NoticeDetail = ({ closeNoticeDetail, noticeId }) => {
         });
     }
   }, [selectedClubId, noticeId]);
+
+  // 댓글 전송 함수
+  const handleSendComment = () => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (accessToken && selectedClubId && noticeId && comment.trim()) {
+      postComment(accessToken, selectedClubId, noticeId, comment)
+      .then((response) => {
+        return getNoticeComments(accessToken, selectedClubId, noticeId);
+      })
+      .then((comments) => {
+        setCommentsData(comments.clubPostCommentResponseList || []);
+        setComment('');
+      })
+      .catch((error) => {
+        console.error("댓글 전송 중 오류 발생:", error);
+      });
+    }
+  };
 
 
   // const noticeData = {
@@ -257,7 +297,12 @@ const NoticeDetail = ({ closeNoticeDetail, noticeId }) => {
         </ContentContainer>
         <FooterContainer>
           <InputContainer>
-            <Input placeholder="댓글을 입력하세요." />
+            <Input 
+              placeholder="댓글을 입력하세요." 
+              value={comment} 
+              onChange={(e) => setComment(e.target.value)}
+            />
+            <SendButton onClick={handleSendComment} />
           </InputContainer>
         </FooterContainer>
       </Container>

@@ -77,3 +77,24 @@ export const postNotice = (accessToken, clubId, noticeData, imageFile) => {
     throw error;
   })
 }
+
+
+// 동아리 공지 댓글 생성 API 호출 함수
+export const postComment = (accessToken, clubId, postId, commentData) => {
+  return api.post(`/v1/api/clubs/${clubId}/posts/${postId}/comments`, 
+    { content: commentData },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        access: `${accessToken}`,
+      }
+    }
+  )
+  .then((response) => {
+    return response.data;
+  })
+  .catch((error) => {
+    console.log('동아리 공지 댓글 생성 API 호출 오류', error);
+    throw error;
+  });
+}
