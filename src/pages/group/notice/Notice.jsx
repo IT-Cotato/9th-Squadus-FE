@@ -51,7 +51,7 @@ const NoticeList = styled.div`
 
 const Notice = () => {
   const { selectedClubId } = useContext(GroupContext);
-  const [notices, setNotices] = useState([]);
+  const [noticesData, setNoticesData] = useState([]);
   const [showNoticeCreate, setShowNoticeCreate] = useState(false);
   const [showNoticeDetail, setShowNoticeDetail] = useState(false);
   const [selectedNoticeId, setSelectedNoticeId] = useState(null);
@@ -61,8 +61,8 @@ const Notice = () => {
       try {
         const accessToken = localStorage.getItem("accessToken"); // 저장된 accessToken 가져오기
         if (accessToken && selectedClubId) {
-          const data = await getNotices(accessToken, selectedClubId);
-          setNotices(data.clubPosts || []);
+          const notices = await getNotices(accessToken, selectedClubId);
+          setNoticesData(notices.clubPosts || []);
         }
       } catch (error) {
         console.error("공지사항 가져오는 중 오류 발생:", error);
@@ -87,13 +87,13 @@ const Notice = () => {
   return (
     <Container>
       <NoticeList>
-        {notices.length > 0 ? (
-          notices.map((notice) => (
+        {noticesData.length > 0 ? (
+          noticesData.map((notice) => (
             <NoticeItem
               key={notice.postId}
               title={notice.title}
               date={notice.createdAt}
-              onClick={() => handleNoticeClick(notice.id)}
+              onClick={() => handleNoticeClick(notice.postId)}
             />
           ))
         ) : (
@@ -112,12 +112,14 @@ const Notice = () => {
       {showNoticeCreate && (
         <NoticeCreate
           closeNoticeCreate={() => setShowNoticeCreate(false)}
-          noticeId={selectedNoticeId}
         />
       )}
 
       {showNoticeDetail && (
-        <NoticeDetail closeNoticeDetail={() => setShowNoticeDetail(false)} />
+        <NoticeDetail 
+          closeNoticeDetail={() => setShowNoticeDetail(false)} 
+          noticeId={selectedNoticeId}
+        />
       )}
     </Container>
   );

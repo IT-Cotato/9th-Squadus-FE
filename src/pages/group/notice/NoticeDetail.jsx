@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styled from "styled-components";
 import CommentItem from "./notice_components/CommentItem";
 import close_icon from "../../../assets/icons/close.svg";
 import more_icon from "../../../assets/icons/more.svg";
 import heart_fill_icon from "../../../assets/icons/group/heart-fill.svg";
 import heart_stroke_icon from "../../../assets/icons/group/heart-stroke.svg";
+import { getNotice, getNoticeComments } from '../../../apis/api/notice';
+import { GroupContext } from "../Group";
 
 const WrapperContainer = styled.div`
   position: fixed;
@@ -163,26 +165,49 @@ const Input = styled.input`
   }
 `;
 
-const NoticeDetail = ({ closeNoticeDetail }) => {
+const NoticeDetail = ({ closeNoticeDetail, noticeId }) => {
+  const { selectedClubId } = useContext(GroupContext);
+  const [noticeData, setNoticeData] = useState([]);
+  const [commentsData, setCommentsData] = useState([]);
   const [like, setLike] = useState(false);
 
-  const noticeData = {
-    title: "이건 공지 제목",
-    content: "이건 공지 내용",
-    image: "",
-    date: "2024.07.22",
-    views: "0",
-    likes: "0" 
-  };
 
-  const commentsData = [
-    { id: "1", name: "다인", comment: "댓글1", date: "2024.07.23", likes: "0" },
-    { id: "2", name: "다인", comment: "댓글1", date: "2024.07.23", likes: "0" },
-    { id: "3", name: "다인", comment: "댓글1", date: "2024.07.23", likes: "0" },
-    { id: "4", name: "다인", comment: "댓글1", date: "2024.07.23", likes: "0" },
-    { id: "5", name: "다인", comment: "댓글1", date: "2024.07.23", likes: "0" },
-    { id: "6", name: "다인", comment: "댓글1", date: "2024.07.23", likes: "0" },
-  ];
+  useEffect(() => {
+    const fetchNoticeData = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken"); // 저장된 accessToken 가져오기
+        if (accessToken && selectedClubId && noticeId) {
+          const notice = await getNotice(accessToken, selectedClubId, noticeId);
+          const comments = await getNoticeComments(accessToken, selectedClubId, noticeId);
+          setNoticeData(notice || []);
+          setCommentsData(comments.clubPostCommentResponseList || []);
+        }
+      } catch (error) {
+        console.error("공지사항 가져오는 중 오류 발생:", error);
+      }
+    };
+
+    fetchNoticeData();
+  }, [selectedClubId]);
+
+
+  // const noticeData = {
+  //   title: "이건 공지 제목",
+  //   content: "이건 공지 내용",
+  //   image: "",
+  //   date: "2024.07.22",
+  //   views: "0",
+  //   likes: "0" 
+  // };
+
+  // const commentsData = [
+  //   { id: "1", name: "다인", comment: "댓글1", date: "2024.07.23", likes: "0" },
+  //   { id: "2", name: "다인", comment: "댓글1", date: "2024.07.23", likes: "0" },
+  //   { id: "3", name: "다인", comment: "댓글1", date: "2024.07.23", likes: "0" },
+  //   { id: "4", name: "다인", comment: "댓글1", date: "2024.07.23", likes: "0" },
+  //   { id: "5", name: "다인", comment: "댓글1", date: "2024.07.23", likes: "0" },
+  //   { id: "6", name: "다인", comment: "댓글1", date: "2024.07.23", likes: "0" },
+  // ];
 
   return (
     <WrapperContainer>
@@ -200,17 +225,18 @@ const NoticeDetail = ({ closeNoticeDetail }) => {
           <StatsContainer>
             <HeartContainer like={like} onClick={() => setLike(!like)}>
               <HeartIcon like={like} />
-              공감
+              공감 {noticeData.likes}
             </HeartContainer>
-            <ViewsContainer>조회수</ViewsContainer>
+            <ViewsContainer>조회수 {noticeData.view}</ViewsContainer>
           </StatsContainer>
           <CommentContainer>
             {commentsData.map(comment => (
               <CommentItem
                 key={comment.id}
-                name={comment.name}
-                comment={comment.comment}
-                date={comment.date}
+                name={comment.clubMemberName}
+                comment={comment.content}
+                date={comment.createdDate}
+                profileImage={comment.profileImage}
               />
             ))}
           </CommentContainer>

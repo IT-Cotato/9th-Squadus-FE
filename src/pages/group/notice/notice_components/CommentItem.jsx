@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import more_grey_icon from '../../../../assets/icons/group/more_grey.svg';
 import heart_fill_icon from "../../../../assets/icons/group/heart-fill.svg";
 import heart_stroke_icon from "../../../../assets/icons/group/heart-stroke.svg";
+import default_profile_image from "../../../../assets/default_profile_image.svg";
 
 const Container = styled.div`
   border-bottom: 1px solid rgba(221, 221, 221, 0.5);
@@ -14,9 +15,12 @@ const Container = styled.div`
 const ProfileImage = styled.div`
   width: 40px;
   height: 40px;
-  border-radius: 12px;
+  border-radius: 20px;
   margin-right: 8px;
-  background-color: pink;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url(${({ profileImage }) => profileImage});
 `;
 
 const ContentContainer = styled.div`
@@ -80,12 +84,13 @@ const MoreButton = styled.div`
 
 
 // TODO: 프로필이미지도 props로 보내야함
-const CommentItem = ({ name, comment, date }) => {
+const CommentItem = ({ name, comment, date, profileImage }) => {
   const [like, setLike] = useState(false);
+  const displayProfileImage = profileImage ? profileImage : default_profile_image;
 
   return (
     <Container>
-      <ProfileImage />
+      <ProfileImage profileImage={displayProfileImage} />
       <ContentContainer>
         <Name>{name}</Name>
         <CommentText>{comment}</CommentText>

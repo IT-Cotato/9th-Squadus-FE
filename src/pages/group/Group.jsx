@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, createContext, useState } from "react";
+import React, { useEffect, createContext, useState } from "react";
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 import GroupHeader from "./group_components/GroupHeader";
