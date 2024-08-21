@@ -7,6 +7,8 @@ import MainArticle from "./MainArticle";
 import styled from "styled-components";
 import { useState, useEffect, createContext } from "react";
 import axios from "axios";
+import { getUserClubs, getUserInfo } from "../../apis/api/user";
+
 const FixedContainer = styled.div`
   top: 0;
   left: 0;
@@ -31,10 +33,14 @@ const Container = styled.div`
 `;
 export const scheduleContext = createContext();
 const Home = () => {
+  const [groupData, setGroupData] = useState([]); //유저가 속한 동아리 데이터
+
   const [clubSchedule, setClubSchedule] = useState([]);
-  const getClubSchedule = async () => {
+  const getClubSchedule = async ({ clubId }) => {
     axios
-      .get(`${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/1/schedules`)
+      .get(
+        `${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/${clubId}/schedules`
+      )
       .then((res) => {
         console.log(res.data);
         setClubSchedule(res.data.schedules);
@@ -44,10 +50,27 @@ const Home = () => {
       });
   };
 
-  useEffect(() => {
-    getClubSchedule();
-  }, []);
+  const fetchGroup = async () => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      // const fetchUserInfo = await getUserInfo(accessToken);
+      // console.log("User Info:", fetchUserInfo);
+      // setUserInfo(fetchUserInfo);
 
+      const fetchUserClubs = await getUserClubs(accessToken);
+      console.log("User Clubs:", fetchUserClubs);
+      setGroupData(fetchUserClubs.memberClubResponseList);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    fetchGroup();
+    groupData.forEach((clubId) => {
+      getClubSchedule(clubId);
+    });
+    console.log("groupData", groupData);
+  }, []);
   return (
     <>
       <FixedContainer>
