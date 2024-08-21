@@ -10,14 +10,24 @@ const Container = styled.div`
 
 const HeaderTitle = styled.div`
   font-size: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 22px;
+  text-align: left;
 `;
 
-const HeaderMore = styled.div``;
+const HeaderMore = styled.div`
+  color: #98a2b3;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  text-align: right;
+`;
 
-const SectionHeader = () => (
+const SectionHeader = ({ title }) => (
   <Container>
-    <HeaderTitle>HeaderTitle</HeaderTitle>
-    <HeaderMore>see more</HeaderMore>
+    <HeaderTitle>{title}</HeaderTitle>
+    <HeaderMore>더보기</HeaderMore>
   </Container>
 );
 

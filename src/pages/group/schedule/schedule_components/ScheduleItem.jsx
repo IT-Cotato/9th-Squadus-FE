@@ -55,12 +55,12 @@ const ScheduleItem = ({ startTime, endTime, title, Location, id }) => {
 
 export default ScheduleItem;
 
-export const PlusIcon = styled.div`
+const PlusIcon = styled.div`
   font-size: 40px;
   font-weight: 200;
   line-height: 16px;
 `;
-export const AddSchedule = styled.div`
+const AddScheduleStyled = styled.div`
   border: 1px solid #ff6330;
   width: 100%;
   padding: 30px 16px 30px 18px;
@@ -75,3 +75,11 @@ export const AddSchedule = styled.div`
   text-align: center;
   cursor: pointer;
 `;
+
+export const AddSchedule = ({ onClick }) => {
+  return (
+    <AddScheduleStyled onClick={onClick}>
+      <PlusIcon>+</PlusIcon> 새로운 일정 추가하기
+    </AddScheduleStyled>
+  );
+};

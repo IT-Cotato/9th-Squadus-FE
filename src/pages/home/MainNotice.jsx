@@ -17,14 +17,17 @@ const NoticeContainer = styled.div`
   gap: 8px;
 `;
 
-const MainNotice = () => (
-  <Container>
-    <SectionHeader></SectionHeader>
-    <NoticeContainer>
-      <MainNoticeItem></MainNoticeItem>
-      <MainNoticeItem></MainNoticeItem>
-    </NoticeContainer>
-  </Container>
-);
+const MainNotice = () => {
+  //<Notice/>
+  return (
+    <Container>
+      <SectionHeader title={"중요공지"}></SectionHeader>
+      <NoticeContainer>
+        <MainNoticeItem></MainNoticeItem>
+        <MainNoticeItem></MainNoticeItem>
+      </NoticeContainer>
+    </Container>
+  );
+};
 
 export default MainNotice;

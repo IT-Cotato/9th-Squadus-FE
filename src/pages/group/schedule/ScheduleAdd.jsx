@@ -25,7 +25,6 @@ const BaseContainer = styled.div`
   border-radius: 16px 16px 0px 0px;
   box-shadow: 0px -2px 87px 0px #475467;
   box-sizing: border-box;
-
   background-color: #ffffff;
 `;
 const ModalNavi = styled.div`

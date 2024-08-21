@@ -20,12 +20,6 @@ const GroupCreate = ({ closeGroupCreate }) => {
     setStep((prevStep) => prevStep - 1); // 다음 단계로 전환
   };
 
-  const [clubName, setClubName] = useState("");
-  const [clubCategory, setClubCategory] = useState("");
-  const [sportsCategory, setSportsCategory] = useState("");
-  const [maxMembers, setMaxMembers] = useState(0);
-  const [city, setCity] = useState("");
-  const [district, setDistrict] = useState("");
   // const accessToken = useAuthStore((state) => state.accessToken);
 
   // const handleSubmit = async () => {

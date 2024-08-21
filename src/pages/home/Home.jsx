@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { useState, useEffect, createContext } from "react";
 import axios from "axios";
 import { getUserClubs, getUserInfo } from "../../apis/api/user";
+import CalendarModal from "./CalendarModal";
 
 const FixedContainer = styled.div`
   top: 0;
@@ -43,7 +44,10 @@ const Home = () => {
       )
       .then((res) => {
         console.log(res.data);
-        setClubSchedule(res.data.schedules);
+        setClubSchedule((prevSchedules) => [
+          ...prevSchedules,
+          ...res.data.schedules,
+        ]);
       })
       .catch((err) => {
         console.log(err);
@@ -53,9 +57,6 @@ const Home = () => {
   const fetchGroup = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
-      // const fetchUserInfo = await getUserInfo(accessToken);
-      // console.log("User Info:", fetchUserInfo);
-      // setUserInfo(fetchUserInfo);
 
       const fetchUserClubs = await getUserClubs(accessToken);
       console.log("User Clubs:", fetchUserClubs);
@@ -71,6 +72,15 @@ const Home = () => {
     });
     console.log("groupData", groupData);
   }, []);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  const openModal = () => {
+    setIsModalOpen(true);
+
+    console.log(isModalOpen);
+  };
   return (
     <>
       <FixedContainer>
@@ -80,8 +90,12 @@ const Home = () => {
         <MainBanner></MainBanner>
         <Container>
           <scheduleContext.Provider value={clubSchedule}>
-            <MainCalendar></MainCalendar>
-            <MainSchedule></MainSchedule>
+            <MainCalendar onClick={openModal}></MainCalendar>
+            <MainSchedule onClick={openModal}></MainSchedule>
+            <CalendarModal
+              isOpen={isModalOpen}
+              closeModal={closeModal}
+            ></CalendarModal>
           </scheduleContext.Provider>
           <MainNotice></MainNotice>
           <MainArticle></MainArticle>

@@ -3,8 +3,10 @@ import styled from "styled-components";
 const MainArticleItem = ({ img, title, subtitle }) => (
   <Container>
     <Image src={img} alt={img}></Image>
-    <Title>{title}</Title>
-    <Subtitle>{subtitle}</Subtitle>
+    <Wrapper>
+      <Title>{title}</Title>
+      <Subtitle>{subtitle}</Subtitle>
+    </Wrapper>
   </Container>
 );
 
@@ -17,12 +19,32 @@ const Container = styled.div`
   height: 230px;
   border-radius: 20px;
   box-shadow: 0px 0px 7px gray;
+  position: relative;
 `;
 
 const Image = styled.image`
   min-height: 70%;
+  height: 100%;
   border-radius: 20px 20px 0 0;
   background-color: #e4e7ec;
+  background-color: white;
+`;
+const Wrapper = styled.div`
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(16, 24, 40, 0) 41.5%,
+    rgba(16, 24, 40, 0.6) 100%
+  );
+
+  height: 100%;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
 `;
 
 const Title = styled.div`
@@ -30,9 +52,16 @@ const Title = styled.div`
   margin-top: auto;
   font-size: 24px;
   margin: 0 12px;
+
+  font-weight: 700;
+  line-height: 28px;
+  color: white;
 `;
 
 const Subtitle = styled.div`
   font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
   margin: 8px 12px;
+  color: white;
 `;

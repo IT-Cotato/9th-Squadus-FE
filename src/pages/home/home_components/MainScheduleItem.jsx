@@ -1,7 +1,12 @@
-import { useContext } from "react";
-import ScheduleItem from "../../group/schedule/schedule_components/ScheduleItem";
+import { useContext, useState } from "react";
+import ScheduleItem, {
+  AddSchedule,
+} from "../../group/schedule/schedule_components/ScheduleItem";
+
 import { scheduleContext } from "../Home";
-const MainScheduleItem = () => {
+import styled from "styled-components";
+import ScheduleAdd from "../../group/schedule/ScheduleAdd";
+const MainScheduleItem = ({ onClick }) => {
   const today = new Date();
 
   const clubSchedule = useContext(scheduleContext);
@@ -13,12 +18,21 @@ const MainScheduleItem = () => {
   );
 
   console.log(todaySchedule);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalOpen((prev) => !prev);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <>
       {todaySchedule.length !== 0 ? (
         todaySchedule.map((item, index) => (
           <ScheduleItem
+            onClick={onClick}
             key={index}
             startTime={item.startTime}
             endTime={item.endTime}
@@ -28,10 +42,27 @@ const MainScheduleItem = () => {
           />
         ))
       ) : (
-        <h1>오늘의 일정은 없습니다!</h1>
+        <>
+          <EmptyScheduleText>등록된 일정이 없어요</EmptyScheduleText>
+          <AddSchedule onClick={toggleModal}></AddSchedule>
+        </>
       )}
+      <ScheduleAdd isOpen={isModalOpen} onClose={closeModal} />
     </>
   );
 };
 
 export default MainScheduleItem;
+
+const EmptyScheduleText = styled.div`
+  height: 62px;
+  padding: 20px 0px 20px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
+  text-align: center;
+  color: #98a2b3;
+`;
