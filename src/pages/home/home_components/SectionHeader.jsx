@@ -6,6 +6,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-top: 10px;
 `;
 
 const HeaderTitle = styled.div`
@@ -24,10 +25,10 @@ const HeaderMore = styled.div`
   text-align: right;
 `;
 
-const SectionHeader = ({ title }) => (
+const SectionHeader = ({ title, onClick }) => (
   <Container>
     <HeaderTitle>{title}</HeaderTitle>
-    <HeaderMore>더보기</HeaderMore>
+    <HeaderMore onClick={onClick}>더보기</HeaderMore>
   </Container>
 );
 

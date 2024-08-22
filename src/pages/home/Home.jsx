@@ -33,6 +33,7 @@ const Container = styled.div`
   gap: 32px;
 `;
 export const scheduleContext = createContext();
+export const groupDataContext = createContext();
 const Home = () => {
   const [groupData, setGroupData] = useState([]); //유저가 속한 동아리 데이터
 
@@ -67,11 +68,16 @@ const Home = () => {
   };
   useEffect(() => {
     fetchGroup();
-    groupData.forEach((clubId) => {
-      getClubSchedule(clubId);
-    });
-    console.log("groupData", groupData);
   }, []);
+
+  useEffect(() => {
+    if (groupData.length > 0) {
+      groupData.forEach((clubId) => {
+        getClubSchedule(clubId);
+      });
+    }
+  }, [groupData]);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const closeModal = () => {
     setIsModalOpen(false);
@@ -97,8 +103,10 @@ const Home = () => {
               closeModal={closeModal}
             ></CalendarModal>
           </scheduleContext.Provider>
-          <MainNotice></MainNotice>
-          <MainArticle></MainArticle>
+          <groupDataContext.Provider value={groupData}>
+            <MainNotice></MainNotice>
+            <MainArticle></MainArticle>
+          </groupDataContext.Provider>
         </Container>
       </ContentContainer>
     </>

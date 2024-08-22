@@ -1,7 +1,9 @@
 import styled from "styled-components";
-import MainArticleItem from "./home_components/MainArticleItem";
+import { MainArticleItem } from "./home_components/MainArticleItem";
 import SectionHeader from "./home_components/SectionHeader";
 import { useState } from "react";
+import ArticleModal from "./ArticleModal";
+import ArticleEachModal from "./ArticleEachModal";
 
 const Container = styled.div`
   width: 100%;
@@ -45,22 +47,45 @@ const MainArticle = () => {
       modifiedAt: "2024-08-21T05:17:34.347Z",
     },
   ]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  const openModal = () => {
+    setIsModalOpen(true);
+    console.log(isModalOpen);
+  };
+
+  const [isEachModalOpen, setIsEachModalOpen] = useState(false);
+  const openEachModal = () => {
+    setIsEachModalOpen(true);
+  };
+
+  const closeEachModal = () => {
+    setIsEachModalOpen(false);
+  };
 
   return (
-    <Container>
-      <SectionHeader title={"아티클"}></SectionHeader>
-      <ArticleContainer>
-        {articleList.map((item) => (
-          <MainArticleItem
-            title={item.title}
-            subtitle={item.subtitle}
-          ></MainArticleItem>
-        ))}
+    <>
+      <Container>
+        <SectionHeader title={"아티클"} onClick={openModal}></SectionHeader>
+        <ArticleContainer>
+          {articleList.map((item) => (
+            <MainArticleItem
+              title={item.title}
+              img={item.img}
+              subtitle={item.subtitle}
+              onClick={openEachModal}
+            ></MainArticleItem>
+          ))}
 
-        <MainArticleItem></MainArticleItem>
-        <MainArticleItem></MainArticleItem>
-      </ArticleContainer>
-    </Container>
+          <MainArticleItem></MainArticleItem>
+          <MainArticleItem></MainArticleItem>
+        </ArticleContainer>
+      </Container>
+      <ArticleModal isOpen={isModalOpen} closeModal={closeModal} />
+      <ArticleEachModal isOpen={isEachModalOpen} closeModal={closeEachModal} />
+    </>
   );
 };
 

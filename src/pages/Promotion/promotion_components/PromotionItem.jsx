@@ -1,8 +1,19 @@
 import { useState } from "react";
 import styled from "styled-components";
 import ClubApply from "../ClubApply";
+import { ReactComponent as BronzeIcon } from "../../../assets/icons/group/bronze.svg";
+import { ReactComponent as SilverIcon } from "../../../assets/icons/group/silver.svg";
+import { ReactComponent as GoldIcon } from "../../../assets/icons/group/gold.svg";
 
-const PromotionItem = () => {
+const PromotionItem = ({
+  startDate,
+  endDate,
+  title,
+  region,
+  sportsCategory,
+  clubTier,
+  tags,
+}) => {
   const [expanded, setExpanded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const closeModal = () => {
@@ -12,25 +23,41 @@ const PromotionItem = () => {
     setIsModalOpen(true);
     console.log(isModalOpen);
   };
+  const tierTranslations = {
+    BRONZE: "브론즈",
+    SILVER: "실버",
+    GOLD: "골드",
+  };
+  const tierText = tierTranslations[clubTier];
   return (
     <>
       <Container>
         <ContentWrapper onClick={() => setExpanded(!expanded)}>
           <RecruitmentWrapper>
             <RecruitmentTag>모집중</RecruitmentTag>
-            <RecruitmentDate>08.23~09.11</RecruitmentDate>
+            <RecruitmentDate>
+              {startDate}~{endDate}
+            </RecruitmentDate>
           </RecruitmentWrapper>
           <NoticeTitleWrapper>
-            <NoticeTitle>그린비 2024 여름 동아리원 모집 🐝💚</NoticeTitle>
+            <NoticeTitle>{title}</NoticeTitle>
             <NoticeTagWrapper>
-              <NoticeTag>서울강남</NoticeTag>
+              <NoticeTag>{region.city}</NoticeTag>
+              <NoticeTag>{region.district}</NoticeTag>
               <NoticeTag>·</NoticeTag>
-              <NoticeTag>테니스</NoticeTag>
+              <NoticeTag>{sportsCategory}</NoticeTag>
             </NoticeTagWrapper>
           </NoticeTitleWrapper>
           <CommentWrapper>
-            <CommentTag>브론즈</CommentTag>
-            <CommentTag>모두환영</CommentTag>
+            <TierWrapper>
+              {tierText === "브론즈" && <BRONZEIcon />}
+              {tierText === "실버" && <SILVERIcon />}
+              {tierText === "골드" && <GOLDIcon />}
+              <Tiertag>{tierText}</Tiertag>
+            </TierWrapper>
+            {tags.map((tag) => (
+              <CommentTag>{tag}</CommentTag>
+            ))}
           </CommentWrapper>
         </ContentWrapper>
         <ButtonWrapper $expanded={expanded ? "ture" : undefined}>
@@ -145,9 +172,8 @@ const CommentWrapper = styled.div`
 `;
 const CommentTag = styled.div`
   height: 25px;
-  padding: 2px 8px;
+  padding: 2px 6px;
   display: flex;
-  gap: 10px;
   border-radius: 5px;
 
   font-size: 14px;
@@ -155,4 +181,59 @@ const CommentTag = styled.div`
   line-height: 21px;
   text-align: left;
   color: #667085;
+  background: #f9fafb;
 `;
+const BRONZEIcon = styled(BronzeIcon)`
+  width: 24px;
+  height: 24px;
+`;
+const SILVERIcon = styled(SilverIcon)`
+  width: 24px;
+  height: 24px;
+`;
+const GOLDIcon = styled(GoldIcon)`
+  width: 24px;
+  height: 24px;
+`;
+const Tiertag = styled.div`
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+  text-align: left;
+  color: #667085;
+`;
+const TierWrapper = styled.div`
+  height: 25px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`;
+{
+  /* <>
+      <Container>
+        <ContentWrapper onClick={() => setExpanded(!expanded)}>
+          <RecruitmentWrapper>
+            <RecruitmentTag>모집중</RecruitmentTag>
+            <RecruitmentDate>08.23~09.11</RecruitmentDate>
+          </RecruitmentWrapper>
+          <NoticeTitleWrapper>
+            <NoticeTitle>그린비 2024 여름 동아리원 모집 🐝💚</NoticeTitle>
+            <NoticeTagWrapper>
+              <NoticeTag>서울강남</NoticeTag>
+              <NoticeTag>·</NoticeTag>
+              <NoticeTag>테니스</NoticeTag>
+            </NoticeTagWrapper>
+          </NoticeTitleWrapper>
+          <CommentWrapper>
+            <CommentTag>브론즈</CommentTag>
+            <CommentTag>모두환영</CommentTag>
+          </CommentWrapper>
+        </ContentWrapper>
+        <ButtonWrapper $expanded={expanded ? "ture" : undefined}>
+          <Button>상세보기</Button>
+          <Button onClick={openModal}>지원하기</Button>
+        </ButtonWrapper>
+      </Container>
+      <ClubApply isOpen={isModalOpen} closeModal={closeModal} />
+    </> */
+}

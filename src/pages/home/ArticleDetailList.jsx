@@ -1,6 +1,10 @@
-import React from "react";
-import MainArticleItem from "./home_components/MainArticleItem";
+import React, { useState } from "react";
+import {
+  MainArticleItem,
+  MainArticleItemMinimal,
+} from "./home_components/MainArticleItem";
 import styled from "styled-components";
+import ArticleEachModal from "./ArticleEachModal";
 
 const ArticleDetailList = () => {
   const articleData = [
@@ -32,7 +36,14 @@ const ArticleDetailList = () => {
       ],
     },
   ];
+  const [isEachModalOpen, setIsEachModalOpen] = useState(false);
+  const openEachModal = () => {
+    setIsEachModalOpen(true);
+  };
 
+  const closeEachModal = () => {
+    setIsEachModalOpen(false);
+  };
   return (
     <Container>
       <ArticleCategoryTitle>{articleData[0].group}</ArticleCategoryTitle>
@@ -43,18 +54,20 @@ const ArticleDetailList = () => {
             img={article.img}
             title={article.title}
             subtitle={article.subTitle}
+            onClick={openEachModal}
           ></MainArticleItem>
         ))}
       </ArticleContainerRow>
       <ArticleCategoryTitle>{articleData[1].group}</ArticleCategoryTitle>
       <ArticleContainerCol>
         {articleData[1].articleList.map((article) => (
-          <MainArticleItem
+          <MainArticleItemMinimal
             key={article.id}
             img={article.img}
             title={article.title}
             subtitle={article.subTitle}
-          ></MainArticleItem>
+            onClick={openEachModal}
+          ></MainArticleItemMinimal>
         ))}
       </ArticleContainerCol>
       <ArticleCategoryTitle>{articleData[2].group}</ArticleCategoryTitle>
@@ -65,9 +78,11 @@ const ArticleDetailList = () => {
             img={article.img}
             title={article.title}
             subtitle={article.subTitle}
+            onClick={openEachModal}
           ></MainArticleItem>
         ))}
       </ArticleContainerRow>
+      <ArticleEachModal isOpen={isEachModalOpen} closeModal={closeEachModal} />
     </Container>
   );
 };
@@ -77,10 +92,16 @@ export default ArticleDetailList;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 16px 20px;
 `;
 
 const ArticleCategoryTitle = styled.div`
   padding: 16px 20px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: left;
+  color: #101828;
 `;
 
 const ArticleContainerRow = styled.div`
