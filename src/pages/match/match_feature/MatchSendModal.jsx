@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import arrow_down_icon from '../../../assets/icons/arrow-down-grey.svg';
 import { getAdminClubs } from '../../../apis/api/user';
+import { postMatchRequest } from '../../../apis/api/match';
 
 const WrapperContainer = styled.div`
   position: fixed;
@@ -133,9 +134,10 @@ const BoldText = styled.div`
 const MatchSendModal = ({ onClose, onConfirm, matchClubData }) => {
   const [selectedClub, setSelectedClub] = useState('');
   const [adminClubData, setAdminClubData] = useState([]);
+  const [selectedClubMemberId, setSelectedClubMemberId] = useState(null);
 
   // const matchClubData = {
-  //   id: "1",
+  //   matchIdx: "1",
   //   matchClubName: "파리펜싱팀",
   //   matchDate: "7월 30일 4시"
   // }
@@ -169,10 +171,24 @@ const MatchSendModal = ({ onClose, onConfirm, matchClubData }) => {
     event.stopPropagation();
   };
 
-  const handleConfirm = () => {
-    onConfirm(); // 상위 컴포넌트에서 정의된 confirm 로직을 실행
-  };
+  // 동아리 선택 시 clubMemberId 설정
+  useEffect(() => {
+    if (selectedClub) {
+      const selectedClubData = adminClubData.find(club => club.clubId === parseInt(selectedClub, 10));
+      setSelectedClubMemberId(selectedClubData ? selectedClubData.clubMemberIdx : null);
+    }
+  }, [selectedClub, adminClubData]);
 
+  // 확인 버튼 눌렀을 때
+  const handleConfirm = async () => {
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      await postMatchRequest(accessToken, selectedClubMemberId, matchClubData.matchIdx);
+      onConfirm(); // 매칭 요청 성공 시 상위 컴포넌트에서 success modal을 띄움
+    } catch (error) {
+      console.error('매칭 요청 실패:', error);
+    }
+  };
 
   const getMatchRequestMessage = () => {
     return (

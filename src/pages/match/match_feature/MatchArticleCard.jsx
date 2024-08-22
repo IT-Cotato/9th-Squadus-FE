@@ -160,7 +160,7 @@ const RequestButton = styled.div`
   display: ${({ $expanded, $show }) => ($expanded && $show ? 'flex' : 'none')};
 `;
 
-const MatchArticleCard = ({ title, location, category, date, placeOffer, img, clubName, clubIdx, tierNeed, peopleCount, content, requestButtonLabel, userClubs, showRequestButton = true, showClubContainer = false, clubData }) => {
+const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffer, img, clubName, clubIdx, tierNeed, peopleCount, content, requestButtonLabel, userClubs, showRequestButton = true, showClubContainer = false, clubData }) => {
   const [expanded, setExpanded] = useState(false);
   const [showMatchSendModal, setShowMatchSendModal] = useState(false);
   const [showMatchSendCancelModal, setShowMatchSendCancelModal] = useState(false);
@@ -193,6 +193,7 @@ const MatchArticleCard = ({ title, location, category, date, placeOffer, img, cl
   };
 
   const matchClubData = {
+    matchIdx: matchIdx,
     matchClubName: clubName,
     matchDate: date,
 };
@@ -254,12 +255,12 @@ const MatchArticleCard = ({ title, location, category, date, placeOffer, img, cl
 
 
       {showMatchSendModal && (
-            <MatchSendModal
-                onClose={handleSendModalClose}
-                onConfirm={handleSendModalConfirm}
-                matchClubData={matchClubData}
-            />
-        )}
+        <MatchSendModal
+          onClose={handleSendModalClose}
+          onConfirm={handleSendModalConfirm}
+          matchClubData={matchClubData}
+        />
+      )}
       {showMatchSendCancelModal && <MatchSendCancelModal onClose={() => setShowMatchSendCancelModal(false)} />}
       {showMatchSendSuccessModal && <MatchSendSuccessModal onClose={handleSuccessModalClose} />}
     </WrapperContainer>

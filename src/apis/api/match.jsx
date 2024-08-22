@@ -70,6 +70,26 @@ export const getMatchReceiveds = (accessToken, clubId) => {
   })
   .catch((error) => {
     console.log("내 동아리가 신청받은 매치 목록 조회(전체) API 호출 오류", error);
-    
+    throw error;
+  })
+}
+
+// 특정 매칭 게시글에 매칭 요청 API 호출 함수
+export const postMatchRequest = (accessToken, clubMemberId, matchPostId) => {
+  return api.post('/v1/api/matches/request', {
+    clubMemberId: clubMemberId,
+    matchPostId: matchPostId
+  }, {
+    headers: {
+      'Content-Type': 'application/json',
+      access: `${accessToken},`
+    }
+  })
+  .then((response) => {
+    return response.data;
+  })
+  .catch((error) => {
+    console.log("특정 매칭 게시글에 매칭 요청 API 호출 오류", error);
+    throw error;
   })
 }
