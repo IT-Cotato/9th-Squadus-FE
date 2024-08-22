@@ -36,7 +36,7 @@ export const getMatches = (accessToken) => {
 
 // 내 동아리에서 신청한 매치 목록 조회(전체) API 호출 함수
 export const getMatchRequests = (accessToken, clubId) => {
-  return api.get('/api/match-requests', {
+  return api.get('/v1/api/match-requests', {
     headers: {
       'Content-Type': 'application/json',
       access: `${accessToken}`,
@@ -56,7 +56,7 @@ export const getMatchRequests = (accessToken, clubId) => {
 
 // 내 동아리가 신청받은 매치 목록 조회(전체) API 호출 함수
 export const getMatchReceiveds = (accessToken, clubId) => {
-  return api.get('/api/match-requests/received', {
+  return api.get('/v1/api/match-requests/received', {
     headers: {
       'Content-Type': 'application/json',
       access: `${accessToken},`
