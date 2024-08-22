@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MatchArticleCard from './match_feature/MatchArticleCard';
 import styled from 'styled-components';
-import { getMatches } from '../../apis/api/match';
-import useAuthStore from '../../stores/useAuthStore';
 
 const Container = styled.div`
   padding: 20px;
@@ -27,28 +25,7 @@ const formatDateAndTime = (date, time) => {
   return `${formattedDate} ${formattedTime}`;
 };
 
-const MatchContent = () => {
-  const { userData } = useAuthStore();
-  const [matchArticleData, setMatchArticleData] = useState([]);
-
-  useEffect(() => {
-    const fetchMatchArticle = async() => {
-      try {
-        const accessToken = localStorage.getItem('accessToken');
-        if (!userData || !userData.memberId) {
-          console.error('로그인 정보가 없습니다.');
-          return;
-        }
-
-        const clubMemberId = userData.memberId;
-        const data = await getMatches(accessToken, clubMemberId);
-        setMatchArticleData(data.matches || []);
-      } catch (error) {
-        console.error("용병 데이터 불러오는 중 오류", error);
-      }
-    }
-    fetchMatchArticle();
-  }, [userData])
+const MatchContent = ({ matches }) => {
 
   // const matchArticleData = [
   //   { 
@@ -109,7 +86,7 @@ const MatchContent = () => {
   return (
     <Container>
       <MatchArticleList>
-        {matchArticleData.map(matchArticle => (
+        {matches.map(matchArticle => (
           <MatchArticleCard 
             key={matchArticle.matchIdx}
             title={matchArticle.title}

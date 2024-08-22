@@ -225,7 +225,7 @@ const Select = styled.select`
   }
 `;
 
-const MatchCreate = ({ closeMatchCreate }) => {
+const MatchCreate = ({ closeMatchCreate, onMatchCreate }) => {
   const [clubData, setClubData] = useState([]);   // 사용자가 관리자인 동아리 불러오기
 
   // const clubData = [
@@ -249,6 +249,7 @@ const MatchCreate = ({ closeMatchCreate }) => {
   const [selectedTier, setSelectedTier] = useState("");
   const [placeOffer, setPlaceOffer] = useState("");
   const [numberOfParticipants, setNumberOfParticipants] = useState(5);
+  const [selectedClubMemberId, setSelectedClubMemberId] = useState(null);
 
   // 지역 선택 필드
   const CityOptions = [
@@ -287,6 +288,14 @@ const MatchCreate = ({ closeMatchCreate }) => {
     fetchAdminClubs();
   }, []);
 
+  // 동아리 선택 시 clubMemberId 설정
+  useEffect(() => {
+    if (selectedClub) {
+      const selectedClubData = clubData.find(club => club.clubId === parseInt(selectedClub, 10));
+      setSelectedClubMemberId(selectedClubData ? selectedClubData.clubMemberIdx : null);
+    }
+  }, [selectedClub, clubData]);
+
   // 완료 버튼 눌렀을 때 실행되는 함수
   const handleSubmit = async () => {
     try {
@@ -295,10 +304,12 @@ const MatchCreate = ({ closeMatchCreate }) => {
       // 날짜와 시간 형식이 두 자리 수를 유지하도록 포맷팅
       const formattedMonth = selectedMonth.toString().padStart(2, '0');
       const formattedDay = selectedDay.toString().padStart(2, '0');
+      const formattedHour = selectedHour.toString().padStart(2, '0');
+      const formattedMinute = selectedMinute.toString().padStart(2, '0');
 
       const matchData = {
         homeClubId: parseInt(selectedClub, 10),
-        clubMemberId: 2,  // TODO: 뭔지 확인하기
+        clubMemberId: selectedClubMemberId,
         title: title,
         content: content,
         tier: selectedTier,
@@ -308,16 +319,13 @@ const MatchCreate = ({ closeMatchCreate }) => {
         },
         placeProvided: placeOffer === "Yes",
         matchStartDate: `${selectedYear}-${formattedMonth}-${formattedDay}`,
-        matchStartTime: {
-          hour: parseInt(selectedHour, 10),
-          minute: parseInt(selectedMinute, 10),
-          second: 0,
-          nano: 0
-        },
+        matchStartTime: `${formattedHour}:${formattedMinute}`,
         maxParticipants: parseInt(numberOfParticipants, 10)
       };
 
       const response = await createMatch(accessToken, matchData);
+      onMatchCreate(response);
+      closeMatchCreate();
       console.log('매치가 성공적으로 생성되었습니다.', response);
     } catch (error) {
       console.error('매치 생성 중 오류가 발생했습니다:', error);

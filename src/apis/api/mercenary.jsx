@@ -18,15 +18,12 @@ export const createMercenary = (accessToken, mercenaryData) => {
 };
 
 // 용병 게시글 조회 API 호출 함수
-export const getMercenaries = (accessToken, clubMemberId) => {
+export const getMercenaries = (accessToken) => {
   return api.get('/v1/api/mercenary', {
     headers: {
       'Content-Type': 'application/json',
       access: `${accessToken}`,
     },
-    params: {
-      clubMemberId: clubMemberId,
-    }
   })
   .then((response) => {
     return response.data;

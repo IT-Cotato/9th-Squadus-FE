@@ -18,15 +18,12 @@ export const createMatch = (accessToken, matchData) => {
 };
 
 // 매치 게시글 조회 API 호출 함수
-export const getMatches = (accessToken, clubMemberId) => {
+export const getMatches = (accessToken) => {
   return api.get('/v1/api/matches', {
     headers: {
       'Content-Type': 'application/json',
       access: `${accessToken}`,
     },
-    params: {
-      clubMemberId: clubMemberId,
-    }
   })
   .then((response) => {
     return response.data;

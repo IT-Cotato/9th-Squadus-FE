@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import MercenaryArticleCard from './mercenary_feature/MercenaryArticleCard';
 import styled from 'styled-components';
-import { getMercenaries } from '../../apis/api/mercenary';
-import useAuthStore from '../../stores/useAuthStore';
 
 const Container = styled.div`
   padding: 20px;
@@ -31,28 +29,7 @@ const formatDateAndTime = (date, time) => {
 
 
 
-const MercenaryContent = () => {
-  const { userData } = useAuthStore();
-  const [mercenaryArticleData, setMercenaryArticleData] = useState([]);
-
-  useEffect(() => {
-    const fetchMercenaryArticles = async() => {
-      try {
-        const accessToken = localStorage.getItem('accessToken');
-        if (!userData || !userData.memberId) {
-          console.error('로그인 정보가 없습니다.');
-          return;
-        }
-
-        const clubMemberId = userData.memberId;
-        const data = await getMercenaries(accessToken, clubMemberId);
-        setMercenaryArticleData(data.matches || []);
-      } catch (error) {
-        console.error("용병 데이터 불러오는 중 오류", error);
-      }
-    }
-    fetchMercenaryArticles();
-  }, [])
+const MercenaryContent = ({ mercenaries }) => {
 
   // const mercenaryArticleData = [
   //   { 
@@ -114,7 +91,7 @@ const MercenaryContent = () => {
   return (
     <Container>
       <MercenaryArticleList>
-        {mercenaryArticleData.map(mercenaryArticle => (
+        {mercenaries.map(mercenaryArticle => (
           <MercenaryArticleCard 
             key={mercenaryArticle.mercenaryIdx}
             title={mercenaryArticle.title}

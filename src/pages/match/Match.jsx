@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import { Outlet } from 'react-router-dom';
 import MatchHeader from './MatchHeader';
 import create_icon from '../../assets/icons/write.svg'
 import MatchCreate from './match_feature/MatchCreate';
 import MercenaryCreate from './mercenary_feature/MercenaryCreate';
+import MatchContent from './MatchContent';
+import MercenaryContent from './MercenaryContent';
+import { getMatches } from '../../apis/api/match';
+import { getMercenaries } from '../../apis/api/mercenary';
 
 const FixedContainer = styled.div`
   top: 0;
@@ -60,10 +63,33 @@ const CreateIcon = styled.div`
 
 const Match = () => {
   const [selectedTab, setSelectedTab] = useState("match");
-
   const [showMatchCreate, setShowMatchCreate] = useState(false);
   const [showMercenaryCreate, setShowMercenaryCreate] = useState(false);
+  const [matches, setMatches] = useState([]);
+  const [mercenaries, setMercenaries] = useState([]); 
 
+  // 매치 및 용병 데이터를 로드하는 함수
+  const loadData = useCallback(async () => {
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      if (selectedTab === "match") {
+        const data = await getMatches(accessToken);
+        setMatches(data.matches || []);
+      } else if (selectedTab === "mercenary") {
+        const data = await getMercenaries(accessToken);
+        setMercenaries(data.matches || []);
+      }
+    } catch (error) {
+      console.error('데이터 불러오는 중 오류', error);
+    }
+  }, [selectedTab]);
+
+
+  useEffect(() => {
+    loadData();
+  }, [selectedTab, loadData]);
+
+  // 플로팅버튼 눌렀을 때
   const handleFloatingButtonClick = () => {
     if (selectedTab === "match") {
       setShowMatchCreate(true);
@@ -72,6 +98,19 @@ const Match = () => {
     }
   };
 
+  // 매치 생성 시 호출되는 함수
+  const handleMatchCreate = (newMatch) => {
+    setMatches((prevMatches) => [newMatch, ...prevMatches]);
+    setShowMatchCreate(false);
+  };
+
+  // 용병 생성 시 호출되는 함수
+  const handleMercenaryCreate = (newMercenary) => {
+    setMercenaries((prevMercenaries) => [newMercenary, ...prevMercenaries]);
+    setShowMercenaryCreate(false);
+  };
+
+
   return (
     <>
       <FixedContainer>
@@ -79,7 +118,16 @@ const Match = () => {
       </FixedContainer>
       <WrapperContainer>
         <ContentContainer>
-          <Outlet />
+          {selectedTab === "match" && (
+            <MatchContent 
+              matches={matches} 
+            />
+          )}
+          {selectedTab === "mercenary" && (
+            <MercenaryContent 
+              mercenaries={mercenaries} 
+            />
+          )}
         </ContentContainer>
         <FloatingButton onClick={handleFloatingButtonClick}>
           <CreateIcon />
@@ -87,12 +135,16 @@ const Match = () => {
       </WrapperContainer>
 
       {showMatchCreate && (
-        <MatchCreate closeMatchCreate={() => setShowMatchCreate(false)} />
+        <MatchCreate 
+          closeMatchCreate={() => setShowMatchCreate(false)} 
+          onMatchCreate={handleMatchCreate} 
+        />
       )}
 
       {showMercenaryCreate && (
         <MercenaryCreate
           closeMercenaryCreate={() => setShowMercenaryCreate(false)}
+          onMercenaryCreate={handleMercenaryCreate}
         />
       )}
     </>
