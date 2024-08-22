@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import arrow_down_icon from '../../../assets/icons/arrow-down-grey.svg';
+import { getAdminClubs } from '../../../apis/api/user';
 
 const WrapperContainer = styled.div`
   position: fixed;
@@ -129,26 +130,40 @@ const BoldText = styled.div`
 `;
 
 
-const MatchSendModal = ({ onClose, onConfirm }) => {
+const MatchSendModal = ({ onClose, onConfirm, matchClubData }) => {
   const [selectedClub, setSelectedClub] = useState('');
+  const [adminClubData, setAdminClubData] = useState([]);
 
-  const matchClubData = {
-    id: "1",
-    matchClubName: "파리펜싱팀",
-    matchDate: "7월 30일 4시"
-  }
+  // const matchClubData = {
+  //   id: "1",
+  //   matchClubName: "파리펜싱팀",
+  //   matchDate: "7월 30일 4시"
+  // }
 
-  const adminClubData = [
-    { 
-      id: "1", 
-      adminClubName: "코테이토", 
-    },
-    { 
-      id: "2", 
-      adminClubName: "성신양궁", 
-    }
-  ]
+  // const adminClubData = [
+  //   { 
+  //     id: "1", 
+  //     adminClubName: "코테이토", 
+  //   },
+  //   { 
+  //     id: "2", 
+  //     adminClubName: "성신양궁", 
+  //   }
+  // ]
 
+  useEffect(() => {
+    const fetchAdminClubs = async () => {
+      try {
+        const accessToken = localStorage.getItem('accessToken');
+        const clubs = await getAdminClubs(accessToken);
+        setAdminClubData(clubs);
+      } catch (error) {
+        console.error('관리 동아리 정보를 가져오는 데 실패했습니다:', error);
+      }
+    };
+
+    fetchAdminClubs();
+  }, []);
 
   const handleModalClick = (event) => {
     event.stopPropagation();
@@ -186,7 +201,7 @@ const MatchSendModal = ({ onClose, onConfirm }) => {
               <SelectBox value={selectedClub} onChange={handleClubChange}>
                 <Option value="">동아리 선택</Option>
                 {adminClubData.map((club) => (
-                  <Option key={club.id} value={club.id}>{club.adminClubName}</Option>
+                  <Option key={club.clubId} value={club.clubId}>{club.clubName}</Option>
                 ))}
               </SelectBox>
             </SelectContainer>

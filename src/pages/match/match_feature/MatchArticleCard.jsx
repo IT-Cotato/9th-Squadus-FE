@@ -192,6 +192,11 @@ const MatchArticleCard = ({ title, location, category, date, placeOffer, img, cl
     setShowMatchSendSuccessModal(false);
   };
 
+  const matchClubData = {
+    matchClubName: clubName,
+    matchDate: date,
+};
+
   return (
     <WrapperContainer onClick={() => setExpanded(!expanded)}>
       <MainContainer>
@@ -247,7 +252,14 @@ const MatchArticleCard = ({ title, location, category, date, placeOffer, img, cl
         </BottomContainer>
       }
 
-      {showMatchSendModal && <MatchSendModal onClose={handleSendModalClose} onConfirm={handleSendModalConfirm} />}
+
+      {showMatchSendModal && (
+            <MatchSendModal
+                onClose={handleSendModalClose}
+                onConfirm={handleSendModalConfirm}
+                matchClubData={matchClubData}
+            />
+        )}
       {showMatchSendCancelModal && <MatchSendCancelModal onClose={() => setShowMatchSendCancelModal(false)} />}
       {showMatchSendSuccessModal && <MatchSendSuccessModal onClose={handleSuccessModalClose} />}
     </WrapperContainer>
