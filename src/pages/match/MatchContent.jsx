@@ -92,11 +92,11 @@ const MatchContent = ({ matches }) => {
             title={matchArticle.title}
             content={matchArticle.content}
             location={`${matchArticle.matchPlace.city} ${matchArticle.matchPlace.district}`}
-            category="양궁"     // TODO: 채워주기
+            category={matchArticle.sportsCategory}
             date={formatDateAndTime(matchArticle.matchStartDate, matchArticle.matchStartTime)}
             placeOffer={matchArticle.placeProvided ? 'O' : 'X'}
-            img=""            // TODO: 채워주기
-            clubName="코테이토" // TODO: 채워주기
+            img={matchArticle.clubLogo}
+            clubName={matchArticle.clubName}
             tierNeed={matchArticle.tier}
             peopleCount={matchArticle.maxParticipants}
             requestButtonLabel="요청 보내기"

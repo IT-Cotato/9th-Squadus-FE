@@ -88,6 +88,9 @@ const Image = styled.div`
   height: 28px;
   border-radius: 50%;
   background-color: black;
+  background-image: url(${({ img }) => img});
+  background-size: cover;
+  background-position: center;
 `;
 
 
@@ -184,7 +187,7 @@ const MercenaryArticleCard = ({ title, location, category, date, placeOffer, img
         </MainInfoContainer>
         <SubInfoContainer>
           <ClubContainer>
-            <Image></Image>
+            <Image img={img} />
             {clubName}
           </ClubContainer>
           <DetailContainer>

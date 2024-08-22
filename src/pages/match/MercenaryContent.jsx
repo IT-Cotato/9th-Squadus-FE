@@ -97,11 +97,11 @@ const MercenaryContent = ({ mercenaries }) => {
             title={mercenaryArticle.title}
             content={mercenaryArticle.content}
             location={`${mercenaryArticle.matchPlace.city} ${mercenaryArticle.matchPlace.district}`}
-            category="축구"     // TODO: 채워주기
+            category={mercenaryArticle.sportsCategory}
             date={formatDateAndTime(mercenaryArticle.matchStartDate, mercenaryArticle.matchStartTime)}
             placeOffer={mercenaryArticle.placeProvided ? 'O' : 'X'}
-            img=""            // TODO: 채워주기
-            clubName="코테이토" // TODO: 채워주기
+            img={mercenaryArticle.clubLogo}
+            clubName={mercenaryArticle.clubName}
             maxCount={mercenaryArticle.maxParticipants}
             currentCount={mercenaryArticle.currentParticipants}
             requestButtonLabel="요청 보내기"

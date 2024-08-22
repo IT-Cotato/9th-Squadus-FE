@@ -91,6 +91,9 @@ const Image = styled.div`
   height: 28px;
   border-radius: 50%;
   background-color: black;
+  background-image: url(${({ img }) => img});
+  background-size: cover;
+  background-position: center;
 `;
 
 const DetailContainer = styled.div`
@@ -198,7 +201,7 @@ const MatchArticleCard = ({ title, location, category, date, placeOffer, img, cl
         </MainInfoContainer>
         <SubInfoContainer>
           <ClubContainer>
-            <Image></Image>
+            <Image img={img} />
             {clubName}
           </ClubContainer>
           <DetailContainer>
