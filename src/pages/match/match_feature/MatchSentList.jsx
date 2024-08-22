@@ -106,8 +106,8 @@ const MatchSentList = ({ selectedGroup }) => {
           location={`${matchSent.matchCreateResponse.matchPlace.city} ${matchSent.matchCreateResponse.matchPlace.district}`}
           date={formatDateAndTime(matchSent.matchCreateResponse.matchStartDate, matchSent.matchCreateResponse.matchStartTime)}
           placeOffer={matchSent.matchCreateResponse.placeProvided ? 'O' : 'X'}
-          img=""            // TODO: 채워주기
-          clubName="포테이토칩" // TODO: 채워주기
+          img={matchSent.matchCreateResponse.clubLogo}
+          clubName={matchSent.matchCreateResponse.clubName}
           tierNeed={matchSent.matchCreateResponse.tier}
           peopleCount={matchSent.matchCreateResponse.maxParticipants}
           content={matchSent.matchCreateResponse.content}
