@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import previous_icon from '../../../assets/icons/arrow-left.svg';
+import arrow_down_icon from '../../../assets/icons/arrow-down-grey.svg';
 import MatchReceivedList from './MatchReceivedList';
 import MatchSentList from './MatchSentList'
+import GroupSelectList from '../GroupSelectList';
+import useAuthStore from '../../../stores/useAuthStore';
 
 const WrapperContainer = styled.div`
   position: fixed;
@@ -60,6 +63,32 @@ const HeaderTitle = styled.div`
   color: ${({ theme }) => theme.colors.neutral[600]};
   font-size: 20px;
   font-weight: bold;
+  margin-right: 12px;
+`;
+
+const SelectMyGroupContainer = styled.div`
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+`;
+
+const SelectedGroup = styled.div`
+  color: ${({ theme }) => theme.colors.neutral[600]};
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 0;
+`;
+
+const ArrowDownButton = styled.div`
+  height: 18px;
+  width: 18px;
+  background-image: url(${arrow_down_icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 const TabBar = styled.div`
@@ -91,9 +120,18 @@ const ContentContainer = styled.div`
 
 
 const MatchHistory = ({ closeMatchHistory }) => {
+  const { userData } = useAuthStore();
   const [activeTab, setActiveTab] = useState('sentRequest');
   const [showMatchSent, setShowMatchSent] = useState(true);
   const [showMatchReceived, setShowMatchReceived] = useState(false);
+  const [showGroupSelectList, setShowGroupSelectList] = useState(false);
+  const [selectedGroup, setSelectedGroup] = useState(null);
+
+  useEffect(() => {
+    if (userData && userData.memberClubs && userData.memberClubs.length > 0) {
+      setSelectedGroup(userData.memberClubs[0]);
+    }
+  }, [userData]);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -107,6 +145,12 @@ const MatchHistory = ({ closeMatchHistory }) => {
     }
   };
 
+  const handleGroupSelect = (group) => {
+    setSelectedGroup(group);
+    setShowGroupSelectList(false);
+  };
+
+
   return (
     <WrapperContainer>
       <Container>
@@ -114,6 +158,13 @@ const MatchHistory = ({ closeMatchHistory }) => {
           <HeaderContainer>
             <PreviousButton onClick={closeMatchHistory} />
             <HeaderTitle>매치 신청내역</HeaderTitle>
+            <SelectMyGroupContainer onClick={() => setShowGroupSelectList(!showGroupSelectList)}>
+              <SelectedGroup>
+                {selectedGroup ? selectedGroup.clubName : '동아리 선택'}
+              </SelectedGroup>
+              {showGroupSelectList && <GroupSelectList onSelect={handleGroupSelect} />}
+              <ArrowDownButton></ArrowDownButton>
+            </SelectMyGroupContainer>
           </HeaderContainer>
           <TabBar>
             <TabItem onClick={() => handleTabClick('sentRequest')} $isActive={activeTab === 'sentRequest'}>신청한 내역</TabItem>
@@ -123,12 +174,12 @@ const MatchHistory = ({ closeMatchHistory }) => {
         <ContentContainer>
           {
             showMatchSent && 
-            <MatchSentList />
+            <MatchSentList selectedGroup={selectedGroup} />
           }
 
           {
             showMatchReceived && 
-            <MatchReceivedList />
+            <MatchReceivedList selectedGroup={selectedGroup} />
           }
         </ContentContainer>
       </Container>

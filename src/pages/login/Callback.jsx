@@ -13,13 +13,9 @@ const Callback = () => {
     const refreshToken = params.get("refresh_token");
 
     if (accessToken && refreshToken) {
-      // localStorage.setItem("access_token", accessToken);
-      // localStorage.setItem("refresh_token", refreshToken);
-
-      // 액세스토큰을 로컬스토리지에 저장
+      // 액세스토큰, 리프레시토큰을 로컬스토리지에 저장
       localStorage.setItem("accessToken", accessToken);
-      // 리프레시토큰을 쿠키에 저장
-      document.cookie = `refresh=${refreshToken}; path=/; SameSite=None; Secure`;
+      localStorage.setItem("refreshToken", refreshToken);
 
       // 유저 데이터 불러오기
       fetchAndStoreUserData();

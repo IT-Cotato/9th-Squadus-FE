@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, createContext, useState } from "react";
+import React, { useEffect, createContext, useState } from "react";
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 import GroupHeader from "./group_components/GroupHeader";
@@ -57,6 +57,14 @@ const Group = () => {
       );
     }
   }, [userClubs]);
+
+  // 현재 선택된 clubId를 계산
+  const selectedClubId =
+    groupData.length > 0 && chooseClubId >= 0 && chooseClubId < groupData.length
+      ? groupData[chooseClubId].clubId
+      : null;
+
+
   return (
     <>
       <GroupContext.Provider
@@ -67,6 +75,7 @@ const Group = () => {
           userClubs,
           chooseClubId,
           setChooseClubId,
+          selectedClubId
         }}
       >
         <FixedContainer>
@@ -74,7 +83,7 @@ const Group = () => {
           <GroupTabBar />
         </FixedContainer>
         <ContentContainer>
-          <Outlet context={{ userInfo, userClubs }} />
+          <Outlet context={{ userInfo, userClubs, selectedClubId }} />
         </ContentContainer>
       </GroupContext.Provider>
     </>

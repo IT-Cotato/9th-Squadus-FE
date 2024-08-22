@@ -119,7 +119,13 @@ const FileInput = styled.input`
 const ImageEdit = ({ closeImageEdit }) => {
   const { userData, fetchAndStoreUserData } = useAuthStore();
   const [selectedFile, setSelectedFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(userData?.profileImage || default_profile_image);
+
+  // 기존 프로필 이미지 또는 기본 프로필 이미지를 설정
+  const initialProfileImage = userData.profileImage === "default profile img"
+    ? default_profile_image
+    : userData?.profileImage;
+
+    const [previewUrl, setPreviewUrl] = useState(initialProfileImage);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -160,7 +166,7 @@ const ImageEdit = ({ closeImageEdit }) => {
       console.error('이미지 업로드 실패:', error);
     });
   };
-  
+
   return (
     <WrapperContainer>
       <Container>

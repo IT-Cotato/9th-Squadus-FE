@@ -91,6 +91,9 @@ const Image = styled.div`
   height: 28px;
   border-radius: 50%;
   background-color: black;
+  background-image: url(${({ img }) => img});
+  background-size: cover;
+  background-position: center;
 `;
 
 const DetailContainer = styled.div`
@@ -157,12 +160,15 @@ const RequestButton = styled.div`
   display: ${({ $expanded, $show }) => ($expanded && $show ? 'flex' : 'none')};
 `;
 
-const MatchArticleCard = ({ title, location, category, date, placeOffer, img, clubName, tierNeed, peopleCount, content, requestButtonLabel, showRequestButton = true, showClubContainer = false, clubData }) => {
+const MatchArticleCard = ({ title, location, category, date, placeOffer, img, clubName, clubIdx, tierNeed, peopleCount, content, requestButtonLabel, userClubs, showRequestButton = true, showClubContainer = false, clubData }) => {
   const [expanded, setExpanded] = useState(false);
   const [showMatchSendModal, setShowMatchSendModal] = useState(false);
   const [showMatchSendCancelModal, setShowMatchSendCancelModal] = useState(false);
   const [showMatchSendSuccessModal, setShowMatchSendSuccessModal] = useState(false);
 
+  // 사용자가 요청을 보낼 수 있는지 여부 확인
+  const canSendRequest = userClubs?.some(club => club.clubId !== clubIdx && club.isAdmin) && 
+                        !userClubs?.some(club => club.clubId === clubIdx);
 
   const handleRequestButtonClick = (event) => {
     event.stopPropagation();
@@ -198,7 +204,7 @@ const MatchArticleCard = ({ title, location, category, date, placeOffer, img, cl
         </MainInfoContainer>
         <SubInfoContainer>
           <ClubContainer>
-            <Image></Image>
+            <Image img={img} />
             {clubName}
           </ClubContainer>
           <DetailContainer>
@@ -218,13 +224,15 @@ const MatchArticleCard = ({ title, location, category, date, placeOffer, img, cl
           </PlaceOffer>
           {content}
         </ContentContainer>
-        <RequestButton
-          $expanded={expanded}
-          $show={showRequestButton}
-          onClick={handleRequestButtonClick}
-        >
-          {requestButtonLabel}
-        </RequestButton>
+        {canSendRequest && (
+          <RequestButton
+            $expanded={expanded}
+            $show={showRequestButton}
+            onClick={handleRequestButtonClick}
+          >
+            {requestButtonLabel}
+          </RequestButton>
+        )}
       </MainContainer>
       {showClubContainer && 
         <BottomContainer $expanded={expanded ? "true" : undefined}>
