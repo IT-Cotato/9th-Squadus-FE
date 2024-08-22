@@ -42,51 +42,35 @@ const MercenaryReceivedList = ({ selectedGroup }) => {
     fetchMercenaryReceiveds();
   }, [selectedGroup]);
 
-  // const MercenaryReceivedData = [
-  //   { 
-  //     id: "1", 
-  //     title: "매치 구합니다!!", 
-  //     location: "서울 강남",
-  //     date: "2024.07.30", 
-  //     placeOffer: "O", 
-  //     img: "", 
-  //     maxCount: "8", 
-  //     currentCount: "7",
-  //     content: "강남구민체육관에서 5시에 매치하실 분 구합니다!!",
-  //   },
-  //   { 
-  //     id: "2", 
-  //     title: "농구 매치할 팀 구해용", 
-  //     location: "파리",
-  //     date: "2024.08.30", 
-  //     placeOffer: "X", 
-  //     img: "", 
-  //     maxCount: "10", 
-  //     currentCount: "5",
-  //     content: "강남구민체육관에서 5시에 매치하실 분 구합니다!!",
-  //   },
-  //   { 
-  //     id: "3", 
-  //     title: "농구 매치할 팀 구해용", 
-  //     location: "파리",
-  //     date: "2024.08.30", 
-  //     placeOffer: "X", 
-  //     img: "", 
-  //     maxCount: "10", 
-  //     currentCount: "5",
-  //     content: "강남구민체육관에서 5시에 매치하실 분 구합니다!!",
-  //   },
-  //   { 
-  //     id: "4", 
-  //     title: "농구 매치할 팀 구해용", 
-  //     location: "파리",
-  //     date: "2024.08.30", 
-  //     placeOffer: "X", 
-  //     img: "", 
-  //     maxCount: "10", 
-  //     currentCount: "5",
-  //     content: "강남구민체육관에서 5시에 매치하실 분 구합니다!!",
-  //   },
+  // const mercenaryReceivedData = [
+  //   {
+  //     "mercenaryCreateResponse": {
+  //       "mercenaryIdx": 0,
+  //       "title": "string",
+  //       "content": "string",
+  //       "matchPlace": {
+  //         "city": "string",
+  //         "district": "string"
+  //       },
+  //       "placeProvided": true,
+  //       "matchStartDate": "2024-08-22",
+  //       "matchStartTime": "10:00",
+  //       "maxParticipants": 0,
+  //       "currentParticipants": 0,
+  //       "sportsCategory": "string",
+  //       "clubName": "string",
+  //       "clubLogo": "string"
+  //     },
+  //     "receivedRequests": [
+  //       {
+  //         "matchingStatus": "string",
+  //         "requestId": 0,
+  //         "clubMemberId": 0,
+  //         "requestName": "string",
+  //         "requesterUniversity": "string"
+  //       }
+  //     ]
+  //   }
   // ]
 
   return (
@@ -98,11 +82,12 @@ const MercenaryReceivedList = ({ selectedGroup }) => {
           location={`${mercenaryReceived.mercenaryCreateResponse.matchPlace.city} ${mercenaryReceived.mercenaryCreateResponse.matchPlace.district}`}
           date={formatDateAndTime(mercenaryReceived.mercenaryCreateResponse.matchStartDate, mercenaryReceived.mercenaryCreateResponse.matchStartTime)}
           placeOffer={mercenaryReceived.mercenaryCreateResponse.placeProvided}
-          img=""          // TODO: 채워주기
-          clubName="서울스키점프팀" // TODO: 채워주기
+          img={mercenaryReceived.mercenaryCreateResponse.clubLogo}
+          clubName={mercenaryReceived.mercenaryCreateResponse.clubName}
           maxCount={mercenaryReceived.mercenaryCreateResponse.maxParticipants}
           currentCount={mercenaryReceived.mercenaryCreateResponse.currentParticipants}
           content={mercenaryReceived.mercenaryCreateResponse.content}
+          receivedRequests={mercenaryReceived.receivedRequests}
         />
       ))}
     </Container>
