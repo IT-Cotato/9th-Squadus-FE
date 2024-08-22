@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MatchArticleCard from './match_feature/MatchArticleCard';
 import styled from 'styled-components';
+import { getUserClubs } from '../../apis/api/user';
 
 const Container = styled.div`
   padding: 20px;
@@ -26,6 +27,21 @@ const formatDateAndTime = (date, time) => {
 };
 
 const MatchContent = ({ matches }) => {
+  const [userClubs, setUserClubs] = useState([]); // 사용자 동아리 정보를 저장할 상태 변수
+
+  useEffect(() => {
+    const fetchUserClubs = async () => {
+      try {
+        const accessToken = localStorage.getItem('accessToken');
+        const clubs = await getUserClubs(accessToken);
+        setUserClubs(clubs.memberClubResponseList || []);
+      } catch (error) {
+        console.error('사용자 동아리 정보 불러오기 실패:', error);
+      }
+    };
+    
+    fetchUserClubs();
+  }, []);
 
   // const matchArticleData = [
   //   { 
@@ -97,6 +113,8 @@ const MatchContent = ({ matches }) => {
             placeOffer={matchArticle.placeProvided ? 'O' : 'X'}
             img={matchArticle.clubLogo}
             clubName={matchArticle.clubName}
+            clubIdx={matchArticle.clubIdx}
+            userClubs={userClubs}
             tierNeed={matchArticle.tier}
             peopleCount={matchArticle.maxParticipants}
             requestButtonLabel="요청 보내기"
