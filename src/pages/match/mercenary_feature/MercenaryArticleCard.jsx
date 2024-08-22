@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import arrow_up_icon from '../../../assets/icons/arrow-up-white.svg';
 import MercenaryPersonItem from './MercenaryPersonItem';
+import MercenarySendSuccessModal from './MercenarySendSuccessModal';
 
 const WrapperContainer = styled.div`
   width: 100%;
@@ -88,6 +89,9 @@ const Image = styled.div`
   height: 28px;
   border-radius: 50%;
   background-color: black;
+  background-image: url(${({ img }) => img});
+  background-size: cover;
+  background-position: center;
 `;
 
 
@@ -169,8 +173,21 @@ const RequestButton = styled.div`
   display: ${({ $expanded, $show }) => ($expanded && $show ? 'flex' : 'none')};
 `;
 
-const MercenaryArticleCard = ({ title, location, category, date, placeOffer, img, clubName, maxCount, currentCount, content, requestButtonLabel, showRequestButton = true, showPersonContainer = false, personData }) => {
+const MercenaryArticleCard = ({ title, location, category, date, placeOffer, img, clubName, clubIdx, maxCount, currentCount, content, requestButtonLabel, userClubs, showRequestButton = true, showPersonContainer = false, personData }) => {
   const [expanded, setExpanded] = useState(false);
+  const [showMercenarySendSuccessModal, setShowMercenarySendSuccessModal] = useState(false);
+
+  // 사용자가 요청을 보낼 수 있는지 여부 확인
+  const canSendRequest = !userClubs?.some(club => club.clubId === clubIdx);
+
+  const handleRequestButtonClick = (event) => {
+    event.stopPropagation();
+    setShowMercenarySendSuccessModal(true);
+  };
+
+  const handleSendModalClose = () => {
+    setShowMercenarySendSuccessModal(false);
+  };
 
   return (
     <WrapperContainer onClick={() => setExpanded(!expanded)}>
@@ -184,7 +201,7 @@ const MercenaryArticleCard = ({ title, location, category, date, placeOffer, img
         </MainInfoContainer>
         <SubInfoContainer>
           <ClubContainer>
-            <Image></Image>
+            <Image img={img} />
             {clubName}
           </ClubContainer>
           <DetailContainer>
@@ -198,15 +215,21 @@ const MercenaryArticleCard = ({ title, location, category, date, placeOffer, img
           </DetailContainer>
         </SubInfoContainer>
         <ContentContainer $expanded={expanded ? "true" : undefined}>
-            <PlaceOffer>
-              <Label>장소제공 여부</Label>
-              {placeOffer}
-            </PlaceOffer>
-            {content}
-          </ContentContainer>
-        <RequestButton $expanded={expanded ? "true" : undefined} $show={showRequestButton ? "true" : undefined}>
-          {requestButtonLabel}
-        </RequestButton>
+          <PlaceOffer>
+            <Label>장소제공 여부</Label>
+            {placeOffer}
+          </PlaceOffer>
+          {content}
+        </ContentContainer>
+        {canSendRequest && (
+          <RequestButton
+            $expanded={expanded ? "true" : undefined}
+            $show={showRequestButton ? "true" : undefined}
+            onClick={handleRequestButtonClick}
+            >
+            {requestButtonLabel}
+          </RequestButton>
+        )}
       </MainContainer>
       {showPersonContainer && 
         <BottomContainer $expanded={expanded ? "true" : undefined}>
@@ -219,6 +242,8 @@ const MercenaryArticleCard = ({ title, location, category, date, placeOffer, img
           ))}
         </BottomContainer>
       }
+
+      {showMercenarySendSuccessModal && <MercenarySendSuccessModal onClose={handleSendModalClose} />}
     </WrapperContainer>
     
   );

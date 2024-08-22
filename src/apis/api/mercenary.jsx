@@ -1,8 +1,8 @@
 import api from "../utils/api";
 
-// 매치 생성 API 호출 함수
-export const createMatch = (accessToken, matchData) => {
-  return api.post('/v1/api/matches', matchData, {
+// 용병 생성 API 호출 함수
+export const createMercenary = (accessToken, mercenaryData) => {
+  return api.post('/v1/api/mercenary', mercenaryData, {
     headers: {
       'Content-Type': 'application/json',
       access: `${accessToken}`,
@@ -12,14 +12,14 @@ export const createMatch = (accessToken, matchData) => {
     return response.data;
   })
   .catch((error) => {
-    console.error('매치 생성 API 호출 오류', error);
+    console.error('용병 생성 API 호출 오류', error);
     throw error;
   });
 };
 
-// 매치 게시글 조회 API 호출 함수
-export const getMatches = (accessToken) => {
-  return api.get('/v1/api/matches', {
+// 용병 게시글 조회 API 호출 함수
+export const getMercenaries = (accessToken) => {
+  return api.get('/v1/api/mercenary', {
     headers: {
       'Content-Type': 'application/json',
       access: `${accessToken}`,
@@ -29,20 +29,20 @@ export const getMatches = (accessToken) => {
     return response.data;
   })
   .catch((error) => {
-    console.error("매치 게시글 조회 API 호출 오류", error);
+    console.error("용병 게시글 조회 API 호출 오류", error);
     throw error;
   })
 }
 
-// 내 동아리에서 신청한 매치 목록 조회(전체) API 호출 함수
-export const getMatchRequests = (accessToken, clubId) => {
-  return api.get('/v1/api/match-requests', {
+// 개인이 신청한 용병 매치 목록 조회(전체) API 호출 함수
+export const getMercenaryRequests = (accessToken, clubMemberId) => {
+  return api.get('/v1/api/mercenary-requests', {
     headers: {
       'Content-Type': 'application/json',
       access: `${accessToken}`,
     },
     params: {
-      clubId: clubId,
+      clubMemberId: clubMemberId,
     }
   })
   .then((response) => {
@@ -54,9 +54,9 @@ export const getMatchRequests = (accessToken, clubId) => {
   })
 }
 
-// 내 동아리가 신청받은 매치 목록 조회(전체) API 호출 함수
-export const getMatchReceiveds = (accessToken, clubId) => {
-  return api.get('/v1/api/match-requests/received', {
+// 내 동아리가 신청받은 용병 매칭 요청 목록 조회(전체) API 호출 함수
+export const getMercenaryReceiveds = (accessToken, clubId) => {
+  return api.get('/v1/api/mercenary-requests/received', {
     headers: {
       'Content-Type': 'application/json',
       access: `${accessToken},`
@@ -69,7 +69,7 @@ export const getMatchReceiveds = (accessToken, clubId) => {
     return response.data;
   })
   .catch((error) => {
-    console.log("내 동아리가 신청받은 매치 목록 조회(전체) API 호출 오류", error);
-    
+    console.log("내 동아리가 신청받은 용병 목록 조회(전체) API 호출 오류", error);
+    throw error;
   })
 }

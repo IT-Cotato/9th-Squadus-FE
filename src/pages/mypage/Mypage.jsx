@@ -128,16 +128,19 @@ const MyPage = () => {
   const [showImageEdit, setShowImageEdit] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-
-  // TODO: 백에서 리턴하는 값 바꿔주면, 수정하기
   useEffect(() => {
     console.log("UserData:", userData);
-    if (userData?.university) {
-      setIsUniversityVerified(true);
-    } else {
+    if (userData.university === "uncertified") {
       setIsUniversityVerified(false);
+    } else {
+      setIsUniversityVerified(true);
     }
   }, [userData]);
+
+  // 프로필 이미지 결정 로직
+  const profileImage = userData.profileImage === "default profile img"
+    ? default_profile_image
+    : userData.profileImage;
 
   return (
     <>
@@ -150,7 +153,7 @@ const MyPage = () => {
         <ProfileSection>
           <ProfileImage
             style={{
-              backgroundImage: `url(${userData?.profileImage ? userData.profileImage : default_profile_image})`
+              backgroundImage: `url(${profileImage})`
             }}
           />
           <UserName>{userData ? userData.memberName : ''}</UserName>

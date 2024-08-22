@@ -11,31 +11,40 @@ const useAuthStore = create(
 
       clearTokens: () => {
         localStorage.removeItem("accessToken");
-        document.cookie = `refresh=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`; // 쿠키에서 리프레시토큰 제거
+        localStorage.removeItem("refreshToken");
+
         set({ userData: null });
       },
 
       reissueTokens: async () => {
         console.log("토큰 재발급 함수 실행");
 
-        // 쿠키에서 리프레시토큰 추출
-        const refreshToken = document.cookie.split('; ').find(row => row.startsWith('refresh=')).split('=')[1];
+        const refreshToken = localStorage.getItem("refreshToken");
         if (!refreshToken) return;
 
         await api.post('/reissue', null, {
-            withCredentials: true,
+            headers: {
+              refresh: `${refreshToken}`,
+              'Content-Type': 'application/json',
+            },
           })
           .then((response) => {
             console.log(response);
-            const newAccessToken = response.data.accessToken;
-            localStorage.setItem("accessToken", newAccessToken); // 새로 받은 액세스토큰을 로컬스토리지에 저장
+            const newAccessToken = response.headers['access'];
+            const newRefreshToken = response.headers['refresh'];
+
+            localStorage.setItem("accessToken", newAccessToken);
+            localStorage.setItem("refreshToken", newRefreshToken);
+            
             console.log('reissueTokens 성공', response.data);
           })
           .catch((error) => {
             console.error('reissueTokens 실패', error);
             set({ userData: null });
+
             localStorage.removeItem("accessToken"); // 실패 시 로컬스토리지에서 액세스토큰 제거
-            document.cookie = `refresh=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`; // 쿠키에서 리프레시토큰 제거
+            localStorage.removeItem("refreshToken");
+
           });
       },
 
