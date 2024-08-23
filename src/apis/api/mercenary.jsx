@@ -73,3 +73,23 @@ export const getMercenaryReceiveds = (accessToken, clubId) => {
     throw error;
   })
 }
+
+// 특정 용병 게시글에 용병 신청 API 호출 함수
+export const postMercenaryRequest = (accessToken, clubMemberId, mercenaryPostId) => {
+  return api.post('/v1/api/mercenary/request', {
+    clubMemberId: clubMemberId,
+    mercenaryPostId: mercenaryPostId
+  }, {
+    headers: {
+      'Content-Type': 'application/json',
+      access: `${accessToken},`
+    }
+  })
+  .then((response) => {
+    return response.data;
+  })
+  .catch((error) => {
+    console.log("특정 용병 게시글에 용병 신청 API 호출 오류", error);
+    throw error;
+  })
+}

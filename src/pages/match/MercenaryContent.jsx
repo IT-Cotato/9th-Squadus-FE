@@ -110,6 +110,7 @@ const MercenaryContent = ({ mercenaries }) => {
         {mercenaries.map(mercenaryArticle => (
           <MercenaryArticleCard 
             key={mercenaryArticle.mercenaryIdx}
+            mercenaryIdx={mercenaryArticle.mercenaryIdx}
             title={mercenaryArticle.title}
             content={mercenaryArticle.content}
             location={`${mercenaryArticle.matchPlace.city} ${mercenaryArticle.matchPlace.district}`}

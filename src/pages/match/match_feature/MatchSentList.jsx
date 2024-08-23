@@ -42,6 +42,19 @@ const MatchSentList = ({ selectedGroup }) => {
     fetchMatchRequests();
   }, [selectedGroup]);
 
+  const getStatusLabel = (status) => {
+    switch (status) {
+      case 'PENDING':
+        return '대기';
+      case 'ACCEPTED':
+        return '승낙';
+      case 'REJECTED':
+        return '거절';
+      default:
+        return '알 수 없음';
+    }
+  };
+
   // const MatchSentData = [
   //   { 
   //     id: "1", 
@@ -111,7 +124,7 @@ const MatchSentList = ({ selectedGroup }) => {
           tierNeed={matchSent.matchCreateResponse.tier}
           peopleCount={matchSent.matchCreateResponse.maxParticipants}
           content={matchSent.matchCreateResponse.content}
-          status={matchSent.status}
+          status={getStatusLabel(matchSent.status)}
         />
       ))}
     </Container>

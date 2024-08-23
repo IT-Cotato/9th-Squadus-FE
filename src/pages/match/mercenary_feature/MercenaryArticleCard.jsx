@@ -173,7 +173,7 @@ const RequestButton = styled.div`
   display: ${({ $expanded, $show }) => ($expanded && $show ? 'flex' : 'none')};
 `;
 
-const MercenaryArticleCard = ({ title, location, category, date, placeOffer, img, clubName, clubIdx, maxCount, currentCount, content, requestButtonLabel, userClubs, showRequestButton = true, showPersonContainer = false, personData }) => {
+const MercenaryArticleCard = ({ mercenaryIdx, title, location, category, date, placeOffer, img, clubName, clubIdx, maxCount, currentCount, content, requestButtonLabel, userClubs, showRequestButton = true, showPersonContainer = false, personData }) => {
   const [expanded, setExpanded] = useState(false);
   const [showMercenarySendSuccessModal, setShowMercenarySendSuccessModal] = useState(false);
 
@@ -188,6 +188,12 @@ const MercenaryArticleCard = ({ title, location, category, date, placeOffer, img
   const handleSendModalClose = () => {
     setShowMercenarySendSuccessModal(false);
   };
+
+  const mercenaryClubData = {
+    mercenaryIdx: mercenaryIdx,
+    matchClubName: clubName,
+    matchDate: date,
+};
 
   return (
     <WrapperContainer onClick={() => setExpanded(!expanded)}>
