@@ -1,20 +1,12 @@
 import PromotionItem from "./PromotionItem";
 import { BaseContainer } from "./Components_styled";
 import WriteButton from "./WriteButton";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PromotionWrite from "../PromotionWrite";
-const List = [
-  { id: 1 },
-  { id: 2 },
-  { id: 3 },
-  { id: 4 },
-  { id: 5 },
-  { id: 6 },
-  { id: 7 },
-  { id: 8 },
-];
+import { PromotionContext } from "../Promotion";
 
 const OnCampus = () => {
+  const data = useContext(PromotionContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const closeModal = () => {
     setIsModalOpen(false);
@@ -23,11 +15,23 @@ const OnCampus = () => {
     setIsModalOpen(true);
     console.log(isModalOpen);
   };
+  const filterData = data.filter((item) => item.clubCategory === "SCHOOL");
   return (
     <>
       <BaseContainer>
-        {List.map((item) => (
-          <PromotionItem key={item.id} />
+        {filterData.map((item) => (
+          <PromotionItem
+            key={item.recruitingPostId}
+            startDate={item.startDate}
+            endDate={item.endDate}
+            title={item.title}
+            region={item.region}
+            sportsCategory={item.sportsCategory}
+            clubTier={item.clubTier}
+            tags={item.tags}
+            clubId={item.clubId}
+            clubName={item.clubName}
+          />
         ))}
         <WriteButton onClick={openModal} />
       </BaseContainer>

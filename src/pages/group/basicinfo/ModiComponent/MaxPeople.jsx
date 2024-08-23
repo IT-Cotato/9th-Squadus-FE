@@ -3,15 +3,15 @@ import React from "react";
 import { Wrapper, WrapperTitle } from "./WrapperStyled";
 import { ReactComponent as UpIcon } from "../../../../assets/group/UpIcon.svg";
 import { ReactComponent as DownIcon } from "../../../../assets/group/DownIcon.svg";
-const MaxPeople = ({ count }) => {
+const MaxPeople = ({ maxPeople, handleIncrease, handleDecrease }) => {
   return (
     <Wrapper>
       <WrapperTitle>최대 인원 수</WrapperTitle>
       <MaxPeopleContent>
-        <Input type="number" value={count} />
+        <Input type="number" value={maxPeople} readOnly />
         <Regulate>
-          <UpIcon />
-          <DownIcon />
+          <UpIcon onClick={handleIncrease} />
+          <DownIcon onClick={handleDecrease} />
         </Regulate>
       </MaxPeopleContent>
     </Wrapper>

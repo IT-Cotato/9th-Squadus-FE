@@ -4,8 +4,8 @@ import { ReactComponent as PlusIcon } from "../../../../assets/icons/plus.svg";
 import { useState } from "react";
 import styled from "styled-components";
 
-const Character = () => {
-  const [characterTag, setCharacterTag] = useState(["즐거운", "뉴비 친화적"]);
+const Character = ({ tags, selectedTags, onClick }) => {
+  const [characterTag, setCharacterTag] = useState(selectedTags || []);
   const [inputList, setInputList] = useState([""]);
 
   const handlePlusClick = () => {
@@ -21,6 +21,7 @@ const Character = () => {
   const handleAddTag = (index) => {
     if (inputList[index].trim()) {
       setCharacterTag([...characterTag, inputList[index]]);
+      onClick(inputList[index]);
       setInputList(inputList.filter((_, i) => i !== index));
     }
   };
@@ -40,8 +41,16 @@ const Character = () => {
             />
           </div>
         ))}
+        {tags.map((item) => (
+          <Tag
+            key={item}
+            text={item}
+            isSelected={characterTag.includes(item)}
+            onClick={() => onClick(item)}
+          />
+        ))}
         {characterTag.map((item, index) => (
-          <Tag key={index} text={item} />
+          <Tag key={index} text={item} isSelected />
         ))}
       </WrapperContent>
     </Wrapper>
@@ -54,7 +63,7 @@ const PlusIconStyled = styled(PlusIcon)`
   flex-shrink: 0;
 `;
 const NewTag = styled.input`
-  width: 60px;
+  width: 120px;
   height: 38px;
   padding: 8px 16px;
   border-radius: 12px;
