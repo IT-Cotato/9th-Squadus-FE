@@ -69,16 +69,15 @@ const Home = () => {
   useEffect(() => {
     fetchGroup();
   }, []);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   useEffect(() => {
     if (groupData.length > 0) {
       groupData.forEach((clubId) => {
         getClubSchedule(clubId);
       });
     }
-  }, [groupData]);
+  }, [groupData, isModalOpen]);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -95,15 +94,16 @@ const Home = () => {
       <ContentContainer>
         <MainBanner></MainBanner>
         <Container>
-          <scheduleContext.Provider value={clubSchedule}>
-            <MainCalendar onClick={openModal}></MainCalendar>
-            <MainSchedule onClick={openModal}></MainSchedule>
-            <CalendarModal
-              isOpen={isModalOpen}
-              closeModal={closeModal}
-            ></CalendarModal>
-          </scheduleContext.Provider>
           <groupDataContext.Provider value={groupData}>
+            <scheduleContext.Provider value={clubSchedule}>
+              <MainCalendar onClick={openModal}></MainCalendar>
+              <MainSchedule onClick={openModal}></MainSchedule>
+              <CalendarModal
+                isOpen={isModalOpen}
+                closeModal={closeModal}
+              ></CalendarModal>
+            </scheduleContext.Provider>
+
             <MainNotice></MainNotice>
             <MainArticle></MainArticle>
           </groupDataContext.Provider>

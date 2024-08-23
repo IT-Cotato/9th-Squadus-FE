@@ -120,33 +120,75 @@ const TiTleText = styled.input`
   border: 0px;
 `;
 
-const ScheduleAdd = ({ isOpen, onClose }) => {
+const ScheduleAdd = ({ isOpen, onClose, isAccessHome }) => {
   const [isAllday, setIsAllday] = useState(false);
   const [data, setData] = useState({
     title: "",
-    scheduleCategory: "string",
-    content: "string",
+    scheduleCategory: "MEETING",
+    content: "",
     authorId: 0,
     location: "",
-    equipment: "string",
+    equipment: "",
     date: "2024-08-22",
     startTime: "10:00",
     endTime: "10:00",
   });
 
-  // const { selectedClubId } = useContext(GroupContext);
-  // const postScheduleAdd = async () => {
-  //   console.log(data);
-  //   try {
-  //     const response = await axios.post(
-  //       `${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/${clubid}/schedules`,
-  //       data
-  //     );
-  //     console.log("일정 추가 완료", response.data);
-  //   } catch (err) {
-  //     console.error("에러 발생:", err);
-  //   }
-  // };
+  // 기본값을 포함하여 context 사용
+  const context = useContext(GroupContext) || {
+    groupData: [{ clubId: null }],
+    chooseClubId: 0,
+  };
+
+  // 안전한 접근을 위해 기본값 설정
+  let selectedClubId = context.groupData[context.chooseClubId]?.clubId || null;
+  const checkClubId = () => {
+    // console.log("뭐뭐들었지?", isAccessHome);
+    if (isAccessHome) {
+      setData((prevData) => ({
+        ...prevData,
+        authorId: isAccessHome.clubMemberIdx,
+      }));
+      selectedClubId = isAccessHome.clubId;
+      console.log("Home에서 접근");
+      console.log("url(clubId)는?", selectedClubId);
+      console.log("meclubId(authId))는?", data.authorId);
+    } else {
+      setData((prevData) => ({
+        ...prevData,
+        authorId: context.groupData[context.chooseClubId].clubMemberIdx,
+      }));
+      console.log("group에서 접근");
+      console.log("url(clubId)는?", selectedClubId);
+      console.log("meclubId(authId))는?", data.authorId);
+    }
+    // console.log("뭐뭐들었지2?", selectedClubId);
+    // console.log(
+    //   "selectedClubIdselectedClubIdselectedClubId",
+    //   selectedClubId,
+    //   context
+    // );
+  };
+  useEffect(() => {
+    checkClubId();
+  }, [isAccessHome, selectedClubId]);
+
+  const postScheduleAdd = async () => {
+    console.log("일정 등록 데이터:", data);
+    console.log("일정 등록 요청 주소:", selectedClubId);
+    checkClubId();
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/${selectedClubId}/schedules`,
+        data
+      );
+      console.log("일정 추가 완료", response.data);
+      alert("일정 등록을 완료하였습니다!");
+      onClose();
+    } catch (err) {
+      console.error("에러 발생:", err);
+    }
+  };
   const onChangeInput = (e) => {
     let name = e.target.name;
     let value = e.target.value;
@@ -191,7 +233,7 @@ const ScheduleAdd = ({ isOpen, onClose }) => {
         <BaseContainer>
           <ModalNavi>
             <CloseButton onClick={onClose}>취소</CloseButton>
-            <AddButton>추가</AddButton>
+            <AddButton onClick={postScheduleAdd}>추가</AddButton>
           </ModalNavi>
           <AddContainer>
             <AddTitle>

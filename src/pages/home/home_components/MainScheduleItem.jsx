@@ -3,11 +3,12 @@ import ScheduleItem, {
   AddSchedule,
 } from "../../group/schedule/schedule_components/ScheduleItem";
 
-import { scheduleContext } from "../Home";
+import { groupDataContext, scheduleContext } from "../Home";
 import styled from "styled-components";
 import ScheduleAdd from "../../group/schedule/ScheduleAdd";
 const MainScheduleItem = ({ onClick }) => {
   const today = new Date();
+  const groupData = useContext(groupDataContext);
 
   const clubSchedule = useContext(scheduleContext);
   const todaySchedule = clubSchedule.filter(
@@ -47,7 +48,11 @@ const MainScheduleItem = ({ onClick }) => {
           <AddSchedule onClick={toggleModal}></AddSchedule>
         </>
       )}
-      <ScheduleAdd isOpen={isModalOpen} onClose={closeModal} />
+      <ScheduleAdd
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        isAccessHome={groupData[0]}
+      />
     </>
   );
 };

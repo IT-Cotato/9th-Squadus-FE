@@ -1,88 +1,90 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   MainArticleItem,
   MainArticleItemMinimal,
 } from "./home_components/MainArticleItem";
 import styled from "styled-components";
 import ArticleEachModal from "./ArticleEachModal";
+import axios from "axios";
 
 const ArticleDetailList = () => {
-  const articleData = [
-    {
-      id: "1",
-      group: "분류 1",
-      articleList: [
-        { img: "", id: "1", title: "아티클 제목", subTitle: "아티클 소제목" },
-        { img: "", id: "2", title: "아티클 제목", subTitle: "아티클 소제목" },
-        { img: "", id: "3", title: "아티클 제목", subTitle: "아티클 소제목" },
-        { img: "", id: "4", title: "아티클 제목", subTitle: "아티클 소제목" },
-      ],
-    },
-    {
-      id: "2",
-      group: "분류 2",
-      articleList: [
-        { img: "", id: "5", title: "아티클 제목", subTitle: "아티클 소제목" },
-        { img: "", id: "6", title: "아티클 제목", subTitle: "아티클 소제목" },
-      ],
-    },
-    {
-      id: "3",
-      group: "분류 3",
-      articleList: [
-        { img: "", id: "8", title: "아티클 제목", subTitle: "아티클 소제목" },
-        { img: "", id: "9", title: "아티클 제목", subTitle: "아티클 소제목" },
-        { img: "", id: "10", title: "아티클 제목", subTitle: "아티클 소제목" },
-      ],
-    },
-  ];
+  const [articleList, setArticleList] = useState([]);
+
+  const getAllArticle = async () => {
+    axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/v1/api/articles/allData`)
+      .then((res) => {
+        console.log("아티클 요청 결과 DetailList", res.data.articles);
+        setArticleList(res.data.articles);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    getAllArticle();
+  }, []);
   const [isEachModalOpen, setIsEachModalOpen] = useState(false);
-  const openEachModal = () => {
+  const [selectedArticleId, setSelectedArticleId] = useState(null);
+
+  const openEachModal = (articleId) => {
+    setSelectedArticleId(articleId);
     setIsEachModalOpen(true);
   };
 
   const closeEachModal = () => {
     setIsEachModalOpen(false);
+    setSelectedArticleId(null);
   };
+  const FirstList = articleList.filter((item) => item.type === "운동 가이드");
+  const SecondList = articleList.filter((item) => item.type === "동아리 소개");
+  const ThirdList = articleList.filter((item) => item.type === "운동 팁");
   return (
     <Container>
-      <ArticleCategoryTitle>{articleData[0].group}</ArticleCategoryTitle>
+      <ArticleCategoryTitle>운동 가이드</ArticleCategoryTitle>
       <ArticleContainerRow>
-        {articleData[0].articleList.map((article) => (
+        {FirstList.map((item) => (
           <MainArticleItem
-            key={article.id}
-            img={article.img}
-            title={article.title}
-            subtitle={article.subTitle}
+            key={item.articleId}
+            articleId={item.articleId}
+            title={item.title}
+            subtitle={item.subtitle}
+            img={item.imageUrl}
             onClick={openEachModal}
           ></MainArticleItem>
         ))}
       </ArticleContainerRow>
-      <ArticleCategoryTitle>{articleData[1].group}</ArticleCategoryTitle>
+      <ArticleCategoryTitle>동아리 소개</ArticleCategoryTitle>
       <ArticleContainerCol>
-        {articleData[1].articleList.map((article) => (
+        {SecondList.map((item) => (
           <MainArticleItemMinimal
-            key={article.id}
-            img={article.img}
-            title={article.title}
-            subtitle={article.subTitle}
+            key={item.articleId}
+            articleId={item.articleId}
+            title={item.title}
+            subtitle={item.subtitle}
+            img={item.imageUrl}
             onClick={openEachModal}
           ></MainArticleItemMinimal>
         ))}
       </ArticleContainerCol>
-      <ArticleCategoryTitle>{articleData[2].group}</ArticleCategoryTitle>
+      <ArticleCategoryTitle>운동 팁</ArticleCategoryTitle>
       <ArticleContainerRow>
-        {articleData[2].articleList.map((article) => (
+        {ThirdList.map((item) => (
           <MainArticleItem
-            key={article.id}
-            img={article.img}
-            title={article.title}
-            subtitle={article.subTitle}
+            key={item.articleId}
+            articleId={item.articleId}
+            title={item.title}
+            subtitle={item.subtitle}
+            img={item.imageUrl}
             onClick={openEachModal}
           ></MainArticleItem>
         ))}
       </ArticleContainerRow>
-      <ArticleEachModal isOpen={isEachModalOpen} closeModal={closeEachModal} />
+      <ArticleEachModal
+        isOpen={isEachModalOpen}
+        closeModal={closeEachModal}
+        articleId={selectedArticleId}
+      />
     </Container>
   );
 };

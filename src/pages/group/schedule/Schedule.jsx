@@ -37,7 +37,7 @@ const ScheduleTitle = styled.div`
   color: #344054;
 `;
 
-const Schedule = ({ personalSchedule }) => {
+const Schedule = ({ personalSchedule, isAccessHome }) => {
   //접근 방식에따른 스케쥴 일정 데이터 관련 코드
   const [clubSchedule, setClubSchedule] = useState([]);
   const context = useContext(GroupContext);
@@ -98,7 +98,7 @@ const Schedule = ({ personalSchedule }) => {
   useEffect(() => {
     const filteredSchedule = filterSchedule(date);
     setSelectedSchedule(filteredSchedule);
-  }, [date, filterSchedule]);
+  }, [date, filterSchedule, isModalOpen]);
 
   const formatShortWeekday = (locale, date) => {
     const weekdays = ["S", "M", "T", "W", "T", "F", "S"];
@@ -158,7 +158,11 @@ const Schedule = ({ personalSchedule }) => {
         ))}
         <AddSchedule onClick={toggleModal}></AddSchedule>
       </ScheduleList>
-      <ScheduleAdd isOpen={isModalOpen} onClose={closeModal} />
+      <ScheduleAdd
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        isAccessHome={isAccessHome}
+      />
     </BaseContainer>
   );
 };

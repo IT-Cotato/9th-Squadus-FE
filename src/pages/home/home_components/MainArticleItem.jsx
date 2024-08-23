@@ -1,23 +1,39 @@
 import styled from "styled-components";
 
-export const MainArticleItem = ({ img, title, subtitle, onClick }) => (
-  <Container onClick={onClick}>
-    <Image src={img} alt={img}></Image>
-    <Wrapper>
-      <Title>{title}</Title>
-      <Subtitle>{subtitle}</Subtitle>
-    </Wrapper>
-  </Container>
-);
-export const MainArticleItemMinimal = ({ img, title, subtitle, onClick }) => (
-  <ContainerMinimal onClick={onClick}>
-    <Image src={img} alt={img}></Image>
-    <Wrapper>
-      <Title>{title}</Title>
-      <Subtitle>{subtitle}</Subtitle>
-    </Wrapper>
-  </ContainerMinimal>
-);
+export const MainArticleItem = ({
+  articleId,
+  title,
+  subtitle,
+  img,
+  onClick,
+}) => {
+  return (
+    <Container onClick={() => onClick(articleId)}>
+      <Image src={img} alt={img}></Image>
+      <Wrapper>
+        <Title>{title}</Title>
+        <Subtitle>{subtitle}</Subtitle>
+      </Wrapper>
+    </Container>
+  );
+};
+export const MainArticleItemMinimal = ({
+  articleId,
+  title,
+  subtitle,
+  img,
+  onClick,
+}) => {
+  return (
+    <ContainerMinimal onClick={() => onClick(articleId)}>
+      <Image src={img} alt={img}></Image>
+      <Wrapper>
+        <Title>{title}</Title>
+        <Subtitle>{subtitle}</Subtitle>
+      </Wrapper>
+    </ContainerMinimal>
+  );
+};
 
 const Container = styled.div`
   display: flex;
@@ -38,7 +54,7 @@ const ContainerMinimal = styled.div`
   box-shadow: 0px 0px 7px gray;
   position: relative;
 `;
-const Image = styled.image`
+const Image = styled.img`
   min-height: 70%;
   height: 100%;
   border-radius: 20px 20px 0 0;

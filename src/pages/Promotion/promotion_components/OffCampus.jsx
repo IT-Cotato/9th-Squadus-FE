@@ -15,11 +15,12 @@ const OffCampus = () => {
     setIsModalOpen(true);
     console.log(isModalOpen);
   };
-
+  const filterData = data.filter((item) => item.clubCategory !== "SCHOOL");
+  console.log("filterDatafilterDatafilterData", data);
   return (
     <>
       <BaseContainer>
-        {data.map((item) => (
+        {filterData.map((item) => (
           <PromotionItem
             key={item.recruitingPostId}
             startDate={item.startDate}

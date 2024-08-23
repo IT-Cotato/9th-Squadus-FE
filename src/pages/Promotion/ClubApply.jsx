@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import {
   WrapperContainer,
@@ -9,7 +9,47 @@ import {
   HeaderTitle,
   SubmitButton,
 } from "./promotion_components/ModalStyled";
-const ClubApply = ({ isOpen, closeModal }) => {
+import axios from "axios";
+const ClubApply = ({
+  isOpen,
+  closeModal,
+  clubId,
+  clubName,
+  sportsCategory,
+}) => {
+  const accessToken = localStorage.getItem("accessToken");
+  const [input, setInput] = useState({
+    1: "",
+    2: "",
+    3: "",
+  });
+  const postClubApply = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/${clubId}`,
+        { answers: input },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            access: `${accessToken}`,
+          },
+        }
+      );
+      console.log("동아리 가입신청 완료", response.data);
+      alert("동아리 가입신청이 완료되었습니다!");
+      closeModal();
+    } catch (err) {
+      console.error("에러 발생:", err);
+    }
+  };
+  const onChangeInput = (e) => {
+    const { name, value } = e.target;
+    setInput((prevInput) => ({
+      ...prevInput,
+      [name]: value,
+    }));
+    console.log("변경사항", input);
+  };
   return (
     <>
       {isOpen && (
@@ -19,25 +59,37 @@ const ClubApply = ({ isOpen, closeModal }) => {
               <HeaderContainer>
                 <CloseButton onClick={closeModal} />
                 <HeaderTitle>동아리 지원</HeaderTitle>
-                <SubmitButton>지원</SubmitButton>
+                <SubmitButton onClick={postClubApply}>지원</SubmitButton>
               </HeaderContainer>
             </HeaderWrapperContainer>
             <TitleWrapper>
-              <TitleText>그린비</TitleText>
-              <TitleEvent>테니스</TitleEvent>
+              <TitleText>{clubName}</TitleText>
+              <TitleEvent>{sportsCategory}</TitleEvent>
             </TitleWrapper>
             <EntireContainer>
               <Wrapper>
                 <Question>1. 자신을 소개해주세요.</Question>
-                <Answer placeholder="답변을 입력하세요"></Answer>
+                <Answer
+                  placeholder="답변을 입력하세요"
+                  name="1"
+                  onChange={onChangeInput}
+                ></Answer>
               </Wrapper>
               <Wrapper>
                 <Question>2. 지원 동기가 무엇인가요?</Question>
-                <Answer placeholder="답변을 입력하세요"></Answer>
+                <Answer
+                  placeholder="답변을 입력하세요"
+                  name="2"
+                  onChange={onChangeInput}
+                ></Answer>
               </Wrapper>
               <Wrapper>
                 <Question>3. 동아리를 통해 이루고싶은 목표가 있나요?</Question>
-                <Answer placeholder="답변을 입력하세요"></Answer>
+                <Answer
+                  placeholder="답변을 입력하세요"
+                  name="3"
+                  onChange={onChangeInput}
+                ></Answer>
               </Wrapper>
             </EntireContainer>
           </Container>
@@ -97,6 +149,7 @@ const Question = styled.div`
   color: #1d2939;
 `;
 const Answer = styled.textarea`
+  font-family: Pretendard;
   width: 100%;
   height: 80px;
   padding: 12px;

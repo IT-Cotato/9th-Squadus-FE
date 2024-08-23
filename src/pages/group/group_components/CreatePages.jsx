@@ -3,8 +3,15 @@ import { ChooseRegion } from "../../../components/FilterBar";
 import Character from "../basicinfo/ModiComponent/CharacterWrapper";
 import MaxPeople from "../basicinfo/ModiComponent/MaxPeople";
 import ImgWrapper from "../basicinfo/ModiComponent/ImgWrapper";
+import { ReactComponent as ComplteIcon } from "../../../assets/icons/complete-icon.svg";
 import { useState } from "react";
-export const CreatePage1 = () => {
+export const CreatePage1 = ({ input, setInput }) => {
+  const onChange = (e) => {
+    setInput((prev) => ({
+      ...prev,
+      clubName: e.target.value,
+    }));
+  };
   return (
     <>
       <HeaderContainer>
@@ -13,13 +20,32 @@ export const CreatePage1 = () => {
       </HeaderContainer>
       <ContentContainer>
         <ContentTitle>동아리 이름</ContentTitle>
-        <InputStyled placeholder="동아리명을 입력하세요" />
+        <InputStyled onChange={onChange} placeholder="동아리명을 입력하세요" />
       </ContentContainer>
     </>
   );
 };
+export const CreatePage2 = ({ input, setInput }) => {
+  const [selectedClubType, setSelectedClubType] = useState(
+    input.clubCategory || ""
+  );
 
-export const CreatePage2 = () => {
+  const handleCheck = (clubType) => {
+    setSelectedClubType(clubType);
+    setInput((prev) => ({
+      ...prev,
+      clubCategory: clubType,
+    }));
+  };
+
+  const handleRegionChange = (e) => {
+    const { name, value } = e.target;
+    setInput((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   return (
     <>
       <HeaderContainer>
@@ -32,33 +58,64 @@ export const CreatePage2 = () => {
 
         <CheckedWrapper>
           <CheckedContainer>
-            <CheckBoxStyled type="checkbox" />
+            <CheckBoxStyled
+              type="checkbox"
+              checked={selectedClubType === "SCHOOL"}
+              onChange={() => handleCheck("SCHOOL")}
+            />
             <CheckedTitle>교내</CheckedTitle>
           </CheckedContainer>
 
           <CheckedContainer>
-            <CheckBoxStyled type="checkbox" />
+            <CheckBoxStyled
+              type="checkbox"
+              checked={selectedClubType === "UNION"}
+              onChange={() => handleCheck("UNION")}
+            />
             <CheckedTitle>연합</CheckedTitle>
           </CheckedContainer>
         </CheckedWrapper>
       </ContentContainer>
       <ContentContainer>
         <InputTitle>소속대학</InputTitle>
-        <InputStyled />
+        <InputStyled
+          value={input.university || ""}
+          onChange={(e) =>
+            setInput((prev) => ({ ...prev, university: e.target.value }))
+          }
+        />
       </ContentContainer>
       <ContentContainer>
         <ContentTitle>활동 지역</ContentTitle>
-        <ChooseRegion />
+        <ChooseRegion
+          value={{ city: input.city, district: input.district }}
+          onChange={handleRegionChange}
+        />
       </ContentContainer>
     </>
   );
 };
 
-export const CreatePage3 = () => {
-  const [selectedTag, setSelectedTag] = useState(null); // 선택된 태그를 관리하는 상태
+export const CreatePage3 = ({ input, setInput }) => {
+  const [selectedTag, setSelectedTag] = useState(input.sportsCategory || ""); // 초기값 설정
+  const [customTag, setCustomTag] = useState("");
 
   const handleTagClick = (tag) => {
-    setSelectedTag(tag); // 태그 클릭 시 선택된 태그 상태 업데이트
+    setSelectedTag(tag);
+    setCustomTag(""); // 태그 클릭 시 직접 입력 필드 비움
+    setInput((prev) => ({
+      ...prev,
+      sportsCategory: tag,
+    }));
+  };
+
+  const handleCustomTagChange = (e) => {
+    setCustomTag(e.target.value);
+    setSelectedTag(""); // 직접 입력 클릭 시 선택된 태그 해제
+    setInput((prev) => ({
+      ...prev,
+      sportsCategory: e.target.value,
+    }));
   };
 
   const tags = {
@@ -95,13 +152,56 @@ export const CreatePage3 = () => {
       </ContentContainer>
       <ContentContainer>
         <InputTitle>직접 입력하기</InputTitle>
-        <InputStyled />
+        <InputStyled
+          value={customTag}
+          onChange={handleCustomTagChange}
+          placeholder="직접 입력하세요"
+        />
       </ContentContainer>
     </MainContainer>
   );
 };
 
-export const CreatePage4 = () => {
+export const CreatePage4 = ({ input, setInput }) => {
+  const [maxPeople, setMaxPeople] = useState(input.maxMembers || 0);
+  const [selectedTags, setSelectedTags] = useState(input.tags || []);
+
+  const handleIncrease = () => {
+    setMaxPeople((prevCount) => {
+      const newCount = prevCount + 1;
+      setInput((prev) => ({
+        ...prev,
+        maxMembers: newCount,
+      }));
+      return newCount;
+    });
+  };
+
+  const handleDecrease = () => {
+    setMaxPeople((prevCount) => {
+      const newCount = Math.max(prevCount - 1, 0);
+      setInput((prev) => ({
+        ...prev,
+        maxMembers: newCount,
+      }));
+      return newCount;
+    });
+  };
+
+  const handleTagClick = (tag) => {
+    const newTags = selectedTags.includes(tag)
+      ? selectedTags.filter((t) => t !== tag)
+      : [...selectedTags, tag];
+
+    setSelectedTags(newTags);
+    setInput((prev) => ({
+      ...prev,
+      tags: newTags,
+    }));
+  };
+
+  const tags = [];
+
   return (
     <>
       <HeaderContainer>
@@ -111,15 +211,31 @@ export const CreatePage4 = () => {
         <HeaderText>최대 인원수를 선택해주세요.</HeaderText>
       </HeaderContainer>
       <ContentContainer>
-        <Character />
+        <Character
+          tags={tags}
+          selectedTags={selectedTags}
+          onClick={handleTagClick}
+        />
       </ContentContainer>
       <ContentContainer>
-        <MaxPeople count={0} />
+        <MaxPeople
+          maxPeople={maxPeople}
+          handleIncrease={handleIncrease}
+          handleDecrease={handleDecrease}
+        />
       </ContentContainer>
     </>
   );
 };
-export const CreatePage5 = () => {
+
+export const CreatePage5 = ({ input, setInput, handleImageUpload }) => {
+  const handleClubMessageChange = (e) => {
+    setInput((prev) => ({
+      ...prev,
+      clubMessage: e.target.value,
+    }));
+  };
+
   return (
     <>
       <HeaderContainer>
@@ -130,35 +246,68 @@ export const CreatePage5 = () => {
       </HeaderContainer>
       <ContentContainer>
         <ContentTitle>동아리 한마디</ContentTitle>
-        <InputStyled />
+        <InputStyled
+          value={input.clubMessage || ""}
+          onChange={handleClubMessageChange}
+          placeholder="동아리 한마디를 입력하세요"
+        />
       </ContentContainer>
       <ContentContainer>
         <ContentTitle>대표 이미지 설정</ContentTitle>
-        <ImgWrapper />
+        <ImgWrapper setInput={setInput} handleImageUpload={handleImageUpload} />
       </ContentContainer>
     </>
   );
 };
-export const CreatePage6 = () => {
+export const CreatePage6 = (closeGroupCreate) => {
   return (
     <>
-      <HeaderContainer>
-        <HeaderStep>STEP 5</HeaderStep>
-        <HeaderText>마지막이에요!</HeaderText>
-        <HeaderText>동아리 한마디와 </HeaderText>
-        <HeaderText>대표이미지를 설정해주세요.</HeaderText>
-      </HeaderContainer>
-      <ContentContainer>
-        <ContentTitle>동아리 한마디</ContentTitle>
-        <InputStyled />
-      </ContentContainer>
-      <ContentContainer>
-        <ContentTitle>대표 이미지 설정</ContentTitle>
-        <ImgWrapper />
-      </ContentContainer>
+      <CompleteContainer>
+        <CompleteIconWrapper>
+          <ComplteIcon></ComplteIcon>
+        </CompleteIconWrapper>
+        <CompleteTextBold onClick={closeGroupCreate}>
+          동아리 등록이 완료되었어요
+        </CompleteTextBold>
+        <CompleteTextSmall> 동아리 정보 확인하러가기</CompleteTextSmall>
+      </CompleteContainer>
     </>
   );
 };
+
+const CompleteContainer = styled.div`
+  width: 100%;
+  height: 90%;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+`;
+const CompleteIconWrapper = styled.div`
+  width: 100%;
+  height: 85px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const CompleteTextBold = styled.div`
+  width: 100%;
+  height: 22px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 22px;
+  text-align: center;
+  color: #1d2939;
+`;
+const CompleteTextSmall = styled.div`
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: center;
+  color: #ff6330;
+`;
+
 const MainContainer = styled.div`
   height: 75vh;
   overflow-y: auto;
@@ -310,5 +459,3 @@ const EventTag = styled.div`
     background-color: #d3d3d3;
   }
 `;
-
-const CompleteContainer = styled.div``;

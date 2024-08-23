@@ -15,11 +15,11 @@ const OnCampus = () => {
     setIsModalOpen(true);
     console.log(isModalOpen);
   };
-
+  const filterData = data.filter((item) => item.clubCategory === "SCHOOL");
   return (
     <>
       <BaseContainer>
-        {data.map((item) => (
+        {filterData.map((item) => (
           <PromotionItem
             key={item.recruitingPostId}
             startDate={item.startDate}
@@ -30,6 +30,7 @@ const OnCampus = () => {
             clubTier={item.clubTier}
             tags={item.tags}
             clubId={item.clubId}
+            clubName={item.clubName}
           />
         ))}
         <WriteButton onClick={openModal} />

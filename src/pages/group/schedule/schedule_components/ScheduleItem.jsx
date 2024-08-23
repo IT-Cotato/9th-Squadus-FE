@@ -13,9 +13,10 @@ const ScheduleContainer = styled.div`
       case 2:
         return "linear-gradient(90deg, #FF760A 0%, #FF6B00 100%)";
       default:
-        return "linear-gradient(90deg, #FF6330 0%, #FF3F00 100%)";
+        return "linear-gradient(90deg, #FF9532 0%, #FF7B00 100%)";
     }
   }};
+
   box-sizing: border-box;
 `;
 

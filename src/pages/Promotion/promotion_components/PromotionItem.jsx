@@ -4,6 +4,7 @@ import ClubApply from "../ClubApply";
 import { ReactComponent as BronzeIcon } from "../../../assets/icons/group/bronze.svg";
 import { ReactComponent as SilverIcon } from "../../../assets/icons/group/silver.svg";
 import { ReactComponent as GoldIcon } from "../../../assets/icons/group/gold.svg";
+import { ReactComponent as BackGroundIcon } from "../../../assets/icons/promotion-bg-image.svg";
 
 const PromotionItem = ({
   startDate,
@@ -13,6 +14,8 @@ const PromotionItem = ({
   sportsCategory,
   clubTier,
   tags,
+  clubId,
+  clubName,
 }) => {
   const [expanded, setExpanded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,6 +35,7 @@ const PromotionItem = ({
   return (
     <>
       <Container>
+        <BackGroundIconStyled />
         <ContentWrapper onClick={() => setExpanded(!expanded)}>
           <RecruitmentWrapper>
             <RecruitmentTag>모집중</RecruitmentTag>
@@ -65,7 +69,13 @@ const PromotionItem = ({
           <Button onClick={openModal}>지원하기</Button>
         </ButtonWrapper>
       </Container>
-      <ClubApply isOpen={isModalOpen} closeModal={closeModal} />
+      <ClubApply
+        isOpen={isModalOpen}
+        closeModal={closeModal}
+        clubId={clubId}
+        clubName={clubName}
+        sportsCategory={sportsCategory}
+      />
     </>
   );
 };
@@ -80,6 +90,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   box-shadow: 0px 2px 8px 0px #555ba03b;
+  position: relative;
+`;
+const BackGroundIconStyled = styled(BackGroundIcon)`
+  position: absolute;
+  right: 0;
+  top: 0;
 `;
 const ContentWrapper = styled.div`
   width: 329px;
@@ -134,6 +150,7 @@ const RecruitmentTag = styled.div`
   line-height: 21px;
   text-align: left;
   color: #ff6330;
+  background: #fff3ec;
 `;
 
 const NoticeTitleWrapper = styled.div`
@@ -175,10 +192,10 @@ const CommentTag = styled.div`
   padding: 2px 6px;
   display: flex;
   border-radius: 5px;
-
   font-size: 14px;
   font-weight: 500;
-  line-height: 21px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
   text-align: left;
   color: #667085;
   background: #f9fafb;

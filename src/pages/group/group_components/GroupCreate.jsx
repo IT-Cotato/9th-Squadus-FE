@@ -8,78 +8,112 @@ import {
   CreatePage3,
   CreatePage4,
   CreatePage5,
+  CreatePage6,
 } from "./CreatePages";
+import axios from "axios";
 
 const GroupCreate = ({ closeGroupCreate }) => {
   const [step, setStep] = useState(1);
+  const [input, setInput] = useState({
+    clubName: "",
+    clubCategory: "",
+    sportsCategory: "",
+    maxMembers: 0,
+    clubMessage: "",
+    tags: [],
+    city: "",
+    district: "",
+  });
 
-  const NextStep = () => {
-    setStep((prevStep) => prevStep + 1); // 다음 단계로 전환
+  // 이미지 파일 저장
+  const handleImageUpload = (file) => {
+    setInput((prev) => ({
+      ...prev,
+      imageFile: file, // 파일 자체를 저장
+    }));
   };
-  const BeforeStep = () => {
-    setStep((prevStep) => prevStep - 1); // 다음 단계로 전환
+
+  const handleSubmit = async () => {
+    const formData = new FormData();
+
+    // JSON 데이터를 FormData에 추가
+    const jsonPayload = JSON.stringify({
+      clubName: input.clubName,
+      clubCategory: input.clubCategory,
+      sportsCategory: input.sportsCategory,
+      maxMembers: input.maxMembers,
+      clubMessage: input.clubMessage,
+      tags: input.tags,
+      city: input.city,
+      district: input.district,
+    });
+
+    formData.append("clubCreateRequest", jsonPayload);
+
+    // 이미지 파일을 FormData에 추가
+    if (input.imageFile) {
+      formData.append("logoImage", input.imageFile);
+    }
+    const accessToken = localStorage.getItem("accessToken");
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/v1/api/clubs`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            // access: `${accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log("Response:", response.data);
+      setStep(6);
+    } catch (error) {
+      console.error("Error uploading the form data", error);
+      setStep(6);
+    }
   };
-
-  // const accessToken = useAuthStore((state) => state.accessToken);
-
-  // const handleSubmit = async () => {
-  //   await api
-  //     .post(
-  //       "/v1/api/clubs",
-  //       {
-  //         clubName: clubName,
-  //         university: university,
-  //         sportsCategory: sportsCategory,
-  //         logo: logo,
-  //       },
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           access: `${accessToken}`,
-  //         },
-  //       }
-  //     )
-  //     .then((response) => {
-  //       console.log(response);
-  //       console.log("Response:", response.data);
-  //       alert("동아리가 성공적으로 생성되었습니다.");
-  //       closeGroupCreate();
-  //     })
-  //     .catch((error) => {
-  //       console.error("동아리 생성 요청 실패:", error);
-  //       alert("동아리 생성 요청 실패");
-  //     });
-  // };
 
   const pages = {
-    1: <CreatePage1 />,
-    2: <CreatePage2 />,
-    3: <CreatePage3 />,
-    4: <CreatePage4 />,
-    5: <CreatePage5 />,
+    1: <CreatePage1 input={input} setInput={setInput} />,
+    2: <CreatePage2 input={input} setInput={setInput} />,
+    3: <CreatePage3 input={input} setInput={setInput} />,
+    4: <CreatePage4 input={input} setInput={setInput} />,
+    5: (
+      <CreatePage5
+        input={input}
+        setInput={setInput}
+        handleImageUpload={handleImageUpload}
+      />
+    ), // handleImageUpload 전달
+    6: <CreatePage6 closeGroupCreate={closeGroupCreate} />,
   };
+
   return (
     <WrapperContainer>
       <Container>
         <HeaderContainer>
-          {step === 1 ? (
+          {step === 1 || step === 6 ? (
             <CloseButton onClick={closeGroupCreate} />
           ) : (
-            <BackStepButton onClick={BeforeStep} />
+            <BackStepButton onClick={() => setStep(step - 1)} />
           )}
           <HeaderTitle>동아리 생성</HeaderTitle>
         </HeaderContainer>
 
-        <Progress step={step} />
+        {step !== 6 && <Progress step={step} />}
         {pages[step]}
 
-        {step === 5 ? (
+        {step === 6 ? null : step === 5 ? (
           <BottomContainer>
-            <NextStepButton>완료</NextStepButton>
+            <NextStepButton onClick={handleSubmit}>완료</NextStepButton>
           </BottomContainer>
         ) : (
           <BottomContainer>
-            <NextStepButton onClick={NextStep}>다음</NextStepButton>
+            <NextStepButton onClick={() => setStep(step + 1)}>
+              다음
+            </NextStepButton>
           </BottomContainer>
         )}
       </Container>
