@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import arrow_right_icon from '../../../assets/icons/arrow-right-grey.svg';
+import { postMatchDecision } from '../../../apis/api/match';
 
 const Container = styled.div`
   width: 100%;
@@ -71,7 +72,21 @@ const ApproveButton = styled(Button)`
   color: ${({ theme }) => theme.colors.main[600]};
 `;
 
-const MatchClubItem = ({ clubName, university, tier}) => {
+const MatchClubItem = ({ clubName, university, tier, requestId, onDecision, clubMemberId}) => {
+
+  const handleDecision = async (decision) => {
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      await postMatchDecision(accessToken, requestId, decision, clubMemberId);
+      alert(`매칭 요청이 ${decision === 'ACCEPTED' ? '승낙' : '거절'}되었습니다.`);
+      if (onDecision) {
+        onDecision(requestId, decision);
+      }
+    } catch (error) {
+      console.error('매칭 요청 처리 중 오류 발생:', error);
+      alert('매칭 요청 처리 중 오류가 발생했습니다.');
+    }
+  };
 
   return (
     <Container>
@@ -82,8 +97,8 @@ const MatchClubItem = ({ clubName, university, tier}) => {
         <SubInfo>{university}  {tier}</SubInfo>
       </ClubInfoContainer>
       <ButtonContainer>
-        <RejectButton>거절</RejectButton>
-        <ApproveButton>승낙</ApproveButton>
+        <RejectButton onClick={() => handleDecision('REJECTED')}>거절</RejectButton>
+        <ApproveButton onClick={() => handleDecision('ACCEPTED')}>승낙</ApproveButton>
       </ButtonContainer>
     </Container>
     

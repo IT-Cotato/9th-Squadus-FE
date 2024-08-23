@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import arrow_up_icon from '../../../assets/icons/arrow-up-white.svg';
 import MatchClubItem from './MatchClubItem'; 
 import MatchSendModal from './MatchSendModal';
 import MatchSendCancelModal from './MatchSendCancelModal';
 import MatchSendSuccessModal from './MatchSendSuccessModal';
+import { getUserClubs, getAdminClubs } from '../../../apis/api/user';
 
 const WrapperContainer = styled.div`
   width: 100%;
@@ -160,12 +161,33 @@ const RequestButton = styled.div`
   display: ${({ $expanded, $show }) => ($expanded && $show ? 'flex' : 'none')};
 `;
 
-const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffer, img, clubName, clubIdx, tierNeed, peopleCount, content, requestButtonLabel, userClubs, showRequestButton = true, showClubContainer = false, clubData }) => {
+const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffer, img, clubName, clubIdx, tierNeed, peopleCount, content, requestButtonLabel, userClubs, showRequestButton = true, showClubContainer = false, clubData, clubMemberId }) => {
   const [expanded, setExpanded] = useState(false);
   const [showMatchSendModal, setShowMatchSendModal] = useState(false);
   const [showMatchSendCancelModal, setShowMatchSendCancelModal] = useState(false);
   const [showMatchSendSuccessModal, setShowMatchSendSuccessModal] = useState(false);
 
+  console.log("clubMemberID: ", clubMemberId);
+
+  // // 매치를 신청할 사용자의 clubMemberIdx 가져오기
+  // useEffect(() => {
+  //   const fetchClubMemberId = async () => {
+  //     try {
+  //       const accessToken = localStorage.getItem('accessToken');
+  //       const clubs = await getUserClubs(accessToken);
+  //       const club = clubs.memberClubResponseList.find(c => c.clubId === clubIdx);  // 여기서 clubIdx는 매치글을 올린 동아리의 번호
+
+  //       if (club) {
+  //         setClubMemberId(club.clubMemberIdx);
+  //       }
+  //     } catch (error) {
+  //       console.error('Failed to fetch club member ID:', error);
+  //     }
+  //   };
+
+  //   fetchClubMemberId();
+  // }, [clubIdx]);
+  
   // 사용자가 요청을 보낼 수 있는지 여부 확인
   const canSendRequest = userClubs?.some(club => club.clubId !== clubIdx && club.isAdmin) && 
                         !userClubs?.some(club => club.clubId === clubIdx);
@@ -196,6 +218,7 @@ const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffe
     matchIdx: matchIdx,
     matchClubName: clubName,
     matchDate: date,
+    clubMemberId: clubMemberId
 };
 
   return (
@@ -248,6 +271,9 @@ const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffe
               clubName={club.clubName}
               university={club.university}
               tier={club.tier}
+              requestId={club.requestId}
+              clubMemberId={clubMemberId}
+              onDecision={club.onDecision}
             />
           ))}
         </BottomContainer>

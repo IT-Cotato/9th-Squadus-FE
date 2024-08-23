@@ -93,3 +93,24 @@ export const postMatchRequest = (accessToken, clubMemberId, matchPostId) => {
     throw error;
   })
 }
+
+// 매칭 요청 승낙/거절 API 호출 함수
+export const postMatchDecision = (accessToken, requestId, decision, clubMemberId) => {
+  return api.post(`/v1/api/match-requests/${requestId}/decision`, null, {
+    headers: {
+      'Content-Type': 'application/json',
+      access: `${accessToken},`
+    },
+    params: {
+      decision: decision,
+      clubMemberId: clubMemberId
+    }, 
+  })
+  .then((response) => {
+    return response.data;
+  })
+  .catch((error) => {
+    console.log("매칭 요청 승낙/거절 API 호출 오류", error);
+    throw error;
+  })
+}

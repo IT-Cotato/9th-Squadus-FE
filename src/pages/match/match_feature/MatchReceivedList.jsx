@@ -24,7 +24,7 @@ const formatDateAndTime = (date, time) => {
 
 
 
-const MatchReceivedList = ({ selectedGroup }) => {
+const MatchReceivedList = ({ selectedGroup, clubMemberId }) => {
   const [matchReceivedData, setMatchReceivedData] = useState([]);
 
   useEffect(() => {
@@ -86,10 +86,12 @@ const MatchReceivedList = ({ selectedGroup }) => {
           date={formatDateAndTime(matchReceived.matchCreateResponse.matchStartDate, matchReceived.matchCreateResponse.matchStartTime)}
           placeOffer={matchReceived.matchCreateResponse.placeProvided ? 'O' : 'X'}
           img={matchReceived.matchCreateResponse.clubLogo}
+          clubIdx={matchReceived.matchCreateResponse.clubIdx}
           clubName={matchReceived.matchCreateResponse.clubName}
           tierNeed={matchReceived.matchCreateResponse.tier}
           peopleCount={matchReceived.matchCreateResponse.maxParticipants}
           receivedRequests={matchReceived.receivedRequests}
+          clubMemberId={clubMemberId}
         />
       ))}
     </Container>

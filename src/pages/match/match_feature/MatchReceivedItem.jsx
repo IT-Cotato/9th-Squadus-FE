@@ -9,13 +9,23 @@ const Container = styled.div`
 `;
 
 
-const MatchReceivedItem = ({ title, location, date, placeOffer, img, clubName, tierNeed, peopleCount, content, receivedRequests}) => {
+const MatchReceivedItem = ({ title, location, date, placeOffer, img, clubIdx, clubName, tierNeed, peopleCount, content, receivedRequests, clubMemberId}) => {
+  
+  // 요청 처리 후 콜백 함수
+  const handleDecision = (requestId, decision) => {
+    console.log("requestId: ", requestId);
+    console.log("decision: ", decision);
+  };
+  
   // 요청 받은 동아리의 정보를 clubData로 변환
   const clubData = receivedRequests.map((request) => ({
     id: request.requestId, // 유니크 키로 사용
     clubName: request.requesterClubName,
     university: request.requesterUniversity,
     tier: request.requesterTier,
+    requestId: request.requestId, // 요청 ID 추가
+    onDecision: handleDecision, // 요청 처리 후 콜백 추가
+    clubMemberId: clubMemberId,
   }));
   
   // const clubData = [
@@ -41,6 +51,7 @@ const MatchReceivedItem = ({ title, location, date, placeOffer, img, clubName, t
         date={date}
         placeOffer={placeOffer}
         img={img}
+        clubIdx={clubIdx}
         clubName={clubName}
         tierNeed={tierNeed}
         peopleCount={peopleCount}
@@ -48,6 +59,7 @@ const MatchReceivedItem = ({ title, location, date, placeOffer, img, clubName, t
         showRequestButton={false}
         showClubContainer={true}
         clubData={clubData}
+        clubMemberId={clubMemberId}
       />
     </Container>
   );

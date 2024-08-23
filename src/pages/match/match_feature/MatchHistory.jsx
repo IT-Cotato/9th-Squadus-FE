@@ -125,13 +125,13 @@ const MatchHistory = ({ closeMatchHistory }) => {
   const [showMatchSent, setShowMatchSent] = useState(true);
   const [showMatchReceived, setShowMatchReceived] = useState(false);
   const [showGroupSelectList, setShowGroupSelectList] = useState(false);
-  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [selectedGroup, setSelectedGroup] = useState(0);  // 임시
 
-  useEffect(() => {
-    if (userData && userData.memberClubs && userData.memberClubs.length > 0) {
-      setSelectedGroup(userData.memberClubs[0]);
-    }
-  }, [userData]);
+  // useEffect(() => {
+  //   if (userData && userData.memberClubs && userData.memberClubs.length > 0) {
+  //     setSelectedGroup(userData.memberClubs[0]);
+  //   }
+  // }, [userData]);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -149,6 +149,9 @@ const MatchHistory = ({ closeMatchHistory }) => {
     setSelectedGroup(group);
     setShowGroupSelectList(false);
   };
+
+  console.log("selectedGroup: ", selectedGroup);
+  console.log(selectedGroup.clubMemberIdx);
 
 
   return (
@@ -174,12 +177,12 @@ const MatchHistory = ({ closeMatchHistory }) => {
         <ContentContainer>
           {
             showMatchSent && 
-            <MatchSentList selectedGroup={selectedGroup} />
+            <MatchSentList selectedGroup={selectedGroup} clubMemberId={selectedGroup?.clubMemberIdx} />
           }
 
           {
             showMatchReceived && 
-            <MatchReceivedList selectedGroup={selectedGroup} />
+            <MatchReceivedList selectedGroup={selectedGroup} clubMemberId={selectedGroup?.clubMemberIdx} />
           }
         </ContentContainer>
       </Container>
