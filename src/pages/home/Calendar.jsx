@@ -1,10 +1,10 @@
-import styled from 'styled-components';
-import CalendarDayItem from './home_components/CalendarDayItem';
-import CalendarDateItem from './home_components/CalendarDateItem';
-import { startOfWeek, endOfWeek, addDays } from 'date-fns';
-const Calendar = () => {
+import styled from "styled-components";
+import CalendarDayItem from "./home_components/CalendarDayItem";
+import CalendarDateItem from "./home_components/CalendarDateItem";
+import { startOfWeek, endOfWeek, addDays } from "date-fns";
+const Calendar = ({ onClick }) => {
   const date = new Date();
-  const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
+  const WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
 
   const formattedDate = `${date.getMonth() + 1}월 ${date.getDate()}일 (${
     WEEKDAY[date.getDay()]
@@ -18,7 +18,7 @@ const Calendar = () => {
 
   console.log(week);
   return (
-    <Container>
+    <Container onClick={onClick}>
       <CalendarDiv>
         <NowDate>{formattedDate}</NowDate>
         <CalendarDayItem />

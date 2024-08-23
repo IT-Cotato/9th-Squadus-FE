@@ -1,26 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as FilterIcon } from "../assets/icons/filter.svg";
 
-const FilterBar = () => {
-  const [selectedCity, setSelectedCity] = useState("지역");
-  const [counties, setCounties] = useState(CountyOptions["지역"]);
-  const [selectedEvent, setSelectedEvent] = useState("");
-  const [selectedTier, setSelectedTier] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
-
-  const handleCityChange = (event) => {
-    const selectedCity = event.target.value;
-    setSelectedCity(selectedCity);
-    setCounties(CountyOptions[selectedCity]);
-  };
+const FilterBar = ({ selected, setSelected, handleChange }) => {
+  useEffect(() => {
+    console.log("Updated selected:", selected);
+  }, [selected]);
 
   const onClear = () => {
-    setSelectedCity("지역");
-    setCounties(CountyOptions["지역"]);
-    setSelectedEvent("");
-    setSelectedTier("");
-    setSelectedCategory("");
+    setSelected({
+      city: "지역",
+      counties: CountyOptions["지역"],
+      sportCategory: "",
+      tier: "",
+      category: "",
+    });
   };
 
   return (
@@ -28,22 +22,32 @@ const FilterBar = () => {
       <FilterIconStyled onClick={onClear} />
       {/* 종목 */}
       <FilterBox
-        value={selectedEvent}
-        onChange={(e) => setSelectedEvent(e.target.value)}
-        options={Event}
+        name="sportCategory"
+        value={selected.sportCategory}
+        onChange={handleChange}
+        options={SportCategory}
       />
 
       {/* 지역 필터 */}
-      <FilterContainer value={selectedCity} onChange={handleCityChange}>
+      <FilterContainer
+        name="city"
+        value={selected.city}
+        onChange={handleChange}
+      >
         {CityOptions.map((city) => (
           <option key={city.value} value={city.value}>
             {city.label}
           </option>
         ))}
       </FilterContainer>
-      {selectedCity !== "지역" && (
-        <FilterContainer value={counties[0]} onChange={(e) => {}}>
-          {counties.map((county) => (
+
+      {selected.city !== "지역" && (
+        <FilterContainer
+          name="county"
+          value={selected.counties[0]}
+          onChange={handleChange}
+        >
+          {selected.counties.map((county) => (
             <option key={county} value={county}>
               {county}
             </option>
@@ -53,14 +57,17 @@ const FilterBar = () => {
 
       {/* 티어 */}
       <FilterBox
-        value={selectedTier}
-        onChange={(e) => setSelectedTier(e.target.value)}
+        name="tier"
+        value={selected.tier}
+        onChange={handleChange}
         options={Tier}
       />
+
       {/* 카테고리 */}
       <FilterBox
-        value={selectedCategory}
-        onChange={(e) => setSelectedCategory(e.target.value)}
+        name="category"
+        value={selected.category}
+        onChange={handleChange}
         options={Category}
       />
     </Container>
@@ -69,12 +76,88 @@ const FilterBar = () => {
 
 export default FilterBar;
 
-export const ChooseRegion = () => {
-  const [selectedCity, setSelectedCity] = useState("지역");
-  const [counties, setCounties] = useState(CountyOptions["지역"]);
+const FilterBox = ({ name, value, onChange, options }) => (
+  <FilterContainer name={name} value={value} onChange={onChange}>
+    {options.map((option) => (
+      <option key={option.value} value={option.value}>
+        {option.name}
+      </option>
+    ))}
+  </FilterContainer>
+);
+
+// export const ChooseRegion = ({ value, onChange }) => {
+//   const [selectedCity, setSelectedCity] = useState(value.city || "지역");
+//   const [counties, setCounties] = useState(CountyOptions[selectedCity] || []);
+
+//   useEffect(() => {
+//     setCounties(CountyOptions[selectedCity] || []);
+//     if (selectedCity !== "지역") {
+//       onChange({ target: { name: "county", value: counties[0] || "" } });
+//     }
+//     onChange({ target: { name: "city", value: selectedCity } });
+//   }, [selectedCity]);
+
+//   const handleCityChange = (e) => {
+//     const city = e.target.value;
+//     setSelectedCity(city);
+//     onChange({ target: { name: "city", value: city } });
+//   };
+
+//   const handleCountyChange = (e) => {
+//     const county = e.target.value;
+//     onChange({ target: { name: "county", value: county } });
+//   };
+
+//   return (
+//     <Container>
+//       <FilterContainer value={selectedCity} onChange={handleCityChange}>
+//         {CityOptions.map((city) => (
+//           <option key={city.value} value={city.value}>
+//             {city.label}
+//           </option>
+//         ))}
+//       </FilterContainer>
+
+//       {selectedCity !== "지역" && counties.length > 0 && (
+//         <FilterContainer value={counties[0]} onChange={handleCountyChange}>
+//           {counties.map((county) => (
+//             <option key={county} value={county}>
+//               {county}
+//             </option>
+//           ))}
+//         </FilterContainer>
+//       )}
+//     </Container>
+//   );
+// };
+export const ChooseRegion = ({ value, onChange }) => {
+  const [selectedCity, setSelectedCity] = useState(value.city || "지역");
+  const [selectedCounty, setSelectedCounty] = useState(value.county || ""); // 선택된 군/구 상태 추가
+  const [counties, setCounties] = useState(CountyOptions[selectedCity] || []);
+
+  useEffect(() => {
+    const newCounties = CountyOptions[selectedCity] || [];
+    setCounties(newCounties);
+    setSelectedCounty(newCounties[0] || ""); // 도시 변경 시 첫 번째 군/구를 선택
+    onChange({ target: { name: "city", value: selectedCity } });
+    onChange({ target: { name: "county", value: newCounties[0] || "" } });
+  }, [selectedCity]);
+
+  const handleCityChange = (e) => {
+    const city = e.target.value;
+    setSelectedCity(city);
+  };
+
+  const handleCountyChange = (e) => {
+    const county = e.target.value;
+    setSelectedCounty(county);
+    onChange({ target: { name: "county", value: county } });
+  };
+
   return (
     <Container>
-      <FilterContainer value={selectedCity}>
+      <FilterContainer value={selectedCity} onChange={handleCityChange}>
         {CityOptions.map((city) => (
           <option key={city.value} value={city.value}>
             {city.label}
@@ -82,8 +165,8 @@ export const ChooseRegion = () => {
         ))}
       </FilterContainer>
 
-      {selectedCity !== "지역" && (
-        <FilterContainer value={counties[0]} onChange={(e) => {}}>
+      {selectedCity !== "지역" && counties.length > 0 && (
+        <FilterContainer value={selectedCounty} onChange={handleCountyChange}>
           {counties.map((county) => (
             <option key={county} value={county}>
               {county}
@@ -94,15 +177,6 @@ export const ChooseRegion = () => {
     </Container>
   );
 };
-const FilterBox = ({ value, onChange, options }) => (
-  <FilterContainer value={value} onChange={onChange}>
-    {options.map((option) => (
-      <option key={option.value} value={option.value}>
-        {option.name}
-      </option>
-    ))}
-  </FilterContainer>
-);
 
 const FilterIconStyled = styled(FilterIcon)`
   flex-shrink: 0;
@@ -128,14 +202,28 @@ const FilterContainer = styled.select`
   }
 `;
 
-const Event = [
+const SportCategory = [
   { value: "", name: "종목" },
-  { value: "2", name: "2" },
-  { value: "3", name: "3" },
+  { value: "SOCCER", name: "축구" },
+  { value: "BASKETBALL", name: "야구" },
+  { value: "VOLLEYBALL", name: "배구" },
+  // { value: "BASEBALL", name: "야구?" },
+  { value: "BADMINTON", name: "배드민턴" },
+  { value: "TENNIS", name: "테니스" },
+  { value: "TABLE_TENNIS", name: "탁구" },
+  { value: "TAEKWONDO", name: "태권도" },
+  { value: "JUDO", name: "유도" },
+  { value: "KENDO", name: "검도" },
+  { value: "RUNNING", name: "러닝" },
+  { value: "CROSSFIT", name: "크로스핏" },
+  { value: "CYCLING", name: "사이클링" },
+  { value: "SWIMMING", name: "수영" },
+  { value: "SURFING", name: "서핑" },
+  { value: "YACHTING", name: "요트" },
 ];
 const CityOptions = [
   { value: "지역", label: "지역" },
-  { value: "서울", label: "서울특별시" },
+  { value: "서울시", label: "서울특별시" },
   { value: "부산", label: "부산광역시" },
   { value: "대구", label: "대구광역시" },
   { value: "인천", label: "인천광역시" },
@@ -153,9 +241,9 @@ const CityOptions = [
   { value: "제주", label: "제주도" },
 ];
 
-const CountyOptions = {
+export const CountyOptions = {
   지역: ["지역"],
-  서울: [
+  서울시: [
     "지역( 시/ 군)",
     "강남구",
     "강동구",
@@ -414,9 +502,9 @@ const CountyOptions = {
 };
 const Tier = [
   { value: "Tier", name: "티어" },
-  { value: "bronze", name: "bronze" },
-  { value: "silver", name: "silver" },
-  { value: "gold", name: "gold" },
+  { value: "BRONZE", name: "브론즈" },
+  { value: "SILVER", name: "실버" },
+  { value: "GOLD", name: "골드" },
 ];
 
 const Category = [

@@ -64,7 +64,6 @@ const Group = () => {
       ? groupData[chooseClubId].clubId
       : null;
 
-
   return (
     <>
       <GroupContext.Provider
@@ -75,7 +74,7 @@ const Group = () => {
           userClubs,
           chooseClubId,
           setChooseClubId,
-          selectedClubId
+          selectedClubId,
         }}
       >
         <FixedContainer>

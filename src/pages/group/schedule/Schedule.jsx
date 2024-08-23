@@ -5,10 +5,7 @@ import {
   StyledDot,
 } from "./schedule_components/Calendar";
 import { useState, useEffect, useCallback, useContext } from "react";
-import ScheduleItem, {
-  AddSchedule,
-  PlusIcon,
-} from "./schedule_components/ScheduleItem";
+import ScheduleItem, { AddSchedule } from "./schedule_components/ScheduleItem";
 import ScheduleAdd from "./ScheduleAdd";
 import axios from "axios";
 import { GroupContext } from "../Group";
@@ -40,10 +37,11 @@ const ScheduleTitle = styled.div`
   color: #344054;
 `;
 
-const Schedule = () => {
+const Schedule = ({ personalSchedule, isAccessHome }) => {
+  //접근 방식에따른 스케쥴 일정 데이터 관련 코드
   const [clubSchedule, setClubSchedule] = useState([]);
-  const { chooseClubId, groupData, Loading } = useContext(GroupContext);
-
+  const context = useContext(GroupContext);
+  const { chooseClubId, groupData, Loading } = personalSchedule ? {} : context;
   const getClubSchedule = async () => {
     axios
       .get(
@@ -59,11 +57,17 @@ const Schedule = () => {
   };
 
   useEffect(() => {
-    console.log(groupData);
-    if (groupData && chooseClubId !== undefined && groupData.length > 0) {
-      getClubSchedule();
+    if (personalSchedule) {
+      setClubSchedule(personalSchedule);
+    } else {
+      console.log(groupData);
+      if (groupData && chooseClubId !== undefined && groupData.length > 0) {
+        getClubSchedule();
+      }
     }
   }, [chooseClubId, groupData, Loading]);
+
+  //달력 관련 코드
   const [date, setDate] = useState(new Date());
   const [selectedSchedule, setSelectedSchedule] = useState([]);
 
@@ -94,13 +98,14 @@ const Schedule = () => {
   useEffect(() => {
     const filteredSchedule = filterSchedule(date);
     setSelectedSchedule(filteredSchedule);
-  }, [date, filterSchedule]);
+  }, [date, filterSchedule, isModalOpen]);
 
   const formatShortWeekday = (locale, date) => {
     const weekdays = ["S", "M", "T", "W", "T", "F", "S"];
     return weekdays[date.getDay()];
   };
 
+  //모달 관련 코드
   const onClickDay = (value) => {
     onChange(value);
   };
@@ -151,11 +156,13 @@ const Schedule = () => {
             id={index + 1}
           />
         ))}
-        <AddSchedule onClick={toggleModal}>
-          <PlusIcon>+</PlusIcon> 새로운 일정 추가하기
-        </AddSchedule>
+        <AddSchedule onClick={toggleModal}></AddSchedule>
       </ScheduleList>
-      <ScheduleAdd isOpen={isModalOpen} onClose={closeModal} />
+      <ScheduleAdd
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        isAccessHome={isAccessHome}
+      />
     </BaseContainer>
   );
 };

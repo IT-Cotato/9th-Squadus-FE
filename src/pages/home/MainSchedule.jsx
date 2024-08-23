@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import MainScheduleItem from "./home_components/MainScheduleItem";
 
-const MainSchedule = () => (
+const MainSchedule = ({ onClick }) => (
   <Container>
     <ScheduleHeader>
       <ColorHeader>오늘</ColorHeader>의 주요 일정
     </ScheduleHeader>
     <ScheduleContainer>
-      <MainScheduleItem></MainScheduleItem>
+      <MainScheduleItem onClick={onClick}></MainScheduleItem>
     </ScheduleContainer>
   </Container>
 );

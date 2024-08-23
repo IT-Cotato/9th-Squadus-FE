@@ -10,7 +10,9 @@ import {
   ToggleSlider,
   CheckBox,
 } from "./schedule_components/ToggleButton";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { GroupContext } from "../Group";
 
 const BaseContainer = styled.div`
   max-width: 649px;
@@ -25,7 +27,6 @@ const BaseContainer = styled.div`
   border-radius: 16px 16px 0px 0px;
   box-shadow: 0px -2px 87px 0px #475467;
   box-sizing: border-box;
-
   background-color: #ffffff;
 `;
 const ModalNavi = styled.div`
@@ -76,12 +77,21 @@ const AddWrapper = styled.div`
 const AddInput = styled.input`
   outline: none;
   border: 0px;
-  //   color: #98a2b3;
   color: #101828;
   font-size: 16px;
   font-weight: 400;
   line-height: 14px;
   text-align: right;
+`;
+const AddDateInput = styled.input`
+  outline: none;
+  border: 0px;
+  color: #101828;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 14px;
+  text-align: right;
+  width: 20px;
 `;
 const AddTitle = styled.div`
   display: flex;
@@ -110,8 +120,112 @@ const TiTleText = styled.input`
   border: 0px;
 `;
 
-const ScheduleAdd = ({ isOpen, onClose }) => {
+const ScheduleAdd = ({ isOpen, onClose, isAccessHome }) => {
   const [isAllday, setIsAllday] = useState(false);
+  const [data, setData] = useState({
+    title: "",
+    scheduleCategory: "MEETING",
+    content: "",
+    authorId: 0,
+    location: "",
+    equipment: "",
+    date: "2024-08-22",
+    startTime: "10:00",
+    endTime: "10:00",
+  });
+
+  // 기본값을 포함하여 context 사용
+  const context = useContext(GroupContext) || {
+    groupData: [{ clubId: null }],
+    chooseClubId: 0,
+  };
+
+  // 안전한 접근을 위해 기본값 설정
+  let selectedClubId = context.groupData[context.chooseClubId]?.clubId || null;
+  const checkClubId = () => {
+    // console.log("뭐뭐들었지?", isAccessHome);
+    if (isAccessHome) {
+      setData((prevData) => ({
+        ...prevData,
+        authorId: isAccessHome.clubMemberIdx,
+      }));
+      selectedClubId = isAccessHome.clubId;
+      console.log("Home에서 접근");
+      console.log("url(clubId)는?", selectedClubId);
+      console.log("meclubId(authId))는?", data.authorId);
+    } else {
+      setData((prevData) => ({
+        ...prevData,
+        authorId: context.groupData[context.chooseClubId].clubMemberIdx,
+      }));
+      console.log("group에서 접근");
+      console.log("url(clubId)는?", selectedClubId);
+      console.log("meclubId(authId))는?", data.authorId);
+    }
+    // console.log("뭐뭐들었지2?", selectedClubId);
+    // console.log(
+    //   "selectedClubIdselectedClubIdselectedClubId",
+    //   selectedClubId,
+    //   context
+    // );
+  };
+  useEffect(() => {
+    checkClubId();
+  }, [isAccessHome, selectedClubId]);
+
+  const postScheduleAdd = async () => {
+    console.log("일정 등록 데이터:", data);
+    console.log("일정 등록 요청 주소:", selectedClubId);
+    checkClubId();
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/${selectedClubId}/schedules`,
+        data
+      );
+      console.log("일정 추가 완료", response.data);
+      alert("일정 등록을 완료하였습니다!");
+      onClose();
+    } catch (err) {
+      console.error("에러 발생:", err);
+    }
+  };
+  const onChangeInput = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+    if (name === "allDay") {
+      const dateObj = new Date(value);
+      const DATE = `${dateObj.getFullYear()}-${String(
+        dateObj.getMonth() + 1
+      ).padStart(2, "0")}-${String(dateObj.getDate()).padStart(2, "0")}`;
+      setData({
+        ...data,
+        date: DATE,
+        startTime: "00:00",
+        endTime: "24:00",
+      });
+    } else {
+      if (name === "startTime" || name === "endTime") {
+        const dateObj = new Date(value);
+        const DATE = `${dateObj.getFullYear()}-${String(
+          dateObj.getMonth() + 1
+        ).padStart(2, "0")}-${String(dateObj.getDate()).padStart(2, "0")}`;
+
+        const formattedTime = `${dateObj.getHours()}:${dateObj.getMinutes()}`;
+
+        setData({
+          ...data,
+          date: DATE,
+          [name]: formattedTime,
+        });
+      } else {
+        setData({
+          ...data,
+          [name]: value,
+        });
+      }
+    }
+    console.log("변경사항", data);
+  };
 
   return (
     <>
@@ -119,15 +233,24 @@ const ScheduleAdd = ({ isOpen, onClose }) => {
         <BaseContainer>
           <ModalNavi>
             <CloseButton onClick={onClose}>취소</CloseButton>
-            <AddButton>추가</AddButton>
+            <AddButton onClick={postScheduleAdd}>추가</AddButton>
           </ModalNavi>
           <AddContainer>
             <AddTitle>
               <TiTlePoint />
-              <TiTleText placeholder={"제목"} />
+              <TiTleText
+                onChange={onChangeInput}
+                name="title"
+                placeholder={"제목"}
+              />
             </AddTitle>
             <AddWrapper>
-              <LocationIcon /> <AddInput placeholder={"위치"} />
+              <LocationIcon />
+              <AddInput
+                name="location"
+                onChange={onChangeInput}
+                placeholder={"위치"}
+              />
             </AddWrapper>
             <AddWrapper>
               <p>하루종일</p>
@@ -142,8 +265,27 @@ const ScheduleAdd = ({ isOpen, onClose }) => {
             </AddWrapper>
 
             <AddWrapper>
-              <ClockIcon /> <AddInput type="datetime-local" />
-              <AddInput type="datetime-local" />
+              <ClockIcon />
+              {!isAllday ? (
+                <>
+                  <AddDateInput
+                    name="startTime"
+                    onChange={onChangeInput}
+                    type="datetime-local"
+                  />
+                  <AddDateInput
+                    name="endTime"
+                    onChange={onChangeInput}
+                    type="datetime-local"
+                  />
+                </>
+              ) : (
+                <AddDateInput
+                  type="date"
+                  name="allDay"
+                  onChange={onChangeInput}
+                />
+              )}
             </AddWrapper>
             <AddWrapper>
               <AlarmIcon /> <p>알람</p>
@@ -152,7 +294,12 @@ const ScheduleAdd = ({ isOpen, onClose }) => {
               <LinkIcon /> <AddInput placeholder={"URL"} />
             </AddWrapper>
             <AddWrapper>
-              <MemoIcon /> <AddInput placeholder={"메모"} />
+              <MemoIcon />{" "}
+              <AddInput
+                name="content"
+                onChange={onChangeInput}
+                placeholder={"메모"}
+              />
             </AddWrapper>
           </AddContainer>
         </BaseContainer>
