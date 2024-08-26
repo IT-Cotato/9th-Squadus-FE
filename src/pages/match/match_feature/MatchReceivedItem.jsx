@@ -9,7 +9,7 @@ const Container = styled.div`
 `;
 
 
-const MatchReceivedItem = ({ title, location, date, placeOffer, img, clubIdx, clubName, tierNeed, peopleCount, content, receivedRequests, clubMemberId}) => {
+const MatchReceivedItem = ({ title, location, date, placeOffer, img, clubIdx, clubName, tierNeed, peopleCount, content, receivedRequests, clubMemberId, isAccepted }) => {
   
   // 요청 처리 후 콜백 함수
   const handleDecision = (requestId, decision) => {
@@ -26,6 +26,7 @@ const MatchReceivedItem = ({ title, location, date, placeOffer, img, clubIdx, cl
     requestId: request.requestId, // 요청 ID 추가
     onDecision: handleDecision, // 요청 처리 후 콜백 추가
     clubMemberId: clubMemberId,
+    status: request.matchingStatus, 
   }));
   
   // const clubData = [
@@ -60,6 +61,7 @@ const MatchReceivedItem = ({ title, location, date, placeOffer, img, clubIdx, cl
         showClubContainer={true}
         clubData={clubData}
         clubMemberId={clubMemberId}
+        isAccepted={isAccepted}
       />
     </Container>
   );

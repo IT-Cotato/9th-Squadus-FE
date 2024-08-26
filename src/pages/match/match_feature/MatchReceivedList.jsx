@@ -43,57 +43,33 @@ const MatchReceivedList = ({ selectedGroup, clubMemberId }) => {
     fetchMatchReceiveds();
   }, [selectedGroup]);
 
-
-  // const MatchReceivedData = [
-  //   {
-  //     "matchCreateResponse": {
-  //       "matchIdx": 0,
-  //       "title": "string",
-  //       "content": "string",
-  //       "tier": "string",
-  //       "matchPlace": {
-  //         "city": "string",
-  //         "district": "string"
-  //       },
-  //       "placeProvided": true,
-  //       "matchStartDate": "2024-08-22",
-  //       "matchStartTime": "10:00",
-  //       "maxParticipants": 0,
-  //       "sportsCategory": "string",
-  //       "clubName": "string",
-  //       "clubLogo": "string"
-  //     },
-  //     "receivedRequests": [
-  //       {
-  //         "matchingStatus": "string",
-  //         "requestId": 0,
-  //         "requesterClubName": "string",
-  //         "requesterUniversity": "string",
-  //         "requesterTier": "string"
-  //       }
-  //     ]
-  //   }
-  // ]
-
   return (
     <Container>
-      {matchReceivedData.map(matchReceived => (
-        <MatchReceivedItem 
-          key={matchReceived.matchRequestIdx}
-          title={matchReceived.matchCreateResponse.title}
-          content={matchReceived.matchCreateResponse.content}
-          location={`${matchReceived.matchCreateResponse.matchPlace.city} ${matchReceived.matchCreateResponse.matchPlace.district}`}
-          date={formatDateAndTime(matchReceived.matchCreateResponse.matchStartDate, matchReceived.matchCreateResponse.matchStartTime)}
-          placeOffer={matchReceived.matchCreateResponse.placeProvided ? 'O' : 'X'}
-          img={matchReceived.matchCreateResponse.clubLogo}
-          clubIdx={matchReceived.matchCreateResponse.clubIdx}
-          clubName={matchReceived.matchCreateResponse.clubName}
-          tierNeed={matchReceived.matchCreateResponse.tier}
-          peopleCount={matchReceived.matchCreateResponse.maxParticipants}
-          receivedRequests={matchReceived.receivedRequests}
-          clubMemberId={clubMemberId}
-        />
-      ))}
+      {matchReceivedData.map((matchReceived) => {
+        // 각 매치에 대해 'ACCEPTED' 상태가 있는지 확인
+        const hasAcceptedRequest = matchReceived.receivedRequests.some(
+          (request) => request.matchingStatus === 'ACCEPTED'
+        );
+
+        return (
+          <MatchReceivedItem 
+            key={matchReceived.matchRequestIdx}
+            title={matchReceived.matchCreateResponse.title}
+            content={matchReceived.matchCreateResponse.content}
+            location={`${matchReceived.matchCreateResponse.matchPlace.city} ${matchReceived.matchCreateResponse.matchPlace.district}`}
+            date={formatDateAndTime(matchReceived.matchCreateResponse.matchStartDate, matchReceived.matchCreateResponse.matchStartTime)}
+            placeOffer={matchReceived.matchCreateResponse.placeProvided ? 'O' : 'X'}
+            img={matchReceived.matchCreateResponse.clubLogo}
+            clubIdx={matchReceived.matchCreateResponse.clubIdx}
+            clubName={matchReceived.matchCreateResponse.clubName}
+            tierNeed={matchReceived.matchCreateResponse.tier}
+            peopleCount={matchReceived.matchCreateResponse.maxParticipants}
+            receivedRequests={matchReceived.receivedRequests}
+            clubMemberId={clubMemberId}
+            isAccepted={hasAcceptedRequest}
+          />
+        );
+      })}
     </Container>
 
 

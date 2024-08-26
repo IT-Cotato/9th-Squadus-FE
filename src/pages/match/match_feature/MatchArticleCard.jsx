@@ -170,7 +170,7 @@ const EmptyStateMessage = styled.div`
 `;
 
 
-const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffer, img, clubName, clubIdx, tierNeed, peopleCount, content, requestButtonLabel, userClubs, showRequestButton = true, showClubContainer = false, clubData, clubMemberId }) => {
+const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffer, img, clubName, clubIdx, tierNeed, peopleCount, content, requestButtonLabel, userClubs, showRequestButton = true, showClubContainer = false, clubData, clubMemberId, isAccepted }) => {
   const [expanded, setExpanded] = useState(false);
   const [showMatchSendModal, setShowMatchSendModal] = useState(false);
   const [showMatchSendCancelModal, setShowMatchSendCancelModal] = useState(false);
@@ -277,6 +277,9 @@ const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffe
                 requestId={club.requestId}
                 clubMemberId={clubMemberId}   // 사용자가 헤더에서 선택한 동아리에서 clubMemberIdx
                 onDecision={club.onDecision}
+                isAccepted={isAccepted}
+                status={club.status}
+
               />
             ))
           ) : (  // clubData가 없는 경우
