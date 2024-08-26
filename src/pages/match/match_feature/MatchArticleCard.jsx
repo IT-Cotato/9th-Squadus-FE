@@ -5,6 +5,7 @@ import MatchClubItem from './MatchClubItem';
 import MatchSendModal from './MatchSendModal';
 import MatchSendCancelModal from './MatchSendCancelModal';
 import MatchSendSuccessModal from './MatchSendSuccessModal';
+import MatchSendFailModal from './MatchSendFailModal';
 import { getUserClubs, getAdminClubs } from '../../../apis/api/user';
 
 const WrapperContainer = styled.div`
@@ -166,28 +167,9 @@ const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffe
   const [showMatchSendModal, setShowMatchSendModal] = useState(false);
   const [showMatchSendCancelModal, setShowMatchSendCancelModal] = useState(false);
   const [showMatchSendSuccessModal, setShowMatchSendSuccessModal] = useState(false);
+  const [showMatchSendFailModal, setShowMatchSendFailModal] = useState(false);
+  const [failedClub, setFailedClub] = useState(''); // 요청 실패한 동아리 이름 저장할 상태 추가
 
-  console.log("clubMemberID: ", clubMemberId);
-
-  // // 매치를 신청할 사용자의 clubMemberIdx 가져오기
-  // useEffect(() => {
-  //   const fetchClubMemberId = async () => {
-  //     try {
-  //       const accessToken = localStorage.getItem('accessToken');
-  //       const clubs = await getUserClubs(accessToken);
-  //       const club = clubs.memberClubResponseList.find(c => c.clubId === clubIdx);  // 여기서 clubIdx는 매치글을 올린 동아리의 번호
-
-  //       if (club) {
-  //         setClubMemberId(club.clubMemberIdx);
-  //       }
-  //     } catch (error) {
-  //       console.error('Failed to fetch club member ID:', error);
-  //     }
-  //   };
-
-  //   fetchClubMemberId();
-  // }, [clubIdx]);
-  
   // 사용자가 요청을 보낼 수 있는지 여부 확인
   const canSendRequest = userClubs?.some(club => club.clubId !== clubIdx && club.isAdmin) && 
                         !userClubs?.some(club => club.clubId === clubIdx);
@@ -205,7 +187,7 @@ const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffe
     setShowMatchSendModal(false);
   };
 
-  const handleSendModalConfirm = () => {
+  const handleSendConfirm = () => {
     handleSendModalClose();
     setShowMatchSendSuccessModal(true);
   };
@@ -214,12 +196,24 @@ const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffe
     setShowMatchSendSuccessModal(false);
   };
 
+  const handleFailModalClose = () => {
+    setShowMatchSendFailModal(false);
+  };
+
+  const handleSendFail = (selectedClub) => {
+    setFailedClub(selectedClub); // 실패한 동아리 이름을 설정
+    handleSendModalClose();
+    setShowMatchSendFailModal(true);
+  };
+
+
+
+  // 매치글 카드의 동아리 정보
   const matchClubData = {
     matchIdx: matchIdx,
     matchClubName: clubName,
     matchDate: date,
-    clubMemberId: clubMemberId
-};
+  };
 
   return (
     <WrapperContainer onClick={() => setExpanded(!expanded)}>
@@ -272,7 +266,7 @@ const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffe
               university={club.university}
               tier={club.tier}
               requestId={club.requestId}
-              clubMemberId={clubMemberId}
+              clubMemberId={clubMemberId}   // 사용자가 헤더에서 선택한 동아리에서 clubMemberIdx
               onDecision={club.onDecision}
             />
           ))}
@@ -283,12 +277,14 @@ const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffe
       {showMatchSendModal && (
         <MatchSendModal
           onClose={handleSendModalClose}
-          onConfirm={handleSendModalConfirm}
+          onConfirm={handleSendConfirm}
+          onFail={handleSendFail}
           matchClubData={matchClubData}
         />
       )}
       {showMatchSendCancelModal && <MatchSendCancelModal onClose={() => setShowMatchSendCancelModal(false)} />}
       {showMatchSendSuccessModal && <MatchSendSuccessModal onClose={handleSuccessModalClose} />}
+      {showMatchSendFailModal && <MatchSendFailModal onClose={handleFailModalClose} selectedClub={failedClub} />}
     </WrapperContainer>
     
   );

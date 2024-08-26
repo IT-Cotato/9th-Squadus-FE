@@ -131,7 +131,7 @@ const BoldText = styled.div`
 `;
 
 
-const MatchSendModal = ({ onClose, onConfirm, matchClubData }) => {
+const MatchSendModal = ({ onClose, onConfirm, onFail, matchClubData }) => {
   const [selectedClub, setSelectedClub] = useState('');
   const [adminClubData, setAdminClubData] = useState([]);
   const [selectedClubMemberId, setSelectedClubMemberId] = useState(null);
@@ -153,6 +153,7 @@ const MatchSendModal = ({ onClose, onConfirm, matchClubData }) => {
   //   }
   // ]
 
+  // 사용자가 관리자인 동아리 정보 불러오기
   useEffect(() => {
     const fetchAdminClubs = async () => {
       try {
@@ -186,6 +187,11 @@ const MatchSendModal = ({ onClose, onConfirm, matchClubData }) => {
       await postMatchRequest(accessToken, selectedClubMemberId, matchClubData.matchIdx);
       onConfirm(); // 매칭 요청 성공 시 상위 컴포넌트에서 success modal을 띄움
     } catch (error) {
+      if (error.response && error.response.data.code === 'M-302') {
+        const selectedClubData = adminClubData.find(club => club.clubId === parseInt(selectedClub, 10));
+        const selectedClubName = selectedClubData ? selectedClubData.clubName : "선택된 동아리";
+        onFail(selectedClubName); // 매칭 요청 실패 시 상위 컴포넌트에서 fail modal을 띄움
+      }
       console.error('매칭 요청 실패:', error);
     }
   };
