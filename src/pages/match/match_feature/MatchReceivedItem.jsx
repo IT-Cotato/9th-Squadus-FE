@@ -9,7 +9,7 @@ const Container = styled.div`
 `;
 
 
-const MatchReceivedItem = ({ title, location, date, placeOffer, img, clubIdx, clubName, tierNeed, peopleCount, content, receivedRequests, clubMemberId, isAccepted }) => {
+const MatchReceivedItem = ({ matchIdx, title, location, date, placeOffer, img, clubIdx, clubName, tierNeed, peopleCount, content, receivedRequests, clubMemberId, isAccepted }) => {
   
   // 요청 처리 후 콜백 함수
   const handleDecision = (requestId, decision) => {
@@ -47,6 +47,7 @@ const MatchReceivedItem = ({ title, location, date, placeOffer, img, clubIdx, cl
   return (
     <Container>
       <MatchArticleCard
+        matchIdx={matchIdx}
         title={title}
         location={location}
         date={date}

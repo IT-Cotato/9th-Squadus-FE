@@ -114,3 +114,23 @@ export const postMatchDecision = (accessToken, requestId, decision, clubMemberId
     throw error;
   })
 }
+
+
+//////////////////////////////////////////////////
+
+// 매치 상세보기 API 호출 함수
+export const getMatchDetail = (accessToken, matchPostId) => {
+  return api.get(`/v1/api/match-results/${matchPostId}/details`, {
+    headers: {
+      'Content-Type': 'application/json',
+      access: `${accessToken},`
+    },
+  })
+  .then((response) => {
+    return response.data;
+  })
+  .catch((error) => {
+    console.log("매치 상세보기 API 호출 오류", error);
+    throw error;
+  })
+}

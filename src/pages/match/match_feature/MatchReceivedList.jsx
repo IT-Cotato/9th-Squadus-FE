@@ -54,6 +54,7 @@ const MatchReceivedList = ({ selectedGroup, clubMemberId }) => {
         return (
           <MatchReceivedItem 
             key={matchReceived.matchRequestIdx}
+            matchIdx={matchReceived.matchCreateResponse.matchIdx}
             title={matchReceived.matchCreateResponse.title}
             content={matchReceived.matchCreateResponse.content}
             location={`${matchReceived.matchCreateResponse.matchPlace.city} ${matchReceived.matchCreateResponse.matchPlace.district}`}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import arrow_right_icon from '../../../assets/icons/arrow-right-grey.svg';
 import { postMatchDecision } from '../../../apis/api/match';
+import MatchDetail from '../match_detail/MatchDetail';
 
 const Container = styled.div`
   width: 100%;
@@ -80,9 +81,10 @@ const CompleteButton = styled(Button)`
 `;
 
 
-const MatchClubItem = ({ clubName, university, tier, requestId, onDecision, clubMemberId, isAccepted, status: initialStatus }) => {
+const MatchClubItem = ({ matchIdx, clubName, university, tier, requestId, onDecision, clubMemberId, isAccepted, status: initialStatus }) => {
   const [status, setStatus] = useState(initialStatus);
   const [isOtherAccepted, setIsOtherAccepted] = useState(isAccepted);
+  const [showMatchDetail, setShowMatchDetail] = useState(false);
 
   useEffect(() => {
     setStatus(initialStatus); // 초기 상태를 서버에서 받은 상태로 설정
@@ -105,6 +107,11 @@ const MatchClubItem = ({ clubName, university, tier, requestId, onDecision, club
     }
   };
 
+  // 승낙한 후, 매치완료 버튼 눌렀을 때
+  const handleDetailClick = () => {
+    setShowMatchDetail(true);
+  }
+
   return (
     <Container>
       <ClubInfoContainer>
@@ -115,7 +122,7 @@ const MatchClubItem = ({ clubName, university, tier, requestId, onDecision, club
       </ClubInfoContainer>
       <ButtonContainer>
         {status === 'ACCEPTED' ? ( // 현재 동아리가 승낙된 경우
-          <CompleteButton>매칭 완료</CompleteButton>
+          <CompleteButton onClick={handleDetailClick}>매칭 완료</CompleteButton>
         ) : isOtherAccepted ? ( // 다른 동아리가 승낙된 경우
           null
         ) : ( // 아직 결정되지 않은 경우
@@ -125,6 +132,14 @@ const MatchClubItem = ({ clubName, university, tier, requestId, onDecision, club
           </>
         )}
       </ButtonContainer>
+
+      {
+        showMatchDetail && 
+        <MatchDetail
+          closeMatchDetail={() => setShowMatchDetail(false)}
+          matchIdx={matchIdx}
+        />
+      }
     </Container>
     
   );

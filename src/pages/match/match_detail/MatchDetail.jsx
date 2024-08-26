@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import close_icon from '../../../assets/icons/close-white.svg';
 import background_decoration from '../../../assets/match/background_decoration.svg'
 import GameItem from './GameItem';
+import { getMatchDetail } from '../../../apis/api/match';
 
 const WrapperContainer = styled.div`
   position: fixed;
@@ -101,11 +102,13 @@ const ClubCard = styled.div`
 `;
 
 const ClubImage = styled.div`
-  background-color: black;
   width: 80px;
   height: 80px;
   border-radius: 50%;
   margin-bottom: 16px;
+  background-image: url(${({ img }) => img});
+  background-size: cover;
+  background-position: center;
 `;
 
 const ClubName = styled.div`
@@ -261,9 +264,23 @@ const FooterBorderButton = styled(FooterButton)`
 `;
 
 
-const MatchDetail = ({ closeMatchDetail }) => {
+const MatchDetail = ({ closeMatchDetail, matchIdx }) => {
   const [gameItems, setGameItems] = useState([{ id: 1, gameNumber: '1경기' }]);
   const [isComplete, setIsComplete] = useState(false);
+  const [matchData, setMatchData] = useState(null);
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    getMatchDetail(accessToken, matchIdx)
+      .then((data) => {
+        setMatchData(data);
+      })
+      .catch((error) => {
+        console.error('매치 상세 정보 불러오기 오류:', error);
+      });
+
+  }, [matchIdx])
+
 
   const handleAddGameItem = () => {
     const nextId = gameItems.length + 1;
@@ -288,57 +305,61 @@ const MatchDetail = ({ closeMatchDetail }) => {
           <Spacer></Spacer>
         </HeaderContainer>
         <ContentContainer>
-          <DateContainer>2024</DateContainer>
-          <VersusContainer>
-            <ClubCard>
-              <ClubImage />
-              <ClubName>중앙가르드</ClubName>
-              <ClubTier>실버</ClubTier>
-            </ClubCard>
-            VS
-            <ClubCard>
-              <ClubImage />
-              <ClubName>코테이토</ClubName>
-              <ClubTier>골드</ClubTier>
-            </ClubCard>
-          </VersusContainer>
-          <DetailContainer>
-            <DescriptionContainer>강남구민체육관에서 5시에 매치하실 분분분분분분분분분분분분분분!</DescriptionContainer>
-            <ResultContainer>
-              매치 결과
-              <ResultCard>
-                <ClubLabelContainer>
-                  <ClubLabel>중앙가르드</ClubLabel>
-                  <ClubLabel>코테이토</ClubLabel>
-                </ClubLabelContainer>
-                <GameContainer>
-                  {gameItems.map((item) => (
-                    <GameItem key={item.id} gameNumber={item.gameNumber} isComplete={isComplete} />
-                  ))}
-                </GameContainer>
-                {!isComplete && (
-                  <AddGameButton onClick={handleAddGameItem}>
-                    매치 결과 추가하기 +
-                  </AddGameButton>
+          {matchData && (
+            <>
+              <DateContainer></DateContainer>  {/*TODO: 백에서 데이터 받아야하는 것 */}
+              <VersusContainer>
+                <ClubCard>
+                  <ClubImage style={{ backgroundImage: `url(${matchData.homeClubLogoUrl})` }} />
+                  <ClubName>{matchData.homeClubName}</ClubName>
+                  <ClubTier>{matchData.homeClubTier}</ClubTier>
+                </ClubCard>
+                VS
+                <ClubCard>
+                  <ClubImage style={{ backgroundImage: `url(${matchData.awayClubLogoUrl})` }} />
+                  <ClubName>{matchData.awayClubName}</ClubName>
+                  <ClubTier>{matchData.awayClubTier}</ClubTier>
+                </ClubCard>
+              </VersusContainer>
+              <DetailContainer>
+                <DescriptionContainer>{matchData.matchContent}</DescriptionContainer>
+                <ResultContainer>
+                  매치 결과
+                  <ResultCard>
+                    <ClubLabelContainer>
+                      <ClubLabel>{matchData.homeClubName}</ClubLabel>
+                      <ClubLabel>{matchData.awayClubName}</ClubLabel>
+                    </ClubLabelContainer>
+                    <GameContainer>
+                      {gameItems.map((item) => (
+                        <GameItem key={item.id} gameNumber={item.gameNumber} isComplete={isComplete} />
+                      ))}
+                    </GameContainer>
+                    {!isComplete && (
+                      <AddGameButton onClick={handleAddGameItem}>
+                        매치 결과 추가하기 +
+                      </AddGameButton>
+                    )}
+                  </ResultCard>
+                </ResultContainer>
+                {isComplete && (
+                  <SumResultContainer>
+                    <SumResultCard>
+                      <SumClubBox>
+                        <SumClubCount>3</SumClubCount>
+                        <FinalResult>WIN</FinalResult>
+                      </SumClubBox>
+                      합산 결과
+                      <SumClubBox>
+                        <SumClubCount>3</SumClubCount>
+                        <FinalResult>LOSE</FinalResult>
+                      </SumClubBox>
+                    </SumResultCard>
+                  </SumResultContainer>
                 )}
-              </ResultCard>
-            </ResultContainer>
-            {isComplete && (
-              <SumResultContainer>
-                <SumResultCard>
-                  <SumClubBox>
-                    <SumClubCount>3</SumClubCount>
-                    <FinalResult>WIN</FinalResult>
-                  </SumClubBox>
-                  합산 결과
-                  <SumClubBox>
-                    <SumClubCount>3</SumClubCount>
-                    <FinalResult>LOSE</FinalResult>
-                  </SumClubBox>
-                </SumResultCard>
-              </SumResultContainer>
-            )}
-          </DetailContainer>
+              </DetailContainer>
+            </>
+          )}
         </ContentContainer>
         <FooterContainer>
           {!isComplete ? (

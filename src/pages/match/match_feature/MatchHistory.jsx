@@ -150,8 +150,6 @@ const MatchHistory = ({ closeMatchHistory }) => {
     setShowGroupSelectList(false);
   };
 
-  console.log("selectedGroup: ", selectedGroup);
-  console.log(selectedGroup.clubMemberIdx);
 
 
   return (

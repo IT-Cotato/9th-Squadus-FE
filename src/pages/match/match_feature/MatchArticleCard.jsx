@@ -224,8 +224,8 @@ const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffe
   };
 
   return (
-    <WrapperContainer onClick={() => setExpanded(!expanded)}>
-      <MainContainer>
+    <WrapperContainer>
+      <MainContainer onClick={() => setExpanded(!expanded)}>
         <MainInfoContainer>
           <div>
             <Title>{title}</Title>
@@ -271,6 +271,7 @@ const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffe
             clubData.map(club => (   // clubData는 매치를 신청한 동아리 데이터
               <MatchClubItem 
                 key={club.id}
+                matchIdx={matchIdx}
                 clubName={club.clubName}
                 university={club.university}
                 tier={club.tier}
@@ -279,7 +280,6 @@ const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffe
                 onDecision={club.onDecision}
                 isAccepted={isAccepted}
                 status={club.status}
-
               />
             ))
           ) : (  // clubData가 없는 경우
