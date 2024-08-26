@@ -121,6 +121,7 @@ const MatchSentList = ({ selectedGroup }) => {
           placeOffer={matchSent.matchCreateResponse.placeProvided ? 'O' : 'X'}
           img={matchSent.matchCreateResponse.clubLogo}
           clubName={matchSent.matchCreateResponse.clubName}
+          category={matchSent.matchCreateResponse.sportsCategory}
           tierNeed={matchSent.matchCreateResponse.tier}
           peopleCount={matchSent.matchCreateResponse.maxParticipants}
           content={matchSent.matchCreateResponse.content}

@@ -162,6 +162,14 @@ const RequestButton = styled.div`
   display: ${({ $expanded, $show }) => ($expanded && $show ? 'flex' : 'none')};
 `;
 
+const EmptyStateMessage = styled.div`
+  color: ${({ theme }) => theme.colors.neutral[400]};
+  font-weight: 600;
+  padding: 20px 12px;
+  text-align: center;
+`;
+
+
 const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffer, img, clubName, clubIdx, tierNeed, peopleCount, content, requestButtonLabel, userClubs, showRequestButton = true, showClubContainer = false, clubData, clubMemberId }) => {
   const [expanded, setExpanded] = useState(false);
   const [showMatchSendModal, setShowMatchSendModal] = useState(false);
@@ -259,17 +267,21 @@ const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffe
       </MainContainer>
       {showClubContainer && 
         <BottomContainer $expanded={expanded ? "true" : undefined}>
-          {clubData.map(club => (
-            <MatchClubItem 
-              key={club.id}
-              clubName={club.clubName}
-              university={club.university}
-              tier={club.tier}
-              requestId={club.requestId}
-              clubMemberId={clubMemberId}   // 사용자가 헤더에서 선택한 동아리에서 clubMemberIdx
-              onDecision={club.onDecision}
-            />
-          ))}
+          {clubData && clubData.length > 0 ? (  // clubData가 있는 경우
+            clubData.map(club => (   // clubData는 매치를 신청한 동아리 데이터
+              <MatchClubItem 
+                key={club.id}
+                clubName={club.clubName}
+                university={club.university}
+                tier={club.tier}
+                requestId={club.requestId}
+                clubMemberId={clubMemberId}   // 사용자가 헤더에서 선택한 동아리에서 clubMemberIdx
+                onDecision={club.onDecision}
+              />
+            ))
+          ) : (  // clubData가 없는 경우
+            <EmptyStateMessage>아직 신청한 동아리가 없습니다</EmptyStateMessage>
+          )}
         </BottomContainer>
       }
 
