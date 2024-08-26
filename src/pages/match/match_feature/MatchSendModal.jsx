@@ -159,14 +159,16 @@ const MatchSendModal = ({ onClose, onConfirm, onFail, matchClubData }) => {
       try {
         const accessToken = localStorage.getItem('accessToken');
         const clubs = await getAdminClubs(accessToken);
-        setAdminClubData(clubs);
+        // 매치 글을 올린 동아리를 제외한 동아리만 표시
+        const filteredClubs = clubs.filter(club => club.clubId !== matchClubData.clubIdx);
+        setAdminClubData(filteredClubs);
       } catch (error) {
         console.error('관리 동아리 정보를 가져오는 데 실패했습니다:', error);
       }
     };
 
     fetchAdminClubs();
-  }, []);
+  }, [matchClubData.clubIdx]); // matchClubData.clubIdx가 변경될 때마다 호출
 
   const handleModalClick = (event) => {
     event.stopPropagation();

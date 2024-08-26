@@ -171,8 +171,7 @@ const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffe
   const [failedClub, setFailedClub] = useState(''); // 요청 실패한 동아리 이름 저장할 상태 추가
 
   // 사용자가 요청을 보낼 수 있는지 여부 확인
-  const canSendRequest = userClubs?.some(club => club.clubId !== clubIdx && club.isAdmin) && 
-                        !userClubs?.some(club => club.clubId === clubIdx);
+  const canSendRequest = userClubs?.some(club => club.clubId !== clubIdx && club.isAdmin);
 
   const handleRequestButtonClick = (event) => {
     event.stopPropagation();
@@ -213,6 +212,7 @@ const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffe
     matchIdx: matchIdx,
     matchClubName: clubName,
     matchDate: date,
+    clubIdx: clubIdx  // 매치 글을 올린 동아리의 ID를 포함하여 보낼 예정
   };
 
   return (
