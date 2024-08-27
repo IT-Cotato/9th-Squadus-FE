@@ -13,9 +13,11 @@ import { GroupContext } from "../Group";
 function GroupHeader() {
   const [showGroupSelectList, setShowGroupSelectList] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const toggleModal = () => {
     setIsModalOpen((prev) => !prev);
   };
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -23,26 +25,42 @@ function GroupHeader() {
   const { Loading, chooseClubId, groupData } = useContext(GroupContext);
 
   useEffect(() => {
-    console.log(Loading);
-    console.log(groupData.length);
-    console.log(groupData[chooseClubId]);
-  }, []);
+    const handleClickOutside = () => {
+      setShowGroupSelectList(false);  // 바깥을 클릭하면 false로 변경
+    };
+
+    // 컴포넌트가 마운트되었을 때 document에 이벤트 리스너 추가
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      // 컴포넌트가 언마운트되었을 때 이벤트 리스너 제거
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);  // 빈 배열을 사용하여 컴포넌트가 마운트/언마운트될 때만 실행
+
+  // 전파 차단을 위해 Wrapper에 클릭 핸들러 추가
+  const handleWrapperClick = (e) => {
+    e.stopPropagation();  // 이벤트 전파 차단
+    setShowGroupSelectList(!showGroupSelectList);
+  };
+
+
   return (
     <Container>
-      <Wrapper>
+      <Wrapper onClick={handleWrapperClick}>
         <RunEmoji />
         <Title>
           {Loading && groupData && groupData[chooseClubId]
             ? groupData[chooseClubId].clubName
-            : "Loading..."}
+            : "가입된 동아리가 없어요!"}
         </Title>
         <ArrowDown
           onClick={(e) => {
             setShowGroupSelectList(!showGroupSelectList);
           }}
         />
-        {showGroupSelectList && <GroupSelectList groupData={groupData} />}
       </Wrapper>
+      {showGroupSelectList && <GroupSelectList groupData={groupData} />}
       <IconWrapper>
         <ModiInfoIcon onClick={toggleModal} />
         <AlarmIcon />
@@ -59,13 +77,13 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
+  position: relative;
 `;
 
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
   font-size: 16px;
-  border-bottom: 1px solid #dcdcdc;
   position: relative;
 `;
 

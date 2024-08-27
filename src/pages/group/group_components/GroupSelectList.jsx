@@ -3,38 +3,69 @@ import styled from "styled-components";
 import GroupCreate from "./GroupCreate";
 import api from "../../../apis/utils/api";
 import { GroupContext } from "../Group";
+import plus_icon from "../../../assets/icons/plus-orange.svg"
 
 const Container = styled.div`
+  width: auto;
   position: absolute;
-  width: 100%;
   top: 40px;
-  left: 80px;
-  padding: 12px 0px;
+  left: 40px;
+  padding: 12px;
   background: white;
   box-shadow: 0px 2px 10px rgba(85, 91, 160, 0.43);
   border-radius: 8px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 12px;
+  gap: 4px;
   display: inline-flex;
   z-index: 1000;
 `;
 
 const GroupItem = styled.div`
-  color: #101828;
-  font-size: 14px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme }) => theme.colors.neutral[900]};
+  font-size: 16px;
   line-height: 19px;
+  font-weight: 500;
   word-wrap: break-word;
+  padding: 6px 0px;
 `;
 
+
 const GroupCreateButton = styled.div`
-  color: #101828;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  gap: 4px;
+  font-size: 16px;
+  line-height: 19px;
+  margin-top: 6px;
+  padding: 8px 12px;
+  /* background-color: ${({ theme }) => theme.colors.main[50]}; */
+  color: ${({ theme }) => theme.colors.main[600]};
+  border-radius: 8px;
+  border: 1px solid ${({ theme }) => theme.colors.main[600]};
+`;
+
+const NoGroupsMessage = styled.p`
+  color: ${({ theme }) => theme.colors.neutral[500]};
   font-size: 14px;
   line-height: 19px;
-  word-wrap: break-word;
-  border-top: 1px solid #dcdcdc;
-  padding-top: 8px;
+  padding: 8px;
+`;
+
+const PlusIcon = styled.div`
+  width: 14px;
+  height: 14px;
+  background-image: url(${plus_icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 function GroupSelectList({ groupData }) {
@@ -57,10 +88,11 @@ function GroupSelectList({ groupData }) {
           );
         })
       ) : (
-        <p>가입된 동아리가 없습니다.</p>
+        <NoGroupsMessage>가입된 동아리가 없어요!</NoGroupsMessage>
       )}
       <GroupCreateButton onClick={() => setShowGroupCreate(true)}>
-        + 동아리 생성
+        <PlusIcon></PlusIcon>
+        동아리 생성
       </GroupCreateButton>
       {showGroupCreate && (
         <GroupCreate closeGroupCreate={() => setShowGroupCreate(false)} />
