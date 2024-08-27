@@ -122,7 +122,7 @@ const MatchClubItem = ({ matchIdx, clubName, university, tier, requestId, onDeci
       </ClubInfoContainer>
       <ButtonContainer>
         {status === 'ACCEPTED' ? ( // 현재 동아리가 승낙된 경우
-          <CompleteButton onClick={handleDetailClick}>매칭 완료</CompleteButton>
+          <CompleteButton onClick={handleDetailClick}>승낙 완료</CompleteButton>
         ) : isOtherAccepted ? ( // 다른 동아리가 승낙된 경우
           null
         ) : ( // 아직 결정되지 않은 경우
@@ -137,7 +137,9 @@ const MatchClubItem = ({ matchIdx, clubName, university, tier, requestId, onDeci
         showMatchDetail && 
         <MatchDetail
           closeMatchDetail={() => setShowMatchDetail(false)}
-          matchIdx={matchIdx}
+          matchId={matchIdx}
+          clubMemberId={clubMemberId}
+          isHomeClub={true}
         />
       }
     </Container>

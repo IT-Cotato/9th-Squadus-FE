@@ -24,7 +24,7 @@ const Result = styled.div`
 
 
 
-const MatchSentItem = ({ title, location, date, placeOffer, img, clubName, category, tierNeed, peopleCount, content, status}) => {
+const MatchSentItem = ({ clubMemberId, matchIdx, title, location, date, placeOffer, img, clubName, category, tierNeed, peopleCount, content, status}) => {
   const [showMatchDetail, setShowMatchDetail] = useState(false);
 
   const handleDetailClick = () => {
@@ -56,6 +56,9 @@ const MatchSentItem = ({ title, location, date, placeOffer, img, clubName, categ
         showMatchDetail && 
         <MatchDetail
           closeMatchDetail={() => setShowMatchDetail(false)}
+          matchId={matchIdx}
+          clubMemberId={clubMemberId}
+          isHomeClub={false}
         />
       }
     </Container>

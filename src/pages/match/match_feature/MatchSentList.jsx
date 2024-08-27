@@ -23,7 +23,7 @@ const formatDateAndTime = (date, time) => {
 };
 
 
-const MatchSentList = ({ selectedGroup }) => {
+const MatchSentList = ({ selectedGroup, clubMemberId }) => {
   const [matchSentData, setMatchSentData] = useState([]);
 
   useEffect(() => {
@@ -115,6 +115,7 @@ const MatchSentList = ({ selectedGroup }) => {
       {matchSentData.map(matchSent => (
         <MatchSentItem 
           key={matchSent.matchRequestIdx}
+          matchIdx={matchSent.matchCreateResponse.matchIdx}
           title={matchSent.matchCreateResponse.title}
           location={`${matchSent.matchCreateResponse.matchPlace.city} ${matchSent.matchCreateResponse.matchPlace.district}`}
           date={formatDateAndTime(matchSent.matchCreateResponse.matchStartDate, matchSent.matchCreateResponse.matchStartTime)}
@@ -126,6 +127,7 @@ const MatchSentList = ({ selectedGroup }) => {
           peopleCount={matchSent.matchCreateResponse.maxParticipants}
           content={matchSent.matchCreateResponse.content}
           status={getStatusLabel(matchSent.status)}
+          clubMemberId={clubMemberId}
         />
       ))}
     </Container>

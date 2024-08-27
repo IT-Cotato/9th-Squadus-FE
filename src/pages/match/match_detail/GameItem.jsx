@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const GameItemContainer = styled.div`
@@ -35,16 +35,23 @@ const ResultText = styled.div`
   font-weight: 700;
 `;
 
-const GameItem = ({ gameNumber, isComplete }) => {
+const GameItem = ({ gameNumber, isComplete, homeScore, awayScore, onScoreChange }) => {
   const [inputValueOne, setInputValueOne] = useState('');
   const [inputValueTwo, setInputValueTwo] = useState('');
 
+  useEffect(() => {
+    setInputValueOne(homeScore);
+    setInputValueTwo(awayScore);
+  }, [homeScore, awayScore])
+
   const handleInputChangeOne = (event) => {
     setInputValueOne(event.target.value);
+    onScoreChange(event.target.value, inputValueTwo);
   };
 
   const handleInputChangeTwo = (event) => {
     setInputValueTwo(event.target.value);
+    onScoreChange(inputValueOne, event.target.value);
   };
 
   return (
