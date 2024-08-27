@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import MatchArticleCard from './MatchArticleCard';
-import MatchDetail from '../match_detail/MatchDetail';
+import MatchDetailReadOnly from '../match_detail/MatchDetailReadOnly';
 
 const Container = styled.div`
   display: flex;
@@ -25,10 +25,12 @@ const Result = styled.div`
 
 
 const MatchSentItem = ({ clubMemberId, matchIdx, title, location, date, placeOffer, img, clubName, category, tierNeed, peopleCount, content, status}) => {
-  const [showMatchDetail, setShowMatchDetail] = useState(false);
+  const [showMatchDetailReadOnly, setShowMatchDetailReadOnly] = useState(false);
 
   const handleDetailClick = () => {
-    setShowMatchDetail(true);
+    if (status === '승낙') {
+      setShowMatchDetailReadOnly(true);
+    }
   }
 
 
@@ -53,9 +55,9 @@ const MatchSentItem = ({ clubMemberId, matchIdx, title, location, date, placeOff
       </Result>
 
       {
-        showMatchDetail && 
-        <MatchDetail
-          closeMatchDetail={() => setShowMatchDetail(false)}
+        showMatchDetailReadOnly && 
+        <MatchDetailReadOnly
+          closeMatchDetail={() => setShowMatchDetailReadOnly(false)}
           matchId={matchIdx}
           clubMemberId={clubMemberId}
           isHomeClub={false}

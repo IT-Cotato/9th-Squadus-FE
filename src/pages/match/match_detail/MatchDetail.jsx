@@ -290,6 +290,7 @@ const MatchDetail = ({ closeMatchDetail, matchId, clubMemberId }) => {
             matchResultIdx: result.matchResultIdx, // 수정: 기존 결과의 ID 저장
           }));
           setGameItems(loadedGameItems);
+          fetchFinalResult();
         }
       })
       .catch((error) => {
@@ -352,7 +353,7 @@ const MatchDetail = ({ closeMatchDetail, matchId, clubMemberId }) => {
     const accessToken = localStorage.getItem('accessToken');
     try {
       const finalResultData = await getFinalResult(accessToken, matchId, clubMemberId);
-      setFinalResult(finalResultData.data);
+      setFinalResult(finalResultData);
     } catch (error) {
       console.error('최종 결과 가져오기 오류:', error);
     }

@@ -188,4 +188,28 @@ export const getFinalResult = (accessToken, matchPostId, clubMemberId) => {
       clubMemberId: clubMemberId,
     }
   })
+  .then((response) => {
+    return response.data;
+  })
+  .catch((error) => {
+    console.log("매치 승리 결과 API 호출 오류", error);
+    throw error;
+  })
+}
+
+// 매칭 상세보기 및 승리정보 API 호출 함수
+export const getMatchDetailWithWin = (accessToken, matchPostId) => {
+  return api.get(`/v1/api/match-results/${matchPostId}/details-with-win`, {
+    headers: {
+      'Content-Type': 'application/json',
+      access: `${accessToken},`
+    },
+  })
+  .then((response) => {
+    return response.data;
+  })
+  .catch((error) => {
+    console.log("매칭 상세보기 및 승리정보 API 호출 오류", error);
+    throw error;
+  })
 }
