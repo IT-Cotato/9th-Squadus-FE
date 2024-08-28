@@ -50,7 +50,7 @@ const MainInfoContainer = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   margin-bottom: 8px;
 `;
@@ -108,18 +108,20 @@ const SegmentContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
+  font-size: 14px;
 `;
 
 const Schedule = styled.div`
   font-size: 16px;
   font-weight: 600;
   color: white;
-  opacity: 80%;
 `
 
 const CountContainer = styled.div`
   display: flex;
   flex-direction: row;
+  font-size: 16px;
+  font-weight: 600;
 `
 
 const ContentContainer = styled.div`
@@ -128,6 +130,8 @@ const ContentContainer = styled.div`
   flex-direction: column;
   margin-top: 4px;
   gap: 8px;
+  font-size: 15px;
+  line-height: 18px;
 `;
 
 const PlaceOffer = styled.div`
