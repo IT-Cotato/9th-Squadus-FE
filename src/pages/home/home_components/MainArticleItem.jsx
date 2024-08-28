@@ -59,7 +59,7 @@ const Image = styled.img`
   height: 100%;
   border-radius: 20px 20px 0 0;
   background-color: #e4e7ec;
-  background-color: white;
+  object-fit: cover;
 `;
 const Wrapper = styled.div`
   position: absolute;
