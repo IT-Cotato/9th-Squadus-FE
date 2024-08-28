@@ -68,20 +68,26 @@ const PlusIcon = styled.div`
   background-position: center;
 `;
 
-function GroupSelectList({ groupData }) {
+function GroupSelectList({ groupData, closeSelectList }) {
   const { chooseClubId, setChooseClubId } = useContext(GroupContext);
-
   const [showGroupCreate, setShowGroupCreate] = useState(false);
 
+  const handleContainerClick = (e) => {
+    e.stopPropagation(); // 클릭 이벤트 전파 차단
+  };
+
   return (
-    <Container>
+    <Container onClick={handleContainerClick}>
       {groupData.length > 0 ? (
         groupData.map((group, index) => {
           //현재 동아리 제외
           return (
             <GroupItem
               key={group.clubId}
-              onClick={() => setChooseClubId(index)}
+              onClick={() => {
+                setChooseClubId(index)
+                closeSelectList(); 
+              }}
             >
               {group.clubName}
             </GroupItem>
@@ -90,12 +96,16 @@ function GroupSelectList({ groupData }) {
       ) : (
         <NoGroupsMessage>가입된 동아리가 없어요!</NoGroupsMessage>
       )}
-      <GroupCreateButton onClick={() => setShowGroupCreate(true)}>
+      <GroupCreateButton onClick={() => {
+        setShowGroupCreate(true)
+      }}>
         <PlusIcon></PlusIcon>
         동아리 생성
       </GroupCreateButton>
       {showGroupCreate && (
-        <GroupCreate closeGroupCreate={() => setShowGroupCreate(false)} />
+        <GroupCreate closeGroupCreate={() => {
+          setShowGroupCreate(false)
+        }} />
       )}
     </Container>
   );

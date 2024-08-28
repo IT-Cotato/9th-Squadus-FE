@@ -60,7 +60,12 @@ function GroupHeader() {
           }}
         />
       </Wrapper>
-      {showGroupSelectList && <GroupSelectList groupData={groupData} />}
+      {showGroupSelectList && (
+        <GroupSelectList 
+          groupData={groupData} 
+          closeSelectList={() => setShowGroupSelectList(false)}
+        />
+      )}
       <IconWrapper>
         <ModiInfoIcon onClick={toggleModal} />
         <AlarmIcon />
