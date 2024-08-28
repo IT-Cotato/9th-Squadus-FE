@@ -41,45 +41,51 @@ const ArticleDetailList = () => {
   const ThirdList = articleList.filter((item) => item.type === "운동 팁");
   return (
     <Container>
-      <ArticleCategoryTitle>운동 가이드</ArticleCategoryTitle>
-      <ArticleContainerRow>
-        {FirstList.map((item) => (
-          <MainArticleItem
-            key={item.articleId}
-            articleId={item.articleId}
-            title={item.title}
-            subtitle={item.subtitle}
-            img={item.imageUrl}
-            onClick={openEachModal}
-          ></MainArticleItem>
-        ))}
-      </ArticleContainerRow>
-      <ArticleCategoryTitle>동아리 소개</ArticleCategoryTitle>
-      <ArticleContainerCol>
-        {SecondList.map((item) => (
-          <MainArticleItemMinimal
-            key={item.articleId}
-            articleId={item.articleId}
-            title={item.title}
-            subtitle={item.subtitle}
-            img={item.imageUrl}
-            onClick={openEachModal}
-          ></MainArticleItemMinimal>
-        ))}
-      </ArticleContainerCol>
-      <ArticleCategoryTitle>운동 팁</ArticleCategoryTitle>
-      <ArticleContainerRow>
-        {ThirdList.map((item) => (
-          <MainArticleItem
-            key={item.articleId}
-            articleId={item.articleId}
-            title={item.title}
-            subtitle={item.subtitle}
-            img={item.imageUrl}
-            onClick={openEachModal}
-          ></MainArticleItem>
-        ))}
-      </ArticleContainerRow>
+      <ArticleBox>
+        <ArticleCategoryTitle>운동 가이드</ArticleCategoryTitle>
+        <ArticleContainerRow>
+          {FirstList.map((item) => (
+            <MainArticleItem
+              key={item.articleId}
+              articleId={item.articleId}
+              title={item.title}
+              subtitle={item.subtitle}
+              img={item.imageUrl}
+              onClick={openEachModal}
+            ></MainArticleItem>
+          ))}
+        </ArticleContainerRow>
+      </ArticleBox>
+      <ArticleBox>
+        <ArticleCategoryTitle>동아리 소개</ArticleCategoryTitle>
+        <ArticleContainerCol>
+          {SecondList.map((item) => (
+            <MainArticleItemMinimal
+              key={item.articleId}
+              articleId={item.articleId}
+              title={item.title}
+              subtitle={item.subtitle}
+              img={item.imageUrl}
+              onClick={openEachModal}
+            ></MainArticleItemMinimal>
+          ))}
+        </ArticleContainerCol>
+      </ArticleBox>
+      <ArticleBox>
+        <ArticleCategoryTitle>운동 팁</ArticleCategoryTitle>
+        <ArticleContainerRow>
+          {ThirdList.map((item) => (
+            <MainArticleItem
+              key={item.articleId}
+              articleId={item.articleId}
+              title={item.title}
+              subtitle={item.subtitle}
+              img={item.imageUrl}
+              onClick={openEachModal}
+            ></MainArticleItem>
+          ))}
+        </ArticleContainerRow>
+      </ArticleBox>
       <ArticleEachModal
         isOpen={isEachModalOpen}
         closeModal={closeEachModal}
@@ -95,6 +101,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 16px 20px;
+  gap: 32px;
+`;
+
+const ArticleBox = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const ArticleCategoryTitle = styled.div`
