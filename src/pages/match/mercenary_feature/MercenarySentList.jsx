@@ -30,10 +30,9 @@ const MercenarySentList = () => {
 
   useEffect(() => {
     const fetchMercenaryRequests = async () => {
-
       try {
         const accessToken = localStorage.getItem('accessToken');
-        const data = await getMercenaryRequests(accessToken, userData.memberId);
+        const data = await getMercenaryRequests(accessToken);   // TODO: 백에서 데이터 제대로 받아오고 있는지 확인 필요
         setMercenarySentData(data.matches || []);
       } catch (error) {
         console.error('개인이 신청한 용병 내역 불러오는 중 오류', error);

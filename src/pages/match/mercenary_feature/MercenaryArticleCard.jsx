@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import arrow_up_icon from '../../../assets/icons/arrow-up-white.svg';
 import MercenaryPersonItem from './MercenaryPersonItem';
 import MercenarySendSuccessModal from './MercenarySendSuccessModal';
+import MercenarySendFailModal from './MercenarySendFailModal';
+import { postMercenaryRequest } from '../../../apis/api/mercenary';
 
 const WrapperContainer = styled.div`
   width: 100%;
@@ -46,7 +48,7 @@ const MainInfoContainer = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   margin-bottom: 8px;
 `;
@@ -112,10 +114,13 @@ const Schedule = styled.div`
   flex-direction: row;
   gap: 4px;
   align-items: center;
+  font-size: 16px;
+  font-weight: 600;
 `;
 
 const CountContainer = styled.div`
   font-size: 14px;
+  font-weight: 400;
 `;
 
 const BarContainer = styled.div`
@@ -139,6 +144,8 @@ const ContentContainer = styled.div`
   flex-direction: column;
   margin-top: 4px;
   gap: 8px;
+  font-size: 15px;
+  line-height: 18px;
 `;
 
 const PlaceOffer = styled.div`
@@ -173,27 +180,50 @@ const RequestButton = styled.div`
   display: ${({ $expanded, $show }) => ($expanded && $show ? 'flex' : 'none')};
 `;
 
+const EmptyStateMessage = styled.div`
+  color: ${({ theme }) => theme.colors.neutral[400]};
+  font-weight: 600;
+  padding: 20px 12px;
+  text-align: center;
+`;
+
 const MercenaryArticleCard = ({ mercenaryIdx, title, location, category, date, placeOffer, img, clubName, clubIdx, maxCount, currentCount, content, requestButtonLabel, userClubs, showRequestButton = true, showPersonContainer = false, personData }) => {
   const [expanded, setExpanded] = useState(false);
   const [showMercenarySendSuccessModal, setShowMercenarySendSuccessModal] = useState(false);
+  const [showMercenarySendFailModal, setShowMercenarySendFailModal] = useState(false);
 
   // 사용자가 요청을 보낼 수 있는지 여부 확인
   const canSendRequest = !userClubs?.some(club => club.clubId === clubIdx);
 
-  const handleRequestButtonClick = (event) => {
+  const handleRequestButtonClick = async (event) => {
     event.stopPropagation();
-    setShowMercenarySendSuccessModal(true);
+
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      await postMercenaryRequest(accessToken, mercenaryIdx);
+      setShowMercenarySendSuccessModal(true);
+    } catch (error) {
+      if (error.response && error.response.data.code === 'M-302') {
+        console.log("이미 용병 요청을 보냄")
+        setShowMercenarySendFailModal(true);
+      }
+    }
   };
 
-  const handleSendModalClose = () => {
+  const handleSendSuccessModalClose = () => {
     setShowMercenarySendSuccessModal(false);
   };
+
+  const handleSendFailModalClose = () => {
+    setShowMercenarySendFailModal(false);
+  }
+
 
   const mercenaryClubData = {
     mercenaryIdx: mercenaryIdx,
     matchClubName: clubName,
     matchDate: date,
-};
+  };
 
   return (
     <WrapperContainer onClick={() => setExpanded(!expanded)}>
@@ -239,17 +269,23 @@ const MercenaryArticleCard = ({ mercenaryIdx, title, location, category, date, p
       </MainContainer>
       {showPersonContainer && 
         <BottomContainer $expanded={expanded ? "true" : undefined}>
-          {personData.map(person => (
-            <MercenaryPersonItem
-              key={person.id}
-              personName={person.personName}
-              university={person.university}
-            />
-          ))}
+          {personData && personData.length > 0 ? (
+            personData.map(person => (
+              <MercenaryPersonItem
+                key={person.id}
+                personName={person.personName}
+                university={person.university}
+              />
+            ))
+          ) : (
+            <EmptyStateMessage>아직 신청한 사람이 없습니다</EmptyStateMessage>
+          )} 
         </BottomContainer>
       }
 
-      {showMercenarySendSuccessModal && <MercenarySendSuccessModal onClose={handleSendModalClose} />}
+      {showMercenarySendSuccessModal && <MercenarySendSuccessModal onClose={handleSendSuccessModalClose} />}
+      {showMercenarySendFailModal && <MercenarySendFailModal onClose={handleSendFailModalClose} />}
+
     </WrapperContainer>
     
   );

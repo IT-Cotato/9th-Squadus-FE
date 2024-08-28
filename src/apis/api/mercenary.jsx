@@ -35,21 +35,18 @@ export const getMercenaries = (accessToken) => {
 }
 
 // 개인이 신청한 용병 매치 목록 조회(전체) API 호출 함수
-export const getMercenaryRequests = (accessToken, clubMemberId) => {
+export const getMercenaryRequests = (accessToken) => {
   return api.get('/v1/api/mercenary-requests', {
     headers: {
       'Content-Type': 'application/json',
       access: `${accessToken}`,
     },
-    params: {
-      clubMemberId: clubMemberId,
-    }
   })
   .then((response) => {
     return response.data;
   })
   .catch((error) => {
-    console.log("내 동아리에서 신청한 매치 목록 조회(전체) API 호출 오류", error);
+    console.log("개인이 신청한 용병 매치 목록 조회(전체) API 호출 오류", error);
     throw error;
   })
 }
@@ -75,9 +72,8 @@ export const getMercenaryReceiveds = (accessToken, clubId) => {
 }
 
 // 특정 용병 게시글에 용병 신청 API 호출 함수
-export const postMercenaryRequest = (accessToken, clubMemberId, mercenaryPostId) => {
+export const postMercenaryRequest = (accessToken, mercenaryPostId) => {
   return api.post('/v1/api/mercenary/request', {
-    clubMemberId: clubMemberId,
     mercenaryPostId: mercenaryPostId
   }, {
     headers: {

@@ -80,8 +80,9 @@ const MercenaryReceivedList = ({ selectedGroup }) => {
           key={mercenaryReceived.mercenaryCreateResponse.mercenaryIdx}
           title={mercenaryReceived.mercenaryCreateResponse.title}
           location={`${mercenaryReceived.mercenaryCreateResponse.matchPlace.city} ${mercenaryReceived.mercenaryCreateResponse.matchPlace.district}`}
+          category={mercenaryReceived.mercenaryCreateResponse.sportsCategory}
           date={formatDateAndTime(mercenaryReceived.mercenaryCreateResponse.matchStartDate, mercenaryReceived.mercenaryCreateResponse.matchStartTime)}
-          placeOffer={mercenaryReceived.mercenaryCreateResponse.placeProvided}
+          placeOffer={mercenaryReceived.mercenaryCreateResponse.placeProvided ? 'O' : 'X'}
           img={mercenaryReceived.mercenaryCreateResponse.clubLogo}
           clubName={mercenaryReceived.mercenaryCreateResponse.clubName}
           maxCount={mercenaryReceived.mercenaryCreateResponse.maxParticipants}
