@@ -77,6 +77,7 @@ const FieldContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  position: relative;
 `;
 
 const Label = styled.div`

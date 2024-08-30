@@ -195,7 +195,7 @@ const NoticeCreate = ({ closeNoticeCreate, clubId, refreshNotices }) => {
     postNotice(accessToken, clubId, noticeData, selectedFile)
       .then((response) => {
         console.log("공지 생성 성공:", response);
-        refreshNotices();
+        // refreshNotices();
         closeNoticeCreate();
       })
       .catch((error) => {

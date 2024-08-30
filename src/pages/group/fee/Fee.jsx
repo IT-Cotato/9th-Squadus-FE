@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 import FeeInfoCard from './fee_components/FeeInfoCard';
-import ExpenseItem from './fee_components/ExpenseItem';
 // import FeeStatus from './FeeStatus';
 import FeeDetail from './FeeDetail';
 import FeeCreate from './FeeCreate';
-import ExpenseCreate from './ExpenseCreate';
 import { GroupContext } from "../Group";
 import { useState, useContext, useEffect } from "react";
 import { getFees } from '../../../apis/api/fee';
@@ -117,7 +115,6 @@ const Fee = () => {
   const [showFeeDetail, setShowFeeDetail] = useState(false);
   const [selectedFeeId, setSelectedFeeId] = useState(null);
   const [showFeeCreate, setShowFeeCreate] = useState(false);
-  const [showExpenseCreate, setShowExpenseCreate] = useState(false);
   const selectedFeeInfo = feesData.find(fee => fee.feeTypeId === selectedFeeId);
 
 
@@ -268,8 +265,15 @@ const Fee = () => {
         />
       )}
 
-      {showFeeCreate && <FeeCreate closeFeeCreate={() => setShowFeeCreate(false)} />}
-      {showExpenseCreate && <ExpenseCreate closeExpenseCreate={() => setShowExpenseCreate(false)}/>}
+      {
+        showFeeCreate && 
+        <FeeCreate
+          closeFeeCreate={() => {
+            setShowFeeCreate(false);
+            fetchFees();
+          }}
+        />
+      }
       
     </Container>
   );

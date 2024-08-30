@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import plus_icon from '../../../assets/icons/plus-orange.svg'
+import ExpenseCreate from './ExpenseCreate';
 
 const Container = styled.div`
   width: 100%;
@@ -84,6 +85,7 @@ const EmptyUsageStateMessage = styled.div`
 `;
 
 const FeeUsage = () => {
+  const [showExpenseCreate, setShowExpenseCreate] = useState(false);
 
   const feeUsagesData = [
     {
@@ -142,7 +144,7 @@ const FeeUsage = () => {
   return (
     <Container>
       <TitleContainer>회비 사용내역</TitleContainer>
-      <AddButton>
+      <AddButton onClick={() => setShowExpenseCreate(true)}>
         사용내역 추가 
         <PlusIcon></PlusIcon>
       </AddButton>
@@ -163,6 +165,8 @@ const FeeUsage = () => {
           <EmptyUsageStateMessage>해당 회비의 사용내역이 없습니다.</EmptyUsageStateMessage>
         )}
       </HistoryContainer>
+
+      {showExpenseCreate && <ExpenseCreate closeExpenseCreate={() => setShowExpenseCreate(false)}/>}
     </Container>
   );
 };

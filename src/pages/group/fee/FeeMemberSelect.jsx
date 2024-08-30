@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import FeeMemberSelectItem from './fee_components/FeeMemberSelectItem';
 import close_icon from '../../../assets/icons/close.svg';
+import { GroupContext } from "../Group";
+import { getClubMembers } from '../../../apis/api/fee';
 
 const WrapperContainer = styled.div`
   position: fixed;
@@ -79,17 +81,29 @@ const ContentContainer = styled.div`
 `;
 
 const FeeMemberSelect = ({ closeFeeMemberSelect, updateSelection, selectedMemberIds }) => {
-  const MemberData = [
-    { id: "1", name: "이름1", img: "" },
-    { id: "2", name: "이름2", img: "" },
-    { id: "3", name: "이름3", img: "" },
-    { id: "4", name: "이름4", img: "" },
-  ];
+  const { selectedClubId } = useContext(GroupContext);
+  const [members, setMembers] = useState([]);
 
-  const [members, setMembers] = useState(MemberData.map(member => ({
-    ...member,
-    isSelected: selectedMemberIds.includes(member.id)
-  })));
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    const fetchMembers = async() => {
+      if (accessToken && selectedClubId) {
+        try {
+          const data = await getClubMembers(accessToken, selectedClubId);
+          setMembers(data.clubMemberInfoResponseList.map(member => ({
+            ...member,
+            isSelected: selectedMemberIds.includes(member.id)
+          })))
+        } catch (error) {
+          console.log("동아리 회원 리스트 불러오는 중 오류")
+        }
+      }
+    }
+    
+    fetchMembers();
+
+  }, [selectedClubId, selectedMemberIds])
+
 
   const allSelected = members.every(member => member.isSelected);
 
@@ -131,11 +145,11 @@ const FeeMemberSelect = ({ closeFeeMemberSelect, updateSelection, selectedMember
           <SelectAllButton onClick={toggleAllSelection} $allSelected={allSelected}>모두 선택</SelectAllButton>
           {members.map(member => (
             <FeeMemberSelectItem 
-            key={member.id} 
-            img={member.img} 
-            name={member.name}
-            isSelected={member.isSelected}
-            toggleCheck={() => toggleMemberSelection(member.id)}
+              key={member.id} 
+              img={member.img} 
+              name={member.name}
+              isSelected={member.isSelected}
+              toggleCheck={() => toggleMemberSelection(member.id)}
             />
           ))}
         </ContentContainer>

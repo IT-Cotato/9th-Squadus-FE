@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import FeeMemberSelect from './FeeMemberSelect';
 import CustomCalendar from './fee_components/CustomCalendar';
 import close_icon from '../../../assets/icons/close.svg';
+import { GroupContext } from "../Group";
+import { postFee } from '../../../apis/api/fee';
 
 const WrapperContainer = styled.div`
   position: fixed;
@@ -75,8 +77,8 @@ const FieldContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 8px;
+  position: relative; 
 `;
 
 const Label = styled.div`
@@ -91,6 +93,7 @@ const Input = styled.input`
   padding: 10px;
   border: none;
   border-radius: 8px;
+  border: 1px solid ${({ theme }) => theme.colors.neutral[100]};
   background-color: ${({ theme }) => theme.colors.neutral[50]};
   color: ${({ theme }) => theme.colors.neutral[700]};
   font-size: 16px;
@@ -113,7 +116,8 @@ const SelectMemberContainer = styled.div`
   padding: 10px;
   border: none;
   border-radius: 8px;
-  background-color: ${({ theme }) => theme.colors.neutral[0]};
+  border: 1px solid ${({ theme }) => theme.colors.neutral[100]};
+  background-color: ${({ theme }) => theme.colors.neutral[50]};
   color: ${({ theme }) => theme.colors.neutral[700]};
   font-size: 16px;
   display: flex;
@@ -125,13 +129,48 @@ const SelectMemberButton = styled.div`
   color: ${({ theme }) => theme.colors.main[500]};
 `
 
+const ButtonGroup = styled.div`
+  display: flex;
+  align-items: start;
+  gap: 8px;
+`;
+
+const Button = styled.div`
+  padding: 8px;
+  background-color: ${({ theme }) => theme.colors.neutral[50]};
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  color: ${({ active, theme }) => active ? theme.colors.main[600] : theme.colors.neutral[500]};
+  border: 1px solid ${({ active, theme }) => active ? theme.colors.main[600] : theme.colors.neutral[200]};
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    border-color: ${({ theme }) => theme.colors.main[500]};
+  }
+
+  &.selected {
+    border-color: ${({ theme }) => theme.colors.main[500]};
+    background-color: ${({ theme }) => theme.colors.neutral[50]};
+    color: ${({ theme }) => theme.colors.main[500]};
+  }
+`;
+
+
 const FeeCreate = ({ closeFeeCreate }) => {
+  const { selectedClubId } = useContext(GroupContext);
+  const [feeName, setFeeName] = useState('');
+  const [price, setPrice] = useState(0);
+  const [feeCategory, setFeeCategory] = useState('REGULAR');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [memo, setMemo] = useState('');
+  const [selectedMemberIds, setSelectedMemberIds] = useState([]);
+
   const [showStartCalendar, setShowStartCalendar] = useState(false);
   const [showEndCalendar, setShowEndCalendar] = useState(false);
   const [showSelectFeeMember, setShowSelectFeeMember] = useState(false);
-  const [selectedMemberIds, setSelectedMemberIds] = useState([]);
 
   const handleContainerClick = () => {
     if (showStartCalendar) setShowStartCalendar(false);
@@ -143,18 +182,49 @@ const FeeCreate = ({ closeFeeCreate }) => {
     setSelectedMemberIds(selectedIds);
   };
 
+  const handleSubmit = async() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if(!accessToken || !selectedClubId) {
+      console.log('로그인 정보가 유효하지 않음');
+      return;
+    }
+
+    const feeData = {
+      feeTypeName: feeName,
+      price: price,
+      feeCategory: feeCategory,
+      startDate: startDate.toISOString().split('T')[0],
+      endDate: endDate.toISOString().split('T')[0],
+      clubMemberIds: selectedMemberIds,
+      memo: memo,
+    }
+
+    postFee(accessToken, selectedClubId, feeData)
+    .then(response => {
+      alert("회비 등록 성공");
+      closeFeeCreate();
+    })
+    .catch(error => {
+      alert("회비 등록 실패");
+    })
+  }
+
   return (
     <WrapperContainer>
       <Container onClick={handleContainerClick}>
         <HeaderContainer>
           <CloseButton onClick={closeFeeCreate}/>
           <HeaderTitle>회비 등록</HeaderTitle>
-          <SaveButton>완료</SaveButton>
+          <SaveButton onClick={handleSubmit}>완료</SaveButton>
         </HeaderContainer>
         <ContentContainer>
           <FieldContainer>
             <Label>회비명</Label>
-            <Input type="text" />
+            <Input 
+              value={feeName}
+              placeholder="회비명을 입력하세요"
+              onChange={e => setFeeName(e.target.value)} 
+            />
           </FieldContainer>
           <FieldContainer>
             <Label>금액 (원)</Label>
@@ -163,15 +233,29 @@ const FeeCreate = ({ closeFeeCreate }) => {
               min="0"  // 최소값을 0으로 설정
               placeholder="숫자로 입력하세요"
               onChange={e => {
-                if (!Number(e.target.value) && e.target.value !== '') {
-                  e.target.value = e.target.value.slice(0, -1);
+                const newPrice = parseInt(e.target.value, 10); // 입력값을 정수로 변환
+                if (!isNaN(newPrice) && newPrice >= 0) {
+                  setPrice(newPrice);
                 }
               }}
             />
           </FieldContainer>
           <FieldContainer>
             <Label>회비 구분</Label>
-            <Input type="text" />
+            <ButtonGroup>
+              <Button
+                active={feeCategory === 'REGULAR'}
+                onClick={() => setFeeCategory('REGULAR')}
+              >
+                정기회비
+              </Button>
+              <Button
+                active={feeCategory === 'EVENT'}
+                onClick={() => setFeeCategory('EVENT')}
+              >
+                이벤트회비
+              </Button>
+            </ButtonGroup>
           </FieldContainer>
           <FieldContainer>
             <Label>회비 납부 시작일</Label>
@@ -179,6 +263,7 @@ const FeeCreate = ({ closeFeeCreate }) => {
               readOnly
               value={startDate ? startDate.toLocaleDateString() : "날짜 선택"}
               onClick={(e) => {
+                console.log("캘린더 클릭")
                 e.stopPropagation();
                 setShowStartCalendar(!showStartCalendar);
                 setShowEndCalendar(false);
@@ -224,7 +309,11 @@ const FeeCreate = ({ closeFeeCreate }) => {
           </FieldContainer>
           <FieldContainer>
             <Label>메모</Label>
-            <Input type="text" />
+            <Input 
+              value={memo}
+              placeholder="메모를 입력하세요"
+              onChange={e => setMemo(e.target.value)} 
+            />
           </FieldContainer>
         </ContentContainer>
 

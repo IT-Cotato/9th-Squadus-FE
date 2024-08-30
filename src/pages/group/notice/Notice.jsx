@@ -125,7 +125,7 @@ const Notice = () => {
             fetchNotices();
           }}
           clubId={selectedClubId}
-          refreshNotices={fetchNotices}
+          // refreshNotices={fetchNotices}
         />
       )}
 
