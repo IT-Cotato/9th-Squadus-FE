@@ -94,7 +94,7 @@ const TabItem = styled.div`
 const PreviewContainer = styled.div`
   width: 100%;
   text-align: center;
-  padding: 28px 0;
+  padding: 28px 0 36px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -107,7 +107,7 @@ const Title = styled.div`
   color: ${({ theme }) => theme.colors.neutral[700]};
 `;
 
-const EndDate = styled.div`
+const SubTitle = styled.div`
   font-size: 16px;
   color: ${({ theme }) => theme.colors.neutral[400]};
 `;
@@ -160,12 +160,26 @@ const FeeDetail = ({ closeFeeDetail, feeId, feeInfo }) => {
             <TabItem onClick={() => handleTabClick('feeUsage')} $isActive={activeTab === 'feeUsage'}>사용내역</TabItem>
           </TabContainer>
         <ContentContainer>
-          <PreviewContainer>
-            <Title>{feeInfo.feeTypeName}</Title>
-            <EndDate>{`마감일: ${feeInfo.endDate}`}</EndDate>
-            <Balance>{`${parseInt(feeInfo.balance, 10).toLocaleString('ko-KR')}원`}</Balance>
-            <Price>{`1인당 ${parseInt(feeInfo.price, 10).toLocaleString('ko-KR')}원씩`}</Price>
-          </PreviewContainer>
+        <PreviewContainer>
+          {
+            showFeeStatus && (
+              <>
+                <Title>{feeInfo.feeTypeName}</Title>
+                <SubTitle>{`마감일: ${feeInfo.endDate}`}</SubTitle>
+                <Balance>{`${parseInt(feeInfo.balance, 10).toLocaleString('ko-KR')}원`}</Balance>
+                <Price>{`1인당 ${parseInt(feeInfo.price, 10).toLocaleString('ko-KR')}원씩`}</Price>
+              </>
+            )
+          }
+          {
+            showFeeUsage && (
+              <>
+                <SubTitle>잔여금액</SubTitle>
+                <Balance>{`${parseInt(feeInfo.balance, 10).toLocaleString('ko-KR')}원`}</Balance>
+              </>
+            )
+          }
+        </PreviewContainer>
           {
             showFeeStatus && 
             <FeeStatus />

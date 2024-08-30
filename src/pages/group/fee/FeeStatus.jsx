@@ -4,12 +4,8 @@ import FeeMemberItem from './fee_components/FeeMemberItem';
 
 const Container = styled.div`
   width: 100%;
-  /* min-height: 100vh; */
-  /* height: auto; */
   display: flex;
   flex-direction: column;
-  /* max-width: 649px; */
-  /* justify-content: center; */
   background-color: white;
   padding: 0 20px;
 `;
