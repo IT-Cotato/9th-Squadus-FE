@@ -49,6 +49,14 @@ const NoticeList = styled.div`
   overflow: auto;
 `;
 
+const EmptyNoticeStateMessage = styled.div`
+  color: ${({ theme }) => theme.colors.neutral[400]};
+  font-weight: 600;
+  padding: 80px 12px;
+  text-align: center;
+`;
+
+
 const Notice = () => {
   const { selectedClubId } = useContext(GroupContext);
   const [noticesData, setNoticesData] = useState([]);
@@ -98,7 +106,7 @@ const Notice = () => {
             />
           ))
         ) : (
-          <p>해당 동아리의 공지사항이 없습니다.</p>
+          <EmptyNoticeStateMessage>해당 동아리의 공지사항이 없습니다.</EmptyNoticeStateMessage>
         )}
       </NoticeList>
 

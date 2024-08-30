@@ -27,7 +27,7 @@ const TaskItem = styled.div`
 `;
 
 
-function FeeStatusMore() {
+function FeeDetailMore() {
   const [showFeeStatusMemberEdit, setShowFeeStatusMemberEdit] = useState(false);
   const [showFeeEdit, setShowFeeEdit] = useState(false);
 
@@ -42,4 +42,4 @@ function FeeStatusMore() {
   );
 }
 
-export default FeeStatusMore;
+export default FeeDetailMore;
