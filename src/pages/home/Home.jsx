@@ -103,7 +103,6 @@ const Home = () => {
                 closeModal={closeModal}
               ></CalendarModal>
             </scheduleContext.Provider>
-
             <MainNotice></MainNotice>
             <MainArticle></MainArticle>
           </groupDataContext.Provider>

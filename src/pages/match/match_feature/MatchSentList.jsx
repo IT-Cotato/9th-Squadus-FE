@@ -23,7 +23,7 @@ const formatDateAndTime = (date, time) => {
 };
 
 
-const MatchSentList = ({ selectedGroup }) => {
+const MatchSentList = ({ selectedGroup, clubMemberId }) => {
   const [matchSentData, setMatchSentData] = useState([]);
 
   useEffect(() => {
@@ -41,6 +41,19 @@ const MatchSentList = ({ selectedGroup }) => {
 
     fetchMatchRequests();
   }, [selectedGroup]);
+
+  const getStatusLabel = (status) => {
+    switch (status) {
+      case 'PENDING':
+        return '대기';
+      case 'ACCEPTED':
+        return '승낙';
+      case 'REJECTED':
+        return '거절';
+      default:
+        return '알 수 없음';
+    }
+  };
 
   // const MatchSentData = [
   //   { 
@@ -102,16 +115,19 @@ const MatchSentList = ({ selectedGroup }) => {
       {matchSentData.map(matchSent => (
         <MatchSentItem 
           key={matchSent.matchRequestIdx}
+          matchIdx={matchSent.matchCreateResponse.matchIdx}
           title={matchSent.matchCreateResponse.title}
           location={`${matchSent.matchCreateResponse.matchPlace.city} ${matchSent.matchCreateResponse.matchPlace.district}`}
           date={formatDateAndTime(matchSent.matchCreateResponse.matchStartDate, matchSent.matchCreateResponse.matchStartTime)}
           placeOffer={matchSent.matchCreateResponse.placeProvided ? 'O' : 'X'}
-          img=""            // TODO: 채워주기
-          clubName="포테이토칩" // TODO: 채워주기
+          img={matchSent.matchCreateResponse.clubLogo}
+          clubName={matchSent.matchCreateResponse.clubName}
+          category={matchSent.matchCreateResponse.sportsCategory}
           tierNeed={matchSent.matchCreateResponse.tier}
           peopleCount={matchSent.matchCreateResponse.maxParticipants}
           content={matchSent.matchCreateResponse.content}
-          status={matchSent.status}
+          status={getStatusLabel(matchSent.status)}
+          clubMemberId={clubMemberId}
         />
       ))}
     </Container>

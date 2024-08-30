@@ -4,8 +4,8 @@ import api from '../../apis/utils/api'
 
 const Container = styled.div`
   position: absolute;
-  top: 40px;
-  left: 0px;
+  top: 56px;
+  left: 180px;
   padding: 4px; 
   background: white; 
   box-shadow: 0px 2px 10px rgba(85, 91, 160, 0.43); 
@@ -24,7 +24,14 @@ const GroupItem = styled.div`
   text-align: center;
 `;
 
-function GroupSelectList({ onSelect }) {
+const NoGroupsMessage = styled.p`
+  color: ${({ theme }) => theme.colors.neutral[500]};
+  font-size: 14px;
+  line-height: 19px;
+  padding: 8px;
+`;
+
+const GroupSelectList = ({ onSelect }) => {
   const [groupData, setGroupData] = useState([]);
 
   const accessToken = localStorage.getItem("accessToken");
@@ -59,7 +66,7 @@ function GroupSelectList({ onSelect }) {
           </GroupItem>
         ))
       ) : (
-        <p>가입된 동아리가 없습니다.</p>
+        <NoGroupsMessage>가입된 동아리가 없습니다.</NoGroupsMessage>
       )}
     </Container>
   );

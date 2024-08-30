@@ -162,10 +162,10 @@ const MercenaryHistory = ({ closeMercenaryHistory }) => {
                 <SelectedGroup>
                   {selectedGroup ? selectedGroup.clubName : '동아리 선택'}
                 </SelectedGroup>
-                {showGroupSelectList && <GroupSelectList onSelect={handleGroupSelect} />}
                 <ArrowDownButton />
               </SelectMyGroupContainer>
             )}
+            {showGroupSelectList && <GroupSelectList onSelect={handleGroupSelect} />}
           </HeaderContainer>
           <TabBar>
             <TabItem onClick={() => handleTabClick('sentRequest')} $isActive={activeTab === 'sentRequest'}>신청한 내역</TabItem>

@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {
-  WrapperContainer,
-  Container,
-  HeaderWrapperContainer,
-  HeaderContainer,
-  CloseButton,
-  HeaderTitle,
-} from "./home_components/ModalStyled";
 import styled from "styled-components";
 import axios from "axios";
 import { ReactComponent as ScrapIcon } from "../../assets/icons/scrap.svg";
+import arrow_left_button from "../../assets/icons/arrow-left.svg"
+
 
 const ArticleEachModal = ({ isOpen, closeModal, articleId }) => {
   const [article, setArticle] = useState([]);
@@ -35,23 +29,23 @@ const ArticleEachModal = ({ isOpen, closeModal, articleId }) => {
         <>
           <WrapperContainer>
             <Container>
-              <HeaderWrapperContainer>
-                <HeaderContainer>
-                  <CloseButton onClick={closeModal} />
-                  <HeaderTitle>아티클</HeaderTitle>
-                </HeaderContainer>
-              </HeaderWrapperContainer>
-              <MainContentWrapper>
-                <ArticleTitle>{article.title}</ArticleTitle>
-                <CreateAt>{article.createdAt}</CreateAt>
-                <ContentText>{article.content}</ContentText>
-                <ContentImgWrapper>
-                  <ContentImg img={article.imageUrl}></ContentImg>
-                </ContentImgWrapper>
-                <ScrapIconWrapper>
-                  <ScrapIcon />
-                </ScrapIconWrapper>
-              </MainContentWrapper>
+              <HeaderContainer>
+                <CloseButton onClick={closeModal} />
+                <HeaderTitle>아티클</HeaderTitle>
+              </HeaderContainer>
+              <ContentContainer>
+                <MainContentWrapper>
+                  <ArticleTitle>{article.title}</ArticleTitle>
+                  <CreateAt>{article.createdAt}</CreateAt>
+                  <ContentText>{article.content}</ContentText>
+                  <ContentImgWrapper>
+                    <ContentImg img={article.imageUrl}></ContentImg>
+                  </ContentImgWrapper>
+                  <ScrapIconWrapper>
+                    <ScrapIcon />
+                  </ScrapIconWrapper>
+                </MainContentWrapper>
+              </ContentContainer>
             </Container>
           </WrapperContainer>
         </>
@@ -61,6 +55,65 @@ const ArticleEachModal = ({ isOpen, closeModal, articleId }) => {
 };
 
 export default ArticleEachModal;
+
+
+const WrapperContainer = styled.div`
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  z-index: 10000;
+  justify-content: center;
+`;
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  max-width: 649px;
+  justify-content: center;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+`;
+
+const HeaderContainer = styled.div`
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+  gap: 4px;
+  border-bottom: 1px solid #dcdcdc;
+`;
+
+const CloseButton = styled.div`
+  height: 24px;
+  width: 24px;
+  background-image: url(${arrow_left_button});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+
+const HeaderTitle = styled.div`
+  color: ${({ theme }) => theme.colors.neutral[600]};
+  font-size: 20px;
+  font-weight: 600;
+`;
+
+const ContentContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+`;
 
 const ArticleTitle = styled.div`
   width: 100%;
@@ -94,7 +147,7 @@ const ContentText = styled.div`
 const ContentImg = styled.div`
   width: 100%;
   height: 370px;
-
+  border-radius: 12px;
   background-image: url(${(props) => props.img});
   background-size: cover;
   background-position: center;
@@ -106,5 +159,5 @@ const MainContentWrapper = styled.div`
   padding: 0px 20px;
 `;
 const ScrapIconWrapper = styled.div`
-  padding: 10px 0px;
+  padding: 20px 0px;
 `;

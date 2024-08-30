@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import arrow_up_icon from '../../../assets/icons/arrow-up-white.svg';
 import MatchClubItem from './MatchClubItem'; 
 import MatchSendModal from './MatchSendModal';
 import MatchSendCancelModal from './MatchSendCancelModal';
 import MatchSendSuccessModal from './MatchSendSuccessModal';
+import MatchSendFailModal from './MatchSendFailModal';
+import { getUserClubs, getAdminClubs } from '../../../apis/api/user';
 
 const WrapperContainer = styled.div`
   width: 100%;
@@ -48,7 +50,7 @@ const MainInfoContainer = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   margin-bottom: 8px;
 `;
@@ -106,18 +108,20 @@ const SegmentContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
+  font-size: 14px;
 `;
 
 const Schedule = styled.div`
   font-size: 16px;
   font-weight: 600;
   color: white;
-  opacity: 80%;
 `
 
 const CountContainer = styled.div`
   display: flex;
   flex-direction: row;
+  font-size: 16px;
+  font-weight: 600;
 `
 
 const ContentContainer = styled.div`
@@ -126,6 +130,8 @@ const ContentContainer = styled.div`
   flex-direction: column;
   margin-top: 4px;
   gap: 8px;
+  font-size: 15px;
+  line-height: 18px;
 `;
 
 const PlaceOffer = styled.div`
@@ -160,15 +166,24 @@ const RequestButton = styled.div`
   display: ${({ $expanded, $show }) => ($expanded && $show ? 'flex' : 'none')};
 `;
 
-const MatchArticleCard = ({ title, location, category, date, placeOffer, img, clubName, clubIdx, tierNeed, peopleCount, content, requestButtonLabel, userClubs, showRequestButton = true, showClubContainer = false, clubData }) => {
+const EmptyStateMessage = styled.div`
+  color: ${({ theme }) => theme.colors.neutral[400]};
+  font-weight: 600;
+  padding: 20px 12px;
+  text-align: center;
+`;
+
+
+const MatchArticleCard = ({ matchIdx, title, location, category, date, placeOffer, img, clubName, clubIdx, tierNeed, peopleCount, content, requestButtonLabel, userClubs, showRequestButton = true, showClubContainer = false, clubData, clubMemberId, isAccepted }) => {
   const [expanded, setExpanded] = useState(false);
   const [showMatchSendModal, setShowMatchSendModal] = useState(false);
   const [showMatchSendCancelModal, setShowMatchSendCancelModal] = useState(false);
   const [showMatchSendSuccessModal, setShowMatchSendSuccessModal] = useState(false);
+  const [showMatchSendFailModal, setShowMatchSendFailModal] = useState(false);
+  const [failedClub, setFailedClub] = useState(''); // 요청 실패한 동아리 이름 저장할 상태 추가
 
   // 사용자가 요청을 보낼 수 있는지 여부 확인
-  const canSendRequest = userClubs?.some(club => club.clubId !== clubIdx && club.isAdmin) && 
-                        !userClubs?.some(club => club.clubId === clubIdx);
+  const canSendRequest = userClubs?.some(club => club.clubId !== clubIdx && club.isAdmin);
 
   const handleRequestButtonClick = (event) => {
     event.stopPropagation();
@@ -183,7 +198,7 @@ const MatchArticleCard = ({ title, location, category, date, placeOffer, img, cl
     setShowMatchSendModal(false);
   };
 
-  const handleSendModalConfirm = () => {
+  const handleSendConfirm = () => {
     handleSendModalClose();
     setShowMatchSendSuccessModal(true);
   };
@@ -192,9 +207,29 @@ const MatchArticleCard = ({ title, location, category, date, placeOffer, img, cl
     setShowMatchSendSuccessModal(false);
   };
 
+  const handleFailModalClose = () => {
+    setShowMatchSendFailModal(false);
+  };
+
+  const handleSendFail = (selectedClub) => {
+    setFailedClub(selectedClub); // 실패한 동아리 이름을 설정
+    handleSendModalClose();
+    setShowMatchSendFailModal(true);
+  };
+
+
+
+  // 매치글 카드의 동아리 정보
+  const matchClubData = {
+    matchIdx: matchIdx,
+    matchClubName: clubName,
+    matchDate: date,
+    clubIdx: clubIdx  // 매치 글을 올린 동아리의 ID를 포함하여 보낼 예정
+  };
+
   return (
-    <WrapperContainer onClick={() => setExpanded(!expanded)}>
-      <MainContainer>
+    <WrapperContainer>
+      <MainContainer onClick={() => setExpanded(!expanded)}>
         <MainInfoContainer>
           <div>
             <Title>{title}</Title>
@@ -236,20 +271,39 @@ const MatchArticleCard = ({ title, location, category, date, placeOffer, img, cl
       </MainContainer>
       {showClubContainer && 
         <BottomContainer $expanded={expanded ? "true" : undefined}>
-          {clubData.map(club => (
-            <MatchClubItem 
-              key={club.id}
-              clubName={club.clubName}
-              university={club.university}
-              tier={club.tier}
-            />
-          ))}
+          {clubData && clubData.length > 0 ? (  // clubData가 있는 경우
+            clubData.map(club => (   // clubData는 매치를 신청한 동아리 데이터
+              <MatchClubItem 
+                key={club.id}
+                matchIdx={matchIdx}
+                clubName={club.clubName}
+                university={club.university}
+                tier={club.tier}
+                requestId={club.requestId}
+                clubMemberId={clubMemberId}   // 사용자가 헤더에서 선택한 동아리에서 clubMemberIdx
+                onDecision={club.onDecision}
+                isAccepted={isAccepted}
+                status={club.status}
+              />
+            ))
+          ) : (  // clubData가 없는 경우
+            <EmptyStateMessage>아직 신청한 동아리가 없습니다</EmptyStateMessage>
+          )}
         </BottomContainer>
       }
 
-      {showMatchSendModal && <MatchSendModal onClose={handleSendModalClose} onConfirm={handleSendModalConfirm} />}
+
+      {showMatchSendModal && (
+        <MatchSendModal
+          onClose={handleSendModalClose}
+          onConfirm={handleSendConfirm}
+          onFail={handleSendFail}
+          matchClubData={matchClubData}
+        />
+      )}
       {showMatchSendCancelModal && <MatchSendCancelModal onClose={() => setShowMatchSendCancelModal(false)} />}
       {showMatchSendSuccessModal && <MatchSendSuccessModal onClose={handleSuccessModalClose} />}
+      {showMatchSendFailModal && <MatchSendFailModal onClose={handleFailModalClose} selectedClub={failedClub} />}
     </WrapperContainer>
     
   );

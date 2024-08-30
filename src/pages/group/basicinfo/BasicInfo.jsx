@@ -63,16 +63,18 @@ const BasicInfo = () => {
       {Loading && groupData && (
         <>
           <BaseContainer>
-            <ClubMainInfo
-              region={information.tags[0]}
-              personality={information.tags[1]}
-              name={information.clubName}
-              memRecent={information.numberOfMembers}
-              memMax={information.maxMembers}
-              establishDate={fommatDate()}
-              img={information.logo}
-            />
-            <ClubSubInfo onClick={toggleModal} information={information} />
+            <ContentContainer>
+              <ClubMainInfo
+                region={information.tags[0]}
+                personality={information.tags[1]}
+                name={information.clubName}
+                memRecent={information.numberOfMembers}
+                memMax={information.maxMembers}
+                establishDate={fommatDate()}
+                img={information.logo}
+              />
+              <ClubSubInfo onClick={toggleModal} information={information} />
+            </ContentContainer>
           </BaseContainer>
 
           <Rank
@@ -90,11 +92,17 @@ export default BasicInfo;
 
 const BaseContainer = styled.div`
   width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  padding: 16px 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
   box-sizing: border-box;
+  height: 100vh;
+  overflow: auto;
+`;
+
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 12px;
+  padding: 16px 20px;
 `;

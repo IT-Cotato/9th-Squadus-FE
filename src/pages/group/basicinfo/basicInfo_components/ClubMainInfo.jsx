@@ -6,6 +6,7 @@ const ClubImage = styled.img`
   height: 192px;
   border-radius: 8px;
   background-color: black;
+  object-fit: cover;
 `;
 const Container = styled.div`
   width: 100%;

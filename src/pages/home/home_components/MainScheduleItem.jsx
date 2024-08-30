@@ -66,7 +66,6 @@ const MainScheduleItem = ({ onClick }) => {
 export default MainScheduleItem;
 
 const EmptyScheduleText = styled.div`
-  height: 62px;
   padding: 20px 0px 20px 0px;
   display: flex;
   align-items: center;

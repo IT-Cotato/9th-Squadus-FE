@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import arrow_down_icon from '../../../assets/icons/arrow-down-grey.svg';
+import { getAdminClubs } from '../../../apis/api/user';
+import { postMatchRequest } from '../../../apis/api/match';
 
 const WrapperContainer = styled.div`
   position: fixed;
@@ -129,35 +131,72 @@ const BoldText = styled.div`
 `;
 
 
-const MatchSendModal = ({ onClose, onConfirm }) => {
+const MatchSendModal = ({ onClose, onConfirm, onFail, matchClubData }) => {
   const [selectedClub, setSelectedClub] = useState('');
+  const [adminClubData, setAdminClubData] = useState([]);
+  const [selectedClubMemberId, setSelectedClubMemberId] = useState(null);
 
-  const matchClubData = {
-    id: "1",
-    matchClubName: "파리펜싱팀",
-    matchDate: "7월 30일 4시"
-  }
+  // const matchClubData = {
+  //   matchIdx: "1",
+  //   matchClubName: "파리펜싱팀",
+  //   matchDate: "7월 30일 4시"
+  // }
 
-  const adminClubData = [
-    { 
-      id: "1", 
-      adminClubName: "코테이토", 
-    },
-    { 
-      id: "2", 
-      adminClubName: "성신양궁", 
-    }
-  ]
+  // const adminClubData = [
+  //   { 
+  //     id: "1", 
+  //     adminClubName: "코테이토", 
+  //   },
+  //   { 
+  //     id: "2", 
+  //     adminClubName: "성신양궁", 
+  //   }
+  // ]
 
+  // 사용자가 관리자인 동아리 정보 불러오기
+  useEffect(() => {
+    const fetchAdminClubs = async () => {
+      try {
+        const accessToken = localStorage.getItem('accessToken');
+        const clubs = await getAdminClubs(accessToken);
+        // 매치 글을 올린 동아리를 제외한 동아리만 표시
+        const filteredClubs = clubs.filter(club => club.clubId !== matchClubData.clubIdx);
+        setAdminClubData(filteredClubs);
+      } catch (error) {
+        console.error('관리 동아리 정보를 가져오는 데 실패했습니다:', error);
+      }
+    };
+
+    fetchAdminClubs();
+  }, [matchClubData.clubIdx]); // matchClubData.clubIdx가 변경될 때마다 호출
 
   const handleModalClick = (event) => {
     event.stopPropagation();
   };
 
-  const handleConfirm = () => {
-    onConfirm(); // 상위 컴포넌트에서 정의된 confirm 로직을 실행
-  };
+  // 동아리 선택 시 clubMemberId 설정
+  useEffect(() => {
+    if (selectedClub) {
+      const selectedClubData = adminClubData.find(club => club.clubId === parseInt(selectedClub, 10));
+      setSelectedClubMemberId(selectedClubData ? selectedClubData.clubMemberIdx : null);
+    }
+  }, [selectedClub, adminClubData]);
 
+  // 확인 버튼 눌렀을 때
+  const handleConfirm = async () => {
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      await postMatchRequest(accessToken, selectedClubMemberId, matchClubData.matchIdx);
+      onConfirm(); // 매칭 요청 성공 시 상위 컴포넌트에서 success modal을 띄움
+    } catch (error) {
+      if (error.response && error.response.data.code === 'M-302') {
+        const selectedClubData = adminClubData.find(club => club.clubId === parseInt(selectedClub, 10));
+        const selectedClubName = selectedClubData ? selectedClubData.clubName : "선택된 동아리";
+        onFail(selectedClubName); // 매칭 요청 실패 시 상위 컴포넌트에서 fail modal을 띄움
+      }
+      console.error('매칭 요청 실패:', error);
+    }
+  };
 
   const getMatchRequestMessage = () => {
     return (
@@ -186,7 +225,7 @@ const MatchSendModal = ({ onClose, onConfirm }) => {
               <SelectBox value={selectedClub} onChange={handleClubChange}>
                 <Option value="">동아리 선택</Option>
                 {adminClubData.map((club) => (
-                  <Option key={club.id} value={club.id}>{club.adminClubName}</Option>
+                  <Option key={club.clubId} value={club.clubId}>{club.clubName}</Option>
                 ))}
               </SelectBox>
             </SelectContainer>

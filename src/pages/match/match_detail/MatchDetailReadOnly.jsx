@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import close_icon from '../../../assets/icons/close-white.svg';
 import background_decoration from '../../../assets/match/background_decoration.svg'
 import GameItem from './GameItem';
-import { getMatchDetail, postGameResult, putGameResult, getFinalResult } from '../../../apis/api/match';
+import { getMatchDetailWithWin } from '../../../apis/api/match';
+
 
 const WrapperContainer = styled.div`
   position: fixed;
@@ -246,6 +247,13 @@ const FooterContainer = styled.div`
   align-items: center;
 `;
 
+const ButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+`;
+
 const FooterButton = styled.div`
   width: 100%;
   padding: 20px;
@@ -270,111 +278,23 @@ const FooterBorderButton = styled(FooterButton)`
 `;
 
 
-const MatchDetail = ({ closeMatchDetail, matchId, clubMemberId }) => {
-  const [gameItems, setGameItems] = useState([{ id: 1, gameNumber: '경기 1' }]);
-  const [isComplete, setIsComplete] = useState(false);
+const MatchDetailReadOnly = ({ closeMatchDetail, matchId, clubMemberId }) => {
   const [matchData, setMatchData] = useState(null);
   const [finalResult, setFinalResult] = useState(null);
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
-    getMatchDetail(accessToken, matchId)
+    getMatchDetailWithWin(accessToken, matchId)
       .then((data) => {
-        setMatchData(data);
-        if (data.matchResults.length > 0) {
-          const loadedGameItems = data.matchResults.map((result, index) => ({
-            id: index + 1,
-            gameNumber: `경기 ${index + 1}`,
-            homeScore: result.homeScore,
-            awayScore: result.awayScore,
-            matchResultIdx: result.matchResultIdx, // 수정: 기존 결과의 ID 저장
-          }));
-          setGameItems(loadedGameItems);
-          fetchFinalResult();
-        }
+        setMatchData(data.matchDetail);
+        setFinalResult(data.matchFinalResult);
       })
       .catch((error) => {
-        console.error('매치 상세 정보 불러오기 오류:', error);
+        console.error('매치 상세 정보 및 승리 정보 불러오기 오류:', error);
       });
 
   }, [matchId])
 
-
-  // 새로운 게임 항목을 추가
-  const handleAddGameItem = () => {
-    const nextId = gameItems.length + 1;
-    const newGameItem = { id: nextId, gameNumber: `경기 ${nextId}`, homeScore: 0, awayScore: 0, matchResultIdx: null };
-    setGameItems([...gameItems, newGameItem]);
-  };
-
-  // 특정 게임의 점수를 업데이트
-  const handleScoreChange = (id, homeScore, awayScore) => {
-    setGameItems((prevItems) => 
-      prevItems.map((item) => 
-        item.id === id ? { ...item, homeScore, awayScore} : item
-      )
-    );
-  }
-
-  // 사용자가 <모든 경기 결과 입력 완료> 버튼을 눌렀을 때 실행됨
-  const handleComplete = async () => {
-    const accessToken = localStorage.getItem('accessToken');
-
-    for (const item of gameItems) { // 순차적으로 실행
-      try {
-        if (item.matchResultIdx) {
-          await putGameResult(accessToken, item.matchResultIdx, clubMemberId, item.homeScore, item.awayScore);
-        } else {
-          await postGameResult(accessToken, matchId, clubMemberId, item.homeScore, item.awayScore);
-        }
-      } catch (error) {
-        console.error('경기 결과 처리 오류: ', error);
-        return;
-      }
-    }
-
-    await refreshMatchData();
-    await fetchFinalResult();
-  };
-
-  const refreshMatchData = async () => {
-    const accessToken = localStorage.getItem('accessToken');
-    getMatchDetail(accessToken, matchId)
-      .then((data) => {
-        setMatchData(data);
-        setIsComplete(true);
-      })
-      .catch((error) => {
-        console.error('업데이트된 매치 정보 가져오기 오류:', error);
-      });
-  };
-
-  const fetchFinalResult = async () => {
-    const accessToken = localStorage.getItem('accessToken');
-    try {
-      const finalResultData = await getFinalResult(accessToken, matchId, clubMemberId);
-      setFinalResult(finalResultData);
-    } catch (error) {
-      console.error('최종 결과 가져오기 오류:', error);
-    }
-  };
-
-  // 결과 수정을 눌렀을 때
-  const handleUnsetComplete = () => {
-    setIsComplete(false);
-
-    // DB에서 불러온 데이터로 gameItems를 초기화하여 input에 다시 채워지도록 함
-    if (matchData && matchData.matchResults.length > 0) {
-      const loadedGameItems = matchData.matchResults.map((result, index) => ({
-        id: index + 1,
-        gameNumber: `경기 ${index + 1}`,
-        homeScore: result.homeScore,
-        awayScore: result.awayScore,
-        matchResultIdx: result.matchResultIdx, 
-      }));
-      setGameItems(loadedGameItems);
-    }
-  };
 
   return (
     <WrapperContainer>
@@ -411,39 +331,19 @@ const MatchDetail = ({ closeMatchDetail, matchId, clubMemberId }) => {
                       <ClubLabel>{matchData.awayClubName}</ClubLabel>
                     </ClubLabelContainer>
                     <GameContainer>
-                      {isComplete ? (
-                        matchData.matchResults.map((result, index) => (
-                          <GameItem
-                            key={result.matchResultIdx}
-                            gameNumber={`경기 ${index + 1}`}
-                            isComplete={true}
-                            homeScore={result.homeScore}
-                            awayScore={result.awayScore}
-                          />
-                        ))
-                      ) : (
-                        gameItems.map((item) => (
-                          <GameItem
-                            key={item.id}
-                            gameNumber={item.gameNumber}
-                            isComplete={false}
-                            homeScore={item.homeScore}
-                            awayScore={item.awayScore}
-                            onScoreChange={(homeScore, awayScore) =>
-                              handleScoreChange(item.id, homeScore, awayScore)
-                            }
-                          />
-                        ))
-                      )}
+                      {matchData.matchResults.map((result, index) => (
+                        <GameItem
+                          key={result.matchResultIdx}
+                          gameNumber={`경기 ${index + 1}`}
+                          isComplete={true}
+                          homeScore={result.homeScore}
+                          awayScore={result.awayScore}
+                        />
+                      ))}
                     </GameContainer>
-                    {!isComplete && (
-                      <AddGameButton onClick={handleAddGameItem}>
-                        매치 결과 추가하기 +
-                      </AddGameButton>
-                    )}
                   </ResultCard>
                 </ResultContainer>
-                {isComplete && finalResult && (
+                {finalResult && (
                   <SumResultContainer>
                     <SumResultCard>
                       <SumClubBox>
@@ -471,21 +371,15 @@ const MatchDetail = ({ closeMatchDetail, matchId, clubMemberId }) => {
           )}
         </ContentContainer>
         <FooterContainer>
-          {!isComplete ? (
-            <FooterFillButton onClick={handleComplete}>
-              모든 경기 입력 완료
-            </FooterFillButton>
-          ) : (
-            <>
-              {/*TODO: 백에서 데이터 받아야하는 것: 상대가 확정했는지 나타내는 필드가 필요함 */}
-              <div>두 동아리 모두 확정해야 합니다.</div>
-              <FooterBorderButton onClick={handleUnsetComplete}>결과 수정</FooterBorderButton>
-            </>
-          )}
+          <div>두 동아리 모두 확정해야 합니다.</div>
+          <ButtonContainer>
+            <FooterBorderButton>결과 미확정</FooterBorderButton>
+            <FooterFillButton>결과 확정</FooterFillButton>
+          </ButtonContainer>
         </FooterContainer>
       </Container>
     </WrapperContainer>
   );
 };
 
-export default MatchDetail;
+export default MatchDetailReadOnly;

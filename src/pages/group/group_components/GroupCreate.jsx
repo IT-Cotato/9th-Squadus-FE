@@ -100,6 +100,7 @@ const GroupCreate = ({ closeGroupCreate }) => {
             <BackStepButton onClick={() => setStep(step - 1)} />
           )}
           <HeaderTitle>동아리 생성</HeaderTitle>
+          <Spacer></Spacer>
         </HeaderContainer>
 
         {step !== 6 && <Progress step={step} />}
@@ -138,7 +139,9 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   max-width: 649px;
-  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  position: relative;
   background-color: white;
 `;
 
@@ -162,6 +165,7 @@ const CloseButton = styled.div`
   background-repeat: no-repeat;
   background-position: center;
 `;
+
 const BackStepButton = styled.div`
   height: 24px;
   width: 24px;
@@ -170,6 +174,7 @@ const BackStepButton = styled.div`
   background-repeat: no-repeat;
   background-position: center;
 `;
+
 const HeaderTitle = styled.div`
   flex-grow: 1;
   text-align: center;
@@ -178,15 +183,9 @@ const HeaderTitle = styled.div`
   font-weight: bold;
 `;
 
-const NextStepButton = styled.button`
-  width: 100%;
-  height: 62px;
-  padding: 20px 0px;
-  border-radius: 8px;
-  outline: none;
-  border: none;
-  background-color: #ff6330;
-  color: white;
+const Spacer = styled.div`
+  height: 24px;
+  width: 24px;
 `;
 
 const BottomContainer = styled.div`
@@ -194,10 +193,23 @@ const BottomContainer = styled.div`
   height: 100px;
   padding: 8px 10px 30px 10px;
   border-radius: 20px;
-  position: fixed;
+  position: absolute;
   bottom: 0;
+  left: 0;
   background-color: white;
 `;
+
+const NextStepButton = styled.button`
+  width: 100%;
+  padding: 20px 0px;
+  border-radius: 8px;
+  outline: none;
+  border: none;
+  background-color: #ff6330;
+  color: white;
+  font-size: 20px;
+`;
+
 const Progress = ({ step }) => {
   return (
     <ProgressWrapper>
