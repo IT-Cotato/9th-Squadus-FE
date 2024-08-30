@@ -9,7 +9,7 @@ const Container = styled.div`
 `;
 
 
-const MercenaryReceivedItem = ({ title, location, date, placeOffer, img, tierNeed, maxCount, currentCount, content, receivedRequests}) => {
+const MercenaryReceivedItem = ({ title, location, category, date, placeOffer, img, clubName, tierNeed, maxCount, currentCount, content, receivedRequests}) => {
   // 요청 받은 개인의 정보를 personData로 변환
   const personData = receivedRequests.map((request) => ({
     id: request.requestId, // 유니크 키로 사용
@@ -35,9 +35,11 @@ const MercenaryReceivedItem = ({ title, location, date, placeOffer, img, tierNee
       <MercenaryArticleCard
         title={title}
         location={location}
+        category={category}
         date={date}
         placeOffer={placeOffer}
         img={img}
+        clubName={clubName}
         tierNeed={tierNeed}
         maxCount={maxCount}
         currentCount={currentCount}

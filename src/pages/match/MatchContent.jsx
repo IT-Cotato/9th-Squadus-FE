@@ -105,6 +105,7 @@ const MatchContent = ({ matches }) => {
         {matches.map(matchArticle => (
           <MatchArticleCard 
             key={matchArticle.matchIdx}
+            matchIdx={matchArticle.matchIdx}
             title={matchArticle.title}
             content={matchArticle.content}
             location={`${matchArticle.matchPlace.city} ${matchArticle.matchPlace.district}`}

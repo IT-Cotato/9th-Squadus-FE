@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as FilterIcon } from "../assets/icons/filter.svg";
+import arrow_down_icon from "../assets/icons/arrow-down-grey-filter.svg"
 
 const FilterBar = ({ selected, setSelected, handleChange }) => {
   useEffect(() => {
@@ -192,11 +193,31 @@ const Container = styled.div`
   }
 `;
 
+// TODO: 이거 CSS 제대로 하려면 생구현해야할듯
 const FilterContainer = styled.select`
-  height: 38px;
+  display: inline-block;
+  width: auto;
   padding: 8px 16px;
+  padding-right: 32px;
   border-radius: 24px;
-  border: 1px;
+  border: 1px solid ${({ theme }) => theme.colors.neutral[200]};
+  font-size: 16px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.neutral[800]};
+  background-color: white;
+  -webkit-appearance: none;  // macOS 및 iOS에서 기본 스타일 제거
+  -moz-appearance: none;  // Firefox에서 기본 스타일 제거
+  -o-appearance:none; 
+  appearance: none;  // 기본 화살표 아이콘 제거
+  background-image: url(${arrow_down_icon});
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 16px 16px;
+  text-overflow: ellipsis; /* 텍스트가 넘칠 경우 처리 */
+  white-space: nowrap; /* 텍스트가 한 줄로 유지되도록 설정 */
+  overflow: hidden; /* 넘치는 텍스트가 잘리도록 설정 */
+  cursor: pointer;
+
   &:hover {
     border: 1px solid #ff3f00;
   }
@@ -244,7 +265,7 @@ const CityOptions = [
 export const CountyOptions = {
   지역: ["지역"],
   서울시: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "강남구",
     "강동구",
     "강북구",
@@ -272,7 +293,7 @@ export const CountyOptions = {
     "중랑구",
   ],
   부산: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "강서구",
     "금정구",
     "남구",
@@ -291,7 +312,7 @@ export const CountyOptions = {
     "기장군",
   ],
   대구: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "남구",
     "달서구",
     "동구",
@@ -302,7 +323,7 @@ export const CountyOptions = {
     "달성군",
   ],
   인천: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "계양구",
     "남구",
     "남동구",
@@ -314,11 +335,11 @@ export const CountyOptions = {
     "강화군",
     "옹진군",
   ],
-  광주: ["지역( 시/ 군)", "광산구", "남구", "동구", "북구", "서구"],
-  대전: ["지역( 시/ 군)", "대덕구", "동구", "서구", "유성구", "중구"],
-  울산: ["지역( 시/ 군)", "남구", "동구", "북구", "중구", "울주군"],
+  광주: ["지역 (시/군)", "광산구", "남구", "동구", "북구", "서구"],
+  대전: ["지역 (시/군)", "대덕구", "동구", "서구", "유성구", "중구"],
+  울산: ["지역 (시/군)", "남구", "동구", "북구", "중구", "울주군"],
   경기: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "고양시",
     "과천시",
     "광명시",
@@ -352,7 +373,7 @@ export const CountyOptions = {
     "화성시",
   ],
   강원: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "강릉시",
     "동해시",
     "삼척시",
@@ -373,7 +394,7 @@ export const CountyOptions = {
     "황성군",
   ],
   충북: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "제천시",
     "청주시",
     "충주시",
@@ -387,7 +408,7 @@ export const CountyOptions = {
     "청원군",
   ],
   충남: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "공주시",
     "보령시",
     "서산시",
@@ -405,7 +426,7 @@ export const CountyOptions = {
     "홍성군",
   ],
   전북: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "군산시",
     "김제시",
     "남원시",
@@ -422,7 +443,7 @@ export const CountyOptions = {
     "진안군",
   ],
   전남: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "광양시",
     "나주시",
     "목포시",
@@ -449,7 +470,7 @@ export const CountyOptions = {
     "화순군",
   ],
   경북: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "경산시",
     "경주시",
     "구미시",
@@ -475,7 +496,7 @@ export const CountyOptions = {
     "칠곡군",
   ],
   경남: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "거제시",
     "김해시",
     "마산시",
@@ -498,7 +519,7 @@ export const CountyOptions = {
     "함양군",
     "합천군",
   ],
-  제주: ["지역( 시/ 군)", "서귀포시", "제주시", "남제주군", "북제주군"],
+  제주: ["지역 (시/군)", "서귀포시", "제주시", "남제주군", "북제주군"],
 };
 const Tier = [
   { value: "Tier", name: "티어" },

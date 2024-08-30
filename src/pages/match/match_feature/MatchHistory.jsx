@@ -125,13 +125,13 @@ const MatchHistory = ({ closeMatchHistory }) => {
   const [showMatchSent, setShowMatchSent] = useState(true);
   const [showMatchReceived, setShowMatchReceived] = useState(false);
   const [showGroupSelectList, setShowGroupSelectList] = useState(false);
-  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [selectedGroup, setSelectedGroup] = useState(0);  // 임시
 
-  useEffect(() => {
-    if (userData && userData.memberClubs && userData.memberClubs.length > 0) {
-      setSelectedGroup(userData.memberClubs[0]);
-    }
-  }, [userData]);
+  // useEffect(() => {
+  //   if (userData && userData.memberClubs && userData.memberClubs.length > 0) {
+  //     setSelectedGroup(userData.memberClubs[0]);
+  //   }
+  // }, [userData]);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -151,6 +151,7 @@ const MatchHistory = ({ closeMatchHistory }) => {
   };
 
 
+
   return (
     <WrapperContainer>
       <Container>
@@ -162,9 +163,9 @@ const MatchHistory = ({ closeMatchHistory }) => {
               <SelectedGroup>
                 {selectedGroup ? selectedGroup.clubName : '동아리 선택'}
               </SelectedGroup>
-              {showGroupSelectList && <GroupSelectList onSelect={handleGroupSelect} />}
               <ArrowDownButton></ArrowDownButton>
             </SelectMyGroupContainer>
+            {showGroupSelectList && <GroupSelectList onSelect={handleGroupSelect} />}
           </HeaderContainer>
           <TabBar>
             <TabItem onClick={() => handleTabClick('sentRequest')} $isActive={activeTab === 'sentRequest'}>신청한 내역</TabItem>
@@ -174,12 +175,12 @@ const MatchHistory = ({ closeMatchHistory }) => {
         <ContentContainer>
           {
             showMatchSent && 
-            <MatchSentList selectedGroup={selectedGroup} />
+            <MatchSentList selectedGroup={selectedGroup} clubMemberId={selectedGroup?.clubMemberIdx} />
           }
 
           {
             showMatchReceived && 
-            <MatchReceivedList selectedGroup={selectedGroup} />
+            <MatchReceivedList selectedGroup={selectedGroup} clubMemberId={selectedGroup?.clubMemberIdx} />
           }
         </ContentContainer>
       </Container>

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import MatchArticleCard from './MatchArticleCard';
-import MatchDetail from '../match_detail/MatchDetail';
+import MatchDetailReadOnly from '../match_detail/MatchDetailReadOnly';
 
 const Container = styled.div`
   display: flex;
@@ -14,14 +14,23 @@ const Result = styled.div`
   width: 20%;
   justify-content: center;
   align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: ${({ status, theme }) => {
+    if (status === '승낙') return theme.colors.main[600];
+    if (status === '대기' || status === '거절') return theme.colors.neutral[400];
+  }};
 `;
 
 
-const MatchSentItem = ({ title, location, date, placeOffer, img, clubName, tierNeed, peopleCount, content, status}) => {
-  const [showMatchDetail, setShowMatchDetail] = useState(false);
+
+const MatchSentItem = ({ clubMemberId, matchIdx, title, location, date, placeOffer, img, clubName, category, tierNeed, peopleCount, content, status}) => {
+  const [showMatchDetailReadOnly, setShowMatchDetailReadOnly] = useState(false);
 
   const handleDetailClick = () => {
-    setShowMatchDetail(true);
+    if (status === '승낙') {
+      setShowMatchDetailReadOnly(true);
+    }
   }
 
 
@@ -34,18 +43,24 @@ const MatchSentItem = ({ title, location, date, placeOffer, img, clubName, tierN
         placeOffer={placeOffer}
         img={img}
         clubName={clubName}
+        category={category}
         tierNeed={tierNeed}
         peopleCount={peopleCount}
         content={content}
         requestButtonLabel="요청 취소"
         showRequestButton={true}
       />
-      <Result onClick={handleDetailClick}>{status}</Result>
+      <Result status={status} onClick={handleDetailClick}>
+        {status}
+      </Result>
 
       {
-        showMatchDetail && 
-        <MatchDetail
-          closeMatchDetail={() => setShowMatchDetail(false)}
+        showMatchDetailReadOnly && 
+        <MatchDetailReadOnly
+          closeMatchDetail={() => setShowMatchDetailReadOnly(false)}
+          matchId={matchIdx}
+          clubMemberId={clubMemberId}
+          isHomeClub={false}
         />
       }
     </Container>

@@ -7,7 +7,6 @@ import { groupDataContext } from "./Home";
 import axios from "axios";
 
 const Container = styled.div`
-  min-height: 20%;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -19,6 +18,14 @@ const NoticeContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+`;
+
+const EmptyStateMessage = styled.div`
+  color: #98a2b3;
+  font-weight: 500;
+  padding: 20px 12px;
+  text-align: center;
+  font-size: 18px;
 `;
 
 const MainNotice = () => {
@@ -67,20 +74,22 @@ const MainNotice = () => {
       <Container>
         <SectionHeader title={"중요 공지"} onClick={openModal}></SectionHeader>
         <NoticeContainer>
-          {groupData.map((item, index) => (
-            <React.Fragment key={item.clubId}>
-              {posts[index]?.slice(0, 1).map((notice) => (
-                <>
+          {posts.length === 0 ? (
+            <EmptyStateMessage>아직 공지가 없어요</EmptyStateMessage>
+          ) : (
+            groupData.map((item, index) => (
+              <React.Fragment key={item.clubId}>
+                {posts[index]?.slice(0, 1).map((notice) => (
                   <MainNoticeItem
                     key={notice.id}
                     mainTitle={notice.title}
                     clubName={item.clubName}
                     createdAt={notice.createdAt}
                   />
-                </>
-              ))}
-            </React.Fragment>
-          ))}
+                ))}
+              </React.Fragment>
+            ))
+          )}
         </NoticeContainer>
       </Container>
       <NoticeModal isOpen={isModalOpen} closeModal={closeModal} />

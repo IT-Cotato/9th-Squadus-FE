@@ -1,12 +1,6 @@
 import styled from 'styled-components';
 import TagItem from './TagItem';
 
-const ClubImage = styled.div`
-  width: 100%;
-  height: 192px;
-  border-radius: 8px;
-  background-color: black;
-`;
 const Container = styled.div`
   width: 100%;
   display: flex;
@@ -14,11 +8,21 @@ const Container = styled.div`
   gap: 8px;
   box-sizing: border-box;
 `;
+
+const ClubImage = styled.div`
+  /* width: 100%; */
+  width: 192px;
+  height: 192px;
+  border-radius: 8px;
+  background-color: black;
+`;
+
 const TagInfo = styled.div`
   display: flex;
   flex-direction: row;
   gap: 4px;
 `;
+
 const Name = styled.div`
   font-size: 24px;
   font-weight: 700;
@@ -26,6 +30,7 @@ const Name = styled.div`
   text-align: left;
   color: #475467;
 `;
+
 const Detail = styled.div`
   display: flex;
   flex-direction: row;
@@ -36,6 +41,7 @@ const Detail = styled.div`
   line-height: 24px;
   text-align: left;
 `;
+
 const ClubInfo = ({
   region,
   personality,
