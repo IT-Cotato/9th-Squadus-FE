@@ -37,6 +37,12 @@ const StyledCalendar = styled(Calendar)`
     } */
   }
 
+  //연도 버튼 제거
+  .react-calendar__navigation button:nth-child(1),
+  .react-calendar__navigation button:nth-child(5) {
+    display: none;
+  }
+
   .react-calendar__navigation button {
     width: 50px;
     height: 50px;
