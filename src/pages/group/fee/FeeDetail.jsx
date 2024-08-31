@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import FeeMemberItem from './fee_components/FeeMemberItem';
 import more_icon from '../../../assets/icons/more.svg';
 import close_icon from '../../../assets/icons/close.svg'
-import FeeStatusMore from './fee_components/FeeDetailMore';
+import FeeDetailMore from './fee_components/FeeDetailMore';
 import FeeStatus from './FeeStatus';
 import FeeUsage from './FeeUsage';
 import { GroupContext } from "../Group";
@@ -129,7 +129,7 @@ const Price = styled.div`
 
 const FeeDetail = ({ closeFeeDetail, feeId, feeInfo }) => {
   const { selectedClubId } = useContext(GroupContext);
-  const [showFeeStatusMore, setShowFeeStatusMore] = useState(false);
+  const [showFeeDetailMore, setShowFeeDetailMore] = useState(false);
   const [activeTab, setActiveTab] = useState('feeStatus');
   const [showFeeStatus, setShowFeeStatus] = useState(true);
   const [showFeeUsage, setShowFeeUsage] = useState(false);
@@ -153,9 +153,12 @@ const FeeDetail = ({ closeFeeDetail, feeId, feeInfo }) => {
           <CloseButton onClick={closeFeeDetail} />
           <HeaderTitle>회비 상세 내역</HeaderTitle>
           <MoreButton onClick={(e) => {
-            setShowFeeStatusMore(!showFeeStatusMore);
+            setShowFeeDetailMore(!showFeeDetailMore);
           }} />
-          {showFeeStatusMore && <FeeStatusMore />}
+          {
+            showFeeDetailMore && 
+            <FeeDetailMore feeId={feeId}/>
+          }
         </HeaderContainer>
         <TabContainer>
             <TabItem onClick={() => handleTabClick('feeStatus')} $isActive={activeTab === 'feeStatus'}>입금현황</TabItem>

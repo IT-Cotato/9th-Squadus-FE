@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import FeeMemberItem from './fee_components/FeeMemberItem';
+import FeeStatusMemberEdit from './FeeStatusMemberEdit';
 import { getFeeStatus } from '../../../apis/api/fee';
 import { GroupContext } from "../Group";
 
@@ -24,6 +25,12 @@ const Container = styled.div`
 const FilterContainer = styled.div`
   display: flex;
   padding: 12px 0;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const FilterBar = styled.div`
+  display: flex;
 `;
 
 const FilterButton = styled.button`
@@ -38,8 +45,14 @@ const FilterButton = styled.button`
   font-weight: 500;
 `;
 
+const StatusEditButton = styled.div`
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.neutral[400]};
+`;
+
 const FeeStatus = ({ feeId }) => {
   const { selectedClubId } = useContext(GroupContext);
+  const [showFeeStatusMemberEdit, setShowFeeStatusMemberEdit] = useState(false);
   const [statusData, setStatusData] = useState([]);
 
   const fetchFeeStatus = () => {
@@ -75,24 +88,27 @@ const FeeStatus = ({ feeId }) => {
   return (
     <Container>
       <FilterContainer>
-        <FilterButton
-          $active={filter === '전체'}
-          onClick={() => handleFilterChange('전체')}
-        >
-          전체
-        </FilterButton>
-        <FilterButton
-          $active={filter === '납부'}
-          onClick={() => handleFilterChange('납부')}
-        >
-          납부
-        </FilterButton>
-        <FilterButton
-          $active={filter === '미납부'}
-          onClick={() => handleFilterChange('미납부')}
-        >
-          미납부
-        </FilterButton>
+        <FilterBar>
+          <FilterButton
+            $active={filter === '전체'}
+            onClick={() => handleFilterChange('전체')}
+          >
+            전체
+          </FilterButton>
+          <FilterButton
+            $active={filter === '납부'}
+            onClick={() => handleFilterChange('납부')}
+          >
+            납부
+          </FilterButton>
+          <FilterButton
+            $active={filter === '미납부'}
+            onClick={() => handleFilterChange('미납부')}
+          >
+            미납부
+          </FilterButton>
+        </FilterBar>
+        <StatusEditButton onClick={() => setShowFeeStatusMemberEdit(true)}>입금현황 편집</StatusEditButton>
       </FilterContainer>
       {filteredMembers.map((member, index) => (
         <FeeMemberItem
@@ -102,6 +118,13 @@ const FeeStatus = ({ feeId }) => {
           profileImage={member.profileImage}
         />
       ))}
+      {
+        showFeeStatusMemberEdit && 
+          <FeeStatusMemberEdit 
+            closeFeeStatusMemberEdit={() => setShowFeeStatusMemberEdit(false)}
+            feeId={feeId} 
+          />
+      }
     </Container>
   );
 };
