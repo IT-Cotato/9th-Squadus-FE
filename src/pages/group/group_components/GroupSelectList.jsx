@@ -33,6 +33,7 @@ const GroupItem = styled.div`
   font-weight: 500;
   word-wrap: break-word;
   padding: 6px 0px;
+  cursor: pointer;
 `;
 
 
@@ -50,6 +51,7 @@ const GroupCreateButton = styled.div`
   color: ${({ theme }) => theme.colors.main[600]};
   border-radius: 8px;
   border: 1px solid ${({ theme }) => theme.colors.main[600]};
+  cursor: pointer;
 `;
 
 const NoGroupsMessage = styled.p`

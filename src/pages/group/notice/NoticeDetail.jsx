@@ -50,6 +50,7 @@ const CloseButton = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  cursor: pointer;
 `;
 
 const HeaderTitle = styled.div`
@@ -193,6 +194,7 @@ const SendButton = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  cursor: pointer;
 `;
 
 
@@ -203,6 +205,10 @@ const NoticeDetail = ({ closeNoticeDetail, noticeId }) => {
   const [like, setLike] = useState(false);
   const [comment, setComment] = useState('');
 
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    return `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')}`;
+  };
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -289,7 +295,7 @@ const NoticeDetail = ({ closeNoticeDetail, noticeId }) => {
                 key={comment.id}
                 name={comment.clubMemberName}
                 comment={comment.content}
-                date={comment.createdDate}
+                date={formatDate(comment.createdDate)}
                 profileImage={comment.profileImgUrl}
               />
             ))}

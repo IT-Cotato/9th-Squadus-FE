@@ -164,6 +164,7 @@ const CloseButton = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  cursor: pointer;
 `;
 
 const BackStepButton = styled.div`

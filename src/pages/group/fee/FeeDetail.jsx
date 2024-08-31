@@ -48,6 +48,7 @@ const CloseButton = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  cursor: pointer;
 `;
 
 const HeaderTitle = styled.div`
@@ -65,6 +66,7 @@ const MoreButton = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  cursor: pointer;
 `;
 
 const ContentContainer = styled.div`

@@ -13,6 +13,7 @@ const Container = styled.div`
   align-items: center;
   position: relative;
   gap: 4px;
+  cursor: pointer;
 `;
 
 const FeeInfoTextContainer = styled.div`
