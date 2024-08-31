@@ -37,7 +37,7 @@ const MainScheduleItem = ({ onClick }) => {
             key={index}
             startTime={item.startTime}
             endTime={item.endTime}
-            eventName={item.eventName}
+            title={item.title}
             Location={item.location}
             id={index + 1}
           />
