@@ -83,7 +83,6 @@ const MoreButton = styled.div`
 `;
 
 
-// TODO: 프로필이미지도 props로 보내야함
 const CommentItem = ({ name, comment, date, profileImage }) => {
   const [like, setLike] = useState(false);
   const displayProfileImage = profileImage ? profileImage : default_profile_image;

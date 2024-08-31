@@ -184,7 +184,7 @@ const FeeDetail = ({ closeFeeDetail, feeId, feeInfo }) => {
         </PreviewContainer>
           {
             showFeeStatus && 
-            <FeeStatus />
+            <FeeStatus feeId={feeId} />
           }
 
           {

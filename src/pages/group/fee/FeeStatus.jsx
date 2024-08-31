@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import FeeMemberItem from './fee_components/FeeMemberItem';
+import { getFeeStatus } from '../../../apis/api/fee';
+import { GroupContext } from "../Group";
+
 
 const Container = styled.div`
   width: 100%;
@@ -35,21 +38,27 @@ const FilterButton = styled.button`
   font-weight: 500;
 `;
 
-const FeeStatus = () => {
-  const MemberData = [
-    { name: '이름(본인)', isPaid: true },
-    { name: '이름', isPaid: false },
-    { name: '이름', isPaid: false },
-    { name: '이름', isPaid: false },
-    { name: '이름', isPaid: true },
-    { name: '이름', isPaid: true },
-    { name: '이름', isPaid: true },
-    { name: '이름', isPaid: true },
-    { name: '이름', isPaid: true },
-    { name: '다인', isPaid: true },
-    { name: '예서', isPaid: false },
+const FeeStatus = ({ feeId }) => {
+  const { selectedClubId } = useContext(GroupContext);
+  const [statusData, setStatusData] = useState([]);
 
-  ];
+  const fetchFeeStatus = () => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken && selectedClubId && feeId) {
+      getFeeStatus(accessToken, selectedClubId, feeId)
+        .then((payment) => {
+          setStatusData(payment.clubFeePaymentInfoResponseList || [])
+        })
+        .catch((error) => {
+          console.log("입금 현황 가져오는 중 오류 발생: ", error);
+        })
+    }
+  }
+
+  useEffect(() => {
+    fetchFeeStatus();
+  }, [selectedClubId, feeId]);
+
 
   const [filter, setFilter] = useState('전체');
 
@@ -57,7 +66,7 @@ const FeeStatus = () => {
     setFilter(newFilter);
   };
 
-  const filteredMembers = MemberData.filter(member => {
+  const filteredMembers = statusData.filter(member => {
     if (filter === '납부') return member.isPaid;
     if (filter === '미납부') return !member.isPaid;
     return true;
@@ -90,6 +99,7 @@ const FeeStatus = () => {
           key={index}
           name={member.name}
           isPaid={member.isPaid}
+          profileImage={member.profileImage}
         />
       ))}
     </Container>

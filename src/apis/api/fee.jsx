@@ -53,3 +53,20 @@ export const postFee = async(accessToken, clubId, feeData) => {
     throw error;
   })
 }
+
+// 동아리 회비 입금 현황 조회 API
+export const getFeeStatus = async(accessToken, clubId, feeTypeId) => {
+  return await api.get(`/v1/api/clubs/${clubId}/fees/${feeTypeId}/payment`, {
+    headers: {
+      'Content-Type': 'application/json',
+      access: `${accessToken}`,
+    }
+  })
+  .then((response) => {
+    return response.data;
+  })
+  .catch((error) => {
+    console.error('동아리 회비 입금 현황 조회 API 호출 오류: ', error);
+    throw error;
+  })
+}

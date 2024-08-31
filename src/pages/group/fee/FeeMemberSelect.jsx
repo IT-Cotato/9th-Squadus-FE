@@ -147,9 +147,9 @@ const FeeMemberSelect = ({ closeFeeMemberSelect, updateSelection, selectedMember
           {members.map(member => (
             <FeeMemberSelectItem 
               key={member.id} 
-              img={member.img} 
               name={member.name}
               isSelected={member.isSelected}
+              profileImage={member.profileImg}
               toggleCheck={() => toggleMemberSelection(member.id)}
             />
           ))}
