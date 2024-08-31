@@ -23,7 +23,7 @@ const formatDateAndTime = (date, time) => {
 };
 
 
-const MercenaryReceivedList = ({ selectedGroup }) => {
+const MercenaryReceivedList = ({ selectedGroup, clubMemberId }) => {
   const [mercenaryReceivedData, setMercenaryReceivedData] = useState([]);
 
   useEffect(() => {
@@ -42,37 +42,6 @@ const MercenaryReceivedList = ({ selectedGroup }) => {
     fetchMercenaryReceiveds();
   }, [selectedGroup]);
 
-  // const mercenaryReceivedData = [
-  //   {
-  //     "mercenaryCreateResponse": {
-  //       "mercenaryIdx": 0,
-  //       "title": "string",
-  //       "content": "string",
-  //       "matchPlace": {
-  //         "city": "string",
-  //         "district": "string"
-  //       },
-  //       "placeProvided": true,
-  //       "matchStartDate": "2024-08-22",
-  //       "matchStartTime": "10:00",
-  //       "maxParticipants": 0,
-  //       "currentParticipants": 0,
-  //       "sportsCategory": "string",
-  //       "clubName": "string",
-  //       "clubLogo": "string"
-  //     },
-  //     "receivedRequests": [
-  //       {
-  //         "matchingStatus": "string",
-  //         "requestId": 0,
-  //         "clubMemberId": 0,
-  //         "requestName": "string",
-  //         "requesterUniversity": "string"
-  //       }
-  //     ]
-  //   }
-  // ]
-
   return (
     <Container>
       {mercenaryReceivedData.map(mercenaryReceived => (
@@ -89,6 +58,7 @@ const MercenaryReceivedList = ({ selectedGroup }) => {
           currentCount={mercenaryReceived.mercenaryCreateResponse.currentParticipants}
           content={mercenaryReceived.mercenaryCreateResponse.content}
           receivedRequests={mercenaryReceived.receivedRequests}
+          clubMemberId={clubMemberId}
         />
       ))}
     </Container>

@@ -89,3 +89,24 @@ export const postMercenaryRequest = (accessToken, mercenaryPostId) => {
     throw error;
   })
 }
+
+// 용병 매칭 요청 승낙/거절 API 호출 함수
+export const postMercenaryDecision = async(accessToken, requestId, decision, clubMemberId) => {
+  return await api.post(`/v1/api/mercenary-requests/${requestId}/decision`, null, {
+    headers: {
+      'Content-Type': 'application/json',
+      access: `${accessToken},`
+    }, 
+    params: {
+      decision: decision,
+      clubMemberId: clubMemberId
+    }
+  })
+  .then((response) => {
+    return response.data;
+  })
+  .catch((error) => {
+    console.log("용병 매칭 요청 승낙/거절 API 호출 오류", error);
+    throw error;
+  })
+}
