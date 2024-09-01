@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import PromotionHeader from "./promotion_components/PromotionHeader";
 import FilterBar from "../../components/FilterBar";
 import { CountyOptions } from "../../components/FilterBar";
@@ -10,6 +10,7 @@ export const PromotionContext = createContext();
 export const RefreshContext = createContext();
 
 const Promotion = () => {
+  const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState("oncampus");
   const [promotionData, setPromotionData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -29,6 +30,16 @@ const Promotion = () => {
     tier: "",
     category: "",
   };
+
+  useEffect(() => {
+    // 로그인 상태 확인
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      alert("로그인이 필요합니다.");
+      navigate("/login"); // 로그인 페이지로 리다이렉트
+    }
+  }, [navigate]);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setSelected((prevState) => {

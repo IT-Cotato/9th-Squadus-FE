@@ -1,7 +1,5 @@
 import { useContext, useState } from "react";
-import ScheduleItem, {
-  AddSchedule,
-} from "../../group/schedule/schedule_components/ScheduleItem";
+import ScheduleItem from "../../group/schedule/schedule_components/ScheduleItem";
 
 import { groupDataContext, scheduleContext } from "../Home";
 import styled from "styled-components";
@@ -51,7 +49,6 @@ const MainScheduleItem = ({ onClick }) => {
       ) : (
         <>
           <EmptyScheduleText>등록된 일정이 없어요</EmptyScheduleText>
-          <AddSchedule onClick={toggleModal}></AddSchedule>
         </>
       )}
       {/* <ScheduleAdd
