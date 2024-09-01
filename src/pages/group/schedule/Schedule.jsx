@@ -56,6 +56,11 @@ const Schedule = ({ personalSchedule, isAccessHome }) => {
       });
   };
 
+  //달력 관련 코드
+  const [date, setDate] = useState(new Date());
+  const [selectedSchedule, setSelectedSchedule] = useState([]);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
   useEffect(() => {
     if (personalSchedule) {
       setClubSchedule(personalSchedule);
@@ -65,13 +70,7 @@ const Schedule = ({ personalSchedule, isAccessHome }) => {
         getClubSchedule();
       }
     }
-  }, [chooseClubId, groupData, Loading]);
-
-  //달력 관련 코드
-  const [date, setDate] = useState(new Date());
-  const [selectedSchedule, setSelectedSchedule] = useState([]);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  }, [chooseClubId, groupData, Loading, isModalOpen]);
 
   const formattedDate = `${date.getFullYear()}년 ${
     date.getMonth() + 1
