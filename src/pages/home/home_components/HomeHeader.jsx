@@ -1,8 +1,8 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import notification_icon from '../../../assets/icons/notification.svg';
-import useAuthStore from '../../../stores/useAuthStore';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import notification_icon from "../../../assets/icons/notification.svg";
+import useAuthStore from "../../../stores/useAuthStore";
 
 const Container = styled.div`
   display: flex;
@@ -11,7 +11,6 @@ const Container = styled.div`
   background-color: white;
   border-bottom: 1px solid #dcdcdc;
   justify-content: space-between;
-
 `;
 
 const Title = styled.h1`
@@ -34,14 +33,18 @@ function HomeHeader() {
   const navigate = useNavigate();
 
   const handleNotificationClick = () => {
-    navigate('/notification');
+    navigate("/notification");
   };
-
 
   return (
     <Container>
-        <Title>반가워요 {userData ? userData.memberName : ''}님!</Title>
-        <Notification onClick={handleNotificationClick}></Notification>
+      <Title>반가워요 {userData ? userData.memberName : ""}님!</Title>
+      {/* <Notification onClick={handleNotificationClick}></Notification> */}
+      <Notification
+        onClick={() => {
+          alert("📍추후 구현 예정입니다!");
+        }}
+      ></Notification>
     </Container>
   );
 }
