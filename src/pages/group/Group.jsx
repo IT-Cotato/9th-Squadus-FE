@@ -70,6 +70,12 @@ const Group = () => {
       ? groupData[chooseClubId].isAdmin
       : null;
 
+  // 현재 선택된 club의 clubMemberIdx
+  const selectedClubMemberId = 
+    groupData.length > 0 && chooseClubId >= 0 && chooseClubId < groupData.length
+    ? groupData[chooseClubId].clubMemberIdx
+    : null;
+
 
   return (
     <>
@@ -82,7 +88,8 @@ const Group = () => {
           chooseClubId,
           setChooseClubId,
           selectedClubId,
-          selectedClubIsAdmin
+          selectedClubIsAdmin,
+          selectedClubMemberId
         }}
       >
         <FixedContainer>
@@ -90,7 +97,7 @@ const Group = () => {
           <GroupTabBar />
         </FixedContainer>
         <ContentContainer>
-          <Outlet context={{ userInfo, userClubs, selectedClubId }} />
+          <Outlet context={{ userInfo, userClubs, selectedClubId, selectedClubMemberId }} />
         </ContentContainer>
       </GroupContext.Provider>
     </>

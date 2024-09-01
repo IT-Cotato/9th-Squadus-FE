@@ -108,10 +108,6 @@ const Home = () => {
             <scheduleContext.Provider value={clubSchedule}>
               <MainCalendar onClick={openModal}></MainCalendar>
               <MainSchedule onClick={openModal}></MainSchedule>
-              <CalendarModal
-                isOpen={isModalOpen}
-                closeModal={closeModal}
-              ></CalendarModal>
             </scheduleContext.Provider>
             <MainNotice></MainNotice>
             <MainArticle></MainArticle>
