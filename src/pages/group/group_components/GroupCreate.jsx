@@ -62,8 +62,7 @@ const GroupCreate = ({ closeGroupCreate }) => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            // access: `${accessToken}`,
-            Authorization: `Bearer ${accessToken}`,
+            access: localStorage.getItem("accessToken"),
           },
         }
       );

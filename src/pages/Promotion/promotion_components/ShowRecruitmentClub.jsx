@@ -1,40 +1,65 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { PromotionContext } from "../Promotion";
-import axios from "axios";
 import styled from "styled-components";
+import ManagePromotionItem from "./ManagePromotionItem";
+import { getAdminClubs } from "../../../apis/api/user";
 const ShowRecruitmentClub = () => {
   const data = useContext(PromotionContext);
-  const accessToken = localStorage.getItem("accessToken");
-  const getPromotion = (clubId, postId) => {
-    axios
-      .get(
-        `${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/${clubId}/admin/applications/${postId}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            access: `${accessToken}`,
-          },
-        }
-      )
-      .then((response) => {
-        console.log("동아리 가입 신청 내역 response.data", response.data);
-      })
-      .catch((error) => {
-        console.error("동아리 가입 신청 내역 오류", error);
-        throw error;
-      });
-  };
+  const [clubIdList, setClubIdList] = useState([]);
+  const [recruit, setRecruit] = useState([]);
+
+  //내가 속한 동아리 + 내가 어드민인 동아리
   useEffect(() => {
-    console.log(data);
-    data.map((promotion) =>
-      getPromotion(promotion.clubId, promotion.recruitingPostId)
-    );
+    const fetchAdminClubs = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+        const clubs = await getAdminClubs(accessToken);
+        setClubIdList(clubs);
+      } catch (error) {
+        console.error(
+          "관리자로 속한 동아리를 가져오는 중 오류가 발생했습니다:",
+          error
+        );
+      }
+    };
+    fetchAdminClubs();
   }, []);
+
+  //홍보글 중 내가 어드민인 동아리 filter 후 recruit에 저장
+  useEffect(() => {
+    if (clubIdList.length === 0 || data.length === 0) return;
+    console.log("내가 속한 동아리 중 admin인 동아리:", clubIdList);
+    console.log("모집내역에서 받는 context", data);
+    const clubIdSet = new Set(clubIdList.map((club) => club.clubId));
+    const filterData = data.filter((item) => clubIdSet.has(item.clubId));
+    setRecruit(filterData);
+  }, [clubIdList, data]);
+
+  useEffect(() => {
+    console.log("내가 관리하는 모집내역", recruit);
+  }, [recruit]);
   return (
     <Container>
       <HowMany>
-        총&nbsp; <HowManyHighlight>{" 건"}</HowManyHighlight>의 보낸 신청
+        총&nbsp; <HowManyHighlight>{recruit.length}건</HowManyHighlight>의 보낸
+        신청
       </HowMany>
+
+      {recruit.map((item) => (
+        <ManagePromotionItem
+          key={item.recruitingPostId}
+          startDate={item.startDate}
+          endDate={item.endDate}
+          title={item.title}
+          region={item.region}
+          sportsCategory={item.sportsCategory}
+          clubTier={item.clubTier}
+          tags={item.tags}
+          clubId={item.clubId}
+          clubName={item.clubName}
+          recruitingPostId={item.recruitingPostId}
+        />
+      ))}
     </Container>
   );
 };
@@ -43,7 +68,7 @@ export default ShowRecruitmentClub;
 
 const Container = styled.div`
   width: 100%;
-  padding: 0px 16px;
+  padding: 0px 8px;
   display: flex;
   flex-direction: column;
   gap: 8px;

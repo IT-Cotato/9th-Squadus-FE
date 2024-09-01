@@ -17,23 +17,27 @@ const OnCampus = () => {
     console.log(isModalOpen);
   };
   const filterData = data.filter((item) => item.clubCategory === "SCHOOL");
+  console.log("교내에서 받아오는 context임", filterData);
   return (
     <>
       <WrapperContainer>
         <ContentContainer>
           {filterData.map((item) => (
-            <PromotionItem
-              key={item.recruitingPostId}
-              startDate={item.startDate}
-              endDate={item.endDate}
-              title={item.title}
-              region={item.region}
-              sportsCategory={item.sportsCategory}
-              clubTier={item.clubTier}
-              tags={item.tags}
-              clubId={item.clubId}
-              clubName={item.clubName}
-            />
+            <ItemWrapper>
+              <PromotionItem
+                key={item.recruitingPostId}
+                startDate={item.startDate}
+                endDate={item.endDate}
+                title={item.title}
+                region={item.region}
+                sportsCategory={item.sportsCategory}
+                clubTier={item.clubTier}
+                tags={item.tags}
+                clubId={item.clubId}
+                clubName={item.clubName}
+                recruitingPostId={item.recruitingPostId}
+              />
+            </ItemWrapper>
           ))}
         </ContentContainer>
         <WriteButton onClick={openModal} />
@@ -61,4 +65,8 @@ const ContentContainer = styled.div`
   flex-direction: column;
   padding: 16px;
   gap: 8px;
+`;
+const ItemWrapper = styled.div`
+  display: flex;
+  width: 100%;
 `;
