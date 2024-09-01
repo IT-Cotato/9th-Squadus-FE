@@ -118,7 +118,7 @@ const ManagePromotionItem = ({
           />
         ))}
 
-        <RecruitmentItem item={tmpData} clubId={clubId} />
+        {/* <RecruitmentItem item={tmpData} clubId={clubId} /> */}
       </RecruitmentList>
     </Container>
   );

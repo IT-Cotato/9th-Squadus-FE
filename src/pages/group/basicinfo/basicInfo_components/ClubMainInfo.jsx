@@ -51,8 +51,8 @@ const ClubInfo = ({
     <Container>
       <ClubImage src={img} />
       <TagInfo>
-        <TagItem content={region} />
-        <TagItem content={personality} />
+        {region ? <TagItem content={region} /> : null}
+        {personality ? <TagItem content={personality} /> : null}
       </TagInfo>
       <Name>{name}</Name>
       <Detail>
