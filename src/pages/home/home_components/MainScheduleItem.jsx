@@ -57,7 +57,7 @@ const MainScheduleItem = ({ onClick }) => {
       <ScheduleAdd
         isOpen={isModalOpen}
         onClose={closeModal}
-        isAccessHome={groupData[0]}
+        // isAccessHome={groupData[0]}
       />
     </>
   );
