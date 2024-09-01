@@ -129,7 +129,6 @@ const BackGroundIconStyled = styled(BackGroundIcon)`
 `;
 const ContentWrapper = styled.div`
   width: 329px;
-  height: 118px;
   gap: 10px;
   display: flex;
   flex-direction: column;
@@ -192,6 +191,9 @@ const NoticeTitleWrapper = styled.div`
   gap: 8px;
   display: flex;
   flex-direction: column;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 const NoticeTitle = styled.div`
   font-size: 19px;
