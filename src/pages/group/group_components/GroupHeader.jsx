@@ -26,7 +26,7 @@ function GroupHeader() {
 
   useEffect(() => {
     const handleClickOutside = () => {
-      setShowGroupSelectList(false);  // 바깥을 클릭하면 false로 변경
+      setShowGroupSelectList(false); // 바깥을 클릭하면 false로 변경
     };
 
     // 컴포넌트가 마운트되었을 때 document에 이벤트 리스너 추가
@@ -36,14 +36,13 @@ function GroupHeader() {
       // 컴포넌트가 언마운트되었을 때 이벤트 리스너 제거
       document.removeEventListener("click", handleClickOutside);
     };
-  }, []);  // 빈 배열을 사용하여 컴포넌트가 마운트/언마운트될 때만 실행
+  }, []); // 빈 배열을 사용하여 컴포넌트가 마운트/언마운트될 때만 실행
 
   // 전파 차단을 위해 Wrapper에 클릭 핸들러 추가
   const handleWrapperClick = (e) => {
-    e.stopPropagation();  // 이벤트 전파 차단
+    e.stopPropagation(); // 이벤트 전파 차단
     setShowGroupSelectList(!showGroupSelectList);
   };
-
 
   return (
     <Container>
@@ -61,14 +60,23 @@ function GroupHeader() {
         />
       </Wrapper>
       {showGroupSelectList && (
-        <GroupSelectList 
-          groupData={groupData} 
+        <GroupSelectList
+          groupData={groupData}
           closeSelectList={() => setShowGroupSelectList(false)}
         />
       )}
       <IconWrapper>
-        <ModiInfoIcon onClick={toggleModal} />
-        <AlarmIcon />
+        {/* <ModiInfoIcon onClick={toggleModal} /> */}
+        <ModiInfoIcon
+          onClick={() => {
+            alert("📍추후 구현 예정입니다!");
+          }}
+        />
+        <AlarmIcon
+          onClick={() => {
+            alert("📍추후 구현 예정입니다!");
+          }}
+        />
       </IconWrapper>
       <ModifyInfo isOpen={isModalOpen} onClose={closeModal} />
     </Container>
