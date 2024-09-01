@@ -8,6 +8,7 @@ import { useState, useEffect, useCallback, useContext } from "react";
 import ScheduleItem, { AddSchedule } from "./schedule_components/ScheduleItem";
 import ScheduleAdd from "./ScheduleAdd";
 import axios from "axios";
+import api from "../../../apis/utils/api";
 import { GroupContext } from "../Group";
 const BaseContainer = styled.div`
   width: 100%;
@@ -43,7 +44,7 @@ const Schedule = ({ personalSchedule, isAccessHome }) => {
   const context = useContext(GroupContext);
   const { chooseClubId, groupData, Loading } = personalSchedule ? {} : context;
   const getClubSchedule = async () => {
-    axios
+    await api
       .get(
         `${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/${groupData[chooseClubId].clubId}/schedules`
       )
@@ -131,6 +132,7 @@ const Schedule = ({ personalSchedule, isAccessHome }) => {
     }
     return null;
   };
+
   return (
     <BaseContainer>
       <CalenderContainer>
@@ -159,6 +161,7 @@ const Schedule = ({ personalSchedule, isAccessHome }) => {
         <AddSchedule onClick={toggleModal}></AddSchedule>
       </ScheduleList>
       <ScheduleAdd
+        date={date}
         isOpen={isModalOpen}
         onClose={closeModal}
         isAccessHome={isAccessHome}
