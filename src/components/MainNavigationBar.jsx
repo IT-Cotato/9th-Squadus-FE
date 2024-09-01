@@ -27,14 +27,14 @@ const NavItem = styled(({ isActive, ...props }) => <Link {...props} />)`
   text-decoration: none;
   font-size: 10px;
   color: ${({ theme, isActive }) =>
-    isActive ? theme.colors.secondary[600] : theme.colors.neutral[400]};
+    isActive ? theme.colors.neutral[900] : theme.colors.neutral[400]};
 
   svg {
     margin-bottom: 8px;
     width: 24px;
     height: 24px;
     fill: ${({ theme, isActive }) =>
-      isActive ? theme.colors.secondary[600] : theme.colors.neutral[400]};
+      isActive ? theme.colors.neutral[900] : theme.colors.neutral[400]};
   }
 `;
 
@@ -49,7 +49,7 @@ function MainNavigationBar() {
       </NavItem>
       <NavItem to="/promotion" isActive={checkActive("/promotion")}>
         <PromotionIcon />
-        동아리 홍보
+        홍보
       </NavItem>
       <NavItem to="/group" isActive={checkActive("/group")}>
         <GroupIcon />

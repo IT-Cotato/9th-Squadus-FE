@@ -180,7 +180,7 @@ const MercenaryHistory = ({ closeMercenaryHistory }) => {
 
           {
             showMercenaryReceived && 
-            <MercenaryReceivedList selectedGroup={selectedGroup} />
+            <MercenaryReceivedList selectedGroup={selectedGroup} clubMemberId={selectedGroup?.clubMemberIdx}/>
           }
         </ContentContainer>
       </Container>

@@ -49,6 +49,14 @@ const NoticeList = styled.div`
   overflow: auto;
 `;
 
+const EmptyNoticeStateMessage = styled.div`
+  color: ${({ theme }) => theme.colors.neutral[400]};
+  font-weight: 600;
+  padding: 80px 12px;
+  text-align: center;
+`;
+
+
 const Notice = () => {
   const { selectedClubId } = useContext(GroupContext);
   const [noticesData, setNoticesData] = useState([]);
@@ -78,6 +86,12 @@ const Notice = () => {
     setShowNoticeDetail(true);
   };
 
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    return `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')}`;
+  };
+  
+
   // const noticeData = [
   //   { id: "1", title: "공지사항1", date: "2024.05.30" },
   //   { id: "2", title: "공지사항임", date: "2024.05.30" },
@@ -93,12 +107,12 @@ const Notice = () => {
             <NoticeItem
               key={notice.postId}
               title={notice.title}
-              date={notice.createdAt}
+              date={formatDate(notice.createdAt)}
               onClick={() => handleNoticeClick(notice.postId)}
             />
           ))
         ) : (
-          <p>해당 동아리의 공지사항이 없습니다.</p>
+          <EmptyNoticeStateMessage>해당 동아리의 공지사항이 없습니다.</EmptyNoticeStateMessage>
         )}
       </NoticeList>
 
@@ -117,7 +131,7 @@ const Notice = () => {
             fetchNotices();
           }}
           clubId={selectedClubId}
-          refreshNotices={fetchNotices}
+          // refreshNotices={fetchNotices}
         />
       )}
 

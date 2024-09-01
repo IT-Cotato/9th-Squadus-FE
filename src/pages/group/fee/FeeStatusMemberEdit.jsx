@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import FeeMemberEditItem from './fee_components/FeeMemberEditItem';
 import close_icon from '../../../assets/icons/close.svg'
+import { getFeeStatus } from '../../../apis/api/fee';
+import { GroupContext } from "../Group";
 
 const WrapperContainer = styled.div`
   position: fixed;
@@ -43,6 +45,7 @@ const CloseButton = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  cursor: pointer;
 `;
 
 const HeaderTitle = styled.div`
@@ -69,39 +72,46 @@ const ContentContainer = styled.div`
 `;
 
 
+const FeeStatusMemberEdit = ({ closeFeeStatusMemberEdit, feeId }) => {
+  const { selectedClubId } = useContext(GroupContext);
+  const [statusData, setStatusData] = useState([]);
 
-const FeeStatusMemberEdit = ({ closeFeeStatusMemberEdit }) => {
-  const MemberData = [
-    { name: '이름(본인)', isPaid: true },
-    { name: '이름', isPaid: false },
-    { name: '이름', isPaid: false },
-    { name: '이름', isPaid: false },
-    { name: '이름', isPaid: true },
-    { name: '이름', isPaid: true },
-    { name: '이름', isPaid: true },
-    { name: '이름', isPaid: true },
-    { name: '이름', isPaid: true },
-    { name: '다인', isPaid: true },
-  ];
+  const fetchFeeStatus = () => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken && selectedClubId && feeId) {
+      getFeeStatus(accessToken, selectedClubId, feeId)
+        .then((payment) => {
+          setStatusData(payment.clubFeePaymentInfoResponseList || [])
+        })
+        .catch((error) => {
+          console.log("입금 현황 가져오는 중 오류 발생: ", error);
+        })
+    }
+  }
+
+  useEffect(() => {
+    fetchFeeStatus();
+  }, [selectedClubId, feeId]);
 
 
   return (
     <WrapperContainer>
         <Container>
-        <HeaderContainer>
-          <CloseButton onClick={() => closeFeeStatusMemberEdit(true)} />
-          <HeaderTitle>납부 현황 편집</HeaderTitle>
-          <SubmitButton>완료</SubmitButton>
-        </HeaderContainer>
-        <ContentContainer>
-          {MemberData.map((member, index) => (
-            <FeeMemberEditItem
-              key={index}
-              name={member.name}
-              isPaid={member.isPaid}
-            />
-          ))}
-        </ContentContainer>
+          <HeaderContainer>
+            <CloseButton onClick={() => closeFeeStatusMemberEdit(true)} />
+            <HeaderTitle>입금현황 편집</HeaderTitle>
+            <SubmitButton>완료</SubmitButton> {/* TODO: 백에서 현황 편집하는 API가 잘 되는지 확인해봐야함 */}
+          </HeaderContainer>
+          <ContentContainer>
+            {statusData.map((member, index) => (
+              <FeeMemberEditItem
+                key={index}
+                name={member.name}
+                isPaid={member.isPaid}
+                profileImage={member.profileImage}
+              />
+            ))}
+          </ContentContainer>
         </Container>
     </WrapperContainer>
   );

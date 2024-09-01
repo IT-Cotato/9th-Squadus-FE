@@ -187,7 +187,7 @@ const EmptyStateMessage = styled.div`
   text-align: center;
 `;
 
-const MercenaryArticleCard = ({ mercenaryIdx, title, location, category, date, placeOffer, img, clubName, clubIdx, maxCount, currentCount, content, requestButtonLabel, userClubs, showRequestButton = true, showPersonContainer = false, personData }) => {
+const MercenaryArticleCard = ({ clubMemberId, mercenaryIdx, title, location, category, date, placeOffer, img, clubName, clubIdx, maxCount, currentCount, content, requestButtonLabel, userClubs, showRequestButton = true, showPersonContainer = false, personData }) => {
   const [expanded, setExpanded] = useState(false);
   const [showMercenarySendSuccessModal, setShowMercenarySendSuccessModal] = useState(false);
   const [showMercenarySendFailModal, setShowMercenarySendFailModal] = useState(false);
@@ -226,8 +226,8 @@ const MercenaryArticleCard = ({ mercenaryIdx, title, location, category, date, p
   };
 
   return (
-    <WrapperContainer onClick={() => setExpanded(!expanded)}>
-      <MainContainer>
+    <WrapperContainer>
+      <MainContainer  onClick={() => setExpanded(!expanded)}>
         <MainInfoContainer>
           <div>
             <Title>{title}</Title>
@@ -273,8 +273,12 @@ const MercenaryArticleCard = ({ mercenaryIdx, title, location, category, date, p
             personData.map(person => (
               <MercenaryPersonItem
                 key={person.id}
+                requestId={person.requestId}
                 personName={person.personName}
                 university={person.university}
+                memberId={person.memberId}
+                matchingStatus={person.matchingStatus}
+                clubMemberId={clubMemberId}
               />
             ))
           ) : (

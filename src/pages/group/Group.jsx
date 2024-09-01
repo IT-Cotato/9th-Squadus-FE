@@ -64,6 +64,13 @@ const Group = () => {
       ? groupData[chooseClubId].clubId
       : null;
 
+  // 현재 선택된 club의 관리자인지 여부를 나타내는 변수
+  const selectedClubIsAdmin = 
+    groupData.length > 0 && chooseClubId >= 0 && chooseClubId < groupData.length
+      ? groupData[chooseClubId].isAdmin
+      : null;
+
+
   return (
     <>
       <GroupContext.Provider
@@ -75,6 +82,7 @@ const Group = () => {
           chooseClubId,
           setChooseClubId,
           selectedClubId,
+          selectedClubIsAdmin
         }}
       >
         <FixedContainer>

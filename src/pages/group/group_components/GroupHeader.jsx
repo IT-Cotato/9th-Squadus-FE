@@ -90,6 +90,7 @@ const Wrapper = styled.div`
   align-items: center;
   font-size: 16px;
   position: relative;
+  cursor: pointer;
 `;
 
 const IconWrapper = styled.div`

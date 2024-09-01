@@ -16,31 +16,37 @@ import arrow_left_button from "../../assets/icons/arrow-left.svg"
 
 const NoticeModal = ({ isOpen, closeModal }) => {
   const groupData = useContext(groupDataContext);
-
   const [posts, setPosts] = useState([]);
-  const getClubAllNotice = async ({ clubId }) => {
-    axios
-      .get(`${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/${clubId}/posts`)
-      .then((res) => {
-        // console.log("불러오긴하는거임?????? 공지 전체 res.data :", res.data);
-        // console.log("불러오긴하는거임?????? posts :", posts);
-        // console.log("불러오긴하는거임?????? groupData :", groupData);
-        setPosts((prevPosts) => [...prevPosts, res.data.clubPosts]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+
+  const getClubAllNotice = async (clubId) => {
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/${clubId}/posts`);
+      return res.data.clubPosts;
+    } catch (err) {
+      console.log(err);
+      return []; // 요청이 실패하면 빈 배열을 반환
+    }
   };
 
   useEffect(() => {
-    if (groupData && groupData.length > 0) {
-      groupData.forEach((clubId) => {
-        getClubAllNotice(clubId);
-      });
-    }
-    console.log("불러오긴하는거임?????? posts :", posts);
-    console.log("불러오긴하는거임?????? groupData :", groupData);
+    const fetchNotices = async () => {
+      if (groupData && groupData.length > 0) {
+        const results = Array(groupData.length).fill([]); // 각 클럽의 결과를 저장할 배열 초기화
+
+        for (let i = 0; i < groupData.length; i++) {
+          const { clubId } = groupData[i];
+          const notices = await getClubAllNotice(clubId);
+          results[i] = notices;
+          setPosts([...results]); // 각 요청이 완료될 때마다 상태 업데이트
+        }
+
+      }
+    };
+
+    fetchNotices();
   }, [groupData]);
+
   return (
     <>
       {isOpen && (
@@ -119,6 +125,7 @@ const CloseButton = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  cursor: pointer;
 `;
 
 const HeaderTitle = styled.div`

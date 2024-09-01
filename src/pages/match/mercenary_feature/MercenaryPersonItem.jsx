@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import arrow_right_icon from '../../../assets/icons/arrow-right-grey.svg';
+import { postMercenaryDecision } from '../../../apis/api/mercenary';
 
 const Container = styled.div`
   width: 100%;
@@ -71,7 +72,30 @@ const ApproveButton = styled(Button)`
   color: ${({ theme }) => theme.colors.main[600]};
 `;
 
-const MercenaryPersonItem = ({ personName, university }) => {
+const DecisionCompleteButton = styled(Button)`
+  border: 1px solid ${({ theme }) => theme.colors.neutral[300]};
+  color: ${({ theme }) => theme.colors.main[600]};
+  padding: 8px 32px;
+`;
+
+const MercenaryPersonItem = ({ clubMemberId, personName, university, requestId, memberId, matchingStatus }) => {
+  const [decision, setDecision] = useState(matchingStatus);
+
+  const handleDecision = (newDecision) => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    postMercenaryDecision(accessToken, requestId, newDecision, clubMemberId)
+      .then((response) => {
+        console.log("결정 성공:", response);
+        setDecision(newDecision);
+      })
+      .catch((error) => {
+        console.error("결정 실패:", error);
+      });
+  };
+
+  const handleReject = () => handleDecision('REJECTED');
+  const handleApprove = () => handleDecision('APPROVED');
 
   return (
     <Container>
@@ -82,8 +106,16 @@ const MercenaryPersonItem = ({ personName, university }) => {
         <SubInfo>{university}</SubInfo>
       </PersonInfoContainer>
       <ButtonContainer>
-        <RejectButton>거절</RejectButton>
-        <ApproveButton>승낙</ApproveButton>
+        {decision === 'PENDING' ? (
+          <>
+            <RejectButton onClick={handleReject}>거절</RejectButton>
+            <ApproveButton onClick={handleApprove}>승낙</ApproveButton>
+          </>
+        ) : (
+          <DecisionCompleteButton>
+            {decision === 'APPROVED' ? '승낙 완료' : '거절 완료'}
+          </DecisionCompleteButton>
+        )}
       </ButtonContainer>
     </Container>
     
