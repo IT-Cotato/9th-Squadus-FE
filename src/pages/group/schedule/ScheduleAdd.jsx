@@ -181,9 +181,6 @@ const Select = styled.select`
 `;
 
 const ScheduleAdd = ({ date, isOpen, onClose, isAccessHome }) => {
-  if (!date) {
-    throw new Error("date prop is required.");
-  }
 
   // const [isAllday, setIsAllday] = useState(false);
   const [startHour, setStartHour] = useState("");
@@ -228,7 +225,7 @@ const ScheduleAdd = ({ date, isOpen, onClose, isAccessHome }) => {
       selectedClubId = isAccessHome.clubId;
     } 
   };
-  
+
   useEffect(() => {
     checkClubId();
   }, [isAccessHome, selectedClubId]);
