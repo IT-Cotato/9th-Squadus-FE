@@ -2,8 +2,10 @@ import styled from "styled-components";
 import NoticeItem from "./notice_components/NoticeItem";
 import NoticeCreate from "./NoticeCreate";
 import NoticeDetail from "./NoticeDetail";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import create_icon from "../../../assets/icons/write.svg";
+import { GroupContext } from "../Group";
+import { getNotices } from "../../../apis/api/notice";
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.neutral[100]};
@@ -47,34 +49,71 @@ const NoticeList = styled.div`
   overflow: auto;
 `;
 
+const EmptyNoticeStateMessage = styled.div`
+  color: ${({ theme }) => theme.colors.neutral[400]};
+  font-weight: 600;
+  padding: 80px 12px;
+  text-align: center;
+`;
+
+
 const Notice = () => {
+  const { selectedClubId } = useContext(GroupContext);
+  const [noticesData, setNoticesData] = useState([]);
   const [showNoticeCreate, setShowNoticeCreate] = useState(false);
   const [showNoticeDetail, setShowNoticeDetail] = useState(false);
   const [selectedNoticeId, setSelectedNoticeId] = useState(null);
+
+  const fetchNotices = () => {
+    const accessToken = localStorage.getItem("accessToken"); // 저장된 accessToken 가져오기
+    if (accessToken && selectedClubId) {
+      getNotices(accessToken, selectedClubId)
+        .then((notices) => {
+          setNoticesData(notices.clubPosts || []);
+        })
+        .catch((error) => {
+          console.error("공지사항 가져오는 중 오류 발생:", error);
+        });
+    }
+  };
+
+  useEffect(() => {
+    fetchNotices();
+  }, [selectedClubId]);
 
   const handleNoticeClick = (id) => {
     setSelectedNoticeId(id);
     setShowNoticeDetail(true);
   };
 
-  const noticeData = [
-    { id: "1", title: "공지사항1", date: "2024.05.30" },
-    { id: "2", title: "공지사항임", date: "2024.05.30" },
-    { id: "3", title: "공지사항~~", date: "2024.05.30" },
-    { id: "4", title: "공지사항", date: "2024.05.30" },
-  ];
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    return `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')}`;
+  };
+  
+
+  // const noticeData = [
+  //   { id: "1", title: "공지사항1", date: "2024.05.30" },
+  //   { id: "2", title: "공지사항임", date: "2024.05.30" },
+  //   { id: "3", title: "공지사항~~", date: "2024.05.30" },
+  //   { id: "4", title: "공지사항", date: "2024.05.30" },
+  // ];
 
   return (
     <Container>
       <NoticeList>
-        {noticeData.map((notice) => (
-          <NoticeItem
-            key={notice.id}
-            title={notice.title}
-            date={notice.date}
-            onClick={() => handleNoticeClick(notice.id)}
-          />
-        ))}
+        {noticesData.length > 0 ? (
+          noticesData.map((notice) => (
+            <NoticeItem
+              key={notice.postId}
+              title={notice.title}
+              date={formatDate(notice.createdAt)}
+              onClick={() => handleNoticeClick(notice.postId)}
+            />
+          ))
+        ) : (
+          <EmptyNoticeStateMessage>해당 동아리의 공지사항이 없습니다.</EmptyNoticeStateMessage>
+        )}
       </NoticeList>
 
       <FloatingButton
@@ -87,13 +126,20 @@ const Notice = () => {
 
       {showNoticeCreate && (
         <NoticeCreate
-          closeNoticeCreate={() => setShowNoticeCreate(false)}
-          noticeId={selectedNoticeId}
+          closeNoticeCreate={() => {
+            setShowNoticeCreate(false);
+            fetchNotices();
+          }}
+          clubId={selectedClubId}
+          // refreshNotices={fetchNotices}
         />
       )}
 
       {showNoticeDetail && (
-        <NoticeDetail closeNoticeDetail={() => setShowNoticeDetail(false)} />
+        <NoticeDetail 
+          closeNoticeDetail={() => setShowNoticeDetail(false)} 
+          noticeId={selectedNoticeId}
+        />
       )}
     </Container>
   );

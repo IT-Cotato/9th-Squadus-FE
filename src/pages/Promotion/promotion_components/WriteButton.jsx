@@ -15,7 +15,7 @@ export default WriteButton;
 
 const FloatingButton = styled.div`
   position: absolute;
-  bottom: 80px;
+  bottom: 20px;
   right: 20px;
   width: 70px;
   height: 70px;

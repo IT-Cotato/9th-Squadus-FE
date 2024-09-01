@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import notification_icon from '../../../assets/icons/notification.svg';
-import useAuthStore from '../../../stores/useAuthStore';
-import api from '../../../api/api';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import notification_icon from "../../../assets/icons/notification.svg";
+import useAuthStore from "../../../stores/useAuthStore";
 
 const Container = styled.div`
   display: flex;
@@ -12,7 +11,6 @@ const Container = styled.div`
   background-color: white;
   border-bottom: 1px solid #dcdcdc;
   justify-content: space-between;
-
 `;
 
 const Title = styled.h1`
@@ -31,40 +29,22 @@ const Notification = styled.div`
 `;
 
 function HomeHeader() {
-  const [userData, setUserData] = useState(null);
-  const accessToken = useAuthStore(state => state.accessToken);
+  const { userData } = useAuthStore();
   const navigate = useNavigate();
 
   const handleNotificationClick = () => {
-    navigate('/notification');
+    navigate("/notification");
   };
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      await api.get(`/v1/api/members/info`, {
-        headers: {
-          'Content-Type': 'application/json',
-          access: `${accessToken}` 
-        }
-      })
-      .then((response) => {
-        setUserData(response.data);
-        console.log('User data fetched:', response.data);
-      })
-      .catch((error) => {
-        console.error('Failed to fetch user data:', error);
-      })
-    };
-
-    if (accessToken) {
-      fetchUserData();
-    }
-  }, [accessToken]);
 
   return (
     <Container>
-        <Title>반가워요 {userData ? userData.memberName : ''}님!</Title>
-        <Notification onClick={handleNotificationClick}></Notification>
+      <Title>반가워요 {userData ? userData.memberName : ""}님!</Title>
+      {/* <Notification onClick={handleNotificationClick}></Notification> */}
+      <Notification
+        onClick={() => {
+          alert("📍추후 구현 예정입니다!");
+        }}
+      ></Notification>
     </Container>
   );
 }

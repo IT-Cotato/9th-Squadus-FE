@@ -10,7 +10,7 @@ import Callback from "../pages/login/Callback";
 import Home from "../pages/home/Home";
 import Group from "../pages/group/Group";
 import Match from "../pages/match/Match";
-import Mypage from "../pages/Mypage";
+import Mypage from "../pages/mypage/Mypage";
 import Promotion from "../pages/Promotion/Promotion";
 
 // GNB2: promotion

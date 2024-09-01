@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as New } from "../../../assets/icons/new.svg";
+import ApplyStatus from "../ApplyStatus";
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -42,8 +43,6 @@ const PromotionHeader = ({ setSelectedTab }) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("oncampus");
 
-  const [showApplyStatus, setShowApplyStatus] = useState(false);
-
   const handleTabClick = (path) => {
     setActiveTab(path);
     setSelectedTab(path);
@@ -55,8 +54,13 @@ const PromotionHeader = ({ setSelectedTab }) => {
     }
   };
 
-  const handleApplicationClick = () => {
-    setShowApplyStatus(true);
+  const [isapplyStatusModal, setIsapplyStatusModal] = useState(false);
+  const closeApplyStatusModal = () => {
+    setIsapplyStatusModal(false);
+  };
+  const openApplyStatusModal = () => {
+    setIsapplyStatusModal(true);
+    console.log(isapplyStatusModal);
   };
 
   return (
@@ -75,24 +79,14 @@ const PromotionHeader = ({ setSelectedTab }) => {
           교외
         </TabItem>
       </TabBar>
-      <ApplicationHistoryButton onClick={handleApplicationClick}>
+      <ApplicationHistoryButton onClick={openApplyStatusModal}>
         동아리 지원현황
         <New />
       </ApplicationHistoryButton>
-
-      {/* {
-        showMatchHistory && 
-        <MatchHistory
-          closeMatchHistory={() => setShowMatchHistory(false)}
-        />
-      }
-
-      {
-        showMercenaryHistory && 
-        <MercenaryHistory
-          closeMercenaryHistory={() => setShowMercenaryHistory(false)}
-        />
-      } */}
+      <ApplyStatus
+        isapplyStatusModal={isapplyStatusModal}
+        closeApplyStatusModal={closeApplyStatusModal}
+      />
     </Container>
   );
 };

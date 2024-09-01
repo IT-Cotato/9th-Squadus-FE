@@ -1,10 +1,10 @@
-import styled from 'styled-components';
-import RankItem from './basicInfo_components/RankItem';
-import RankTab from './basicInfo_components/RankTab';
-import { useState } from 'react';
-import { ReactComponent as RankBackIcon1 } from '../../../assets/group/RankBackIcon1.svg';
-import { ReactComponent as RankBackIcon2 } from '../../../assets/group/RankBackIcon2.svg';
-import Awarding from './basicInfo_components/Awarding';
+import styled from "styled-components";
+import RankItem from "./basicInfo_components/RankItem";
+import RankTab from "./basicInfo_components/RankTab";
+import { useState } from "react";
+import { ReactComponent as RankBackIcon1 } from "../../../assets/group/RankBackIcon1.svg";
+import { ReactComponent as RankBackIcon2 } from "../../../assets/group/RankBackIcon2.svg";
+import Awarding from "./basicInfo_components/Awarding";
 const BaseContainer = styled.div`
   max-width: 649px;
   position: fixed;
@@ -18,7 +18,14 @@ const BaseContainer = styled.div`
   border-radius: 16px 16px 0px 0px;
   box-shadow: 0px -2px 87px 0px #475467;
   box-sizing: border-box;
-  background: linear-gradient(270deg, #1e58ec 0%, #525e9d 100%);
+  background: ${({ $clubTier }) => {
+    if ($clubTier === "BRONZE")
+      return "linear-gradient(90deg, #FF6330 0%, #FF3F00 100%)";
+    if ($clubTier === "SILVER")
+      return "linear-gradient(270deg, #1E58EC 0%, #52559D 100%)";
+    if ($clubTier === "GOLD")
+      return "linear-gradient(270deg, #FFD362 0%, #FFA51E 100%)";
+  }};
 `;
 const Header = styled.div`
   width: 100%;
@@ -85,35 +92,35 @@ const mockDataMonthly = [
     rank: 1,
     isUp: true,
     upDown: 2,
-    name: '중앙가르드',
+    name: "중앙가르드",
     score: 238,
   },
   {
     rank: 2,
     isUp: false,
     upDown: 1,
-    name: '중앙가르드',
+    name: "중앙가르드",
     score: 238,
   },
   {
     rank: 3,
     isUp: false,
     upDown: 2,
-    name: '중앙가르드',
+    name: "중앙가르드",
     score: 238,
   },
   {
     rank: 4,
     isUp: true,
     upDown: 1,
-    name: '중앙가르드',
+    name: "중앙가르드",
     score: 238,
   },
   {
     rank: 5,
     isUp: false,
     upDown: 1,
-    name: '중앙가르드',
+    name: "중앙가르드",
     score: 238,
   },
 ];
@@ -122,50 +129,54 @@ const mockDataAllTime = [
     rank: 1,
     isUp: true,
     upDown: 2,
-    name: '메롱',
+    name: "메롱",
     score: 238,
   },
   {
     rank: 2,
     isUp: false,
     upDown: 1,
-    name: '메롱',
+    name: "메롱",
     score: 238,
   },
   {
     rank: 3,
     isUp: false,
     upDown: 2,
-    name: '메롱',
+    name: "메롱",
     score: 238,
   },
   {
     rank: 4,
     isUp: true,
     upDown: 1,
-    name: '메롱',
+    name: "메롱",
     score: 238,
   },
   {
     rank: 5,
     isUp: false,
     upDown: 1,
-    name: '메롱',
+    name: "메롱",
     score: 238,
   },
 ];
-const Rank = ({ isOpen, onClose }) => {
-  const [activeTab, setActiveTab] = useState('monthly');
-  const listdata = activeTab === 'monthly' ? mockDataMonthly : mockDataAllTime;
+const Rank = ({ isOpen, onClose, clubTier }) => {
+  const [activeTab, setActiveTab] = useState("monthly");
+  const listdata = activeTab === "monthly" ? mockDataMonthly : mockDataAllTime;
   return (
     <>
       {isOpen && (
-        <BaseContainer>
+        <BaseContainer $clubTier={clubTier}>
           <Header>
             <BackButton onClick={onClose}> &lt; </BackButton>
             <TopText>티어</TopText>
           </Header>
-          <RankTab activeTab={activeTab} setActiveTab={setActiveTab} />
+          <RankTab
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            clubTier={clubTier}
+          />
           <Awarding />
           <ListContainer>
             {listdata.map((item) => (

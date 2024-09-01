@@ -1,26 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as FilterIcon } from "../assets/icons/filter.svg";
+import arrow_down_icon from "../assets/icons/arrow-down-grey-filter.svg"
 
-const FilterBar = () => {
-  const [selectedCity, setSelectedCity] = useState("지역");
-  const [counties, setCounties] = useState(CountyOptions["지역"]);
-  const [selectedEvent, setSelectedEvent] = useState("");
-  const [selectedTier, setSelectedTier] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
-
-  const handleCityChange = (event) => {
-    const selectedCity = event.target.value;
-    setSelectedCity(selectedCity);
-    setCounties(CountyOptions[selectedCity]);
-  };
+const FilterBar = ({ selected, setSelected, handleChange }) => {
+  useEffect(() => {
+    console.log("Updated selected:", selected);
+  }, [selected]);
 
   const onClear = () => {
-    setSelectedCity("지역");
-    setCounties(CountyOptions["지역"]);
-    setSelectedEvent("");
-    setSelectedTier("");
-    setSelectedCategory("");
+    setSelected({
+      city: "지역",
+      counties: CountyOptions["지역"],
+      sportCategory: "",
+      tier: "",
+      category: "",
+    });
   };
 
   return (
@@ -28,22 +23,32 @@ const FilterBar = () => {
       <FilterIconStyled onClick={onClear} />
       {/* 종목 */}
       <FilterBox
-        value={selectedEvent}
-        onChange={(e) => setSelectedEvent(e.target.value)}
-        options={Event}
+        name="sportCategory"
+        value={selected.sportCategory}
+        onChange={handleChange}
+        options={SportCategory}
       />
 
       {/* 지역 필터 */}
-      <FilterContainer value={selectedCity} onChange={handleCityChange}>
+      <FilterContainer
+        name="city"
+        value={selected.city}
+        onChange={handleChange}
+      >
         {CityOptions.map((city) => (
           <option key={city.value} value={city.value}>
             {city.label}
           </option>
         ))}
       </FilterContainer>
-      {selectedCity !== "지역" && (
-        <FilterContainer value={counties[0]} onChange={(e) => {}}>
-          {counties.map((county) => (
+
+      {selected.city !== "지역" && (
+        <FilterContainer
+          name="county"
+          value={selected.counties[0]}
+          onChange={handleChange}
+        >
+          {selected.counties.map((county) => (
             <option key={county} value={county}>
               {county}
             </option>
@@ -53,14 +58,17 @@ const FilterBar = () => {
 
       {/* 티어 */}
       <FilterBox
-        value={selectedTier}
-        onChange={(e) => setSelectedTier(e.target.value)}
+        name="tier"
+        value={selected.tier}
+        onChange={handleChange}
         options={Tier}
       />
+
       {/* 카테고리 */}
       <FilterBox
-        value={selectedCategory}
-        onChange={(e) => setSelectedCategory(e.target.value)}
+        name="category"
+        value={selected.category}
+        onChange={handleChange}
         options={Category}
       />
     </Container>
@@ -69,8 +77,8 @@ const FilterBar = () => {
 
 export default FilterBar;
 
-const FilterBox = ({ value, onChange, options }) => (
-  <FilterContainer value={value} onChange={onChange}>
+const FilterBox = ({ name, value, onChange, options }) => (
+  <FilterContainer name={name} value={value} onChange={onChange}>
     {options.map((option) => (
       <option key={option.value} value={option.value}>
         {option.name}
@@ -78,6 +86,98 @@ const FilterBox = ({ value, onChange, options }) => (
     ))}
   </FilterContainer>
 );
+
+// export const ChooseRegion = ({ value, onChange }) => {
+//   const [selectedCity, setSelectedCity] = useState(value.city || "지역");
+//   const [counties, setCounties] = useState(CountyOptions[selectedCity] || []);
+
+//   useEffect(() => {
+//     setCounties(CountyOptions[selectedCity] || []);
+//     if (selectedCity !== "지역") {
+//       onChange({ target: { name: "county", value: counties[0] || "" } });
+//     }
+//     onChange({ target: { name: "city", value: selectedCity } });
+//   }, [selectedCity]);
+
+//   const handleCityChange = (e) => {
+//     const city = e.target.value;
+//     setSelectedCity(city);
+//     onChange({ target: { name: "city", value: city } });
+//   };
+
+//   const handleCountyChange = (e) => {
+//     const county = e.target.value;
+//     onChange({ target: { name: "county", value: county } });
+//   };
+
+//   return (
+//     <Container>
+//       <FilterContainer value={selectedCity} onChange={handleCityChange}>
+//         {CityOptions.map((city) => (
+//           <option key={city.value} value={city.value}>
+//             {city.label}
+//           </option>
+//         ))}
+//       </FilterContainer>
+
+//       {selectedCity !== "지역" && counties.length > 0 && (
+//         <FilterContainer value={counties[0]} onChange={handleCountyChange}>
+//           {counties.map((county) => (
+//             <option key={county} value={county}>
+//               {county}
+//             </option>
+//           ))}
+//         </FilterContainer>
+//       )}
+//     </Container>
+//   );
+// };
+export const ChooseRegion = ({ value, onChange }) => {
+  const [selectedCity, setSelectedCity] = useState(value.city || "지역");
+  const [selectedCounty, setSelectedCounty] = useState(value.county || ""); // 선택된 군/구 상태 추가
+  const [counties, setCounties] = useState(CountyOptions[selectedCity] || []);
+
+  useEffect(() => {
+    const newCounties = CountyOptions[selectedCity] || [];
+    setCounties(newCounties);
+    setSelectedCounty(newCounties[0] || ""); // 도시 변경 시 첫 번째 군/구를 선택
+    onChange({ target: { name: "city", value: selectedCity } });
+    onChange({ target: { name: "county", value: newCounties[0] || "" } });
+  }, [selectedCity]);
+
+  const handleCityChange = (e) => {
+    const city = e.target.value;
+    setSelectedCity(city);
+  };
+
+  const handleCountyChange = (e) => {
+    const county = e.target.value;
+    setSelectedCounty(county);
+    onChange({ target: { name: "county", value: county } });
+  };
+
+  return (
+    <Container>
+      <FilterContainer value={selectedCity} onChange={handleCityChange}>
+        {CityOptions.map((city) => (
+          <option key={city.value} value={city.value}>
+            {city.label}
+          </option>
+        ))}
+      </FilterContainer>
+
+      {selectedCity !== "지역" && counties.length > 0 && (
+        <FilterContainer value={selectedCounty} onChange={handleCountyChange}>
+          {counties.map((county) => (
+            <option key={county} value={county}>
+              {county}
+            </option>
+          ))}
+        </FilterContainer>
+      )}
+    </Container>
+  );
+};
 
 const FilterIconStyled = styled(FilterIcon)`
   flex-shrink: 0;
@@ -93,24 +193,58 @@ const Container = styled.div`
   }
 `;
 
+// TODO: 이거 CSS 제대로 하려면 생구현해야할듯
 const FilterContainer = styled.select`
-  height: 38px;
+  display: inline-block;
+  width: auto;
   padding: 8px 16px;
+  padding-right: 32px;
   border-radius: 24px;
-  border: 1px;
+  border: 1px solid ${({ theme }) => theme.colors.neutral[200]};
+  font-size: 16px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.neutral[800]};
+  background-color: white;
+  -webkit-appearance: none;  // macOS 및 iOS에서 기본 스타일 제거
+  -moz-appearance: none;  // Firefox에서 기본 스타일 제거
+  -o-appearance:none; 
+  appearance: none;  // 기본 화살표 아이콘 제거
+  background-image: url(${arrow_down_icon});
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 16px 16px;
+  text-overflow: ellipsis; /* 텍스트가 넘칠 경우 처리 */
+  white-space: nowrap; /* 텍스트가 한 줄로 유지되도록 설정 */
+  overflow: hidden; /* 넘치는 텍스트가 잘리도록 설정 */
+  cursor: pointer;
+
   &:hover {
     border: 1px solid #ff3f00;
   }
 `;
 
-const Event = [
+const SportCategory = [
   { value: "", name: "종목" },
-  { value: "2", name: "2" },
-  { value: "3", name: "3" },
+  { value: "SOCCER", name: "축구" },
+  { value: "BASKETBALL", name: "야구" },
+  { value: "VOLLEYBALL", name: "배구" },
+  // { value: "BASEBALL", name: "야구?" },
+  { value: "BADMINTON", name: "배드민턴" },
+  { value: "TENNIS", name: "테니스" },
+  { value: "TABLE_TENNIS", name: "탁구" },
+  { value: "TAEKWONDO", name: "태권도" },
+  { value: "JUDO", name: "유도" },
+  { value: "KENDO", name: "검도" },
+  { value: "RUNNING", name: "러닝" },
+  { value: "CROSSFIT", name: "크로스핏" },
+  { value: "CYCLING", name: "사이클링" },
+  { value: "SWIMMING", name: "수영" },
+  { value: "SURFING", name: "서핑" },
+  { value: "YACHTING", name: "요트" },
 ];
 const CityOptions = [
   { value: "지역", label: "지역" },
-  { value: "서울", label: "서울특별시" },
+  { value: "서울시", label: "서울특별시" },
   { value: "부산", label: "부산광역시" },
   { value: "대구", label: "대구광역시" },
   { value: "인천", label: "인천광역시" },
@@ -128,10 +262,10 @@ const CityOptions = [
   { value: "제주", label: "제주도" },
 ];
 
-const CountyOptions = {
+export const CountyOptions = {
   지역: ["지역"],
-  서울: [
-    "지역( 시/ 군)",
+  서울시: [
+    "지역 (시/군)",
     "강남구",
     "강동구",
     "강북구",
@@ -159,7 +293,7 @@ const CountyOptions = {
     "중랑구",
   ],
   부산: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "강서구",
     "금정구",
     "남구",
@@ -178,7 +312,7 @@ const CountyOptions = {
     "기장군",
   ],
   대구: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "남구",
     "달서구",
     "동구",
@@ -189,7 +323,7 @@ const CountyOptions = {
     "달성군",
   ],
   인천: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "계양구",
     "남구",
     "남동구",
@@ -201,11 +335,11 @@ const CountyOptions = {
     "강화군",
     "옹진군",
   ],
-  광주: ["지역( 시/ 군)", "광산구", "남구", "동구", "북구", "서구"],
-  대전: ["지역( 시/ 군)", "대덕구", "동구", "서구", "유성구", "중구"],
-  울산: ["지역( 시/ 군)", "남구", "동구", "북구", "중구", "울주군"],
+  광주: ["지역 (시/군)", "광산구", "남구", "동구", "북구", "서구"],
+  대전: ["지역 (시/군)", "대덕구", "동구", "서구", "유성구", "중구"],
+  울산: ["지역 (시/군)", "남구", "동구", "북구", "중구", "울주군"],
   경기: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "고양시",
     "과천시",
     "광명시",
@@ -239,7 +373,7 @@ const CountyOptions = {
     "화성시",
   ],
   강원: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "강릉시",
     "동해시",
     "삼척시",
@@ -260,7 +394,7 @@ const CountyOptions = {
     "황성군",
   ],
   충북: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "제천시",
     "청주시",
     "충주시",
@@ -274,7 +408,7 @@ const CountyOptions = {
     "청원군",
   ],
   충남: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "공주시",
     "보령시",
     "서산시",
@@ -292,7 +426,7 @@ const CountyOptions = {
     "홍성군",
   ],
   전북: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "군산시",
     "김제시",
     "남원시",
@@ -309,7 +443,7 @@ const CountyOptions = {
     "진안군",
   ],
   전남: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "광양시",
     "나주시",
     "목포시",
@@ -336,7 +470,7 @@ const CountyOptions = {
     "화순군",
   ],
   경북: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "경산시",
     "경주시",
     "구미시",
@@ -362,7 +496,7 @@ const CountyOptions = {
     "칠곡군",
   ],
   경남: [
-    "지역( 시/ 군)",
+    "지역 (시/군)",
     "거제시",
     "김해시",
     "마산시",
@@ -385,13 +519,13 @@ const CountyOptions = {
     "함양군",
     "합천군",
   ],
-  제주: ["지역( 시/ 군)", "서귀포시", "제주시", "남제주군", "북제주군"],
+  제주: ["지역 (시/군)", "서귀포시", "제주시", "남제주군", "북제주군"],
 };
 const Tier = [
   { value: "Tier", name: "티어" },
-  { value: "bronze", name: "bronze" },
-  { value: "silver", name: "silver" },
-  { value: "gold", name: "gold" },
+  { value: "BRONZE", name: "브론즈" },
+  { value: "SILVER", name: "실버" },
+  { value: "GOLD", name: "골드" },
 ];
 
 const Category = [

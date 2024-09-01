@@ -4,13 +4,12 @@ import {
   GroupCalendar,
   StyledDot,
 } from "./schedule_components/Calendar";
-import { useState, useEffect, useCallback } from "react";
-import ScheduleItem, {
-  AddSchedule,
-  PlusIcon,
-} from "./schedule_components/ScheduleItem";
+import { useState, useEffect, useCallback, useContext } from "react";
+import ScheduleItem, { AddSchedule } from "./schedule_components/ScheduleItem";
 import ScheduleAdd from "./ScheduleAdd";
 import axios from "axios";
+import api from "../../../apis/utils/api";
+import { GroupContext } from "../Group";
 const BaseContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -39,11 +38,16 @@ const ScheduleTitle = styled.div`
   color: #344054;
 `;
 
-const Schedule = () => {
+const Schedule = ({ personalSchedule, isAccessHome }) => {
+  //접근 방식에따른 스케쥴 일정 데이터 관련 코드
   const [clubSchedule, setClubSchedule] = useState([]);
+  const context = useContext(GroupContext);
+  const { chooseClubId, groupData, Loading } = personalSchedule ? {} : context;
   const getClubSchedule = async () => {
-    axios
-      .get(`${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/1/schedules`)
+    await api
+      .get(
+        `${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/${groupData[chooseClubId].clubId}/schedules`
+      )
       .then((res) => {
         console.log(res.data);
         setClubSchedule(res.data.schedules);
@@ -53,14 +57,21 @@ const Schedule = () => {
       });
   };
 
-  useEffect(() => {
-    getClubSchedule();
-  }, []);
-
+  //달력 관련 코드
   const [date, setDate] = useState(new Date());
   const [selectedSchedule, setSelectedSchedule] = useState([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  useEffect(() => {
+    if (personalSchedule) {
+      setClubSchedule(personalSchedule);
+    } else {
+      console.log(groupData);
+      if (groupData && chooseClubId !== undefined && groupData.length > 0) {
+        getClubSchedule();
+      }
+    }
+  }, [chooseClubId, groupData, Loading, isModalOpen]);
 
   const formattedDate = `${date.getFullYear()}년 ${
     date.getMonth() + 1
@@ -87,13 +98,14 @@ const Schedule = () => {
   useEffect(() => {
     const filteredSchedule = filterSchedule(date);
     setSelectedSchedule(filteredSchedule);
-  }, [date, filterSchedule]);
+  }, [date, filterSchedule, isModalOpen]);
 
   const formatShortWeekday = (locale, date) => {
     const weekdays = ["S", "M", "T", "W", "T", "F", "S"];
     return weekdays[date.getDay()];
   };
 
+  //모달 관련 코드
   const onClickDay = (value) => {
     onChange(value);
   };
@@ -119,6 +131,7 @@ const Schedule = () => {
     }
     return null;
   };
+
   return (
     <BaseContainer>
       <CalenderContainer>
@@ -144,11 +157,14 @@ const Schedule = () => {
             id={index + 1}
           />
         ))}
-        <AddSchedule onClick={toggleModal}>
-          <PlusIcon>+</PlusIcon> 새로운 일정 추가하기
-        </AddSchedule>
+        <AddSchedule onClick={toggleModal}></AddSchedule>
       </ScheduleList>
-      <ScheduleAdd isOpen={isModalOpen} onClose={closeModal} />
+      <ScheduleAdd
+        date={date}
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        isAccessHome={isAccessHome}
+      />
     </BaseContainer>
   );
 };

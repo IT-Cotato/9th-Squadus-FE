@@ -1,11 +1,14 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ClubMainInfo from "./basicInfo_components/ClubMainInfo";
 import ClubSubInfo from "./basicInfo_components/ClubSubInfo";
 import Rank from "./Rank";
 import axios from "axios";
+import { GroupContext } from "../Group";
 
 const BasicInfo = () => {
+  const { chooseClubId, groupData, Loading } = useContext(GroupContext);
+
   const [information, setInfomation] = useState({
     id: 1,
     clubMessage: "",
@@ -22,7 +25,9 @@ const BasicInfo = () => {
   });
   const getInfo = async () => {
     axios
-      .get(`${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/1`)
+      .get(
+        `${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/${groupData[chooseClubId].clubId}`
+      )
       .then((res) => {
         console.log(res.data);
         setInfomation(res.data);
@@ -33,8 +38,11 @@ const BasicInfo = () => {
   };
 
   useEffect(() => {
-    getInfo();
-  }, []);
+    console.log(groupData);
+    if (groupData && chooseClubId !== undefined && groupData.length > 0) {
+      getInfo();
+    }
+  }, [chooseClubId, groupData, Loading]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const closeModal = () => {
     setIsModalOpen(false);
@@ -52,20 +60,30 @@ const BasicInfo = () => {
   };
   return (
     <>
-      <BaseContainer>
-        <ClubMainInfo
-          region={information.tags[0]}
-          personality={information.tags[1]}
-          name={information.clubName}
-          memRecent={information.numberOfMembers}
-          memMax={information.maxMembers}
-          establishDate={fommatDate()}
-          img={information.logo}
-        />
-        <ClubSubInfo onClick={toggleModal} information={information} />
-      </BaseContainer>
+      {Loading && groupData && (
+        <>
+          <BaseContainer>
+            <ContentContainer>
+              <ClubMainInfo
+                region={information.tags[0]}
+                personality={information.tags[1]}
+                name={information.clubName}
+                memRecent={information.numberOfMembers}
+                memMax={information.maxMembers}
+                establishDate={fommatDate()}
+                img={information.logo}
+              />
+              <ClubSubInfo onClick={toggleModal} information={information} />
+            </ContentContainer>
+          </BaseContainer>
 
-      <Rank isOpen={isModalOpen} onClose={closeModal} />
+          <Rank
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            clubTier={information.clubTier}
+          />
+        </>
+      )}
     </>
   );
 };
@@ -74,11 +92,17 @@ export default BasicInfo;
 
 const BaseContainer = styled.div`
   width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  padding: 16px 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
   box-sizing: border-box;
+  height: 100vh;
+  overflow: auto;
+`;
+
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 12px;
+  padding: 16px 20px;
 `;

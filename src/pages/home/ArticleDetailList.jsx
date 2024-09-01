@@ -1,73 +1,96 @@
-import React from "react";
-import MainArticleItem from "./home_components/MainArticleItem";
+import React, { useEffect, useState } from "react";
+import {
+  MainArticleItem,
+  MainArticleItemMinimal,
+} from "./home_components/MainArticleItem";
 import styled from "styled-components";
+import ArticleEachModal from "./ArticleEachModal";
+import axios from "axios";
 
 const ArticleDetailList = () => {
-  const articleData = [
-    {
-      id: "1",
-      group: "분류 1",
-      articleList: [
-        { img: "", id: "1", title: "아티클 제목", subTitle: "아티클 소제목" },
-        { img: "", id: "2", title: "아티클 제목", subTitle: "아티클 소제목" },
-        { img: "", id: "3", title: "아티클 제목", subTitle: "아티클 소제목" },
-        { img: "", id: "4", title: "아티클 제목", subTitle: "아티클 소제목" },
-      ],
-    },
-    {
-      id: "2",
-      group: "분류 2",
-      articleList: [
-        { img: "", id: "5", title: "아티클 제목", subTitle: "아티클 소제목" },
-        { img: "", id: "6", title: "아티클 제목", subTitle: "아티클 소제목" },
-      ],
-    },
-    {
-      id: "3",
-      group: "분류 3",
-      articleList: [
-        { img: "", id: "8", title: "아티클 제목", subTitle: "아티클 소제목" },
-        { img: "", id: "9", title: "아티클 제목", subTitle: "아티클 소제목" },
-        { img: "", id: "10", title: "아티클 제목", subTitle: "아티클 소제목" },
-      ],
-    },
-  ];
+  const [articleList, setArticleList] = useState([]);
 
+  const getAllArticle = async () => {
+    axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/v1/api/articles/allData`)
+      .then((res) => {
+        console.log("아티클 요청 결과 DetailList", res.data.articles);
+        setArticleList(res.data.articles);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    getAllArticle();
+  }, []);
+  const [isEachModalOpen, setIsEachModalOpen] = useState(false);
+  const [selectedArticleId, setSelectedArticleId] = useState(null);
+
+  const openEachModal = (articleId) => {
+    setSelectedArticleId(articleId);
+    setIsEachModalOpen(true);
+  };
+
+  const closeEachModal = () => {
+    setIsEachModalOpen(false);
+    setSelectedArticleId(null);
+  };
+  const FirstList = articleList.filter((item) => item.type === "운동 가이드");
+  const SecondList = articleList.filter((item) => item.type === "동아리 소개");
+  const ThirdList = articleList.filter((item) => item.type === "운동 팁");
   return (
     <Container>
-      <ArticleCategoryTitle>{articleData[0].group}</ArticleCategoryTitle>
-      <ArticleContainerRow>
-        {articleData[0].articleList.map((article) => (
-          <MainArticleItem
-            key={article.id}
-            img={article.img}
-            title={article.title}
-            subtitle={article.subTitle}
-          ></MainArticleItem>
-        ))}
-      </ArticleContainerRow>
-      <ArticleCategoryTitle>{articleData[1].group}</ArticleCategoryTitle>
-      <ArticleContainerCol>
-        {articleData[1].articleList.map((article) => (
-          <MainArticleItem
-            key={article.id}
-            img={article.img}
-            title={article.title}
-            subtitle={article.subTitle}
-          ></MainArticleItem>
-        ))}
-      </ArticleContainerCol>
-      <ArticleCategoryTitle>{articleData[2].group}</ArticleCategoryTitle>
-      <ArticleContainerRow>
-        {articleData[2].articleList.map((article) => (
-          <MainArticleItem
-            key={article.id}
-            img={article.img}
-            title={article.title}
-            subtitle={article.subTitle}
-          ></MainArticleItem>
-        ))}
-      </ArticleContainerRow>
+      <ArticleBox>
+        <ArticleCategoryTitle>운동 가이드</ArticleCategoryTitle>
+        <ArticleContainerRow>
+          {FirstList.map((item) => (
+            <MainArticleItem
+              key={item.articleId}
+              articleId={item.articleId}
+              title={item.title}
+              subtitle={item.subtitle}
+              img={item.imageUrl}
+              onClick={openEachModal}
+            ></MainArticleItem>
+          ))}
+        </ArticleContainerRow>
+      </ArticleBox>
+      <ArticleBox>
+        <ArticleCategoryTitle>동아리 소개</ArticleCategoryTitle>
+        <ArticleContainerCol>
+          {SecondList.map((item) => (
+            <MainArticleItemMinimal
+              key={item.articleId}
+              articleId={item.articleId}
+              title={item.title}
+              subtitle={item.subtitle}
+              img={item.imageUrl}
+              onClick={openEachModal}
+            ></MainArticleItemMinimal>
+          ))}
+        </ArticleContainerCol>
+      </ArticleBox>
+      <ArticleBox>
+        <ArticleCategoryTitle>운동 팁</ArticleCategoryTitle>
+        <ArticleContainerRow>
+          {ThirdList.map((item) => (
+            <MainArticleItem
+              key={item.articleId}
+              articleId={item.articleId}
+              title={item.title}
+              subtitle={item.subtitle}
+              img={item.imageUrl}
+              onClick={openEachModal}
+            ></MainArticleItem>
+          ))}
+        </ArticleContainerRow>
+      </ArticleBox>
+      <ArticleEachModal
+        isOpen={isEachModalOpen}
+        closeModal={closeEachModal}
+        articleId={selectedArticleId}
+      />
     </Container>
   );
 };
@@ -77,10 +100,22 @@ export default ArticleDetailList;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 16px 20px;
+  gap: 32px;
+`;
+
+const ArticleBox = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const ArticleCategoryTitle = styled.div`
   padding: 16px 20px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: left;
+  color: #101828;
 `;
 
 const ArticleContainerRow = styled.div`

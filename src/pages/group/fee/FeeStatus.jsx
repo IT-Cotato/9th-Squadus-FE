@@ -1,103 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import FeeMemberItem from './fee_components/FeeMemberItem';
-import more_icon from '../../../assets/icons/more.svg';
-import close_icon from '../../../assets/icons/close.svg'
-import FeeStatusMore from './fee_components/FeeStatusMore';
+import FeeStatusMemberEdit from './FeeStatusMemberEdit';
+import { getFeeStatus } from '../../../apis/api/fee';
+import { GroupContext } from "../Group";
 
-const WrapperContainer = styled.div`
-  position: fixed;
-  left: 0px;
-  top: 0px;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  z-index: 10000;
-  justify-content: center;
-`;
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
-  max-width: 649px;
-  justify-content: center;
-  background-color: white;
-`;
-
-const HeaderContainer = styled.div`
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1000; 
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px; 
-  border-bottom: 1px solid #dcdcdc;  
-  position: relative;
-`;
-
-const CloseButton = styled.div`
-  height: 24px;
-  width: 24px;
-  background-image: url(${close_icon});
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-`;
-
-const HeaderTitle = styled.div`
-  flex-grow: 1;
-  text-align: center;
-  color: ${({ theme }) => theme.colors.neutral[600]};
-  font-size: 20px;
-  font-weight: bold;
-`;
-
-const MoreButton = styled.div`
-  height: 24px;
-  width: 24px;
-  background-image: url(${more_icon});
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-`;
-
-const ContentContainer = styled.div`
-  height: 100vh;
-  overflow: auto;
   display: flex;
   flex-direction: column;
+  background-color: white;
   padding: 0 20px;
 `;
 
-const PreviewContainer = styled.div`
-  text-align: center;
-  margin: 36px 0;
-`;
-
-const Title = styled.div`
-  margin-bottom: 8px;
-  font-size: 16px;
-  color: ${({ theme }) => theme.colors.neutral[500]};
-`;
-
-const Amount = styled.div`
-  margin-bottom: 12px;
-  font-size: 32px;
-  font-weight: bold;
-  color: ${({ theme }) => theme.colors.neutral[700]};
-`;
-
-const Description = styled.div`
-  font-size: 16px;
-  color: ${({ theme }) => theme.colors.neutral[400]};
-`;
+// const ContentContainer = styled.div`
+//   height: 100vh;
+//   overflow: auto;
+//   display: flex;
+//   flex-direction: column;
+//   padding: 0 20px;
+// `;
 
 const FilterContainer = styled.div`
   display: flex;
   padding: 12px 0;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const FilterBar = styled.div`
+  display: flex;
 `;
 
 const FilterButton = styled.button`
@@ -112,80 +45,87 @@ const FilterButton = styled.button`
   font-weight: 500;
 `;
 
-const FeeStatus = ({ closeFeeStatus }) => {
-  const MemberData = [
-    { name: '이름(본인)', isPaid: true },
-    { name: '이름', isPaid: false },
-    { name: '이름', isPaid: false },
-    { name: '이름', isPaid: false },
-    { name: '이름', isPaid: true },
-    { name: '이름', isPaid: true },
-    { name: '이름', isPaid: true },
-    { name: '이름', isPaid: true },
-    { name: '이름', isPaid: true },
-    { name: '다인', isPaid: true },
-  ];
+const StatusEditButton = styled.div`
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.neutral[400]};
+`;
 
-  const [showFeeStatusMore, setShowFeeStatusMore] = useState(false);
+const FeeStatus = ({ feeId }) => {
+  const { selectedClubId } = useContext(GroupContext);
+  const [showFeeStatusMemberEdit, setShowFeeStatusMemberEdit] = useState(false);
+  const [statusData, setStatusData] = useState([]);
+
+  const fetchFeeStatus = () => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken && selectedClubId && feeId) {
+      getFeeStatus(accessToken, selectedClubId, feeId)
+        .then((payment) => {
+          setStatusData(payment.clubFeePaymentInfoResponseList || [])
+        })
+        .catch((error) => {
+          console.log("입금 현황 가져오는 중 오류 발생: ", error);
+        })
+    }
+  }
+
+  useEffect(() => {
+    fetchFeeStatus();
+  }, [selectedClubId, feeId]);
+
+
   const [filter, setFilter] = useState('전체');
 
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
   };
 
-  const filteredMembers = MemberData.filter(member => {
+  const filteredMembers = statusData.filter(member => {
     if (filter === '납부') return member.isPaid;
     if (filter === '미납부') return !member.isPaid;
     return true;
   });
 
   return (
-    <WrapperContainer>
-      <Container>
-        <HeaderContainer>
-          <CloseButton onClick={closeFeeStatus} />
-          <HeaderTitle>회비 입금 현황</HeaderTitle>
-          <MoreButton onClick={(e) => {
-            setShowFeeStatusMore(!showFeeStatusMore);
-          }} />
-          {showFeeStatusMore && <FeeStatusMore />}
-        </HeaderContainer>
-        <ContentContainer>
-          <PreviewContainer>
-            <Title>정기대회</Title>
-            <Amount>140,000원</Amount>
-            <Description>6.30일까지, 3만원씩</Description>
-          </PreviewContainer>
-          <FilterContainer>
-            <FilterButton
-              $active={filter === '전체'}
-              onClick={() => handleFilterChange('전체')}
-            >
-              전체
-            </FilterButton>
-            <FilterButton
-              $active={filter === '납부'}
-              onClick={() => handleFilterChange('납부')}
-            >
-              납부
-            </FilterButton>
-            <FilterButton
-              $active={filter === '미납부'}
-              onClick={() => handleFilterChange('미납부')}
-            >
-              미납부
-            </FilterButton>
-          </FilterContainer>
-          {filteredMembers.map((member, index) => (
-            <FeeMemberItem
-              key={index}
-              name={member.name}
-              isPaid={member.isPaid}
-            />
-          ))}
-        </ContentContainer>
-      </Container>
-    </WrapperContainer>
+    <Container>
+      <FilterContainer>
+        <FilterBar>
+          <FilterButton
+            $active={filter === '전체'}
+            onClick={() => handleFilterChange('전체')}
+          >
+            전체
+          </FilterButton>
+          <FilterButton
+            $active={filter === '납부'}
+            onClick={() => handleFilterChange('납부')}
+          >
+            납부
+          </FilterButton>
+          <FilterButton
+            $active={filter === '미납부'}
+            onClick={() => handleFilterChange('미납부')}
+          >
+            미납부
+          </FilterButton>
+        </FilterBar>
+        <StatusEditButton onClick={() => setShowFeeStatusMemberEdit(true)}>입금현황 편집</StatusEditButton>
+      </FilterContainer>
+      {filteredMembers.map((member, index) => (
+        <FeeMemberItem
+          key={index}
+          name={member.name}
+          isPaid={member.isPaid}
+          profileImage={member.profileImage}
+        />
+      ))}
+      {
+        showFeeStatusMemberEdit && 
+          <FeeStatusMemberEdit 
+            closeFeeStatusMemberEdit={() => setShowFeeStatusMemberEdit(false)}
+            feeId={feeId} 
+          />
+      }
+    </Container>
   );
 };
 

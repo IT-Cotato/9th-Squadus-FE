@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Wrapper = styled.div`
   width: 353px;
@@ -14,6 +14,8 @@ export const WrapperContent = styled.div`
   height: 38px;
   gap: 4px;
   display: flex;
+  align-items: center;
+  overflow-x: auto;
 `;
 
 export const WrapperTitle = styled.div`

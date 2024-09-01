@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as CheckboxInactiveIcon } from '../../../../assets/icons/group/checkbox_inactive.svg';
 import { ReactComponent as CheckboxActiveIcon } from '../../../../assets/icons/group/checkbox_active.svg';
+import default_profile_image from "../../../../assets/default_profile_image.svg"
+
 
 const Container = styled.div`
   width: 100%;
@@ -12,12 +14,15 @@ const Container = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.colors.neutral[100]};
 `;
 
-const ProfileImage = styled.img`
+const ProfileImage = styled.div`
   width: 40px;
   height: 40px;
-  border-radius: 50%;
-  background-color: pink;
+  border-radius: 20px;
   margin-right: 8px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url(${({ profileImage }) => profileImage});
 `;
 
 const Name = styled.div`
@@ -25,11 +30,12 @@ const Name = styled.div`
   flex-grow: 1;
 `;
 
-const FeeMemberSelectItem = ({ img, name, isSelected, toggleCheck }) => {
+const FeeMemberSelectItem = ({ name, isSelected, profileImage, toggleCheck }) => {
+  const displayProfileImage = profileImage === "default profile img" ? default_profile_image : profileImage;
 
   return (
     <Container>
-      <ProfileImage src={img} alt={img}></ProfileImage>
+      <ProfileImage profileImage={displayProfileImage} />
       <Name>{name}</Name>
       {isSelected 
         ? <CheckboxActiveIcon onClick={toggleCheck} />

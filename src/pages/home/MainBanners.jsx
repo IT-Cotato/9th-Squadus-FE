@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import MainBannerItem from './home_components/MainBannerItem';
+import banner_img from '../../assets/banner.svg'
 
 const Container = styled.div`
   min-height: 20%;
@@ -11,7 +12,7 @@ const Container = styled.div`
 
 const MainBanner = () => (
   <Container>
-    <MainBannerItem></MainBannerItem>
+    <MainBannerItem image={banner_img}></MainBannerItem>
   </Container>
 );
 

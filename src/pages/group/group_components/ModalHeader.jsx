@@ -40,6 +40,7 @@ export const CloseButton = styled.button`
   font-weight: 600;
   line-height: 22px;
   color: #101828;
+  cursor: pointer;
 `;
 export const AddButton = styled.button`
   color: #ff6330;
