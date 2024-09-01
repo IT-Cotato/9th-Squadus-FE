@@ -9,7 +9,7 @@ import {
   HeaderTitle,
   SubmitButton,
 } from "./promotion_components/ModalStyled";
-import axios from "axios";
+import api from "../../apis/utils/api";
 const ClubApply = ({
   isOpen,
   closeModal,
@@ -35,7 +35,7 @@ const ClubApply = ({
         },
       };
       console.log("requestBody 테스트", requestBody);
-      const response = await axios.post(
+      const response = await api.post(
         `${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/${clubId}`,
         requestBody,
         {

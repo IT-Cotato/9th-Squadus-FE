@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { WrapperContainer, Container, CloseButton } from "./ModalStyled";
 import { ReactComponent as ProfileImg } from "../../../assets/icons/promotion/profileImg.svg";
-import axios from "axios";
+import api from "../../../apis/utils/api";
 const ApplicationFormModal = ({ item, isOpen, closeModal, clubId }) => {
   // { item
   //     applicationId: 0,
@@ -16,7 +16,7 @@ const ApplicationFormModal = ({ item, isOpen, closeModal, clubId }) => {
   const memberInfo = item.memberClubApplicationInfo;
   const approval = async () => {
     try {
-      const response = await axios.post(
+      const response = await api.post(
         `${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/${clubId}/admin/approval/${item.applicationId}`,
         {
           headers: {
@@ -37,7 +37,7 @@ const ApplicationFormModal = ({ item, isOpen, closeModal, clubId }) => {
   };
   const refusal = async () => {
     try {
-      const response = await axios.post(
+      const response = await api.post(
         `${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/${clubId}/admin/approval/${item.applicationId}`,
         {
           headers: {
@@ -151,7 +151,6 @@ const UserInfoSchool = styled.div`
   text-align: center;
   color: #667085;
 `;
-const UserInfoWrapper = styled.div``;
 
 const Footer = styled.div`
   width: 100%;

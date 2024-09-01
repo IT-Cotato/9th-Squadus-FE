@@ -12,8 +12,8 @@ import {
 } from "./promotion_components/ModalStyled";
 import styled from "styled-components";
 import { getUserClubs } from "../../apis/api/user";
-import axios from "axios";
 import { RefreshContext } from "./Promotion";
+import api from "../../apis/utils/api";
 const AddQuestionInput = styled.input`
   width: 100%;
   height: 46px;
@@ -45,7 +45,7 @@ const PromotionWrite = ({ isOpen, closeModal }) => {
   const changeRefresh = useContext(RefreshContext);
   const postPromotionAdd = async () => {
     try {
-      const response = await axios.post(
+      const response = await api.post(
         `${process.env.REACT_APP_SERVER_URL}/v1/api/recruitments`,
         input, // input을 request body로 보냄
         {

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { ReactComponent as BronzeIcon } from "../../../../assets/icons/group/bronze.svg";
 import { ReactComponent as SilverIcon } from "../../../../assets/icons/group/silver.svg";
 import { ReactComponent as GoldIcon } from "../../../../assets/icons/group/gold.svg";
+import { useState } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -66,6 +67,8 @@ const ClubSubInfo = ({ onClick, information }) => {
     GOLD: "골드",
   };
   const tierText = tierTranslations[information.clubTier];
+
+  const randNum = Math.floor(Math.random() * 101);
   return (
     <Container>
       <RankContainer onClick={onClick}>
@@ -77,8 +80,8 @@ const ClubSubInfo = ({ onClick, information }) => {
 
         <RankTextContainer>
           <TextBIg>{tierText}</TextBIg>
-          <TextMid>138팀 중 7위</TextMid>
-          <TextSmall>다음 레벨까지 남은 순위 : 3위</TextSmall>
+          <TextMid>138팀 중 {randNum}위</TextMid>
+          <TextSmall>다음 레벨까지 남은 순위 : {randNum}위</TextSmall>
         </RankTextContainer>
       </RankContainer>
       <ClubComment title={"동아리 한마디"} content={information.clubMessage} />

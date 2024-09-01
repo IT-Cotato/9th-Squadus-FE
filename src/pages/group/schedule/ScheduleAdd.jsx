@@ -11,8 +11,8 @@ import {
   CheckBox,
 } from "./schedule_components/ToggleButton";
 import { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { GroupContext } from "../Group";
+import api from "../../../apis/utils/api";
 
 const BaseContainer = styled.div`
   max-width: 649px;
@@ -178,7 +178,7 @@ const ScheduleAdd = ({ isOpen, onClose, isAccessHome }) => {
     console.log("일정 등록 요청 주소:", selectedClubId);
     checkClubId();
     try {
-      const response = await axios.post(
+      const response = await api.post(
         `${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/${selectedClubId}/schedules`,
         data
       );
