@@ -3,9 +3,8 @@ import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 import PromotionHeader from "./promotion_components/PromotionHeader";
 import FilterBar from "../../components/FilterBar";
-import axios from "axios";
 import { CountyOptions } from "../../components/FilterBar";
-import ApplyStatus from "./ApplyStatus";
+import api from "../../apis/utils/api";
 
 export const PromotionContext = createContext();
 export const RefreshContext = createContext();
@@ -61,7 +60,7 @@ const Promotion = () => {
 
   const getAllPromotion = async () => {
     try {
-      const res = await axios.get(
+      const res = await api.get(
         `${process.env.REACT_APP_SERVER_URL}/v1/api/recruitments`,
         {
           params: {

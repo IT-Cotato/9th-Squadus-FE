@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PromotionItem from "./PromotionItem";
-import { PromotionContext } from "../Promotion";
-import axios from "axios";
+import api from "../../../apis/utils/api";
 
 const ShowApplyClub = () => {
   const [data, setData] = useState([]);
   const [dataLength, setDataLength] = useState(0);
   const getUserJoined = async () => {
     try {
-      const res = await axios.get(
+      const res = await api.get(
         `${process.env.REACT_APP_SERVER_URL}/v1/api/members/applications`,
         {
           headers: {
