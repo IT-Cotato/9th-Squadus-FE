@@ -71,6 +71,7 @@ const Home = () => {
   }, []);
   const [isModalOpen, setIsModalOpen] = useState(false);
   useEffect(() => {
+    setClubSchedule([]);
     if (groupData.length > 0) {
       groupData.forEach((clubId) => {
         getClubSchedule(clubId);
@@ -86,6 +87,10 @@ const Home = () => {
 
     console.log(isModalOpen);
   };
+
+  useEffect(() => {
+    console.log("clubSchedule이거 왜 자꾸 추가되는거임?", clubSchedule);
+  }, [clubSchedule]);
   return (
     <>
       <FixedContainer>

@@ -8,6 +8,7 @@ import { CountyOptions } from "../../components/FilterBar";
 import ApplyStatus from "./ApplyStatus";
 
 export const PromotionContext = createContext();
+export const RefreshContext = createContext();
 
 const Promotion = () => {
   const [selectedTab, setSelectedTab] = useState("oncampus");
@@ -82,24 +83,30 @@ const Promotion = () => {
     }
   };
 
+  const [refresh, setRefresh] = useState(false);
+  const changeRefresh = () => {
+    setRefresh(!refresh);
+  };
   useEffect(() => {
     getAllPromotion();
-  }, []);
+  }, [refresh]);
 
   return (
     <>
       <PromotionContext.Provider value={reset ? promotionData : filteredData}>
-        <FixedContainer>
-          <PromotionHeader setSelectedTab={setSelectedTab} />
-          <FilterBar
-            selected={selected}
-            setSelected={setSelected}
-            handleChange={handleChange}
-          />
-        </FixedContainer>
-        <ContentContainer>
-          <Outlet />
-        </ContentContainer>
+        <RefreshContext.Provider value={changeRefresh}>
+          <FixedContainer>
+            <PromotionHeader setSelectedTab={setSelectedTab} />
+            <FilterBar
+              selected={selected}
+              setSelected={setSelected}
+              handleChange={handleChange}
+            />
+          </FixedContainer>
+          <ContentContainer>
+            <Outlet />
+          </ContentContainer>
+        </RefreshContext.Provider>
       </PromotionContext.Provider>
     </>
   );

@@ -16,6 +16,7 @@ const ClubApply = ({
   clubId,
   clubName,
   sportsCategory,
+  recruitingPostId,
 }) => {
   const accessToken = localStorage.getItem("accessToken");
   const [input, setInput] = useState({
@@ -25,23 +26,36 @@ const ClubApply = ({
   });
   const postClubApply = async () => {
     try {
+      const requestBody = {
+        recruitingPostId: recruitingPostId,
+        answers: {
+          1: input["1"],
+          2: input["2"],
+          3: input["3"],
+        },
+      };
+      console.log("requestBody 테스트", requestBody);
       const response = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/${clubId}`,
-        { answers: input },
+        requestBody,
         {
           headers: {
             "Content-Type": "application/json",
             access: `${accessToken}`,
           },
+          params: {
+            clubMemberId: clubId,
+          },
         }
       );
       console.log("동아리 가입신청 완료", response.data);
-      alert("동아리 가입신청이 완료되었습니다!");
       closeModal();
+      alert("동아리 가입신청이 완료되었습니다!");
     } catch (err) {
       console.error("에러 발생:", err);
     }
   };
+
   const onChangeInput = (e) => {
     const { name, value } = e.target;
     setInput((prevInput) => ({
