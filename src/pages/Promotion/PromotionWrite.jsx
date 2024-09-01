@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import arrowdown_icon from "../../assets/icons/group/arrow_down.svg";
 
 import {
@@ -13,6 +13,7 @@ import {
 import styled from "styled-components";
 import { getUserClubs } from "../../apis/api/user";
 import axios from "axios";
+import { RefreshContext } from "./Promotion";
 const AddQuestionInput = styled.input`
   width: 100%;
   height: 46px;
@@ -41,6 +42,7 @@ const PromotionWrite = ({ isOpen, closeModal }) => {
     questions: {},
   });
   const accessToken = localStorage.getItem("accessToken");
+  const changeRefresh = useContext(RefreshContext);
   const postPromotionAdd = async () => {
     try {
       const response = await axios.post(
@@ -56,6 +58,7 @@ const PromotionWrite = ({ isOpen, closeModal }) => {
       console.log("홍보글 추가 완료", response.data);
       alert("동아리 홍보글이 등록되었습니다!");
       closeModal();
+      changeRefresh();
     } catch (err) {
       console.error("에러 발생:", err);
     }
