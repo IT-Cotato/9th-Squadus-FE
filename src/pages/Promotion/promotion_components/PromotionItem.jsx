@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import ClubApply from "../ClubApply";
 import { ReactComponent as BronzeIcon } from "../../../assets/icons/group/bronze.svg";
@@ -16,6 +16,8 @@ const PromotionItem = ({
   tags,
   clubId,
   clubName,
+  deactivate,
+  recruitingPostId,
 }) => {
   const [expanded, setExpanded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,12 +33,38 @@ const PromotionItem = ({
     SILVER: "실버",
     GOLD: "골드",
   };
+  useEffect(() => {
+    console.log(
+      "item에서 받아오는 props들\n",
+      "\ntitle임:",
+      title,
+      "\nregion임:",
+      region,
+      "\nsportsCategory임:",
+      sportsCategory,
+      "\nclubTier임:",
+      clubTier,
+      "\ntags임:",
+      tags,
+      "\nclubId임:",
+      clubId,
+      "\nclubName임:",
+      clubName,
+      "\ndeactivate임:",
+      deactivate,
+      "\nrecruitingPostId임:",
+      recruitingPostId
+    );
+  }, []);
   const tierText = tierTranslations[clubTier];
   return (
     <>
-      <Container>
+      <Container
+        $deactivate={deactivate}
+        onClick={() => setExpanded(!expanded)}
+      >
         <BackGroundIconStyled />
-        <ContentWrapper onClick={() => setExpanded(!expanded)}>
+        <ContentWrapper>
           <RecruitmentWrapper>
             <RecruitmentTag>모집중</RecruitmentTag>
             <RecruitmentDate>
@@ -75,6 +103,7 @@ const PromotionItem = ({
         clubId={clubId}
         clubName={clubName}
         sportsCategory={sportsCategory}
+        recruitingPostId={recruitingPostId}
       />
     </>
   );
@@ -83,9 +112,10 @@ const PromotionItem = ({
 export default PromotionItem;
 
 const Container = styled.div`
-  width: 100%;
+  width: 0;
   padding: 16px;
   gap: 10px;
+  flex: 1;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -99,10 +129,11 @@ const BackGroundIconStyled = styled(BackGroundIcon)`
 `;
 const ContentWrapper = styled.div`
   width: 329px;
-  height: 118px;
   gap: 10px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  max-width: 100%;
 `;
 
 const ButtonWrapper = styled.div`
@@ -160,6 +191,9 @@ const NoticeTitleWrapper = styled.div`
   gap: 8px;
   display: flex;
   flex-direction: column;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 const NoticeTitle = styled.div`
   font-size: 19px;
@@ -225,32 +259,3 @@ const TierWrapper = styled.div`
   align-items: center;
   gap: 4px;
 `;
-{
-  /* <>
-      <Container>
-        <ContentWrapper onClick={() => setExpanded(!expanded)}>
-          <RecruitmentWrapper>
-            <RecruitmentTag>모집중</RecruitmentTag>
-            <RecruitmentDate>08.23~09.11</RecruitmentDate>
-          </RecruitmentWrapper>
-          <NoticeTitleWrapper>
-            <NoticeTitle>그린비 2024 여름 동아리원 모집 🐝💚</NoticeTitle>
-            <NoticeTagWrapper>
-              <NoticeTag>서울강남</NoticeTag>
-              <NoticeTag>·</NoticeTag>
-              <NoticeTag>테니스</NoticeTag>
-            </NoticeTagWrapper>
-          </NoticeTitleWrapper>
-          <CommentWrapper>
-            <CommentTag>브론즈</CommentTag>
-            <CommentTag>모두환영</CommentTag>
-          </CommentWrapper>
-        </ContentWrapper>
-        <ButtonWrapper $expanded={expanded ? "ture" : undefined}>
-          <Button>상세보기</Button>
-          <Button onClick={openModal}>지원하기</Button>
-        </ButtonWrapper>
-      </Container>
-      <ClubApply isOpen={isModalOpen} closeModal={closeModal} />
-    </> */
-}

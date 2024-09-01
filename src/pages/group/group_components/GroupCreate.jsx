@@ -10,7 +10,7 @@ import {
   CreatePage5,
   CreatePage6,
 } from "./CreatePages";
-import axios from "axios";
+import api from "../../../apis/utils/api";
 
 const GroupCreate = ({ closeGroupCreate }) => {
   const [step, setStep] = useState(1);
@@ -54,16 +54,14 @@ const GroupCreate = ({ closeGroupCreate }) => {
     if (input.imageFile) {
       formData.append("logoImage", input.imageFile);
     }
-    const accessToken = localStorage.getItem("accessToken");
     try {
-      const response = await axios.post(
+      const response = await api.post(
         `${process.env.REACT_APP_SERVER_URL}/v1/api/clubs`,
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            // access: `${accessToken}`,
-            Authorization: `Bearer ${accessToken}`,
+            access: localStorage.getItem("accessToken"),
           },
         }
       );

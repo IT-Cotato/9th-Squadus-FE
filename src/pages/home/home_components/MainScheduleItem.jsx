@@ -33,7 +33,13 @@ const MainScheduleItem = ({ onClick }) => {
       {todaySchedule.length !== 0 ? (
         todaySchedule.map((item, index) => (
           <ScheduleItem
-            onClick={onClick}
+            // onClick={onClick}
+            // key={index}
+            // startTime={item.startTime}
+            // endTime={item.endTime}
+            // eventName={item.eventName}
+            // Location={item.location}
+            // id={index + 1}
             key={index}
             startTime={item.startTime}
             endTime={item.endTime}

@@ -13,8 +13,8 @@ import {
   CheckBox,
 } from "./schedule_components/ToggleButton";
 import { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { GroupContext } from "../Group";
+import api from "../../../apis/utils/api";
 
 const BaseContainer = styled.div`
   max-width: 649px;

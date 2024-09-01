@@ -23,17 +23,21 @@ const OffCampus = () => {
       <WrapperContainer>
         <ContentContainer>
           {filterData.map((item) => (
-            <PromotionItem
-              key={item.recruitingPostId}
-              startDate={item.startDate}
-              endDate={item.endDate}
-              title={item.title}
-              region={item.region}
-              sportsCategory={item.sportsCategory}
-              clubTier={item.clubTier}
-              tags={item.tags}
-              clubId={item.clubId}
-            />
+            <ItemWrapper>
+              <PromotionItem
+                key={item.recruitingPostId}
+                startDate={item.startDate}
+                endDate={item.endDate}
+                title={item.title}
+                region={item.region}
+                sportsCategory={item.sportsCategory}
+                clubTier={item.clubTier}
+                tags={item.tags}
+                clubId={item.clubId}
+                clubName={item.clubName}
+                recruitingPostId={item.recruitingPostId}
+              />
+            </ItemWrapper>
           ))}
         </ContentContainer>
         <WriteButton onClick={openModal} />
@@ -61,4 +65,9 @@ const ContentContainer = styled.div`
   flex-direction: column;
   padding: 16px;
   gap: 8px;
+`;
+
+const ItemWrapper = styled.div`
+  display: flex;
+  width: 100%;
 `;

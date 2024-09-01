@@ -7,6 +7,7 @@ import GroupSelectList from "../match/GroupSelectList";
 import ShowApplyClub from "./promotion_components/ShowApplyClub";
 import ShowRecruitmentClub from "./promotion_components/ShowRecruitmentClub";
 
+import api from "../../apis/utils/api";
 const WrapperContainer = styled.div`
   position: fixed;
   left: 0px;
@@ -116,7 +117,7 @@ const ContentContainer = styled.div`
   overflow: auto;
   display: flex;
   flex-direction: column;
-  padding: 0 20px;
+  padding: 0 16px;
 `;
 
 const ApplyStatus = ({ isapplyStatusModal, closeApplyStatusModal }) => {
@@ -159,17 +160,19 @@ const ApplyStatus = ({ isapplyStatusModal, closeApplyStatusModal }) => {
               <HeaderContainer>
                 <PreviousButton onClick={closeApplyStatusModal} />
                 <HeaderTitle>동아리 지원현황</HeaderTitle>
-                <SelectMyGroupContainer
-                  onClick={() => setShowGroupSelectList(!showGroupSelectList)}
-                >
-                  <SelectedGroup>
-                    {selectedGroup ? selectedGroup.clubName : "동아리 선택"}
-                  </SelectedGroup>
-                  {showGroupSelectList && (
-                    <GroupSelectList onSelect={handleGroupSelect} />
-                  )}
-                  <ArrowDownButton></ArrowDownButton>
-                </SelectMyGroupContainer>
+                {/* {showRecruitmentClub && (
+                  <SelectMyGroupContainer
+                    onClick={() => setShowGroupSelectList(!showGroupSelectList)}
+                  >
+                    <SelectedGroup>
+                      {selectedGroup ? selectedGroup.clubName : "동아리 선택"}
+                    </SelectedGroup>
+                    {showGroupSelectList && (
+                      <SelectListContiner onSelect={handleGroupSelect} />
+                    )}
+                    <ArrowDownButton></ArrowDownButton>
+                  </SelectMyGroupContainer>
+                )} */}
               </HeaderContainer>
               <TabBar>
                 <TabItem

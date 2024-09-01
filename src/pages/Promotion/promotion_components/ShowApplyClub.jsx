@@ -1,34 +1,69 @@
-import React, { useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PromotionItem from "./PromotionItem";
-import { PromotionContext } from "../Promotion";
-import axios from "axios";
+import api from "../../../apis/utils/api";
 
 const ShowApplyClub = () => {
+  const [data, setData] = useState([]);
+  const [dataLength, setDataLength] = useState(0);
+  const getUserJoined = async () => {
+    try {
+      const res = await api.get(
+        `${process.env.REACT_APP_SERVER_URL}/v1/api/members/applications`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            access: localStorage.getItem("accessToken"),
+          },
+        }
+      );
+      console.log("가입한 동아리", res.data);
+      setData(res.data.memberClubApplicationInfoResponseList);
+      setDataLength(res.data.totalApplicationCount);
+    } catch (err) {
+      console.error("가입한 동아리 확인 api 에러:", err);
+    }
+  };
+
+  useEffect(() => {
+    getUserJoined();
+  }, []);
+
+  const textTranslation = (status) => {
+    console.log(status);
+    if (status === "PENDING") return "대기";
+    else if (status === "APPROVED") return "승인";
+    else return "반려";
+  };
+
   return (
     <Container>
       <HowMany>
-        총&nbsp; <HowManyHighlight>{" 건"}</HowManyHighlight>의 보낸 신청
+        총&nbsp; <HowManyHighlight>{dataLength}건</HowManyHighlight>의 보낸 신청
       </HowMany>
-      <ItemWrapper>
-        <ResultBox>{""}</ResultBox>
-      </ItemWrapper>
+      {data.map((item) => (
+        <ItemWrapper>
+          <PromotionItem
+            key={item.recruitingPostId}
+            startDate={item.startDate}
+            endDate={item.endDate}
+            title={item.title}
+            region={item.region}
+            sportsCategory={item.sportsCategory}
+            clubTier={item.clubTier}
+            tags={item.tags}
+            clubId={item.clubId}
+            clubName={item.clubName}
+          />
+          <ResultBox $reslut={item.applicationStatus}>
+            {textTranslation(item.applicationStatus)}
+          </ResultBox>
+        </ItemWrapper>
+      ))}
     </Container>
   );
 };
-{
-  /* <PromotionItem
-startDate={""}
-endDate={""}
-title={""}
-region={""}
-sportsCategory={""}
-clubTier={""}
-tags={""}
-clubId={""}
-clubName={""}
-/> */
-}
+
 export default ShowApplyClub;
 
 const Container = styled.div`
@@ -59,14 +94,14 @@ const HowManyHighlight = styled.div`
 
 const ItemWrapper = styled.div`
   width: 100%;
-  height: 180px;
+  height: 160px;
   display: flex;
   gap: 8px;
 `;
 const ResultBox = styled.div`
+  flex-shrink: 0;
   width: 50px;
   height: 100%;
-  padding: 0px 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -75,5 +110,5 @@ const ResultBox = styled.div`
   font-weight: 500;
   line-height: 18px;
   text-align: center;
-  color: ${({ $reslut }) => ($reslut === "대기" ? "#D0D5DD" : "#FF6330")};
+  color: ${({ $reslut }) => ($reslut === "PENDING" ? "#D0D5DD" : "#FF6330")};
 `;

@@ -3,11 +3,11 @@ import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 import PromotionHeader from "./promotion_components/PromotionHeader";
 import FilterBar from "../../components/FilterBar";
-import axios from "axios";
 import { CountyOptions } from "../../components/FilterBar";
-import ApplyStatus from "./ApplyStatus";
+import api from "../../apis/utils/api";
 
 export const PromotionContext = createContext();
+export const RefreshContext = createContext();
 
 const Promotion = () => {
   const [selectedTab, setSelectedTab] = useState("oncampus");
@@ -60,7 +60,7 @@ const Promotion = () => {
 
   const getAllPromotion = async () => {
     try {
-      const res = await axios.get(
+      const res = await api.get(
         `${process.env.REACT_APP_SERVER_URL}/v1/api/recruitments`,
         {
           params: {
@@ -82,24 +82,30 @@ const Promotion = () => {
     }
   };
 
+  const [refresh, setRefresh] = useState(false);
+  const changeRefresh = () => {
+    setRefresh(!refresh);
+  };
   useEffect(() => {
     getAllPromotion();
-  }, []);
+  }, [refresh]);
 
   return (
     <>
       <PromotionContext.Provider value={reset ? promotionData : filteredData}>
-        <FixedContainer>
-          <PromotionHeader setSelectedTab={setSelectedTab} />
-          <FilterBar
-            selected={selected}
-            setSelected={setSelected}
-            handleChange={handleChange}
-          />
-        </FixedContainer>
-        <ContentContainer>
-          <Outlet />
-        </ContentContainer>
+        <RefreshContext.Provider value={changeRefresh}>
+          <FixedContainer>
+            <PromotionHeader setSelectedTab={setSelectedTab} />
+            <FilterBar
+              selected={selected}
+              setSelected={setSelected}
+              handleChange={handleChange}
+            />
+          </FixedContainer>
+          <ContentContainer>
+            <Outlet />
+          </ContentContainer>
+        </RefreshContext.Provider>
       </PromotionContext.Provider>
     </>
   );
