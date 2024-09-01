@@ -5,7 +5,6 @@ import { ReactComponent as LinkIcon } from "../../../assets/icons/group/link.svg
 import { ReactComponent as ClockIcon } from "../../../assets/icons/group/clock.svg";
 import { ReactComponent as AlarmIcon } from "../../../assets/icons/group/alarm.svg";
 import { ReactComponent as CalendarIcon } from "../../../assets/icons/match/calendar-grey.svg"
-import api from "../../../apis/utils/api";
 
 import {
   ToggleSwitch,
