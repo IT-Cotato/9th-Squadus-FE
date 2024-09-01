@@ -478,8 +478,6 @@ const MatchDetail = ({ closeMatchDetail, matchId, clubMemberId }) => {
             </FooterFillButton>
           ) : (
             <>
-              {/*TODO: 백에서 데이터 받아야하는 것: 상대가 확정했는지 나타내는 필드가 필요함 */}
-              <div>두 동아리 모두 확정해야 합니다.</div>
               <FooterBorderButton onClick={handleUnsetComplete}>결과 수정</FooterBorderButton>
             </>
           )}

@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import {
-  WrapperContainer,
-  Container,
-  HeaderWrapperContainer,
-  HeaderContainer,
-  CloseButton,
-  HeaderTitle,
-  SubmitButton,
-} from "./promotion_components/ModalStyled";
+// import {
+//   WrapperContainer,
+//   Container,
+//   HeaderWrapperContainer,
+//   HeaderContainer,
+//   CloseButton,
+//   HeaderTitle,
+//   SubmitButton,
+// } from "./promotion_components/ModalStyled";
 import api from "../../apis/utils/api";
+import close_icon from "../../assets/icons/close.svg"
+
+
 const ClubApply = ({
   isOpen,
   closeModal,
@@ -69,43 +72,43 @@ const ClubApply = ({
       {isOpen && (
         <WrapperContainer>
           <Container>
-            <HeaderWrapperContainer>
-              <HeaderContainer>
-                <CloseButton onClick={closeModal} />
-                <HeaderTitle>동아리 지원</HeaderTitle>
-                <SubmitButton onClick={postClubApply}>지원</SubmitButton>
-              </HeaderContainer>
-            </HeaderWrapperContainer>
-            <TitleWrapper>
-              <TitleText>{clubName}</TitleText>
-              <TitleEvent>{sportsCategory}</TitleEvent>
-            </TitleWrapper>
-            <EntireContainer>
-              <Wrapper>
-                <Question>1. 자신을 소개해주세요.</Question>
-                <Answer
-                  placeholder="답변을 입력하세요"
-                  name="1"
-                  onChange={onChangeInput}
-                ></Answer>
-              </Wrapper>
-              <Wrapper>
-                <Question>2. 지원 동기가 무엇인가요?</Question>
-                <Answer
-                  placeholder="답변을 입력하세요"
-                  name="2"
-                  onChange={onChangeInput}
-                ></Answer>
-              </Wrapper>
-              <Wrapper>
-                <Question>3. 동아리를 통해 이루고싶은 목표가 있나요?</Question>
-                <Answer
-                  placeholder="답변을 입력하세요"
-                  name="3"
-                  onChange={onChangeInput}
-                ></Answer>
-              </Wrapper>
-            </EntireContainer>
+            <HeaderContainer>
+              <CloseButton onClick={closeModal} />
+              <HeaderTitle>동아리 지원</HeaderTitle>
+              <SubmitButton onClick={postClubApply}>지원</SubmitButton>
+            </HeaderContainer>
+            <ContentContainer>
+              <TitleWrapper>
+                <TitleText>{clubName}</TitleText>
+                <TitleEvent>{sportsCategory}</TitleEvent>
+              </TitleWrapper>
+              <EntireContainer>
+                <Wrapper>
+                  <Question>1. 자신을 소개해주세요.</Question>
+                  <Answer
+                    placeholder="답변을 입력하세요"
+                    name="1"
+                    onChange={onChangeInput}
+                  ></Answer>
+                </Wrapper>
+                <Wrapper>
+                  <Question>2. 지원 동기가 무엇인가요?</Question>
+                  <Answer
+                    placeholder="답변을 입력하세요"
+                    name="2"
+                    onChange={onChangeInput}
+                  ></Answer>
+                </Wrapper>
+                <Wrapper>
+                  <Question>3. 동아리를 통해 이루고싶은 목표가 있나요?</Question>
+                  <Answer
+                    placeholder="답변을 입력하세요"
+                    name="3"
+                    onChange={onChangeInput}
+                  ></Answer>
+                </Wrapper>
+              </EntireContainer>
+            </ContentContainer>
           </Container>
         </WrapperContainer>
       )}
@@ -114,6 +117,75 @@ const ClubApply = ({
 };
 
 export default ClubApply;
+
+
+const WrapperContainer = styled.div`
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  z-index: 10000;
+  justify-content: center;
+`;
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  max-width: 649px;
+  justify-content: center;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+`;
+
+const HeaderContainer = styled.div`
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+  gap: 4px;
+  border-bottom: 1px solid #dcdcdc;
+  justify-content: space-between;
+`;
+
+const CloseButton = styled.div`
+  height: 24px;
+  width: 24px;
+  background-image: url(${close_icon});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+`;
+
+const HeaderTitle = styled.div`
+  color: ${({ theme }) => theme.colors.neutral[600]};
+  font-size: 20px;
+  font-weight: 600;
+`;
+
+const SubmitButton = styled.div`
+  color: ${({ theme }) => theme.colors.main[600]};
+  font-size: 20px;
+  font-weight: 600;
+`;
+
+const ContentContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+`;
+
+
 
 const TitleWrapper = styled.div`
   width: 100%;

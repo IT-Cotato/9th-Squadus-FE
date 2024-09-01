@@ -179,9 +179,8 @@ const Select = styled.select`
   }
 `;
 
-const ScheduleAdd = ({ date, isOpen, onClose, isAccessHome }) => {
-
-  // const [isAllday, setIsAllday] = useState(false);
+const ScheduleAdd = ({ date, isOpen, onClose }) => {
+  const { selectedClubId, selectedClubMemberId } = useContext(GroupContext);
   const [startHour, setStartHour] = useState("");
   const [startMinute, setStartMinute] = useState("");
   const [endHour, setEndHour] = useState("");
@@ -192,12 +191,13 @@ const ScheduleAdd = ({ date, isOpen, onClose, isAccessHome }) => {
     initialDate.getMonth() + 1
   ).padStart(2, "0")}-${String(initialDate.getDate()).padStart(2, "0")}`;
 
+  console.log("selectedClubMemberId: ", selectedClubMemberId);
 
   const [data, setData] = useState({
     title: "",
     scheduleCategory: "MEETING",
     content: "",
-    authorId: 0,
+    authorId: selectedClubMemberId,
     location: "",
     equipment: "",
     date: formattedDate,
@@ -205,41 +205,19 @@ const ScheduleAdd = ({ date, isOpen, onClose, isAccessHome }) => {
     endTime: "10:00",
   });
 
-  console.log(formattedDate);
-
-  // 기본값을 포함하여 context 사용
-  const context = useContext(GroupContext) || {
-    groupData: [{ clubId: null }],
-    chooseClubId: 0,
-  };
-  
-  // 안전한 접근을 위해 기본값 설정
-  let selectedClubId = context.groupData[context.chooseClubId]?.clubId || null;
-  const checkClubId = () => {
-    if (isAccessHome) {
-      setData((prevData) => ({
-        ...prevData,
-        authorId: isAccessHome.clubMemberIdx,
-      }));
-      selectedClubId = isAccessHome.clubId;
-    } 
-  };
-
-  useEffect(() => {
-    checkClubId();
-  }, [isAccessHome, selectedClubId]);
 
   useEffect(() => {
     setData((prevData) => ({
       ...prevData,
-      date: formattedDate, // date가 변경되면 다시 설정
+      date: formattedDate,
+      authorId: selectedClubMemberId,
     }));
-  }, [date]); 
+  }, [date, selectedClubMemberId]); 
 
   const postScheduleAdd = async () => {
     console.log("일정 등록 데이터:", data);
     console.log("일정 등록 요청 주소:", selectedClubId);
-    checkClubId();
+    // checkClubId();
     try {
       const response = await api.post(
         `${process.env.REACT_APP_SERVER_URL}/v1/api/clubs/${selectedClubId}/schedules`,

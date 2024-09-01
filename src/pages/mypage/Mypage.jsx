@@ -7,6 +7,7 @@ import UniversityAuth from './UniversityAuth';
 import ImageEdit from './ImageEdit';
 import LogoutModal from './LogoutModal';
 import useAuthStore from '../../stores/useAuthStore';
+import { useNavigate } from 'react-router-dom';
 
 const FixedContainer = styled.div`
   top: 0;
@@ -121,6 +122,7 @@ const MenuContainer = styled.div`
 `;
 
 const MyPage = () => {
+  const navigate = useNavigate();
   const { userData } = useAuthStore();
   const [isUniversityVerified, setIsUniversityVerified] = useState(false);
 
@@ -129,18 +131,26 @@ const MyPage = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   useEffect(() => {
+    // 사용자가 로그인되어 있는지 확인
+    if (!userData) {
+      alert("로그인이 필요합니다.");
+      navigate('/login'); // 로그인되어 있지 않다면 로그인 페이지로 리다이렉트
+    }
+  }, [userData, navigate]);
+
+  useEffect(() => {
     console.log("UserData:", userData);
-    if (userData.university === "uncertified") {
+    if (userData && userData.university === "uncertified") {
       setIsUniversityVerified(false);
-    } else {
+    } else if (userData) {
       setIsUniversityVerified(true);
     }
   }, [userData]);
 
   // 프로필 이미지 결정 로직
-  const profileImage = userData.profileImage === "default profile img"
+  const profileImage = userData && userData.profileImage === "default profile img"
     ? default_profile_image
-    : userData.profileImage;
+    : userData?.profileImage;
 
   return (
     <>

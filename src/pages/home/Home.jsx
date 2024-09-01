@@ -66,13 +66,18 @@ const Home = () => {
       console.error(error);
     }
   };
+
   useEffect(() => {
     fetchGroup();
   }, []);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   useEffect(() => {
+    // 클럽 스케줄 초기화
     setClubSchedule([]);
-    if (groupData.length > 0) {
+  
+    // groupData가 배열이고 비어 있지 않은 경우에만 실행
+    if (Array.isArray(groupData) && groupData.length > 0) {
       groupData.forEach((clubId) => {
         getClubSchedule(clubId);
       });
@@ -103,10 +108,6 @@ const Home = () => {
             <scheduleContext.Provider value={clubSchedule}>
               <MainCalendar onClick={openModal}></MainCalendar>
               <MainSchedule onClick={openModal}></MainSchedule>
-              <CalendarModal
-                isOpen={isModalOpen}
-                closeModal={closeModal}
-              ></CalendarModal>
             </scheduleContext.Provider>
             <MainNotice></MainNotice>
             <MainArticle></MainArticle>
