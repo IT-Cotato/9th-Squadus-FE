@@ -371,13 +371,13 @@ const MatchDetailReadOnly = ({ closeMatchDetail, matchId, clubMemberId }) => {
             </>
           )}
         </ContentContainer>
-        <FooterContainer>
+        {/* <FooterContainer>
           <div>두 동아리 모두 확정해야 합니다.</div>
           <ButtonContainer>
             <FooterBorderButton>결과 미확정</FooterBorderButton>
             <FooterFillButton>결과 확정</FooterFillButton>
           </ButtonContainer>
-        </FooterContainer>
+        </FooterContainer> */}
       </Container>
     </WrapperContainer>
   );
