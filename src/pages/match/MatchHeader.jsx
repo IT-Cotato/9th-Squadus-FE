@@ -10,7 +10,7 @@ const Container = styled.div`
   flex-direction: column;
   background-color: white;
   font-size: 16px;
-  border-bottom: 1px solid #dcdcdc;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.neutral[200]};
   position: relative;
 `;
 
